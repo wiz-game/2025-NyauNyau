@@ -20,7 +20,7 @@ namespace basecross
 		//プレイヤーの移動
 		void MovePlayer();
 		//
-		void MoveToWallPosition(const shared_ptr<GameObject>& Wall);
+		//void MoveToWallPosition(const shared_ptr<GameObject>& Wall);
 
 
 		//文字列の表示
