@@ -50,6 +50,7 @@ namespace basecross {
 		auto ptrWall = AddGameObject<Wall>(Vec3(1, 1, 1), Vec3(0, 0, 0), Vec3(1, 0, 0));
 		SetSharedGameObject(L"Wall", ptrWall);
 		ptrWall->AddTag(L"Wall");
+		
 
 	}
 

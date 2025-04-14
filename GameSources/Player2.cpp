@@ -1,12 +1,14 @@
 #include "stdafx.h"
 #include "Project.h"
 
+
 namespace basecross
 {
 	//構築と破棄
 	Player::Player(const shared_ptr<Stage>& StagePtr) :
 		GameObject(StagePtr),
-		m_Speed(5.0f)
+		m_Speed(5.0f),
+		direction()
 	{}
 
 	Vec2 Player::GetInputState() const {
@@ -74,6 +76,8 @@ namespace basecross
 			auto utilPtr = GetBehavior<UtilBehavior>();
 			utilPtr->RotToHead(angle, 1.0f);
 		}
+
+		
 	}
 
 
@@ -87,6 +91,7 @@ namespace basecross
 
 		//CollisionSphere衝突判定を付ける
 		auto ptrColl = AddComponent<CollisionSphere>();
+
 
 		//各パフォーマンスを得る
 		GetStage()->SetCollisionPerformanceActive(true);
@@ -107,22 +112,24 @@ namespace basecross
 
 	}
 
-	//void Player::MoveToWallPosition(const shared_ptr<GameObject>& Wall)
-	//{
-	//	// WallのTransformコンポーネントから位置を取得
-	//	auto wallTransform = Wall->GetComponent<Transform>();
-	//	if (wallTransform)
-	//	{
-	//		auto wallPosition = wallTransform->GetPosition();
 
-	//		// playerのTransformコンポーネントを取得して位置を設定
-	//		auto playerTransform = GetComponent<Transform>();
-	//		if (playerTransform)
-	//		{
-	//			playerTransform->SetPosition(wallPosition);
-	//		}
-	//	}
-	//}
+
+	void Player::MoveToWallPosition(const shared_ptr<GameObject>& Wall)
+	{
+		// WallのTransformコンポーネントから位置を取得
+		auto wallTransform = Wall->GetComponent<Transform>();
+		if (wallTransform)
+		{
+			auto wallPosition = wallTransform->GetPosition();
+
+			// playerのTransformコンポーネントを取得して位置を設定
+			auto playerTransform = GetComponent<Transform>();
+			if (playerTransform)
+			{
+				playerTransform->SetPosition(wallPosition);
+			}
+		}
+	}
 
 	void Player::OnUpdate()
 	{
@@ -130,12 +137,12 @@ namespace basecross
 		m_InputHandler.PushHandle(GetThis<Player>());
 		MovePlayer();
 
-		// wallオブジェクトを取得（例として名前で取得する場合）
-		/*auto wall = GetStage()->GetSharedGameObject<Wall>(L"Wall");
-		if (wall)
-		{
-			MoveToWallPosition(wall);
-		}*/
+		 //wallオブジェクトを取得（例として名前で取得する場合）
+		//auto wall = GetStage()->GetSharedGameObject<Wall>(L"Wall");
+		//if (wall)
+		//{
+		//	GetWallCollision(wall);
+		//}
 
 	}
 
