@@ -1,0 +1,1 @@
+# FullSample100 - コピー
