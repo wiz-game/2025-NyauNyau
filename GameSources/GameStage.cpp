@@ -92,6 +92,23 @@ namespace basecross {
 		}
 	}
 
+	//チーズ
+	void GameStage::CreateCheese()
+	{
+		vector< vector <Vec3> > vec = {
+		{
+			Vec3(0.25),
+			Vec3(0.0f,0.0f,0.0f),
+			Vec3(-4.75f,0.001f,2.0f)
+		}
+		};
+		//オブジェクトの作成
+		for (auto v : vec) {
+			AddGameObject<startGate>(v[0], v[1], v[2]);
+		}
+	}
+
+
 
 
 	void GameStage::OnCreate() {
@@ -112,6 +129,10 @@ namespace basecross {
 			CreatestartGate();
 			//ゴールの作成
 			CreategoalGate();
+			//チーズの作成
+			CreateCheese();
+
+
 
 
 			CreatePlayer();
