@@ -16,7 +16,8 @@ namespace basecross {
 		GameObject(StagePtr),
 		m_Scale(Scale),
 		m_Rotation(Rotation),
-		m_Position(Position)
+		m_Position(Position),
+		direction(2.0f)
 	{
 	}
 	Cheese::~Cheese() {}
@@ -43,18 +44,28 @@ namespace basecross {
 
 
 	}
-	//void Cheese::OnUpdate()
-	//{
-	//	//ビルボード処理
-	//	auto stage = GetStage();
-	//	auto camera = stage->GetView()->GetTargetCamera();
-	//	auto viewAatrix = camera->GetViewMatrix(); //ビュー行列を取得
-	//	Quat viewQuat(viewAatrix);//ビュー行列からクォータニオン(四元数)を作成
-	//	viewQuat.x *= -1.0f;
-	//	viewQuat.y *= -1.0f;
-	//	viewQuat.z *= -1.0f;
-	//	m_transComp->SetQuaternion(viewQuat);
-	//}
+
+	void Cheese::OnUpdate()
+	{
+	}
+
+	void Cheese::GetTag(shared_ptr<GameObject>& Player)
+	{
+		if (Player)
+		{
+			Vec3 playerPos = Player->GetComponent<Transform>()->GetPosition();
+			Vec3 cheesePos = m_transComp->GetPosition();
+			Vec3 distance = playerPos - cheesePos;
+
+			if (distance.x <1.0f && distance.y < 1.0f)
+			{
+				Vec3 distance = Vec3(playerPos - cheesePos).normalize();
+				m_transComp->SetPosition(cheesePos + direction * 0.05f);
+			}
+
+		}
+
+	}
 
 
 }

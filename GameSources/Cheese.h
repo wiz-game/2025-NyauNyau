@@ -14,6 +14,8 @@ namespace basecross {
 		Vec3 m_Scale;
 		Vec3 m_Rotation;
 		Vec3 m_Position;
+		void GetTag(shared_ptr<GameObject>& Player);
+		float direction;
 
 
 	public:
@@ -27,7 +29,8 @@ namespace basecross {
 		virtual ~Cheese();
 
 		virtual void OnCreate() override; //初期化
-		//virtual void OnUpdate() override; //更新
+		virtual void OnUpdate() override; //更新
+
 
 
 	};
