@@ -137,7 +137,7 @@ namespace basecross
 		MovePlayer();
 
 		// wallオブジェクトを取得（例として名前で取得する場合）
-		auto wall = GetStage()->GetSharedGameObject<Wall>(L"Wall_0");
+		auto wall = GetStage()->GetSharedGameObject<Wall>(L"Wall");
 		if (wall)
 		{
 			MoveToWallPosition(wall);
