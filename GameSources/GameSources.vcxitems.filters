@@ -7,6 +7,18 @@
     <Filter Include="Sources">
       <UniqueIdentifier>{96692d2a-8790-41a9-bfac-6c5662d4ad61}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Katono_Stage">
+      <UniqueIdentifier>{a3f572f9-b0aa-49fc-b348-26eeb3ad3751}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tamura_Stage">
+      <UniqueIdentifier>{a0b52d7f-dfe4-49db-9155-83c487b45409}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Honda_Stage">
+      <UniqueIdentifier>{0fad63fd-b2ee-4473-b3c5-d9b358fa9d02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Seino_Stage">
+      <UniqueIdentifier>{277448bd-ff6f-4061-9ba3-abda4428356b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Character.h">
@@ -30,6 +42,27 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ProjectBehavior.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Player2.h">
+      <Filter>Katono_Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Goal.h">
+      <Filter>Seino_Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Start.h">
+      <Filter>Seino_Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Box.h">
+      <Filter>Honda_Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SpotLight.h">
+      <Filter>Honda_Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Ground.h">
+      <Filter>Honda_Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Wall.h">
+      <Filter>Honda_Stage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Character.cpp">
@@ -52,6 +85,27 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)ProjectBehavior.cpp">
       <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Player2.cpp">
+      <Filter>Katono_Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Goal.cpp">
+      <Filter>Seino_Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Start.cpp">
+      <Filter>Seino_Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Box.cpp">
+      <Filter>Honda_Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)SpotLight.cpp">
+      <Filter>Honda_Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Ground.cpp">
+      <Filter>Honda_Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Wall.cpp">
+      <Filter>Honda_Stage</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

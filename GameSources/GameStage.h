@@ -1,3 +1,4 @@
+
 /*!
 @file GameStage.h
 @brief ゲームステージ
@@ -14,6 +15,17 @@ namespace basecross {
 	class GameStage : public Stage {
 		//ビューの作成
 		void CreateViewLight();
+		//壁の生成
+		void CreateWall();
+		//スタートの作成
+		void CreatestartGate();
+		//ゴールの作成
+		void CreategoalGate();
+
+		//
+		//プレイヤーの生成
+		void CreatePlayer();
+
 	public:
 		//構築と破棄
 		GameStage() :Stage() {}
