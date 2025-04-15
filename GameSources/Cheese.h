@@ -10,20 +10,20 @@ namespace basecross {
 
 	class Cheese : public GameObject
 	{
-		shared_ptr<Transform> m_transComp;
-		Vec3 m_Scale;
-		Vec3 m_Rotation;
-		Vec3 m_Position;
+		std::shared_ptr<Transform> m_transComp;
+		//Vec3 m_Scale;
+		//Vec3 m_Rotation;
+		//Vec3 m_Position;
 		void GetTag(shared_ptr<GameObject>& Player);
 		float direction;
 
 
 	public:
 		// ç\ízÇ∆îjä¸
-		Cheese(const shared_ptr<Stage>& stage,
-			const Vec3& Scale,
-			const Vec3& Rotation,
-			const Vec3& Position
+		Cheese(const shared_ptr<Stage>& stage
+			//const Vec3& Scale,
+			//const Vec3& Rotation,
+			//const Vec3& Position
 		);
 
 		virtual ~Cheese();
