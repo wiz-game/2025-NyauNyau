@@ -8,7 +8,7 @@ namespace basecross
 	Player::Player(const shared_ptr<Stage>& StagePtr) :
 		GameObject(StagePtr),
 		m_Speed(5.0f),
-		direction()
+		m_isAir(false)
 	{}
 
 	Vec2 Player::GetInputState() const {
@@ -57,6 +57,7 @@ namespace basecross
 			angle *= moveSize;
 			//X軸は変化させない
 			angle.x = 0;
+			
 		}
 		return angle;
 	}
@@ -76,6 +77,13 @@ namespace basecross
 			auto utilPtr = GetBehavior<UtilBehavior>();
 			utilPtr->RotToHead(angle, 1.0f);
 		}
+
+		//auto gmo = GetStage()->GetSharedGameObject<Wall>(L"walls_0");
+		//if (gmo)
+		//{
+		//	auto playerTransform = GetComponent<Transform>();
+		//	playerTransform->SetRotation(0, 0 + 90, 0);
+		//}
 
 		
 	}
@@ -113,35 +121,37 @@ namespace basecross
 
 
 
-	void Player::MoveToWallPosition(const shared_ptr<GameObject>& Player)
-	{
+	//void Player::MoveToWallPosition(const shared_ptr<GameObject>& wall)
+	//{
 
-		if (FindTag(L"Wall"))
-		{
-			auto playerTransform = AddComponent<Transform>();
-			playerTransform->SetRotation(0, 0 + 90, 0 );
-		}
+	//	//// WallのTransformコンポーネントから位置を取得
+	//	//auto wallTransform = Wall->GetComponent<Transform>();
+	//	//if (wallTransform)
+	//	//{
+	//	//	auto wallPosition = wallTransform->GetPosition();
 
-		//// WallのTransformコンポーネントから位置を取得
-		//auto wallTransform = Wall->GetComponent<Transform>();
-		//if (wallTransform)
-		//{
-		//	auto wallPosition = wallTransform->GetPosition();
-
-		//	// playerのTransformコンポーネントを取得して位置を設定
-		//	auto playerTransform = GetComponent<Transform>();
-		//	if (playerTransform)
-		//	{
-		//		playerTransform->SetPosition(wallPosition);
-		//	}
-		//}
-	}
+	//	//	// playerのTransformコンポーネントを取得して位置を設定
+	//	//	auto playerTransform = GetComponent<Transform>();
+	//	//	if (playerTransform)
+	//	//	{
+	//	//		playerTransform->SetPosition(wallPosition);
+	//	//	}
+	//	//}
+	//}
 
 	void Player::OnUpdate()
 	{
+		auto G = GetStage()->GetThis<GameStage>()->GetGameObjectVec();
 		//コントローラチェックして入力があればコマンド呼び出し
 		m_InputHandler.PushHandle(GetThis<Player>());
 		MovePlayer();
+
+		if (FindTag(L"Wall_0"))
+		{
+			auto playerTransform = GetComponent<Transform>();
+			playerTransform->SetRotation(0, XMConvertToRadians(90), 0);
+		}
+
 
 		 //wallオブジェクトを取得（例として名前で取得する場合）
 		//auto wall = GetStage()->GetSharedGameObject<Wall>(L"Wall");
@@ -155,8 +165,16 @@ namespace basecross
 	//Aボタン
 	void Player::OnPushA()
 	{
-		auto grav = GetComponent<Gravity>();
-		grav->StartJump(Vec3(0, 4.0f, 0));
+		if (!m_isAir)
+		{
+			m_isAir = true;
+			auto grav = GetComponent<Gravity>();
+			grav->StartJump(Vec3(0, 4.0f, 0));
+		}
+		else
+		{
+			m_isAir = false;
+		}
 	}
 
 }
