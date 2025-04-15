@@ -8,16 +8,17 @@
 
 namespace basecross {
 	//構築と破壊
-	Cheese::Cheese(const shared_ptr<Stage>& StagePtr
-		//const Vec3& Scale,
-		//const Vec3& Rotation,
-		//const Vec3& Position
+	Cheese::Cheese(const shared_ptr<Stage>& StagePtr,
+		const Vec3& Scale,
+		const Vec3& Rotation,
+		const Vec3& Position
 	) :
 		GameObject(StagePtr),
-		//m_Scale(Scale),
-		//m_Rotation(Rotation),
-		//m_Position(Position),
-		direction(2.0f)
+		m_Scale(Scale),
+		m_Rotation(Rotation),
+		m_Position(Position),
+		isTarget(false),
+		followDistance(0.5f)
 	{
 	}
 	Cheese::~Cheese() {}
@@ -26,19 +27,19 @@ namespace basecross {
 	void Cheese::OnCreate()
 	{
 		//ドローコンポーネントの追加と設定
-		auto drawComp = AddComponent<PNTStaticDraw>();
-		drawComp->SetMeshResource(L"DEFAULT_SQUARE");
-		//drawComp->SetTextureResource(L" ");
-		drawComp->SetBlendState(BlendState::Additive);//加算合成
-		drawComp->SetDepthStencilState(DepthStencilState::Read);
+		auto ptrDraw = AddComponent<BcPNTStaticDraw>();
+		ptrDraw->SetMeshResource(L"DEFAULT_CUBE");
 
-		drawComp->SetDiffuse(Col4(1.0f, 0.0f, 1.0f, 1.0f));//マテリアルの拡散反射の色を設定
-		drawComp->SetEmissive(Col4(1.0f, 0.0f, 1.0f, 1.0f));
+		ptrDraw->SetFogEnabled(true);
+		ptrDraw->SetOwnShadowActive(true);
+
+
 
 		//トランスフォームコンポーネントの取得と設定
 		m_transComp = GetComponent<Transform>();
-		m_transComp->SetPosition(Vec3(-4.3f, 0.5f, 2.0f));
-		m_transComp->SetScale(Vec3(0.25f));
+		m_transComp->SetPosition(m_Position);
+		m_transComp->SetRotation(m_Rotation);
+		m_transComp->SetScale(m_Scale);
 		//タグ
 		AddTag(L"Cheese");
 
@@ -47,28 +48,38 @@ namespace basecross {
 
 	void Cheese::OnUpdate()
 	{
-	}
+		//Playerタグの取得
+		auto playerSh = GetStage()->GetSharedGameObject<Player>(L"Player");
+		Vec3 playerPos = playerSh->GetComponent<Transform>()->GetPosition();
+		
+		//プレイヤーの進行方向の取得
+		Vec3 playerForward = playerSh->GetComponent<Transform>()->GetForward();
 
-	//Playerタグの取得
-	void Cheese::GetTag(shared_ptr<GameObject>& Player)
-	{
-		if (Player)
-		{
-			//PlayerとCheeseの二点間の距離計算
-			Vec3 playerPos = Player->GetComponent<Transform>()->GetPosition();
-			Vec3 cheesePos = m_transComp->GetPosition();
-			Vec3 distance = playerPos - cheesePos;
+		Vec3 cheesePos = m_transComp->GetPosition();
+		Vec3 targetPos = playerPos - (playerForward * followDistance);
 
-			if (distance.length() < 1.0f) {
-				
-				Vec3 distance = Vec3(playerPos - cheesePos).normalize();
-				m_transComp->SetPosition(cheesePos + direction * 0.05f);
-			}
+		//PlayerとCheeseの二点間の距離計算
+		auto len = length(playerPos - cheesePos);
 
+		//追尾処理
+		if (len < 0.5f) {
+
+			isTarget = true;
 		}
+		//追尾中ならプレイヤーの後方へ移動
+		if (isTarget)
+		{
+			//プレイヤーの後方に位置を設定
+			Vec3 direction = Vec3(targetPos - cheesePos).normalize();
+			Vec3 m_Scale(Vec3(0.25f));
 
+			//一定距離を保ちつつ、滑らかに移動
+			if (length(targetPos - cheesePos) > 0.1f)
+			{
+				m_transComp->SetPosition(cheesePos + direction * 0.05);
+			}
+		}
 	}
-
 
 }
 //end basecross
