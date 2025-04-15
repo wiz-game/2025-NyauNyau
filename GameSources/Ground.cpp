@@ -23,6 +23,9 @@ namespace basecross {
 
 		//コリジョンつける
 		auto ptrColl = AddComponent<CollisionObb>();
+		ptrColl->SetFixed(true);
+		//タグをつける
+		AddTag(L"Ground");
 
 
 	}

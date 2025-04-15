@@ -33,8 +33,6 @@ namespace basecross {
 		//コリジョンつける
 		auto ptrColl = AddComponent<CollisionObb>();
 		ptrColl->SetFixed(true);
-		//タグをつける
-		AddTag(L"Wall");
 	}
 
 	void Wall::OnUpdate()

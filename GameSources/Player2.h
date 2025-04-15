@@ -19,8 +19,7 @@ namespace basecross
 		Vec3 GetMoveVector() const;
 		//プレイヤーの移動
 		void MovePlayer();
-		//
-		void MoveToWallPosition(const shared_ptr<GameObject>& Wall);
+		void MoveToWallPosition(const shared_ptr<GameObject>& Player);
 
 
 		//文字列の表示
@@ -29,6 +28,7 @@ namespace basecross
 		InputHandler<Player> m_InputHandler;
 		//スピード
 		float m_Speed;
+		bool direction;
 	public:
 		//構築と破棄
 		//--------------------------------------------------------------------------------------
@@ -52,6 +52,8 @@ namespace basecross
 		//virtual void OnUpdate2() override;
 		//virtual void OnCollisionEnter(shared_ptr<GameObject>& Other) override;
 		//virtual void OnCollisionExit(shared_ptr<GameObject>& Other) override;
+
+		
 		//Aボタン
 		void OnPushA();
 	};
