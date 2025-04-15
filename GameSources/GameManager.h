@@ -3,4 +3,7 @@
 
 namespace basecross {
 	class GameManager : public GameObject
+	{
+
+	};
 }

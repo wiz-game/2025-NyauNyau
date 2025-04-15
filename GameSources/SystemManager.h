@@ -1,6 +1,10 @@
 #pragma once
 #include "stdafx.h"
 
-namespace basecross {
+namespace basecross 
+{
 	class SystemManager : public GameObject
+	{
+
+	};
 }
