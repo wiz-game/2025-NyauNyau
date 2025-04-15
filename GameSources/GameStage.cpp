@@ -29,29 +29,39 @@ namespace basecross {
 
 	void GameStage::CreateWall()
 	{
-		vector< vector <Vec3> > vec = {
-		{
-			Vec3(10.0f,10.0f,1.0f),
-			Vec3(0.0f,0.0f,0.0f),
-			Vec3(0.0f,4.0f,5.0f)
-		},
-		{
-			Vec3(15.0f,10.0f,1.0f),
-			Vec3(0.0f,XM_PI / 2,0.0f),
-			Vec3(-5.3f,4.0f,2.0f)
-		},
+		vector<vector<Vec3>> vec = {
+			{
+				Vec3(10.0f, 10.0f, 1.0f),
+				Vec3(0.0f, 0.0f, 0.0f),
+				Vec3(0.0f, 4.0f, 5.0f)
+			},
+			{
+				Vec3(15.0f, 10.0f, 1.0f),
+				Vec3(0.0f, XM_PI / 2, 0.0f),
+				Vec3(-5.3f, 4.0f, 2.0f)
+			}
 		};
-		//オブジェクトの作成
-		for (auto v : vec)
-		{
-			AddGameObject<Wall>(v[0], v[1], v[2]);
+
+		int index = 0; // ユニーク名用のインデックス
+		vector<shared_ptr<Wall>> walls; // 生成した `Wall` を管理するリスト
+
+		for (auto& v : vec) {
+			auto ptrWall = AddGameObject<Wall>(v[0], v[1], v[2]);
+
+			// ユニーク名を生成
+			wstring uniqueTag = L"Wall_" + to_wstring(index);
+
+			ptrWall->AddTag(uniqueTag);  // ユニークなタグを適用
+			walls.push_back(ptrWall);    // `Wall` をリストに保存
+
+			index++; // 次のオブジェクトのためにインデックスを増加
 		}
 
-		auto ptrWall = AddGameObject<Wall>(Vec3(1, 1, 1), Vec3(0, 0, 0), Vec3(1, 0, 0));
-		SetSharedGameObject(L"Wall", ptrWall);
-		ptrWall->AddTag(L"Wall");
-	
-
+		// すべての `Wall` を共有ゲームオブジェクトとして登録
+		for (size_t i = 0; i < walls.size(); ++i) {
+			wstring uniqueName = L"Wall_" + to_wstring(i);  // ユニーク名を生成
+			SetSharedGameObject(uniqueName, walls[i]);      // ユニーク名で共有登録
+		}
 	}
 
 	//スタート
@@ -93,6 +103,23 @@ namespace basecross {
 		}
 	}
 
+	//チーズ
+	void GameStage::CreateCheese()
+	{
+		vector< vector <Vec3> > vec = {
+		{
+			Vec3(0.25),
+			Vec3(0.0f,0.0f,0.0f),
+			Vec3(-4.75f,0.001f,2.0f)
+		}
+		};
+		//オブジェクトの作成
+		for (auto v : vec) {
+			AddGameObject<startGate>(v[0], v[1], v[2]);
+		}
+	}
+
+
 
 
 	void GameStage::OnCreate() {
@@ -113,6 +140,10 @@ namespace basecross {
 			CreatestartGate();
 			//ゴールの作成
 			CreategoalGate();
+			//チーズの作成
+			CreateCheese();
+
+
 
 
 			CreatePlayer();

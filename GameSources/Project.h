@@ -20,6 +20,7 @@
 #include "Player2.h"
 #include "Start.h"
 #include "Goal.h"
+#include "Cheese.h"
 
 
 
