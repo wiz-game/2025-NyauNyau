@@ -2,5 +2,5 @@
 #include "stdafx.h"
 
 namespace basecross {
-	class GameManager : public GameObject
+	class SystemManager : public GameObject
 }
