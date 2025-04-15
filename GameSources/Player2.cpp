@@ -109,26 +109,32 @@ namespace basecross
 		ptrDraw->SetMeshResource(L"DEFAULT_SPHERE");
 		ptrDraw->SetFogEnabled(true);
 
-
 	}
 
 
 
-	void Player::MoveToWallPosition(const shared_ptr<GameObject>& Wall)
+	void Player::MoveToWallPosition(const shared_ptr<GameObject>& Player)
 	{
-		// WallのTransformコンポーネントから位置を取得
-		auto wallTransform = Wall->GetComponent<Transform>();
-		if (wallTransform)
-		{
-			auto wallPosition = wallTransform->GetPosition();
 
-			// playerのTransformコンポーネントを取得して位置を設定
-			auto playerTransform = GetComponent<Transform>();
-			if (playerTransform)
-			{
-				playerTransform->SetPosition(wallPosition);
-			}
+		if (FindTag(L"Wall"))
+		{
+			auto playerTransform = AddComponent<Transform>();
+			playerTransform->SetRotation(0, 0 + 90, 0 );
 		}
+
+		//// WallのTransformコンポーネントから位置を取得
+		//auto wallTransform = Wall->GetComponent<Transform>();
+		//if (wallTransform)
+		//{
+		//	auto wallPosition = wallTransform->GetPosition();
+
+		//	// playerのTransformコンポーネントを取得して位置を設定
+		//	auto playerTransform = GetComponent<Transform>();
+		//	if (playerTransform)
+		//	{
+		//		playerTransform->SetPosition(wallPosition);
+		//	}
+		//}
 	}
 
 	void Player::OnUpdate()
