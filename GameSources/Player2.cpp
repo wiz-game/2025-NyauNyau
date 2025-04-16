@@ -5,8 +5,15 @@
 namespace basecross
 {
 	//構築と破棄
-	Player::Player(const shared_ptr<Stage>& StagePtr) :
+	Player::Player(const shared_ptr<Stage>& StagePtr,
+		Vec3& Scale,
+		Vec3& Rotation,
+		Vec3& Position
+	) :
 		GameObject(StagePtr),
+		m_Scale(Scale),
+		m_Rotation(Rotation),
+		m_Position(Position),
 		m_Speed(5.0f),
 		m_isAir(false)
 	{}
@@ -93,9 +100,12 @@ namespace basecross
 	{
 		//初期位置などの設定
 		auto ptr = AddComponent<Transform>();
-		ptr->SetScale(0.0f, 0.25f, 0.25f);	//直径25センチの球体
-		ptr->SetRotation(0.0f, 0.0f, 0.0f);
-		ptr->SetPosition(Vec3(-4.75f, 0.125f, 0));
+		ptr->SetScale(m_Scale);	//直径25センチの球体
+		ptr->SetRotation(m_Rotation);
+		ptr->SetPosition(m_Position);
+		//ptr->SetScale(0.0f, 0.25f, 0.25f);	//直径25センチの球体
+		//ptr->SetRotation(0.0f, 0.0f, 0.0f);
+		//ptr->SetPosition(Vec3(-4.75f, 0.125f, -5.0f));
 
 		//CollisionSphere衝突判定を付ける
 		auto ptrColl = AddComponent<CollisionSphere>();

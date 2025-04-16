@@ -13,7 +13,7 @@ namespace basecross {
 	//	ゲームステージクラス実体
 	//--------------------------------------------------------------------------------------
 	void GameStage::CreateViewLight() {
-		const Vec3 eye(10.0f, 10.0f, -5.0f);
+		const Vec3 eye(10.0f, 20.0f, 0.0f);
 		const Vec3 at(0.0f);
 		auto PtrView = CreateView<SingleView>();
 		//ビューのカメラの設定
@@ -39,7 +39,13 @@ namespace basecross {
 				Vec3(15.0f, 10.0f, 1.0f),
 				Vec3(0.0f, XM_PI / 2, 0.0f),
 				Vec3(-5.3f, 4.0f, 2.0f)
-			}
+			},
+			{
+				Vec3(5.0f, 1.0f, 1.0f),
+				Vec3(0.0f, 0.0f, 0.0f),
+				Vec3(-8.0f, 4.0f, 6.0f)
+			},
+
 		};
 
 		int index = 0; // ユニーク名用のインデックス
@@ -79,11 +85,47 @@ namespace basecross {
 			AddGameObject<startGate>(v[0], v[1], v[2]);
 		}
 	}
+
+	//プレイヤー
 	void GameStage::CreatePlayer()
 	{
-		auto ptrPlayer = AddGameObject<Player>();
-		SetSharedGameObject(L"Player", ptrPlayer);
-		ptrPlayer->AddTag(L"Player");
+		vector<vector<Vec3>> vec = 
+		{
+			{
+				Vec3(0.0f, 0.25f, 0.25f),
+				Vec3(0.0f, 0.0f, 0.0f),
+				Vec3(-2.75f, 0.125f, -5.0f)
+			},
+			{
+				Vec3(0.0f, 0.25f, 0.25f),
+				Vec3(0.0f, 0.0f, 0.0f),
+				Vec3(-2.0f, 0.125f, -3.0f)
+			}
+
+		};
+
+		int index = 0; // ユニーク名用のインデックス
+		vector<shared_ptr<Player>> players; // 生成した `Player` を管理するリスト
+
+		for (auto& v : vec) 
+		{
+			auto ptrPlayer = AddGameObject<Player>(v[0],v[1],v[2]);
+
+			// ユニーク名を生成
+			wstring uniqueTag = L"Player_" + to_wstring(index);
+
+			ptrPlayer->AddTag(uniqueTag);  // ユニークなタグを適用
+			players.push_back(ptrPlayer);    // `Player` をリストに保存
+
+			index++; // 次のオブジェクトのためにインデックスを増加
+		}
+
+		// すべての `Player` を共有ゲームオブジェクトとして登録
+		for (size_t i = 0; i < players.size(); i++) 
+		{
+			wstring uniqueName = L"Player_" + to_wstring(i);  // ユニーク名を生成
+			SetSharedGameObject(uniqueName, players[i]);      // ユニーク名で共有登録
+		}
 
 	}
 
@@ -135,7 +177,7 @@ namespace basecross {
 			//SpotLightの作成
 			//AddGameObject<SpotLight>();
 			//プレイヤーの作成
-			//AddGameObject<Player>();
+			CreatePlayer();
 			//スタートの作成
 			CreatestartGate();
 			//ゴールの作成
@@ -144,9 +186,6 @@ namespace basecross {
 			CreateCheese();
 
 
-
-
-			CreatePlayer();
 		}
 		catch (...) {
 			throw;

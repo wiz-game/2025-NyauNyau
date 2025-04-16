@@ -22,6 +22,10 @@ namespace basecross
 		void MoveToWallPosition(const shared_ptr<GameObject>& wall);
 		//void GetPlayer(shared_ptr<GameObject>& Player);
 
+		Vec3 m_Scale;
+		Vec3 m_Rotation;
+		Vec3 m_Position;
+
 
 		//文字列の表示
 		//void DrawStrings();
@@ -38,7 +42,11 @@ namespace basecross
 		@param[in]	StagePtr	ステージ
 		*/
 		//--------------------------------------------------------------------------------------
-		Player(const shared_ptr<Stage>& StagePtr);
+		Player(const shared_ptr<Stage>& StagePtr,
+			Vec3& m_Scale,
+		    Vec3& m_Rotation,
+			Vec3& m_Position
+		);
 		//--------------------------------------------------------------------------------------
 		/*!
 		@brief	デストラクタ
