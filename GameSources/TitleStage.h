@@ -27,6 +27,8 @@ namespace basecross {
 
 		//Aƒ{ƒ^ƒ“
 		void OnPushA();
+
+		void OnExit();
 	};
 }
 //end basecross

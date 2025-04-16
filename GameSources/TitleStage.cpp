@@ -6,6 +6,7 @@
 #include "stdafx.h"
 #include "Project.h"
 
+
 namespace basecross {
 
 	//--------------------------------------------------------------------------------------
@@ -30,12 +31,19 @@ namespace basecross {
 
 	void TitleStage::OnCreate() {
 		try {
+
 			//ビューとライトの作成
 			CreateViewLight();
 
+			//スプライトの生成
+			auto sprite = ObjectFactory::Create<Sprite>(500,500);
+
+			//シーンに追加
+			auto scene = App::GetApp()->GetScene<Scene>();
+			scene->AddObject(sprite);
+
 
 			//MessageBox(0, L"ニャウニャウシルエット", L"タイトル", 0);
-
 		}
 		catch (...) {
 			throw;
@@ -53,7 +61,17 @@ namespace basecross {
 	{
 		auto scene = App::GetApp()->GetScene<Scene>();
 		PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"ToGameStage");
+		
+		//一定時間後にスプライトを削除する（タイトル画面からゲームステージに移るタイミング）
+		PostEvent(5.0f, GetThis<ObjectInterface>(), scene, L"RemoveSprite");
 	}
 
+
+	void TitleStage::OnExit()
+	{
+		auto sprite = ObjectFactory::Create<Sprite>(500,500);
+		auto scene = App::GetApp()->GetScene<Scene>();
+		scene->RemoveObject(sprite);
+	}
 }
 //end basecross
