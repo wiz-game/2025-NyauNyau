@@ -66,6 +66,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Cheese.h">
       <Filter>Seino_Stage</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TitleStage.h">
+      <Filter>Seino_Stage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Character.cpp">
@@ -111,6 +114,9 @@
       <Filter>Honda_Stage</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Cheese.cpp">
+      <Filter>Seino_Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)TitleStage.cpp">
       <Filter>Seino_Stage</Filter>
     </ClCompile>
   </ItemGroup>

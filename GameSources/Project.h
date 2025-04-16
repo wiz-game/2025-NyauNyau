@@ -21,6 +21,7 @@
 #include "Start.h"
 #include "Goal.h"
 #include "Cheese.h"
+#include "TitleStage.h"
 
 
 
