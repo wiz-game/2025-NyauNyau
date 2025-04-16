@@ -121,23 +121,29 @@ namespace basecross
 
 
 
-	//void Player::MoveToWallPosition(const shared_ptr<GameObject>& wall)
-	//{
+	void Player::MoveToWallPosition(const shared_ptr<GameObject>& wall)
+	{
 
-	//	//// WallのTransformコンポーネントから位置を取得
-	//	//auto wallTransform = Wall->GetComponent<Transform>();
-	//	//if (wallTransform)
-	//	//{
-	//	//	auto wallPosition = wallTransform->GetPosition();
+		if (GetThis<GameObject>()->FindTag(L"Wall_0"))
+		{
+			auto playerTransform = GetComponent<Transform>();
+			playerTransform->SetRotation(0, XMConvertToRadians(90), 0);
+		}
 
-	//	//	// playerのTransformコンポーネントを取得して位置を設定
-	//	//	auto playerTransform = GetComponent<Transform>();
-	//	//	if (playerTransform)
-	//	//	{
-	//	//		playerTransform->SetPosition(wallPosition);
-	//	//	}
-	//	//}
-	//}
+		//// WallのTransformコンポーネントから位置を取得
+		//auto wallTransform = Wall->GetComponent<Transform>();
+		//if (wallTransform)
+		//{
+		//	auto wallPosition = wallTransform->GetPosition();
+
+		//	// playerのTransformコンポーネントを取得して位置を設定
+		//	auto playerTransform = GetComponent<Transform>();
+		//	if (playerTransform)
+		//	{
+		//		playerTransform->SetPosition(wallPosition);
+		//	}
+		//}
+	}
 
 	void Player::OnUpdate()
 	{
@@ -145,12 +151,14 @@ namespace basecross
 		//コントローラチェックして入力があればコマンド呼び出し
 		m_InputHandler.PushHandle(GetThis<Player>());
 		MovePlayer();
+		MoveToWallPosition(GetThis<GameObject>());
+		
 
-		if (FindTag(L"Wall_0"))
-		{
-			auto playerTransform = GetComponent<Transform>();
-			playerTransform->SetRotation(0, XMConvertToRadians(90), 0);
-		}
+		//auto pos = GetComponent<Transform>()->GetPosition();
+		//auto grav = GetComponent<Gravity>();
+
+
+
 
 
 		 //wallオブジェクトを取得（例として名前で取得する場合）
@@ -165,16 +173,27 @@ namespace basecross
 	//Aボタン
 	void Player::OnPushA()
 	{
-		if (!m_isAir)
-		{
-			m_isAir = true;
 			auto grav = GetComponent<Gravity>();
-			grav->StartJump(Vec3(0, 4.0f, 0));
-		}
-		else
-		{
-			m_isAir = false;
-		}
+			auto pos = GetComponent<Transform>()->GetPosition();
+
+			if (!m_isAir)
+			{
+				m_isAir = true;
+				grav->StartJump(Vec3(0, 4.0f, 0));
+			}
+			else
+			{
+
+				if (pos.y < 0.125)
+				{
+					pos.y = 0.125f;
+					m_isAir = false;
+					grav->StartJump(Vec3(0, 0.0f, 0));
+
+				}
+			}
+
+
 	}
 
 }

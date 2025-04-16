@@ -135,7 +135,7 @@ namespace basecross {
 			//SpotLightの作成
 			//AddGameObject<SpotLight>();
 			//プレイヤーの作成
-			AddGameObject<Player>();
+			//AddGameObject<Player>();
 			//スタートの作成
 			CreatestartGate();
 			//ゴールの作成

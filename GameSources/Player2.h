@@ -19,7 +19,8 @@ namespace basecross
 		Vec3 GetMoveVector() const;
 		//プレイヤーの移動
 		void MovePlayer();
-		//void MoveToWallPosition(const shared_ptr<GameObject>& wall);
+		void MoveToWallPosition(const shared_ptr<GameObject>& wall);
+		//void GetPlayer(shared_ptr<GameObject>& Player);
 
 
 		//文字列の表示
