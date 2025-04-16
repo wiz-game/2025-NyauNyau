@@ -156,20 +156,20 @@ namespace basecross {
 	}
 
 	//// テクスチャの読込
-	//void GameStage::LoadTextures()
-	//{
-	//	// アプリケーションオブジェクトを取得する
-	//	auto& app = App::GetApp(); // アプリケーションオブジェクト(シングルトン)のインスタンスを取得する
+	void GameStage::LoadTextures()
+	{
+		// アプリケーションオブジェクトを取得する
+		auto& app = App::GetApp(); // アプリケーションオブジェクト(シングルトン)のインスタンスを取得する
 
-	//	// メディアフォルダの取得
-	//	auto mediaPath = app->GetDataDirWString();
+		// メディアフォルダの取得
+		auto mediaPath = app->GetDataDirWString();
 
-	//	// テクスチャフォルダの定義
-	//	auto texPath = mediaPath + L"Textures\\";
+	// テクスチャフォルダの定義
+		auto texPath = mediaPath + L"Textures\\";
 
-	//	// テクスチャの読込と登録
-	//	app->RegisterTexture(L"TEX_BOX", texPath + L"brick.jpg");
-	//}
+		// テクスチャの読込と登録
+		app->RegisterTexture(L"TEX_BOX", texPath + L"brick.jpg");
+	}
 
 }
 //end basecross
