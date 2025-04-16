@@ -63,8 +63,16 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Wall.h">
       <Filter>Honda_Stage</Filter>
     </ClInclude>
+<<<<<<< HEAD
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameManager.h">
+      <Filter>Tamura_Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SystemManager.h">
+      <Filter>Tamura_Stage</Filter>
+=======
     <ClInclude Include="$(MSBuildThisFileDirectory)Cheese.h">
       <Filter>Seino_Stage</Filter>
+>>>>>>> master
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -110,8 +118,16 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Wall.cpp">
       <Filter>Honda_Stage</Filter>
     </ClCompile>
+<<<<<<< HEAD
+    <ClCompile Include="$(MSBuildThisFileDirectory)GameManager.cpp">
+      <Filter>Tamura_Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)SystemManager.cpp">
+      <Filter>Tamura_Stage</Filter>
+=======
     <ClCompile Include="$(MSBuildThisFileDirectory)Cheese.cpp">
       <Filter>Seino_Stage</Filter>
+>>>>>>> master
     </ClCompile>
   </ItemGroup>
 </Project>

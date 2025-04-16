@@ -20,7 +20,12 @@
 #include "Player2.h"
 #include "Start.h"
 #include "Goal.h"
+<<<<<<< HEAD
+#include "GameManager.h"
+#include "SystemManager.h"
+=======
 #include "Cheese.h"
+>>>>>>> master
 
 
 
