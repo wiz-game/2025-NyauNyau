@@ -25,6 +25,8 @@ namespace basecross
 		ret.x = 0.0f;
 		ret.y = 0.0f;
 		WORD wButtons = 0;
+
+		// 左スティックの状態を判定
 		if (cntlVec[0].bConnected) {
 			ret.x = cntlVec[0].fThumbLX;
 			ret.y = cntlVec[0].fThumbLY;
@@ -60,10 +62,17 @@ namespace basecross
 			angle = Vec3(cos(totalAngle), 0, sin(totalAngle));
 			//正規化する
 			angle.normalize();
-			//移動サイズを設定。
+			//移動サイズを設定
 			angle *= moveSize;
 			//X軸は変化させない
 			angle.x = 0;
+
+
+
+			//if ()
+			{
+
+			}
 			
 		}
 		return angle;
@@ -84,13 +93,6 @@ namespace basecross
 			auto utilPtr = GetBehavior<UtilBehavior>();
 			utilPtr->RotToHead(angle, 1.0f);
 		}
-
-		//auto gmo = GetStage()->GetSharedGameObject<Wall>(L"walls_0");
-		//if (gmo)
-		//{
-		//	auto playerTransform = GetComponent<Transform>();
-		//	playerTransform->SetRotation(0, 0 + 90, 0);
-		//}
 
 		
 	}
@@ -167,12 +169,12 @@ namespace basecross
 
 
 
-		 //wallオブジェクトを取得（例として名前で取得する場合）
-		//auto wall = GetStage()->GetSharedGameObject<Wall>(L"Wall");
-		//if (wall)
-		//{
-		//	GetWallCollision(wall);
-		//}
+		 //wallオブジェクトを取得
+		auto wall = GetStage()->GetSharedGameObject<Wall>(L"Wall_0");
+		if (wall)
+		{
+			
+		}
 
 	}
 
