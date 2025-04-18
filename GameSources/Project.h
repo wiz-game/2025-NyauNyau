@@ -22,7 +22,7 @@
 #include "Goal.h"
 #include "Cheese.h"
 #include "TitleStage.h"
-#include "TitleSprite.h"
+#include "Sprite.h"
 
 
 
