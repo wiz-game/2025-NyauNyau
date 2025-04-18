@@ -23,9 +23,9 @@ namespace basecross {
 		void CreategoalGate();
 		//チーズの作成
 		void CreateCheese();
+		void LoadTextures();
 
-
-		//
+		
 		//プレイヤーの生成
 		void CreatePlayer();
 
