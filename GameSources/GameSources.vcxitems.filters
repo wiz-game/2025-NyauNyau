@@ -122,14 +122,12 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Wall.cpp">
       <Filter>Honda_Stage</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Cheese.cpp">
-      <Filter>Seino_Stage</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)TitleStage.cpp">
       <Filter>Seino_Stage</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Sprite.cpp">
       <Filter>Seino_Stage</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)SystemManager.cpp" />
   </ItemGroup>
 </Project>
