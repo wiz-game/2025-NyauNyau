@@ -13,7 +13,7 @@ namespace basecross {
 	//	ゲームステージクラス実体
 	//--------------------------------------------------------------------------------------
 	void GameStage::CreateViewLight() {
-		const Vec3 eye(10.0f, 20.0f, 0.0f);
+		const Vec3 eye(-7.0f, 20.0f, -8.0f);
 		const Vec3 at(0.0f);
 		auto PtrView = CreateView<SingleView>();
 		//ビューのカメラの設定
@@ -99,7 +99,7 @@ namespace basecross {
 			{
 				Vec3(0.0f, 0.25f, 0.25f),
 				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(-2.0f, 0.125f, -3.0f)
+				Vec3(-9.0f, 5.0f, 6.0f)
 			}
 
 		};

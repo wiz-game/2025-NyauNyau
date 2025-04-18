@@ -134,11 +134,11 @@ namespace basecross
 	void Player::MoveToWallPosition(const shared_ptr<GameObject>& wall)
 	{
 
-		if (GetThis<GameObject>()->FindTag(L"Wall_0"))
+		/*if (GetThis<GameObject>()->FindTag(L"Wall_0"))
 		{
 			auto playerTransform = GetComponent<Transform>();
 			playerTransform->SetRotation(0, XMConvertToRadians(90), 0);
-		}
+		}*/
 
 		//// WallのTransformコンポーネントから位置を取得
 		//auto wallTransform = Wall->GetComponent<Transform>();
@@ -161,12 +161,8 @@ namespace basecross
 		//コントローラチェックして入力があればコマンド呼び出し
 		m_InputHandler.PushHandle(GetThis<Player>());
 		MovePlayer();
-		MoveToWallPosition(GetThis<GameObject>());
+		//MoveToWallPosition(GetThis<GameObject>());
 		
-
-		//auto pos = GetComponent<Transform>()->GetPosition();
-		//auto grav = GetComponent<Gravity>();
-
 
 
 
