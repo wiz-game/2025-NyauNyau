@@ -144,8 +144,6 @@ namespace basecross {
 			CreateCheese();
 
 
-
-
 			CreatePlayer();
 		}
 		catch (...) {

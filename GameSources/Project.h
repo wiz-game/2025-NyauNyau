@@ -23,6 +23,8 @@
 #include "Cheese.h"
 #include "GameManager.h"
 #include "SystemManager.h"
+#include "TitleStage.h"
+#include "TitleSprite.h"
 
 
 
