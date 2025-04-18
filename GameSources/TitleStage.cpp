@@ -35,6 +35,10 @@ namespace basecross {
 			//ビューとライトの作成
 			CreateViewLight();
 
+			//テクスチャの読込
+			LoadTextures();
+
+			//スプライトオブジェクト
 			AddGameObject<Sprite>();
 
 
@@ -56,11 +60,25 @@ namespace basecross {
 	{
 		auto scene = App::GetApp()->GetScene<Scene>();
 		PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"ToGameStage");
-		
+
 		//一定時間後にスプライトを削除する（タイトル画面からゲームステージに移るタイミング）
 		PostEvent(5.0f, GetThis<ObjectInterface>(), scene, L"RemoveSprite");
 	}
 
+	void TitleStage::LoadTextures()
+	{
+		// アプリケーションオブジェクトを取得する
+		auto& app = App::GetApp();
+
+		// メディアフォルダの取得
+		auto mediaPath = app->GetDataDirWString();
+
+		// テクスチャフォルダの定義
+		auto texPath = mediaPath + L"Textures\\";
+
+		// テクスチャの読込と登録
+		app->RegisterTexture(L"TEX_TITLESTAGE", texPath + L"TitleStage.png");
+	}
 
 }
 //end basecross

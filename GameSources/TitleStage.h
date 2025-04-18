@@ -13,6 +13,9 @@ namespace basecross {
 	//--------------------------------------------------------------------------------------
 	class TitleStage : public Stage {
 		void CreateViewLight(); //ビューの作成
+		void LoadTextures();//テクスチャの読込
+
+
 		//入力ハンドラー
 		InputHandler<TitleStage> m_InputHandler;
 

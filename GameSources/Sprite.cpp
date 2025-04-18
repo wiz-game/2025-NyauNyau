@@ -28,6 +28,8 @@ namespace basecross {
 
 		// スプライト用のドローコンポーネントを追加する
 		auto drawComp = AddComponent<PCTSpriteDraw>(vertices, indices); // 頂点データとインデックスデータを設定する
+		drawComp->SetTextureResource(L"TEX_TITLESTAGE");
+		SetAlphaActive(true);
 
 		// 位置を設定する
 		auto transComp = GetComponent<Transform>();
