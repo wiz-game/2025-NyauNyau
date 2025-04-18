@@ -14,10 +14,10 @@ namespace basecross {
 		// 頂点(Vertex)データを設定
 		Col4 color(1, 1, 1, 1);
 		std::vector<VertexPositionColorTexture> vertices = {
-			{Vec3(-400, +300, 0), color, Vec2(0, 0)}, // ①
-			{Vec3(+400, +300, 0), color, Vec2(1, 0)}, // ②
-			{Vec3(-400, -300, 0), color, Vec2(0, 1)}, // ③
-			{Vec3(+400, -300, 0), color, Vec2(1, 1)}, // ④
+			{Vec3(-640, +400, 0), color, Vec2(0, 0)}, // ①
+			{Vec3(+640, +400, 0), color, Vec2(1, 0)}, // ②
+			{Vec3(-640, -400, 0), color, Vec2(0, 1)}, // ③
+			{Vec3(+640, -400, 0), color, Vec2(1, 1)}, // ④
 		};
 
 		// インデックスデータを設定（頂点をつなげる順番・3つの数値を組にして三角形を作る）

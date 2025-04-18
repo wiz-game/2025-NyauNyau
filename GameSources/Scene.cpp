@@ -42,20 +42,6 @@ namespace basecross{
 
 	}
 
-	//AddObject
-	void Scene::AddObject(shared_ptr<ObjectInterface> obj)
-	{
-		m_addObjects.push_back(obj);
-	};
-
-
-	//RemoveObject
-	void Scene::RemoveObject(shared_ptr<ObjectInterface> obj) {
-		auto it = std::find(m_removeObjects.begin(), m_removeObjects.end(), obj);
-		if (it != m_removeObjects.end()) {
-			m_removeObjects.erase(it);
-		}
-	}
 
 }
 //end basecross

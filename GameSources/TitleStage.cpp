@@ -35,12 +35,7 @@ namespace basecross {
 			//ビューとライトの作成
 			CreateViewLight();
 
-			//スプライトの生成
-			auto sprite = ObjectFactory::Create<Sprite>(500,500);
-
-			//シーンに追加
-			auto scene = App::GetApp()->GetScene<Scene>();
-			scene->AddObject(sprite);
+			AddGameObject<Sprite>();
 
 
 			//MessageBox(0, L"ニャウニャウシルエット", L"タイトル", 0);
@@ -67,11 +62,5 @@ namespace basecross {
 	}
 
 
-	void TitleStage::OnExit()
-	{
-		auto sprite = ObjectFactory::Create<Sprite>(500,500);
-		auto scene = App::GetApp()->GetScene<Scene>();
-		scene->RemoveObject(sprite);
-	}
 }
 //end basecross

@@ -40,24 +40,7 @@ namespace basecross {
 		//--------------------------------------------------------------------------------------
 		virtual void OnEvent(const shared_ptr<Event>& event) override;
 
-		//AddObject‚Ì’Ç‰Á
-		std::vector<shared_ptr<ObjectInterface>> m_addObjects;
 
-		void AddObject(shared_ptr<ObjectInterface> obj)
-		{
-			m_addObjects.push_back(obj);
-		};
-
-
-		//RemoveObject‚Ì’Ç‰Á
-		std::vector<shared_ptr<ObjectInterface>> m_removeObjects;
-
-		void RemoveObject(shared_ptr<ObjectInterface> obj) {
-			auto it = std::find(m_removeObjects.begin(), m_removeObjects.end(), obj);
-			if (it != m_removeObjects.end()) {
-				m_removeObjects.erase(it);
-			}
-		}
 	};
 
 }
