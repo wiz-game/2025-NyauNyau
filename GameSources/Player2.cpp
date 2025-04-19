@@ -15,7 +15,8 @@ namespace basecross
 		m_Rotation(Rotation),
 		m_Position(Position),
 		m_Speed(5.0f),
-		m_isAir(false)
+		m_isAir(false),
+		m_Player1()
 	{}
 
 	Vec2 Player::GetInputState() const {
@@ -57,23 +58,28 @@ namespace basecross
 			//コントローラの向きから角度を計算
 			float cntlAngle = atan2(-moveX, moveZ);
 			//トータルの角度を算出
-			float totalAngle = frontAngle + cntlAngle;
+			// float totalAngle = frontAngle + cntlAngle;
+			float playerRotationY = XMConvertToRadians(m_Rotation.y + 90.0f); // プレイヤーのY軸回転を取得
+			float totalAngle = frontAngle + cntlAngle + playerRotationY; // プレイヤー回転を考慮
 			//角度からベクトルを作成
 			angle = Vec3(cos(totalAngle), 0, sin(totalAngle));
 			//正規化する
 			angle.normalize();
 			//移動サイズを設定
 			angle *= moveSize;
-			//X軸は変化させない
+			//x軸を固定
 			angle.x = 0;
 
-
-
-			//if ()
+			if (m_Player1)
 			{
+				moveX = inPut.y;
+				moveZ = inPut.x;
 
+				angle.z = 0;
+				angle.x = 1;
 			}
-			
+
+
 		}
 		return angle;
 	}
@@ -129,6 +135,8 @@ namespace basecross
 		ptrDraw->SetMeshResource(L"DEFAULT_SPHERE");
 		ptrDraw->SetFogEnabled(true);
 
+
+
 	}
 
 
@@ -163,18 +171,10 @@ namespace basecross
 		//コントローラチェックして入力があればコマンド呼び出し
 		m_InputHandler.PushHandle(GetThis<Player>());
 		MovePlayer();
+		SetPlayerMove(false);
 		//MoveToWallPosition(GetThis<GameObject>());
 		
 
-
-
-
-		 //wallオブジェクトを取得
-		auto wall = GetStage()->GetSharedGameObject<Wall>(L"Wall_0");
-		if (wall)
-		{
-			
-		}
 
 	}
 
@@ -203,5 +203,13 @@ namespace basecross
 
 
 	}
+
+	void Player:: SetPlayerMove(bool Player1)
+	{
+		m_Player1 = Player1;
+	}
+
+
+
 
 }

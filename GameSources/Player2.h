@@ -13,7 +13,7 @@ namespace basecross
 	///	プレイヤー
 	//--------------------------------------------------------------------------------------
 	class Player : public GameObject {
-		//プレイヤーが使用するコントローラとキーボードの入力
+		//プレイヤーが使用するコントローラの入力
 		Vec2 GetInputState() const;
 		// コントローラから方向ベクトルを得る
 		Vec3 GetMoveVector() const;
@@ -27,40 +27,31 @@ namespace basecross
 		Vec3 m_Position;
 
 
-		//文字列の表示
-		//void DrawStrings();
 		//入力ハンドラー
 		InputHandler<Player> m_InputHandler;
 		//スピード
 		float m_Speed;
+		float m_Player1;
+		//空中にいるか
 		bool m_isAir;
+
 	public:
 		//構築と破棄
-		//--------------------------------------------------------------------------------------
-		/*!
-		@brief	コンストラクタ
-		@param[in]	StagePtr	ステージ
-		*/
-		//--------------------------------------------------------------------------------------
 		Player(const shared_ptr<Stage>& StagePtr,
 			Vec3& m_Scale,
 		    Vec3& m_Rotation,
 			Vec3& m_Position
 		);
-		//--------------------------------------------------------------------------------------
-		/*!
-		@brief	デストラクタ
-		*/
-		//--------------------------------------------------------------------------------------
+
+		virtual void SetPlayerMove(bool Player1);
+
+
 		virtual ~Player() {}
 		//アクセサ
 		//初期化
 		virtual void OnCreate() override;
 		//更新
 		virtual void OnUpdate() override;
-		//virtual void OnUpdate2() override;
-		//virtual void OnCollisionEnter(shared_ptr<GameObject>& Other) override;
-		//virtual void OnCollisionExit(shared_ptr<GameObject>& Other) override;
 
 		
 		//Aボタン
