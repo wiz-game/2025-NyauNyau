@@ -18,7 +18,8 @@ namespace basecross
 		GameObject(StagePtr),
 		m_Scale(Scale),
 		m_Rotation(Rotation),
-		m_Position(Position)
+		m_Position(Position),
+		m_gameClear(std::make_shared<bool>(false))//クリアしたかどうか（初期値:false）
 	{
 	}
 	goalGate::~goalGate() {}
@@ -53,19 +54,20 @@ namespace basecross
 	void goalGate::OnUpdate()
 	{
 		auto ptrColl = GetComponent<CollisionObb>();
+		ptrColl->SetFixed(true);//位置固定
+
 		if (!ptrColl) return; // 衝突判定コンポーネントがない場合は処理を終了
 
-		//auto player = GetStage()->FindObjectByTag(L"Player"); // "Player"タグを持つオブジェクトを取得
-		//if (!player) return; // プレイヤーが見つからない場合は処理を終了
+		auto playerSh = GetStage()->GetSharedGameObject<Player>(L"Player"); // "Player"タグを取得
+		//Vec3 playerPos = playerSh->GetComponent<Transform>()->GetPosition();//Playerの位置
 
-		//if (ptrColl->IsColliding(player)) // プレイヤーとgoalGateが衝突したかチェック
-		//{
-		//	auto playerObj = dynamic_pointer_cast<Player>(player);//Playerオブジェクトとしてキャスト
-		//	if (playerObj && playerObj->hasCheese()) // プレイヤーがチーズを持っている場合
-		//	{
-		//		gameClear(); // ゲームクリア処理を実行
-		//	}
-		//}
+		if (!ptrColl->IsExcludeCollisionObject(playerSh))//衝突判定
+		{
+			//if (playerSh && playerSh->hasCheese()) // プレイヤーがチーズを持っている場合
+			//{
+				*m_gameClear = true; // ゲームクリア
+			//}
+		}
 	}
 }
 //end basecross

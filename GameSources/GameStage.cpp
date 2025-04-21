@@ -71,7 +71,7 @@ namespace basecross {
 		{
 			Vec3(0.7f,0.7f,0.5f),
 			Vec3(0.0f,0.0f,0.0f),
-			Vec3(-3.0f,0.005f,4.6f)
+			Vec3(-4.7f,0.005f,-4.0f)
 		}
 		};
 		//オブジェクトの作成
@@ -90,6 +90,11 @@ namespace basecross {
 	//ゴール
 	void GameStage::CreategoalGate()
 	{
+
+		auto ptrgoalGate = AddGameObject<goalGate>();
+		SetSharedGameObject(L"Goal", ptrgoalGate);
+		ptrgoalGate->AddTag(L"Goal");
+
 		vector< vector <Vec3> > vec = {
 		{
 			Vec3(0.7f,0.7f,0.5f),
@@ -139,7 +144,8 @@ namespace basecross {
 			//スタートの作成
 			CreatestartGate();
 			//ゴールの作成
-			CreategoalGate();
+			//CreategoalGate();
+			AddGameObject<goalGate>();
 			//チーズの作成
 			CreateCheese();
 

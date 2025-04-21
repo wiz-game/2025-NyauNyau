@@ -39,7 +39,7 @@ namespace basecross {
 			LoadTextures();
 
 			//スプライトオブジェクト
-			AddGameObject<Sprite>();
+			AddGameObject<TitleSprite>();
 
 
 			//MessageBox(0, L"ニャウニャウシルエット", L"タイトル", 0);

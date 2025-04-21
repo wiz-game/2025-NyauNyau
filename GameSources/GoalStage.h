@@ -1,13 +1,38 @@
 /*!
 @file Character.h
-@brief キャラクターなど
+@brief ゴールタイトルステージ
 */
 
 #pragma once
 #include "stdafx.h"
+#include "Goal.h"
 
 namespace basecross {
 
+	//--------------------------------------------------------------------------------------
+	//	ゴールステージクラス
+	//--------------------------------------------------------------------------------------
+	class goalStage : public Stage {
+		void CreateViewLight(); //ビューの作成
+		void LoadTextures();//テクスチャの読込
 
+		std::shared_ptr<bool> m_gameClear;//gameGateのgameClearを参照
+
+		//入力ハンドラー
+		InputHandler<goalStage> m_InputHandler;
+
+
+	public:
+		//構築と破棄
+		goalStage() :Stage() {}
+		virtual ~goalStage() {}
+
+		virtual void OnCreate()override; //初期化
+		virtual void OnUpdate()override; //更新
+
+		//Aボタン
+		void OnPushA();
+
+	};
 }
 //end basecross

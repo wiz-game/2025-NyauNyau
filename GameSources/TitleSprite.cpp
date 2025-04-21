@@ -1,5 +1,5 @@
 /*!
-@file Sprite.cpp
+@file TitleSprite.cpp
 @brief キャラクターなど実体
 */
 
@@ -9,7 +9,7 @@
 namespace basecross {
 
 	//初期化
-	void Sprite::OnCreate()
+	void TitleSprite::OnCreate()
 	{
 		// 頂点(Vertex)データを設定
 		Col4 color(1, 1, 1, 1);
