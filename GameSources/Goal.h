@@ -13,7 +13,8 @@ namespace basecross {
 		Vec3 m_Scale;
 		Vec3 m_Rotation;
 		Vec3 m_Position;
-		std::shared_ptr<bool> m_gameClear;//shared_ptr‚ÅŠÇ—
+		bool m_gameClear;//shared_ptr‚ÅŠÇ—
+
 	public:
 		//\’z‚Æ”j‰ó
 		goalGate(const shared_ptr<Stage>& StagePtr,
@@ -27,7 +28,10 @@ namespace basecross {
 		virtual void OnUpdate() override;
 
 		//gameClear‚ÌƒQƒbƒ^[
-		std::shared_ptr<bool> GetGameClearFlag() const { return m_gameClear; }
+		bool IsGameClear() const
+		{
+			return m_gameClear;
+		}
 	};
 
 }

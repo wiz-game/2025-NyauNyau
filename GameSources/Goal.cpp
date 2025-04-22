@@ -65,7 +65,7 @@ namespace basecross
 		{
 			//if (playerSh && playerSh->hasCheese()) // プレイヤーがチーズを持っている場合
 			//{
-				*m_gameClear = true; // ゲームクリア
+				m_gameClear = true; // ゲームクリア
 			//}
 		}
 	}

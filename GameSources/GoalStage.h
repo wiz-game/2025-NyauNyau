@@ -5,7 +5,6 @@
 
 #pragma once
 #include "stdafx.h"
-#include "Goal.h"
 
 namespace basecross {
 
@@ -16,7 +15,7 @@ namespace basecross {
 		void CreateViewLight(); //ビューの作成
 		void LoadTextures();//テクスチャの読込
 
-		std::shared_ptr<bool> m_gameClear;//gameGateのgameClearを参照
+		bool m_gameClear;//gameGateのgameClearを参照
 
 		//入力ハンドラー
 		InputHandler<goalStage> m_InputHandler;
