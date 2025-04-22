@@ -41,6 +41,8 @@ namespace basecross
 		bool m_collisionFlag;
 		const float m_gravity;
 		void DrawStrings();
+		void MoveY();
+		void MoveXZ();
 
 	public:
 		//\’z‚Æ”jŠü

@@ -195,6 +195,8 @@ namespace basecross
 		m_InputHandler.PushHandle(GetThis<Player>());
 		MovePlayer();
 		DrawStrings();
+		MoveY();
+		MoveXZ();
 
 		//// アプリケーションオブジェクトを取得する
 		//auto& app = App::GetApp();
@@ -255,6 +257,24 @@ namespace basecross
 
 	}
 	
+
+	void Player::MoveXZ() {
+		auto angle = GetInputState();
+		float elapsedTime = App::GetApp()->GetElapsedTime();
+		auto pos = GetComponent<Transform>()->GetPosition();
+		pos += elapsedTime * m_velocity;
+		GetComponent<Transform>()->SetPosition(pos);
+	}
+
+
+	void Player::MoveY() {
+		auto ptrTransform = GetComponent<Transform>();
+		//前回のターンからの時間
+		float elapsedTime = App::GetApp()->GetElapsedTime();
+		m_velocity.y += m_gravity * elapsedTime;
+	}
+
+
 	//Aボタン
 	void Player::OnPushA()
 	{ 
