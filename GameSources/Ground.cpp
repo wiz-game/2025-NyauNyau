@@ -28,6 +28,7 @@ namespace basecross {
 		auto drawComp = AddComponent<PNTStaticDraw>();
 		drawComp->SetMeshResource(L"DEFAULT_CUBE"); // キューブ型のメッシュを設定する
 		drawComp->SetOwnShadowActive(true); // 影を受け入れる
+		drawComp->SetTextureResource(L"TEX_YUKA");
 
 		// トランスフォームコンポーネントの取得と設定
 		//auto transComp = GetComponent<Transform>();

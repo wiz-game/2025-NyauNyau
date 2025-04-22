@@ -13,8 +13,8 @@ namespace basecross {
 	//	ゲームステージクラス実体
 	//--------------------------------------------------------------------------------------
 	void GameStage::CreateViewLight() {
-		const Vec3 eye(10.0f, 20.0f, -8.0f);// 10,20,-8
-		const Vec3 at(0.0f);
+		const Vec3 eye(10.0f, 6.0f, 0.0f);// 10,20,-8
+		const Vec3 at(-3.0f,0.0f,0.0f);
 		auto PtrView = CreateView<SingleView>();
 		//ビューのカメラの設定
 		auto PtrCamera = ObjectFactory::Create<Camera>();
@@ -38,7 +38,7 @@ namespace basecross {
 			{
 				Vec3(30.0f, 10.0f, 1.0f),
 				Vec3(0.0f, XM_PI / 2, 0.0f),
-				Vec3(-5.3f, 4.0f, 2.0f)
+				Vec3(-5.3f, 4.0f, 0.0f)
 			},
 
 		};
@@ -69,7 +69,7 @@ namespace basecross {
 	{
 		vector<vector<Vec3>> vec = {
 		{
-			Vec3(10.0f, 1.0f, 30.0f),  // 10,1,10
+			Vec3(20.0f, 1.0f, 30.0f),  // 10,1,10
 			Vec3(0.0f, 0.0f, 0.0f),
 			Vec3(0.0f, -1.0f, 0.0f)
 		},
@@ -115,9 +115,9 @@ namespace basecross {
 	{
 		vector< vector <Vec3> > vec = {
 		{
-			Vec3(0.7f,0.7f,0.5f),
+			Vec3(0.0f,1.0f,1.0f),
 			Vec3(0.0f,0.0f,0.0f),
-			Vec3(-5.3f, 4.0f, 2.0f)
+			Vec3(-4.75f, -0.2f, -10.0f)
 		}
 		};
 		//オブジェクトの作成
@@ -134,7 +134,7 @@ namespace basecross {
 			{
 				Vec3(0.0f, 0.25f, 0.25f),
 				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(-4.75f, 0.0f, -3.0f)
+				Vec3(-4.75f, 0.0f, -9.0f)
 			},
 			//{
 			//	Vec3(0.0f, 0.25f, 0.25f),
@@ -180,9 +180,9 @@ namespace basecross {
 	{
 		vector< vector <Vec3> > vec = {
 		{
-			Vec3(0.7f,0.7f,0.5f),
+			Vec3(0.0f,1.0f,1.0f),
 			Vec3(0.0f,0.0f,0.0f),
-			Vec3(3.0f,0.005f,4.6f)
+			Vec3(-4.78f, -0.2f, 10.0f)
 		}
 		};
 		//オブジェクトの作成
@@ -196,7 +196,7 @@ namespace basecross {
 	{
 		vector< vector <Vec3> > vec = {
 		{
-			Vec3(0,0.5,0.5),
+			Vec3(0.002f,0.5f,0.7f),
 			Vec3(0.0f,0.0f,0.0f),
 			Vec3(-4.75f,0.001f,2.0f)
 		}
@@ -211,7 +211,10 @@ namespace basecross {
 
 
 	void GameStage::OnCreate() {
-		try {
+		try {	
+
+			LoadTextures();
+
 			//ビューとライトの作成
 			CreateViewLight();
 			//壁の作成
@@ -250,11 +253,15 @@ namespace basecross {
 		// メディアフォルダの取得
 		auto mediaPath = app->GetDataDirWString();
 
-	// テクスチャフォルダの定義
+	    // テクスチャフォルダの定義
 		auto texPath = mediaPath + L"Textures\\";
 
 		// テクスチャの読込と登録
-		app->RegisterTexture(L"TEX_BOX", texPath + L"brick.jpg");
+		//app->RegisterTexture(L"TEX_BOX", texPath + L"brick.jpg");
+		app->RegisterTexture(L"TEX_CHEESE", texPath + L"cheese.png");
+		app->RegisterTexture(L"TEX_KABE", texPath + L"kabe.jpg");
+		app->RegisterTexture(L"TEX_YUKA", texPath + L"yuka.jpg");
+
 	}
 
 }

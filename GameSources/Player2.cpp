@@ -22,9 +22,7 @@ namespace basecross
 		m_velocityY(0.0f),
 		m_velocity(0.0f),
 		m_collisionFlag(false),
-		m_gravity(-9.8)
-
-
+		m_gravity(-9.0)
 
 
 	{}
@@ -177,13 +175,17 @@ namespace basecross
 		//描画コンポーネントの設定
 		auto ptrDraw = AddComponent<BcPNTStaticDraw>();
 		//描画するメッシュを設定
-		ptrDraw->SetMeshResource(L"DEFAULT_SPHERE");
+		ptrDraw->SetMeshResource(L"DEFAULT_CUBE");
 		ptrDraw->SetFogEnabled(true);
+		//ptrDraw->SetTextureResource(L"");
+
 
 		//文字列をつける
 		auto ptrString = AddComponent<StringSprite>();
 		ptrString->SetText(L"");
 		ptrString->SetTextRect(Rect2D<float>(16.0f, 16.0f, 640.0f, 480.0f));
+
+
 
 	}
 
@@ -279,7 +281,7 @@ namespace basecross
 	void Player::OnPushA()
 	{ 
 
-		m_velocity.y = 4.0f;
+		m_velocity.y = 5.0f;
 
 	}
 

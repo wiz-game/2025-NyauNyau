@@ -44,6 +44,8 @@ namespace basecross
 		void MoveY();
 		void MoveXZ();
 
+		shared_ptr<PNTStaticDraw> m_drawComp; // 標準的なアニメーション無しのドローコンポーネント
+
 	public:
 		//構築と破棄
 		Player(const shared_ptr<Stage>& StagePtr,

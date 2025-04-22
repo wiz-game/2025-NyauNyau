@@ -27,13 +27,13 @@ namespace basecross {
 	void Cheese::OnCreate()
 	{
 		//ドローコンポーネントの追加と設定
-		auto ptrDraw = AddComponent<BcPNTStaticDraw>();
+		auto ptrDraw = AddComponent<BcPNTStaticDraw>();		
+		//ptrDraw->SetRasterizerState(RasterizerState::Wireframe);
 		ptrDraw->SetMeshResource(L"DEFAULT_CUBE");
-
 		ptrDraw->SetFogEnabled(true);
 		ptrDraw->SetOwnShadowActive(true);
-
-
+		ptrDraw->SetTextureResource(L"TEX_CHEESE");
+		
 
 		//トランスフォームコンポーネントの取得と設定
 		m_transComp = GetComponent<Transform>();
