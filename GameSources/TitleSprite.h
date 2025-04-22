@@ -1,5 +1,5 @@
 /*!
-@file Sprite.h
+@file TitleSprite.h
 @brief タイトル名など
 */
 
@@ -10,17 +10,17 @@ namespace basecross {
 
 
 	//--------------------------------------------------------------------------------------
-	//	class Sprite : public GameObject;
+	//	class TitleSprite : public GameObject;
 	//--------------------------------------------------------------------------------------
-	class Sprite : public GameObject
+	class TitleSprite : public GameObject
 	{
 	public:
 		// 構築と破棄
-		Sprite(const shared_ptr<Stage>& stage) :
+		TitleSprite(const shared_ptr<Stage>& stage) :
 			GameObject(stage)
 		{
 		}
-		virtual ~Sprite()
+		virtual ~TitleSprite()
 		{
 		}
 

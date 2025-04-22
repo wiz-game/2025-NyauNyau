@@ -6,7 +6,6 @@
 
 #include "stdafx.h"
 #include "Project.h"
-
 namespace basecross
 {
 	//構築と破壊
@@ -52,20 +51,18 @@ namespace basecross
 
 	void goalGate::OnUpdate()
 	{
-		auto ptrColl = GetComponent<CollisionObb>();
-		if (!ptrColl) return; // 衝突判定コンポーネントがない場合は処理を終了
 
-		//auto player = GetStage()->FindObjectByTag(L"Player"); // "Player"タグを持つオブジェクトを取得
-		//if (!player) return; // プレイヤーが見つからない場合は処理を終了
-
-		//if (ptrColl->IsColliding(player)) // プレイヤーとgoalGateが衝突したかチェック
-		//{
-		//	auto playerObj = dynamic_pointer_cast<Player>(player);//Playerオブジェクトとしてキャスト
-		//	if (playerObj && playerObj->hasCheese()) // プレイヤーがチーズを持っている場合
-		//	{
-		//		gameClear(); // ゲームクリア処理を実行
-		//	}
-		//}
 	}
+
+	void goalGate::OnCollisionEnter(shared_ptr<GameObject>& collision)
+	{
+		if (dynamic_pointer_cast <Player>(collision))
+		{
+			auto& app = App::GetApp();
+			PostEvent(0.0f, GetThis<ObjectInterface>(), app->GetScene<Scene>(), L"ToGoalStage");
+
+		}
+	}
+
 }
 //end basecross

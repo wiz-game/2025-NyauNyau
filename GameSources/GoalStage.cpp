@@ -1,0 +1,83 @@
+/*!
+@file Character.cpp
+@brief ゴールタイトルステージの実体
+*/
+
+#include "stdafx.h"
+#include "Project.h"
+
+
+namespace basecross {
+
+	//--------------------------------------------------------------------------------------
+	//	ゴールステージクラス実体
+	//--------------------------------------------------------------------------------------
+
+	//ビューとライトの作成
+	void goalStage::CreateViewLight() {
+		// カメラの設定
+		auto camera = ObjectFactory::Create<Camera>();
+		camera->SetEye(Vec3(0.0f, 5.0f, -15.0f));
+		camera->SetAt(Vec3(0.0f, 0.0f, 0.0f));
+
+		// ビューにカメラを設定
+		auto view = CreateView<SingleView>();
+		view->SetCamera(camera);
+
+		//マルチライトの作成
+		auto light = CreateLight<MultiLight>();
+		light->SetDefaultLighting(); //デフォルトのライティングを指定
+	}
+
+	void goalStage::OnCreate() {
+		try {
+
+			//ビューとライトの作成
+			CreateViewLight();
+
+			//テクスチャの読込
+			LoadTextures();
+
+			//スプライトオブジェクト
+			AddGameObject<gameClearSprite>();
+
+					}
+		catch (...) {
+			throw;
+		}
+
+	}
+	void goalStage::OnUpdate()
+	{
+		//コントローラチェックして入力があればコマンド呼び出し
+		m_InputHandler.PushHandle(GetThis<goalStage>());
+
+	}
+
+	//コントローラーのAボタンでゲーム画面に移動
+	void goalStage::OnPushA()
+	{
+		auto scene = App::GetApp()->GetScene<Scene>();
+		PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"ToTitleStage");
+
+		//一定時間後にスプライトを削除する（タイトル画面からゲームステージに移るタイミング）
+		PostEvent(5.0f, GetThis<ObjectInterface>(), scene, L"RemoveSprite");
+	}
+
+	void goalStage::LoadTextures()
+	{
+		// アプリケーションオブジェクトを取得する
+		auto& app = App::GetApp();
+
+		// メディアフォルダの取得
+		auto mediaPath = app->GetDataDirWString();
+
+		// テクスチャフォルダの定義
+		auto texPath = mediaPath + L"Textures\\";
+
+		// テクスチャの読込と登録
+		app->RegisterTexture(L"TEX_GOALSTAGE", texPath + L"GoalStage.png");
+	}
+
+}
+//end basecross
