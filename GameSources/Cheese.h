@@ -10,10 +10,12 @@ namespace basecross {
 
 	class Cheese : public GameObject
 	{
-		shared_ptr<Transform> m_transComp;
+		std::shared_ptr<Transform> m_transComp;
 		Vec3 m_Scale;
 		Vec3 m_Rotation;
 		Vec3 m_Position;
+		bool isTarget;//追尾状態を管理
+		float followDistance;//プレイヤーとの一定距離
 
 
 	public:
@@ -27,7 +29,8 @@ namespace basecross {
 		virtual ~Cheese();
 
 		virtual void OnCreate() override; //初期化
-		//virtual void OnUpdate() override; //更新
+		virtual void OnUpdate() override; //更新
+
 
 
 	};

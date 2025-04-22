@@ -16,6 +16,7 @@
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Box.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Character.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Cheese.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GameStage.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Goal.h" />
@@ -28,6 +29,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Scene.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SpotLight.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Start.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Sprite.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TitleStage.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SystemManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Wall.h" />
   </ItemGroup>
   <ItemGroup>
@@ -44,6 +48,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Scene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SpotLight.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Start.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Sprite.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)TitleStage.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SystemManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Wall.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)WinMain.cpp" />
   </ItemGroup>
