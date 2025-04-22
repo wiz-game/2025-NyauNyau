@@ -13,36 +13,48 @@ namespace basecross
 	///	プレイヤー
 	//--------------------------------------------------------------------------------------
 	class Player : public GameObject {
-		//プレイヤーが使用するコントローラとキーボードの入力
+		//プレイヤーが使用するコントローラの入力
 		Vec2 GetInputState() const;
 		// コントローラから方向ベクトルを得る
 		Vec3 GetMoveVector() const;
 		//プレイヤーの移動
 		void MovePlayer();
-		void MoveToWallPosition(const shared_ptr<GameObject>& Player);
+
+		Vec3 m_Scale;
+		Vec3 m_Rotation;
+		Vec3 m_Position;
 
 
-		//文字列の表示
-		//void DrawStrings();
 		//入力ハンドラー
 		InputHandler<Player> m_InputHandler;
 		//スピード
 		float m_Speed;
-		bool direction;
+
+		bool m_Player1;
+		//空中にいるか
+		bool m_isAir;
+
+		float m_cameraAngleY; // カメラの回り込み
+		float m_velocityY;
+		Vec3 m_forward; // 前方向を示すベクトル
+		Vec3 m_velocity;
+		bool m_collisionFlag;
+		const float m_gravity;
+		void DrawStrings();
+		void MoveY();
+		void MoveXZ();
+
 	public:
 		//構築と破棄
-		//--------------------------------------------------------------------------------------
-		/*!
-		@brief	コンストラクタ
-		@param[in]	StagePtr	ステージ
-		*/
-		//--------------------------------------------------------------------------------------
-		Player(const shared_ptr<Stage>& StagePtr);
-		//--------------------------------------------------------------------------------------
-		/*!
-		@brief	デストラクタ
-		*/
-		//--------------------------------------------------------------------------------------
+		Player(const shared_ptr<Stage>& StagePtr,
+			Vec3& m_Scale,
+		    Vec3& m_Rotation,
+			Vec3& m_Position
+		);
+
+		void SetPlayerMove(bool Player1);
+
+
 		virtual ~Player() {}
 		//アクセサ
 		//初期化
@@ -56,6 +68,7 @@ namespace basecross
 		
 		//Aボタン
 		void OnPushA();
+
 	};
 }
 //end basecross

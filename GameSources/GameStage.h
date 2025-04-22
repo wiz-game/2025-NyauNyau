@@ -17,6 +17,8 @@ namespace basecross {
 		void CreateViewLight();
 		//壁の生成
 		void CreateWall();
+		//床の生成
+		void CreateGround();
 		//スタートの作成
 		void CreatestartGate();
 		//ゴールの作成
@@ -36,6 +38,7 @@ namespace basecross {
 		//初期化
 		virtual void OnCreate()override;
 	};
+
 
 
 }

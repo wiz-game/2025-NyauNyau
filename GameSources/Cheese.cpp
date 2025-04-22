@@ -49,7 +49,7 @@ namespace basecross {
 	void Cheese::OnUpdate()
 	{
 		//Playerタグの取得
-		auto playerSh = GetStage()->GetSharedGameObject<Player>(L"Player");
+		auto playerSh = GetStage()->GetSharedGameObject<Player>(L"Player_0");
 		Vec3 playerPos = playerSh->GetComponent<Transform>()->GetPosition();
 		
 		//プレイヤーの進行方向の取得
