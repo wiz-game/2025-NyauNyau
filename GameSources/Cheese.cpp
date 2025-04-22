@@ -76,7 +76,7 @@ namespace basecross {
 			//ˆê’è‹——£‚ð•Û‚¿‚Â‚ÂAŠŠ‚ç‚©‚ÉˆÚ“®
 			if (length(targetPos - cheesePos) > 0.1f)
 			{
-				m_transComp->SetPosition(cheesePos + direction * 0.05);
+				m_transComp->SetPosition(cheesePos + direction * 0.1);
 			}
 		}
 	}

@@ -97,7 +97,7 @@ namespace basecross {
 
 		vector< vector <Vec3> > vec = {
 		{
-			Vec3(0.1f,0.7f,0.5f),
+			Vec3(0.0f,0.7f,0.5f),
 			Vec3(0.0f,0.0f,0.0f),
 			Vec3(-4.7f,0.005f,4.0f)
 		}
@@ -144,8 +144,12 @@ namespace basecross {
 			//スタートの作成
 			CreatestartGate();
 			//ゴールの作成
-			CreategoalGate();
-			//AddGameObject<goalGate>(& Scale,& Rotation,& Position);
+			//CreategoalGate();
+			AddGameObject<goalGate>(
+				Vec3(0.0f, 0.7f, 0.5f),
+				Vec3(0.0f, 0.0f, 0.0f),
+				Vec3(-4.7f, 0.005f, 4.0f)
+			);
 			//チーズの作成
 			CreateCheese();
 

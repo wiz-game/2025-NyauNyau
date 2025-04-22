@@ -57,14 +57,11 @@ namespace basecross {
 	//コントローラーのAボタンでゲーム画面に移動
 	void goalStage::OnPushA()
 	{
-		if (m_gameClear)
-		{
-			auto scene = App::GetApp()->GetScene<Scene>();
-			PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"ToTitleStage");
+		auto scene = App::GetApp()->GetScene<Scene>();
+		PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"ToTitleStage");
 
-			//一定時間後にスプライトを削除する（タイトル画面からゲームステージに移るタイミング）
-			PostEvent(5.0f, GetThis<ObjectInterface>(), scene, L"RemoveSprite");
-		}
+		//一定時間後にスプライトを削除する（タイトル画面からゲームステージに移るタイミング）
+		PostEvent(5.0f, GetThis<ObjectInterface>(), scene, L"RemoveSprite");
 	}
 
 	void goalStage::LoadTextures()

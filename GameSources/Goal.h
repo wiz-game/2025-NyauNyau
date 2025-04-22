@@ -10,10 +10,10 @@ namespace basecross {
 
 	class goalGate : public GameObject
 	{
+		std::shared_ptr<Transform> m_transComp;
 		Vec3 m_Scale;
 		Vec3 m_Rotation;
 		Vec3 m_Position;
-		bool m_gameClear;//shared_ptr‚ÅŠÇ—
 
 	public:
 		//\’z‚Æ”j‰ó
@@ -22,16 +22,14 @@ namespace basecross {
 			const Vec3& Rotation,
 			const Vec3& Position
 		);
+
 		virtual ~goalGate();
 		//‰Šú‰»
 		virtual void OnCreate() override;
 		virtual void OnUpdate() override;
 
-		//gameClear‚ÌƒQƒbƒ^[
-		bool IsGameClear() const
-		{
-			return m_gameClear;
-		}
+
+		void OnCollisionEnter(shared_ptr<GameObject>& collision) override;
 	};
 
 }
