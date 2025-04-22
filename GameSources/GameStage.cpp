@@ -13,7 +13,7 @@ namespace basecross {
 	//	ゲームステージクラス実体
 	//--------------------------------------------------------------------------------------
 	void GameStage::CreateViewLight() {
-		const Vec3 eye(-7.0f, 20.0f, -8.0f);// 10,20,-8
+		const Vec3 eye(10.0f, 20.0f, -8.0f);// 10,20,-8
 		const Vec3 at(0.0f);
 		auto PtrView = CreateView<SingleView>();
 		//ビューのカメラの設定
@@ -40,11 +40,6 @@ namespace basecross {
 				Vec3(0.0f, XM_PI / 2, 0.0f),
 				Vec3(-5.3f, 4.0f, 2.0f)
 			},
-			{
-				Vec3(5.0f, 1.0f, 1.0f),
-				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(-8.0f, 4.0f, 6.0f)
-			},
 
 		};
 
@@ -68,6 +63,51 @@ namespace basecross {
 			wstring uniqueName = L"Wall_" + to_wstring(i);  // ユニーク名を生成
 			SetSharedGameObject(uniqueName, walls[i]);      // ユニーク名で共有登録
 		}
+	}
+
+	void GameStage::CreateGround()
+	{
+		vector<vector<Vec3>> vec = {
+		{
+			Vec3(10.0f, 1.0f, 10.0f),
+			Vec3(0.0f, 0.0f, 0.0f),
+			Vec3(0.0f, -1.0f, 0.0f)
+		},
+		{
+			Vec3(20.0f, 1.0f, 8.0f),
+			Vec3(0.0f, 0.0f, 0.0f),
+			Vec3(-8.0f, -1.0f, 6.0f)
+		},
+		{
+			Vec3(8.0f, 1.0f, 20.0f),
+			Vec3(0.0f,  0.0f, 0.0f),
+			Vec3(0.0f, -1.0f, 6.0f)
+
+		}
+
+		};
+
+		int index = 0; // ユニーク名用のインデックス
+		vector<shared_ptr<Ground>> grounds; // 生成した `Ground` を管理するリスト
+
+		for (auto& v : vec) {
+			auto ptrGround = AddGameObject<Ground>(v[0], v[1], v[2]);
+
+			// ユニーク名を生成
+			wstring uniqueTag = L"Ground_" + to_wstring(index);
+
+			ptrGround->AddTag(uniqueTag);  // ユニークなタグを適用
+			grounds.push_back(ptrGround);    // `Ground` をリストに保存
+
+			index++; // 次のオブジェクトのためにインデックスを増加
+		}
+
+		// すべての `Ground` を共有ゲームオブジェクトとして登録
+		for (size_t i = 0; i < grounds.size(); ++i) {
+			wstring uniqueName = L"Ground_" + to_wstring(i);  // ユニーク名を生成
+			SetSharedGameObject(uniqueName, grounds[i]);      // ユニーク名で共有登録
+		}
+
 	}
 
 	//スタート
@@ -94,12 +134,12 @@ namespace basecross {
 			{
 				Vec3(0.0f, 0.25f, 0.25f),
 				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(-2.75f, 0.125f, -3.0f)
+				Vec3(-2.75f, 0.0f, -3.0f)
 			},
 			{
 				Vec3(0.0f, 0.25f, 0.25f),
-				Vec3(0.0f, 0.0f + XMConvertToRadians(90), 0.0f),
-				Vec3(-9.0f, 5.0f, 6.0f)
+				Vec3(0.0f, 90.0f, 0.0f),
+				Vec3(-8.0f, 0.0f ,4.0f)
 			}
 
 		};
@@ -120,15 +160,19 @@ namespace basecross {
 
 		}
 
-		players[0]->SetPlayerMove(true);
+		players[0]->SetPlayerMove(false);
+		players[1]->SetPlayerMove(true);
+
 
 		// すべての `Player` を共有ゲームオブジェクトとして登録
 		for (size_t i = 0; i < players.size(); i++) 
 		{
 			wstring uniqueName = L"Player_" + to_wstring(i);  // ユニーク名を生成
 			SetSharedGameObject(uniqueName, players[i]);      // ユニーク名で共有登録
+
 		}
-		
+
+
 	}
 
 	//ゴール
@@ -173,7 +217,7 @@ namespace basecross {
 			//壁の作成
 			CreateWall();
 			//ステージの作成
-			AddGameObject<Ground>();
+			CreateGround();
 			//Boxの作成
 			AddGameObject<Box>();
 			//SpotLightの作成

@@ -31,8 +31,8 @@ namespace basecross {
 		ptrTransform->SetRotation(m_Rotation);
 		ptrTransform->SetPosition(m_Position);
 		//ƒRƒŠƒWƒ‡ƒ“‚Â‚¯‚é
-		auto ptrColl = AddComponent<CollisionObb>();
-		ptrColl->SetFixed(true);
+		/*auto ptrColl = AddComponent<CollisionObb>();
+		ptrColl->SetFixed(true);*/
 	}
 
 	void Wall::OnUpdate()

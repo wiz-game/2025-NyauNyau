@@ -9,6 +9,19 @@
 
 namespace basecross {
 
+	Ground::Ground(const shared_ptr<Stage>& StagePtr,
+		const Vec3& Scale,
+		const Vec3& Rotation,
+		const Vec3& Position
+	) :
+		GameObject(StagePtr),
+		m_Scale(Scale),
+		m_Rotation(Rotation),
+		m_Position(Position)
+	{
+	}
+	Ground::~Ground() {}
+
 	void Ground::OnCreate()
 	{
 		// ドローコンポーネントの追加と設定
@@ -17,16 +30,17 @@ namespace basecross {
 		drawComp->SetOwnShadowActive(true); // 影を受け入れる
 
 		// トランスフォームコンポーネントの取得と設定
-		auto transComp = GetComponent<Transform>();
-		transComp->SetScale(10, 1, 10); // XZ方向に拡大する
-		transComp->SetPosition(0, -1.0f, 0);
+		//auto transComp = GetComponent<Transform>();
+		//transComp->SetScale(10, 1, 10); // XZ方向に拡大する
+		//transComp->SetPosition(0, -1.0f, 0);
+		auto ptrTransform = GetComponent<Transform>();
+		ptrTransform->SetScale(m_Scale);
+		ptrTransform->SetRotation(m_Rotation);
+		ptrTransform->SetPosition(m_Position);
 
 		//コリジョンつける
 		auto ptrColl = AddComponent<CollisionObb>();
 		ptrColl->SetFixed(true);
-		//タグをつける
-		AddTag(L"Ground");
-
 
 	}
 

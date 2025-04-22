@@ -19,8 +19,6 @@ namespace basecross
 		Vec3 GetMoveVector() const;
 		//プレイヤーの移動
 		void MovePlayer();
-		void MoveToWallPosition(const shared_ptr<GameObject>& wall);
-		//void GetPlayer(shared_ptr<GameObject>& Player);
 
 		Vec3 m_Scale;
 		Vec3 m_Rotation;
@@ -31,9 +29,18 @@ namespace basecross
 		InputHandler<Player> m_InputHandler;
 		//スピード
 		float m_Speed;
-		float m_Player1;
+
+		bool m_Player1;
 		//空中にいるか
 		bool m_isAir;
+
+		float m_cameraAngleY; // カメラの回り込み
+		float m_velocityY;
+		Vec3 m_forward; // 前方向を示すベクトル
+		Vec3 m_velocity;
+		bool m_collisionFlag;
+		const float m_gravity;
+		void DrawStrings();
 
 	public:
 		//構築と破棄
@@ -43,7 +50,7 @@ namespace basecross
 			Vec3& m_Position
 		);
 
-		virtual void SetPlayerMove(bool Player1);
+		void SetPlayerMove(bool Player1);
 
 
 		virtual ~Player() {}
@@ -56,6 +63,7 @@ namespace basecross
 		
 		//Aボタン
 		void OnPushA();
+
 	};
 }
 //end basecross
