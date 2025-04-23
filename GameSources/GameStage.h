@@ -37,6 +37,8 @@ namespace basecross {
 
 		std::shared_ptr<pauseSprite> m_Pause;
 
+		//“ü—Íƒnƒ“ƒhƒ‰[
+		InputHandler<GameStage> m_InputHandler;
 
 
 	public:
@@ -47,7 +49,8 @@ namespace basecross {
 		virtual void OnCreate()override;
 		virtual void OnUpdate()override;
 
-		void OnStrat();
+		void OnPushA();
+		void OnPushB();
 	};
 
 

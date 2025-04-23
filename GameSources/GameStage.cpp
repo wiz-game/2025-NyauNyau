@@ -254,13 +254,14 @@ namespace basecross {
 	void GameStage::OnUpdate()
 	{
 
+		//コントローラチェックして入力があればコマンド呼び出し
+		m_InputHandler.PushHandle(GetThis<GameStage>());
+
+
 		auto& app = App::GetApp();
 
 		auto device = app->GetInputDevice();
 		auto pad = device.GetControlerVec()[0];
-		//if (m_PauseFlag)
-		//{
-		//}
 
 		//スタートボタンを押したときにボーズする
 		if (pad.wPressedButtons & XINPUT_GAMEPAD_START)
@@ -270,7 +271,7 @@ namespace basecross {
 			scene->PauseGame();
 			m_PauseFlag = !m_PauseFlag;
 
-			if (m_PauseFlag == true)
+			if (m_PauseFlag)
 			{
 
 				m_Pause = AddGameObject<pauseSprite>();
@@ -285,20 +286,32 @@ namespace basecross {
 				}
 				m_PauseFlag = false;
 			}
+		}
+	}
+
+	//タイトルに戻る
+	void GameStage::OnPushA()
+	{
+		if (m_PauseFlag)
+		{
+			auto scene = App::GetApp()->GetScene<Scene>();
+			PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"ToTitleStage");
+
+			//一定時間後にスプライトを削除する（タイトル画面からゲームステージに移るタイミング）
+			PostEvent(5.0f, GetThis<ObjectInterface>(), scene, L"RemoveSprite");
 
 		}
-
 	}
 
-	void GameStage::OnStrat()
+	//ゲーム終了
+	void GameStage::OnPushB()
 	{
-		//auto& app = App::GetApp();
-
-		//auto device = app->GetInputDevice();
-		//auto pad = device.GetControlerVec()[0];
-
-
+		if (m_PauseFlag)
+		{
+			PostQuitMessage(0);
+		}
 	}
+
 
 	//// テクスチャの読込
 	void GameStage::LoadTextures()
