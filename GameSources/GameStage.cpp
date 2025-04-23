@@ -303,15 +303,6 @@ namespace basecross {
 		}
 	}
 
-	//ゲーム終了
-	void GameStage::OnPushB()
-	{
-		if (m_PauseFlag)
-		{
-			PostQuitMessage(0);
-		}
-	}
-
 
 	//// テクスチャの読込
 	void GameStage::LoadTextures()

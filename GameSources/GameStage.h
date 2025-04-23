@@ -50,7 +50,6 @@ namespace basecross {
 		virtual void OnUpdate()override;
 
 		void OnPushA();
-		void OnPushB();
 	};
 
 
