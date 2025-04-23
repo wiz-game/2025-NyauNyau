@@ -13,7 +13,7 @@ namespace basecross {
 	//	ゲームステージクラス実体
 	//--------------------------------------------------------------------------------------
 	void GameStage::CreateViewLight() {
-		const Vec3 eye(10.0f, 6.0f, 0.0f);// 10,20,-8
+		const Vec3 eye(15.0f, 10.0f, 0.0f);// 10,20,-8
 		const Vec3 at(-3.0f,0.0f,0.0f);
 		auto PtrView = CreateView<SingleView>();
 		//ビューのカメラの設定
@@ -129,12 +129,12 @@ namespace basecross {
 	//プレイヤー
 	void GameStage::CreatePlayer()
 	{
-		vector<vector<Vec3>> vec = 
+		vector<vector<Vec3>> vec =
 		{
 			{
-				Vec3(0.0f, 0.25f, 0.25f),
-				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(-4.75f, 0.0f, -9.0f)
+				Vec3(2.5f, 2.0f, 2.0f),
+				Vec3(0.0f, 0.0f + XMConvertToRadians(270) , 0.0f),
+				Vec3(-4.75f, 1.0f, -9.0f)
 			},
 			//{
 			//	Vec3(0.0f, 0.25f, 0.25f),
@@ -187,7 +187,7 @@ namespace basecross {
 		{
 			Vec3(0.0f,0.7f,0.5f),
 			Vec3(0.0f,0.0f,0.0f),
-			Vec3(-4.7f,0.005f,10.0f)
+			Vec3(-4.7f,0.005f,40.0f)
 		}
 		};
 		//オブジェクトの作成
@@ -201,8 +201,8 @@ namespace basecross {
 	{
 		vector< vector <Vec3> > vec = {
 		{
-			Vec3(0.002f,0.5f,0.7f),
-			Vec3(0.0f,0.0f,0.0f),
+			Vec3(0.5f,0.5f,0.5f),
+			Vec3(0.0f,0.0f + XMConvertToRadians(270),0.0f),
 			Vec3(-4.75f,0.001f,2.0f)
 		}
 		};
@@ -244,6 +244,8 @@ namespace basecross {
 			//チーズの作成
 			CreateCheese();
 
+			auto ptrXA = App::GetApp()->GetXAudio2Manager();
+			m_BGM = ptrXA->Start(L"Gamebgm", XAUDIO2_LOOP_INFINITE, 1.0f);
 
 
 		}
@@ -253,6 +255,7 @@ namespace basecross {
 
 
 	}
+
 
 	//// テクスチャの読込
 	void GameStage::LoadTextures()
@@ -266,13 +269,28 @@ namespace basecross {
 	    // テクスチャフォルダの定義
 		auto texPath = mediaPath + L"Textures\\";
 
+		// サウンドフォルダの定義
+		auto soundPath = mediaPath + L"Sounds\\";
+
 		// テクスチャの読込と登録
 		//app->RegisterTexture(L"TEX_BOX", texPath + L"brick.jpg");
 		app->RegisterTexture(L"TEX_CHEESE", texPath + L"cheese.png");
 		app->RegisterTexture(L"TEX_KABE", texPath + L"kabe.jpg");
 		app->RegisterTexture(L"TEX_YUKA", texPath + L"yuka.jpg");
+		app->RegisterTexture(L"TEX_NEZUMI", texPath + L"nezumi.png");
+		app->RegisterTexture(L"TEX_NEZUMI2", texPath + L"nezumi2.png");
+
+
 
 	}
+
+	void GameStage::OnDestroy()
+	{
+		//BGMのストップ
+		auto XAPtr = App::GetApp()->GetXAudio2Manager();
+		XAPtr->Stop(m_BGM);
+	}
+
 
 }
 //end basecross

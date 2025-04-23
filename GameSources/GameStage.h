@@ -31,12 +31,17 @@ namespace basecross {
 		//プレイヤーの生成
 		void CreatePlayer();
 
+		shared_ptr<SoundItem> m_BGM;
+
+
 	public:
 		//構築と破棄
 		GameStage() :Stage() {}
 		virtual ~GameStage() {}
 		//初期化
 		virtual void OnCreate()override;
+		virtual void OnDestroy()override;
+
 	};
 
 

@@ -43,6 +43,9 @@ namespace basecross
 		void DrawStrings();
 		void MoveY();
 		void MoveXZ();
+		void OnCollisionExcute(shared_ptr<GameObject>& Other);
+		void OnCollisionExit(shared_ptr<GameObject>& Other);
+
 
 		shared_ptr<PNTStaticDraw> m_drawComp; // 標準的なアニメーション無しのドローコンポーネント
 

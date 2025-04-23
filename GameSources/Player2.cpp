@@ -25,6 +25,7 @@ namespace basecross
 		m_gravity(-9.0)
 
 
+
 	{}
 
 	Vec2 Player::GetInputState() const {
@@ -168,16 +169,31 @@ namespace basecross
 		GetStage()->SetDrawPerformanceActive(true);
 
 
-		//重力をつける
-		auto ptrGra = AddComponent<Gravity>();
-
-
 		//描画コンポーネントの設定
 		auto ptrDraw = AddComponent<BcPNTStaticDraw>();
 		//描画するメッシュを設定
-		ptrDraw->SetMeshResource(L"DEFAULT_CUBE");
+		ptrDraw->SetMeshResource(L"DEFAULT_SQUARE");
 		ptrDraw->SetFogEnabled(true);
-		//ptrDraw->SetTextureResource(L"");
+		ptrDraw->SetTextureResource(L"TEX_NEZUMI2");
+		ptrDraw->SetTextureResource(L"TEX_NEZUMI");
+
+
+		auto moveVector = GetMoveVector(); // プレイヤーの移動ベクトルを取得
+
+		if (moveVector.z > 0.0f)
+		{
+			ptrDraw->SetTextureResource(L"TEX_NEZUMI2");
+		}
+
+		if (moveVector.z < 0.0f)
+		{
+			ptrDraw->SetTextureResource(L"TEX_NEZUMI");
+
+		}
+
+		
+		SetAlphaActive(true);
+
 
 
 		//文字列をつける
@@ -200,30 +216,23 @@ namespace basecross
 		MoveY();
 		MoveXZ();
 
-		//// アプリケーションオブジェクトを取得する
-		//auto& app = App::GetApp();
-		//// シーンを取得する（ステージを管理するオブジェクト）
-		//auto scene = app->GetScene<Scene>();
-		//// インプットデバイスオブジェクトを取得する
-		//auto& device = app->GetInputDevice();
-		//// コントローラーオブジェクトを取得する
-		//auto& pad = device.GetControlerVec()[0];
+		auto ptrDraw = AddComponent<BcPNTStaticDraw>();
 
-		//// 経過時間(Delta Time)を取得する
-		//float delta = app->GetElapsedTime(); // 60FPS -> 1/60 -> 0.01666667f, 30FPS -> 1/30 -> 0.03333334f
 
-		//// ステージを取得する
-		//auto stage = dynamic_pointer_cast<GameStage>(GetStage());
-		//Vec3 LStick(pad.fThumbLX, 0.0f, pad.fThumbLY);
+		auto moveVector = GetMoveVector(); // プレイヤーの移動ベクトルを取得
 
-		//float length = LStick.length();
-		//if (length != 0.0f) // スティックが傾いているか
-		//{
-		//	// カメラの傾きに合わせて移動方向ベクトルを変更する
-		//	float stickAngle = atan2f(LStick.z, LStick.x); // スティックのベクトルを角度(ラジアン)に変換する
-		//	float forwardAngle = stickAngle + m_cameraAngleY + XM_PIDIV2; // スティックの傾きにカメラの回り込みを加算することで、カメラ基準の方向に変換する
-		//	m_forward = Vec3(cosf(forwardAngle), 0.0f, sinf(forwardAngle));
-		//}
+		if (moveVector.z > 0.0f)
+		{
+			ptrDraw->SetTextureResource(L"TEX_NEZUMI2");
+		}
+
+		if (moveVector.z < 0.0f)
+		{
+			ptrDraw->SetTextureResource(L"TEX_NEZUMI");
+
+		}
+
+
 
 		//auto grav = GetComponent<Gravity>();
 		//auto pos = GetComponent<Transform>()->GetPosition();
@@ -271,19 +280,81 @@ namespace basecross
 
 	void Player::MoveY() {
 		auto ptrTransform = GetComponent<Transform>();
-		//前回のターンからの時間
-		float elapsedTime = App::GetApp()->GetElapsedTime();
-		m_velocity.y += m_gravity * elapsedTime;
-	}
+		auto pos = GetComponent<Transform>()->GetPosition();
 
+
+		if (pos.y > 0.0f)
+		{
+			// 重力の適用
+			float elapsedTime = App::GetApp()->GetElapsedTime();
+			m_velocity.y += m_gravity * elapsedTime;
+			//pos.y += m_velocity.y * elapsedTime;
+			auto ptrGra = AddComponent<Gravity>();
+
+
+
+			// 地面との衝突時の処理
+			if (pos.y <= 0.0f)
+			{
+				m_velocity.y = 0.0f; // 速度をリセット
+				m_isAir = false; // 空中状態をリセット
+			}
+
+			ptrTransform->SetPosition(pos);
+
+
+
+			////重力をつける
+			//auto ptrGra = AddComponent<Gravity>();
+
+			////前回のターンからの時間 
+			//float elapsedTime = App::GetApp()->GetElapsedTime();
+			//m_velocity.y += m_gravity * elapsedTime;
+
+			//if (pos.y <= 0.0f) // プレイヤーが着地した場合
+			//{
+			//	pos.y = 0.0f;  // 地面にリセット
+			//	m_velocity.y = 0.0f; // 下方向の速度を停止
+			//  m_isAir = false; // 空中状態をリセット
+			//}
+
+		}
+	}
 
 	//Aボタン
 	void Player::OnPushA()
 	{ 
+		auto pos = GetComponent<Transform>()->GetPosition();
 
-		m_velocity.y = 5.0f;
+		if (pos.y == 0.001f)
+		{
+			pos.y = 0.0f; // 明示的にリセット
+		}
+
+
+		if (pos.y == 0.0f)
+		{
+			m_velocity.y = 6.0f;
+			//m_isAir = true;
+		}
 
 	}
+
+	void Player::OnCollisionExcute(shared_ptr<GameObject>& Other) 
+	{
+		if (Other->FindTag(L"Ground")) // 衝突対象が地面か確認
+		{
+
+			m_velocity.y = 0;
+			m_collisionFlag = true;
+		}
+	}
+
+	void Player::OnCollisionExit(shared_ptr<GameObject>& Other) 
+	{
+		m_collisionFlag = false;
+	}
+
 
 	void Player:: SetPlayerMove(bool Player1)
 	{

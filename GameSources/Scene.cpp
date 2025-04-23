@@ -14,6 +14,24 @@ namespace basecross{
 	//--------------------------------------------------------------------------------------
 	void Scene::OnCreate(){
 		try {
+
+
+			// アプリケーションオブジェクトを取得する
+			auto& app = App::GetApp(); // アプリケーションオブジェクト(シングルトン)のインスタンスを取得する
+
+			// メディアフォルダの取得
+			auto mediaPath = app->GetDataDirWString();
+
+			// サウンドフォルダの定義
+			auto soundPath = mediaPath + L"Sounds\\";
+
+
+			app->RegisterWav(L"Titlebgm", soundPath + L"audiostock_864577.wav");
+			//app->RegisterWav(L"Gamebgm", soundPath + L"audiostock_1224243.wav");
+			app->RegisterWav(L"Gamebgm", soundPath + L"audiostock_1495090.wav");
+
+
+
 			//クリアする色を設定
 			Col4 Col;
 			//Col.set(31.0f / 255.0f, 30.0f / 255.0f, 71.0f / 255.0f, 255.0f / 255.0f);
@@ -22,7 +40,6 @@ namespace basecross{
 			//自分自身にイベントを送る
 			//これにより各ステージやオブジェクトがCreate時にシーンにアクセスできる
 			PostEvent(0.0f, GetThis<ObjectInterface>(), GetThis<Scene>(), L"ToTitleStage");
-
 
 		}
 		catch (...) {

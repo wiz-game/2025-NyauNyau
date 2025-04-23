@@ -57,6 +57,7 @@ namespace basecross {
 	//コントローラーのAボタンでゲーム画面に移動
 	void goalStage::OnPushA()
 	{
+		
 		auto scene = App::GetApp()->GetScene<Scene>();
 		PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"ToTitleStage");
 
