@@ -265,17 +265,25 @@ namespace basecross {
 		//スタートボタンを押したときにボーズする
 		if (pad.wPressedButtons & XINPUT_GAMEPAD_START)
 		{
+
+			auto scene = App::GetApp()->GetScene<Scene>();
+			scene->PauseGame();
+			m_PauseFlag = !m_PauseFlag;
+
 			if (m_PauseFlag == true)
 			{
-				auto scene = App::GetApp()->GetScene<Scene>();
-				scene->PauseGame();
-				
-				
-				m_PauseFlag = false;
+
+				m_Pause = AddGameObject<pauseSprite>();
+				m_pauseSprite = true;
 			}
 			else
 			{
-				m_PauseFlag = true;
+				if (m_pauseSprite)
+				{
+					RemoveGameObject<pauseSprite>(m_Pause);
+					m_pauseSprite = false;
+				}
+				m_PauseFlag = false;
 			}
 
 		}
@@ -309,7 +317,7 @@ namespace basecross {
 		app->RegisterTexture(L"TEX_CHEESE", texPath + L"cheese.png");
 		app->RegisterTexture(L"TEX_KABE", texPath + L"kabe.jpg");
 		app->RegisterTexture(L"TEX_YUKA", texPath + L"yuka.jpg");
-
+		app->RegisterTexture(L"TEX_PAUSE", texPath + L"pauseSprite.png");
 	}
 
 }

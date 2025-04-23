@@ -6,6 +6,7 @@
 
 #pragma once
 #include "stdafx.h"
+#include "PauseSprite.h"
 
 namespace basecross {
 
@@ -30,7 +31,12 @@ namespace basecross {
 		
 		//ƒvƒŒƒCƒ„[‚Ì¶¬
 		void CreatePlayer();
+
 		bool m_PauseFlag = false;
+		bool m_pauseSprite = false;
+
+		std::shared_ptr<pauseSprite> m_Pause;
+
 
 
 	public:
