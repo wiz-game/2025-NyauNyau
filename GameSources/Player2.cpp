@@ -326,15 +326,15 @@ namespace basecross
 	{ 
 		auto pos = GetComponent<Transform>()->GetPosition();
 
-		if (pos.y == 0.501f)
+		if (pos.y == 0.502f || pos.y == 0.501f)
 		{
-			pos.y = 0.50f; // 明示的にリセット
+			pos.y = 0.50f; 
 		}
 
 
 		if (pos.y == 0.50f)
 		{
-			m_velocity.y = 6.0f;
+			m_velocity.y = 8.0f;
 			//m_isAir = true;
 		}
 
