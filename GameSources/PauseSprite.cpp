@@ -1,6 +1,6 @@
 /*!
-@file TitleSprite.cpp
-@brief ゲームクリア スプライト実体
+@file pauseSprite.cpp
+@brief キャラクターなど実体
 */
 
 #include "stdafx.h"
@@ -9,7 +9,7 @@
 namespace basecross {
 
 	//初期化
-	void TitleSprite::OnCreate()
+	void pauseSprite::OnCreate()
 	{
 		// 頂点(Vertex)データを設定
 		Col4 color(1, 1, 1, 1);
@@ -28,7 +28,7 @@ namespace basecross {
 
 		// スプライト用のドローコンポーネントを追加する
 		auto drawComp = AddComponent<PCTSpriteDraw>(vertices, indices); // 頂点データとインデックスデータを設定する
-		drawComp->SetTextureResource(L"TEX_TITLESTAGE");
+		drawComp->SetTextureResource(L"TEX_PAUSE");
 		SetAlphaActive(true);
 
 		// 位置を設定する

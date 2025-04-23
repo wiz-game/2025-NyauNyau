@@ -30,6 +30,8 @@ namespace basecross {
 		
 		//プレイヤーの生成
 		void CreatePlayer();
+		bool m_PauseFlag = false;
+
 
 	public:
 		//構築と破棄
@@ -37,6 +39,9 @@ namespace basecross {
 		virtual ~GameStage() {}
 		//初期化
 		virtual void OnCreate()override;
+		virtual void OnUpdate()override;
+
+		void OnStrat();
 	};
 
 

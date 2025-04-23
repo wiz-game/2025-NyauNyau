@@ -250,6 +250,44 @@ namespace basecross {
 		catch (...) {
 			throw;
 		}
+	}
+	void GameStage::OnUpdate()
+	{
+
+		auto& app = App::GetApp();
+
+		auto device = app->GetInputDevice();
+		auto pad = device.GetControlerVec()[0];
+		//if (m_PauseFlag)
+		//{
+		//}
+
+		//スタートボタンを押したときにボーズする
+		if (pad.wPressedButtons & XINPUT_GAMEPAD_START)
+		{
+			if (m_PauseFlag == true)
+			{
+				auto scene = App::GetApp()->GetScene<Scene>();
+				scene->PauseGame();
+				
+				
+				m_PauseFlag = false;
+			}
+			else
+			{
+				m_PauseFlag = true;
+			}
+
+		}
+
+	}
+
+	void GameStage::OnStrat()
+	{
+		//auto& app = App::GetApp();
+
+		//auto device = app->GetInputDevice();
+		//auto pad = device.GetControlerVec()[0];
 
 
 	}

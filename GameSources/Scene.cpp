@@ -12,8 +12,15 @@ namespace basecross{
 	//--------------------------------------------------------------------------------------
 	///	ゲームシーン
 	//--------------------------------------------------------------------------------------
+	void Scene::CreateResourses()
+	{
+	}
 	void Scene::OnCreate(){
 		try {
+
+			//リソース作成
+			CreateResourses();
+
 			//クリアする色を設定
 			Col4 Col;
 			//Col.set(31.0f / 255.0f, 30.0f / 255.0f, 71.0f / 255.0f, 255.0f / 255.0f);
@@ -33,6 +40,7 @@ namespace basecross{
 	Scene::~Scene() {
 	}
 
+
 	void Scene::OnEvent(const shared_ptr<Event>& event) {
 		if (event->m_MsgStr == L"ToGameStage") {
 			//最初のアクティブステージの設定
@@ -46,7 +54,6 @@ namespace basecross{
 		if (event->m_MsgStr == L"ToGoalStage") {
 			ResetActiveStage<goalStage>();
 		}
-
 
 	}
 

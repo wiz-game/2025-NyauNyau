@@ -84,6 +84,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)gameClearSprite.h">
       <Filter>Seino_Stage</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)PauseSprite.h">
+      <Filter>Seino_Stage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Character.cpp">
@@ -134,14 +137,17 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)TitleStage.cpp">
       <Filter>Seino_Stage</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)TitleSprite.cpp">
-      <Filter>Seino_Stage</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)SystemManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GoalStage.cpp">
       <Filter>Seino_Stage</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)gameClearSprite.cpp">
+      <Filter>Seino_Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)PauseSprite.cpp">
+      <Filter>Seino_Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)TitleSprite.cpp">
       <Filter>Seino_Stage</Filter>
     </ClCompile>
   </ItemGroup>
