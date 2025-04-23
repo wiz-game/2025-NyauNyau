@@ -40,8 +40,12 @@ namespace basecross {
 
 			//スプライトオブジェクト
 			AddGameObject<gameClearSprite>();
+			
+			auto ptrXA = App::GetApp()->GetXAudio2Manager();
+			m_BGM = ptrXA->Start(L"GameClearbgm", XAUDIO2_LOOP_INFINITE, 0.1f);
 
-					}
+
+			}
 		catch (...) {
 			throw;
 		}
@@ -79,6 +83,13 @@ namespace basecross {
 		// テクスチャの読込と登録
 		app->RegisterTexture(L"TEX_GOALSTAGE", texPath + L"GoalStage.png");
 	}
+	void goalStage::OnDestroy()
+	{
+		//BGMのストップ
+		auto XAPtr = App::GetApp()->GetXAudio2Manager();
+		XAPtr->Stop(m_BGM);
 
+
+	}
 }
 //end basecross

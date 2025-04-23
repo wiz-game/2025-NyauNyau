@@ -283,7 +283,7 @@ namespace basecross
 		auto pos = GetComponent<Transform>()->GetPosition();
 
 
-		if (pos.y > 0.0f)
+		if (pos.y > 0.50f)
 		{
 			// 重力の適用
 			float elapsedTime = App::GetApp()->GetElapsedTime();
@@ -294,7 +294,7 @@ namespace basecross
 
 
 			// 地面との衝突時の処理
-			if (pos.y <= 0.0f)
+			if (pos.y <= 0.50f)
 			{
 				m_velocity.y = 0.0f; // 速度をリセット
 				m_isAir = false; // 空中状態をリセット
@@ -326,13 +326,13 @@ namespace basecross
 	{ 
 		auto pos = GetComponent<Transform>()->GetPosition();
 
-		if (pos.y == 0.001f)
+		if (pos.y == 0.501f)
 		{
-			pos.y = 0.0f; // 明示的にリセット
+			pos.y = 0.50f; // 明示的にリセット
 		}
 
 
-		if (pos.y == 0.0f)
+		if (pos.y == 0.50f)
 		{
 			m_velocity.y = 6.0f;
 			//m_isAir = true;

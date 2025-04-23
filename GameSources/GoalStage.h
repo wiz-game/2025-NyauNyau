@@ -19,7 +19,9 @@ namespace basecross {
 
 		//入力ハンドラー
 		InputHandler<goalStage> m_InputHandler;
+		shared_ptr<SoundItem> m_BGM;
 
+		void OnDestroy();
 
 	public:
 		//構築と破棄

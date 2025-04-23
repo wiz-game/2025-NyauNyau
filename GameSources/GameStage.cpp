@@ -115,9 +115,9 @@ namespace basecross {
 	{
 		vector< vector <Vec3> > vec = {
 		{
-			Vec3(0.1f,0.7f,0.5f),
+			Vec3(0.0f,0.7f,0.5f),
 			Vec3(0.0f,0.0f,0.0f),
-			Vec3(-4.7f,0.005f,-10.0f)
+			Vec3(-4.7f,0.005f,-12.0f)
 		}
 		};
 		//オブジェクトの作成
@@ -134,7 +134,7 @@ namespace basecross {
 			{
 				Vec3(2.5f, 2.0f, 2.0f),
 				Vec3(0.0f, 0.0f + XMConvertToRadians(270) , 0.0f),
-				Vec3(-4.75f, 1.0f, -9.0f)
+				Vec3(-4.75f, 0.50f, -9.0f)
 			},
 			//{
 			//	Vec3(0.0f, 0.25f, 0.25f),
@@ -187,7 +187,7 @@ namespace basecross {
 		{
 			Vec3(0.0f,0.7f,0.5f),
 			Vec3(0.0f,0.0f,0.0f),
-			Vec3(-4.7f,0.005f,40.0f)
+			Vec3(-4.7f,0.005f,15.0f)
 		}
 		};
 		//オブジェクトの作成
@@ -203,7 +203,7 @@ namespace basecross {
 		{
 			Vec3(0.5f,0.5f,0.5f),
 			Vec3(0.0f,0.0f + XMConvertToRadians(270),0.0f),
-			Vec3(-4.75f,0.001f,2.0f)
+			Vec3(-4.72f,0.80f,2.0f)
 		}
 		};
 		//オブジェクトの作成
@@ -211,8 +211,6 @@ namespace basecross {
 			AddGameObject<Cheese>(v[0], v[1], v[2]);
 		}
 	}
-
-
 
 
 	void GameStage::OnCreate() {
@@ -245,7 +243,7 @@ namespace basecross {
 			CreateCheese();
 
 			auto ptrXA = App::GetApp()->GetXAudio2Manager();
-			m_BGM = ptrXA->Start(L"Gamebgm", XAUDIO2_LOOP_INFINITE, 1.0f);
+			m_BGM = ptrXA->Start(L"Gamebgm", XAUDIO2_LOOP_INFINITE, 0.1f);
 
 
 		}

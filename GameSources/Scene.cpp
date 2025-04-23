@@ -29,6 +29,8 @@ namespace basecross{
 			app->RegisterWav(L"Titlebgm", soundPath + L"audiostock_864577.wav");
 			//app->RegisterWav(L"Gamebgm", soundPath + L"audiostock_1224243.wav");
 			app->RegisterWav(L"Gamebgm", soundPath + L"audiostock_1495090.wav");
+			app->RegisterWav(L"GameOverbgm", soundPath + L"audiostock_1042193.wav");
+			app->RegisterWav(L"GameClearbgm", soundPath + L"audiostock_842617.wav");
 
 
 
