@@ -217,6 +217,7 @@ namespace basecross {
 
 	void GameStage::OnCreate() {
 		try {
+			LoadTextures();
 			//ビューとライトの作成
 			CreateViewLight();
 			//壁の作成
@@ -247,6 +248,44 @@ namespace basecross {
 		catch (...) {
 			throw;
 		}
+	}
+	void GameStage::OnUpdate()
+	{
+
+		auto& app = App::GetApp();
+
+		auto device = app->GetInputDevice();
+		auto pad = device.GetControlerVec()[0];
+		//if (m_PauseFlag)
+		//{
+		//}
+
+		//スタートボタンを押したときにボーズする
+		if (pad.wPressedButtons & XINPUT_GAMEPAD_START)
+		{
+			if (m_PauseFlag == true)
+			{
+				auto scene = App::GetApp()->GetScene<Scene>();
+				scene->PauseGame();
+				
+				
+				m_PauseFlag = false;
+			}
+			else
+			{
+				m_PauseFlag = true;
+			}
+
+		}
+
+	}
+
+	void GameStage::OnStrat()
+	{
+		//auto& app = App::GetApp();
+
+		//auto device = app->GetInputDevice();
+		//auto pad = device.GetControlerVec()[0];
 
 
 	}
@@ -264,7 +303,7 @@ namespace basecross {
 		auto texPath = mediaPath + L"Textures\\";
 
 		// テクスチャの読込と登録
-		app->RegisterTexture(L"TEX_BOX", texPath + L"brick.jpg");
+		//app->RegisterTexture(L"TEX_BOX", texPath + L"brick.jpg");
 	}
 
 }

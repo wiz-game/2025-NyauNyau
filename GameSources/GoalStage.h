@@ -15,7 +15,6 @@ namespace basecross {
 		void CreateViewLight(); //ビューの作成
 		void LoadTextures();//テクスチャの読込
 
-		bool m_gameClear;//gameGateのgameClearを参照
 
 		//入力ハンドラー
 		InputHandler<goalStage> m_InputHandler;

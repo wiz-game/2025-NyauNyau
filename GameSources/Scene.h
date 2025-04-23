@@ -12,13 +12,44 @@ namespace basecross {
 	///	ゲームシーン
 	//--------------------------------------------------------------------------------------
 	class Scene : public SceneBase {
+
+		void CreateResourses();
+
+		bool m_isPlaying;
 	public:
 		//--------------------------------------------------------------------------------------
 		/*!
 		@brief コンストラクタ
 		*/
 		//--------------------------------------------------------------------------------------
-		Scene() :SceneBase() {}
+		Scene() :
+			SceneBase(),
+			m_isPlaying(true)
+		{}
+
+		bool IsPlaying() const
+		{
+			return m_isPlaying;
+		}
+
+		void PlayGame(bool isPause)
+		{
+			//「ゲーム実行中」フラグを折る
+			m_isPlaying = isPause;
+
+			//「現在のステージ」にあるすべてのゲームオブジェクトを停止させる
+			auto stage = GetActiveStage();
+			auto gameObjects = stage->GetGameObjectVec();
+			for (auto& gameObject : gameObjects)
+			{
+				gameObject->SetUpdateActive(isPause);
+			}
+		}
+
+		void PauseGame()
+		{
+			PlayGame(!IsPlaying());
+		}
 		//--------------------------------------------------------------------------------------
 		/*!
 		@brief デストラクタ
