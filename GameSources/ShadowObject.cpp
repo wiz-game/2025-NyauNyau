@@ -42,7 +42,6 @@ namespace basecross
 		//auto light = XMVectorSet(-4.0f, 0.0f, 0.0f, 0.0f); // 影を映すライトの想定位置
 		//auto wallPointVec = XMVectorSet (-5.299f, 4.0f, 0.0f, 0.0f);//DirectXのVecterに変換
 		//auto wallNormalVec = XMVectorSet(-1.0f,0.0f, 0.0f, 0.0f);//DirectXのVecterに変換
-
 		//auto plane = XMPlaneFromPointNormal(wallPointVec, wallNormalVec); // 平面上の1点と、その平面の向きから「平面」を作る
 		auto plane = XMPlaneFromPointNormal(wallPointVec, wallNormal);
 		auto shadowMatrix = XMMatrixShadow(plane, m_lightPos*-1); // 射影行列を作成
