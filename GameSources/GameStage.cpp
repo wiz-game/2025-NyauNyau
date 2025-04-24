@@ -212,6 +212,14 @@ namespace basecross {
 		}
 	}
 
+	void GameStage::CreateBox()
+	{
+
+		auto ptrBox = AddGameObject<Box>();
+		//タグをつける
+		ptrBox->AddTag(L"Box");
+	}
+
 
 	void GameStage::OnCreate() {
 		try {	
@@ -225,7 +233,7 @@ namespace basecross {
 			//ステージの作成
 			CreateGround();
 			//Boxの作成
-			AddGameObject<Box>();
+			CreateBox();
 			//SpotLightの作成
 			//AddGameObject<SpotLight>();
 			//プレイヤーの作成

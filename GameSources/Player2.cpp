@@ -125,18 +125,21 @@ namespace basecross
 	{
 		float elapsedTime = App::GetApp()->GetElapsedTime();
 		auto angle = GetMoveVector();
-		if (angle.length() > 0.0f)
+		auto pos = GetComponent<Transform>()->GetPosition();
+
+		// z方向に自動移動
+		pos.z += elapsedTime * m_Speed;
+
+
+		GetComponent<Transform>()->SetPosition(pos); // 更新後
+
+
+
+
+		/*if (angle.length() > 0.0f)
 		{
-			auto pos = GetComponent<Transform>()->GetPosition();
-			pos += angle * elapsedTime * m_Speed;
 			GetComponent<Transform>()->SetPosition(pos);
-		}
-
-
-		//auto transform = GetComponent<Transform>();
-		//auto rotation = transform->GetRotation();
-		//rotation.y = XMConvertToRadians(90);
-		//transform->SetRotation(rotation);
+		}*/
 
 		//回転の計算
 		//if (angle.length() > 0.0f) {
@@ -145,6 +148,31 @@ namespace basecross
 		//}
 
 		
+	}
+
+	void Player::Jump(shared_ptr<GameObject>& jump)
+	{
+		float elapsedTime = App::GetApp()->GetElapsedTime();
+		auto angle = GetMoveVector();
+		auto pos = GetComponent<Transform>()->GetPosition();
+		//重力をつける
+		auto ptrGra = AddComponent<Gravity>();
+
+		if (jump->FindTag(L"BOX"))
+		{
+			if (pos.y == 0.502f || pos.y == 0.501f)
+			{
+				pos.y = 0.50f; 
+			}
+
+
+			if (pos.y == 0.50f)
+			{
+				m_velocity.y = 8.0f;
+				//m_isAir = true;
+			}
+
+		}
 	}
 
 
@@ -175,21 +203,8 @@ namespace basecross
 		ptrDraw->SetMeshResource(L"DEFAULT_SQUARE");
 		ptrDraw->SetFogEnabled(true);
 		ptrDraw->SetTextureResource(L"TEX_NEZUMI2");
-		ptrDraw->SetTextureResource(L"TEX_NEZUMI");
+		//ptrDraw->SetTextureResource(L"TEX_NEZUMI");
 
-
-		auto moveVector = GetMoveVector(); // プレイヤーの移動ベクトルを取得
-
-		if (moveVector.z > 0.0f)
-		{
-			ptrDraw->SetTextureResource(L"TEX_NEZUMI2");
-		}
-
-		if (moveVector.z < 0.0f)
-		{
-			ptrDraw->SetTextureResource(L"TEX_NEZUMI");
-
-		}
 
 		
 		SetAlphaActive(true);
@@ -215,55 +230,23 @@ namespace basecross
 		DrawStrings();
 		MoveY();
 		MoveXZ();
+		
 
 		auto ptrDraw = AddComponent<BcPNTStaticDraw>();
 
 
-		auto moveVector = GetMoveVector(); // プレイヤーの移動ベクトルを取得
+		//auto moveVector = GetMoveVector(); // プレイヤーの移動ベクトルを取得
 
-		if (moveVector.z > 0.0f)
-		{
-			ptrDraw->SetTextureResource(L"TEX_NEZUMI2");
-		}
-
-		if (moveVector.z < 0.0f)
-		{
-			ptrDraw->SetTextureResource(L"TEX_NEZUMI");
-
-		}
-
-
-
-		//auto grav = GetComponent<Gravity>();
-		//auto pos = GetComponent<Transform>()->GetPosition();
-
-
-		//if (pad.wPressedButtons & XINPUT_GAMEPAD_A)
+		//if (moveVector.z > 0.0f)
 		//{
-
-		//	if (!m_isAir)
-		//	{
-		//		m_isAir = true;
-		//		grav->StartJump(Vec3(0, 4.0f, 0));
-		//	}
+		//	ptrDraw->SetTextureResource(L"TEX_NEZUMI2");
 		//}
 
-		//if(m_isAir)
+		//if (moveVector.z < 0.0f)
 		//{
-		//	// ジャンプや落下の処理
-		//	pos.y += m_velocityY; // 縦方向の移動
-		//	m_velocityY += -0.98f * delta; // 速度を下げる処理
+		//	ptrDraw->SetTextureResource(L"TEX_NEZUMI");
 
-		//	if (pos.y < 0.125)
-		//	{
-		//		pos.y = 0.125f;
-		//		m_isAir = false;
-		//		grav->StartJump(Vec3(0.0f, 0.0f, 0.0f));
-
-		//	}
 		//}
-
-		//GetComponent<Transform>()->SetPosition(pos); // 更新した座標を適用する
 
 
 	}
@@ -324,19 +307,19 @@ namespace basecross
 	//Aボタン
 	void Player::OnPushA()
 	{ 
-		auto pos = GetComponent<Transform>()->GetPosition();
+		//auto pos = GetComponent<Transform>()->GetPosition();
 
-		if (pos.y == 0.502f || pos.y == 0.501f)
-		{
-			pos.y = 0.50f; 
-		}
+		//if (pos.y == 0.502f || pos.y == 0.501f)
+		//{
+		//	pos.y = 0.50f; 
+		//}
 
 
-		if (pos.y == 0.50f)
-		{
-			m_velocity.y = 8.0f;
-			//m_isAir = true;
-		}
+		//if (pos.y == 0.50f)
+		//{
+		//	m_velocity.y = 8.0f;
+		//	//m_isAir = true;
+		//}
 
 	}
 
@@ -346,7 +329,7 @@ namespace basecross
 		{
 
 			m_velocity.y = 0;
-			m_collisionFlag = true;
+			//m_collisionFlag = true;
 		}
 	}
 
