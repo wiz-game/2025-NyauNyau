@@ -14,15 +14,18 @@ namespace basecross {
 	//--------------------------------------------------------------------------------------
 	class TitleSprite : public GameObject
 	{
+
 	public:
 		// \’z‚Æ”jŠü
 		TitleSprite(const shared_ptr<Stage>& stage) :
 			GameObject(stage)
 		{
 		}
+
 		virtual ~TitleSprite()
 		{
 		}
+
 
 		virtual void OnCreate() override; // ‰Šú‰»
 		//virtual void OnUpdate() override; // XV

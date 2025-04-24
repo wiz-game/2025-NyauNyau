@@ -40,6 +40,7 @@ namespace basecross {
 
 			//スプライトオブジェクト
 			AddGameObject<TitleSprite>();
+			AddGameObject<TitleStartButton>();
 
 
 			//MessageBox(0, L"ニャウニャウシルエット", L"タイトル", 0);
@@ -78,6 +79,8 @@ namespace basecross {
 
 		// テクスチャの読込と登録
 		app->RegisterTexture(L"TEX_TITLESTAGE", texPath + L"TitleStage.png");
+		app->RegisterTexture(L"TEX_TITLESTRATBUTTON", texPath + L"TitleStage StratButton.png");
+
 	}
 
 }

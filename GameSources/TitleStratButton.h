@@ -1,6 +1,6 @@
 /*!
-@file goalClearSprite.h
-@brief ゲームクリア スプライトなど
+@file TitleStartButton.h
+@brief スタートボタン スプライトなど
 */
 
 #pragma once
@@ -10,22 +10,22 @@ namespace basecross {
 
 
 	//--------------------------------------------------------------------------------------
-	//	class goalClearSprite : public GameObject;
+	//	class TitleStartButton : public GameObject;
 	//--------------------------------------------------------------------------------------
-	class goalClearSprite : public GameObject
+	class TitleStartButton : public GameObject
 	{
 	public:
 		// 構築と破棄
-		goalClearSprite(const shared_ptr<Stage>& stage) :
+		TitleStartButton(const shared_ptr<Stage>& stage) :
 			GameObject(stage)
 		{
 		}
-		virtual ~goalClearSprite()
+		virtual ~TitleStartButton()
 		{
 		}
 
 		virtual void OnCreate() override; // 初期化
-		//virtual void OnUpdate() override; // 更新
+		virtual void OnUpdate() override; // 更新
 		//virtual void OnDraw() override; // 描画
 	};
 

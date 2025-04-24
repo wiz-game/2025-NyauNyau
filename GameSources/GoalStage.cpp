@@ -39,7 +39,7 @@ namespace basecross {
 			LoadTextures();
 
 			//スプライトオブジェクト
-			AddGameObject<gameClearSprite>();
+			AddGameObject<goalClearSprite>();
 
 					}
 		catch (...) {
