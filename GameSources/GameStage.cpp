@@ -229,7 +229,8 @@ namespace basecross {
 			//Boxの作成
 			AddGameObject<Box>();
 			//SpotLightの作成
-			//AddGameObject<SpotLight>();
+			auto spotLight = AddGameObject<SpotLight>();
+			SetSharedGameObject(L"SpotLight", spotLight);
 			//プレイヤーの作成
 			CreatePlayer();
 			//スタートの作成

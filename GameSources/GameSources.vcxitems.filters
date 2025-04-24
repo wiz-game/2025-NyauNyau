@@ -87,6 +87,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)PauseSprite.h">
       <Filter>Seino_Stage</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ShadowObject.h">
+      <Filter>Honda_Stage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Character.cpp">
@@ -149,6 +152,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)TitleSprite.cpp">
       <Filter>Seino_Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ShadowObject.cpp">
+      <Filter>Honda_Stage</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
