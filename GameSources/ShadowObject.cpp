@@ -15,7 +15,7 @@ namespace basecross
 		m_drawComp = AddComponent<PCStaticDraw>();
 		m_drawComp->SetMeshResource(L"DEFAULT_CUBE");
 		m_drawComp->SetDiffuse(Col4(0, 0, 0, 1));
-		m_drawComp->SetEmissive(Col4(0.7, 0.7, 0.7, 1));
+		m_drawComp->SetEmissive(Col4(0.2, 0.2, 0.2, 1));
 
 		//文字列をつける
 		auto ptrString = AddComponent<StringSprite>();
@@ -39,13 +39,13 @@ namespace basecross
 		matrix.affineTransformation(Vec3(1), Vec3(0), Vec3(rotate, rotate, rotate), Vec3(0)); // 拡大・回転行列を作成
 		auto wallPointVec  = XMVectorSet(wallPoint.x+0.001, wallPoint.y, wallPoint.z, 0.0f);//DirectXのVecterに変換
 		auto wallNormalVec = XMVectorSet(wallNormal.x, wallNormal.y, wallNormal.z, 0.0f);//DirectXのVecterに変換
-
+		//auto light = XMVectorSet(-4.0f, 0.0f, 0.0f, 0.0f); // 影を映すライトの想定位置
 		//auto wallPointVec = XMVectorSet (-5.299f, 4.0f, 0.0f, 0.0f);//DirectXのVecterに変換
 		//auto wallNormalVec = XMVectorSet(-1.0f,0.0f, 0.0f, 0.0f);//DirectXのVecterに変換
 
 		//auto plane = XMPlaneFromPointNormal(wallPointVec, wallNormalVec); // 平面上の1点と、その平面の向きから「平面」を作る
-		auto plane = XMPlaneFromPointNormal(wallPoint, wallNormal);
-		auto shadowMatrix = XMMatrixShadow(plane, m_lightPos); // 射影行列を作成
+		auto plane = XMPlaneFromPointNormal(wallPointVec, wallNormal);
+		auto shadowMatrix = XMMatrixShadow(plane, m_lightPos*-1); // 射影行列を作成
 		Mat4x4 shadowMat4x4(shadowMatrix); // BaseCrossの行列(Mat4x4)に変換
 
 		
