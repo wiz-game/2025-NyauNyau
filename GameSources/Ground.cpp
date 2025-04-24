@@ -30,6 +30,7 @@ namespace basecross {
 		drawComp->SetOwnShadowActive(true); // 影を受け入れる
 		drawComp->SetTextureResource(L"TEX_YUKA");
 
+
 		// トランスフォームコンポーネントの取得と設定
 		//auto transComp = GetComponent<Transform>();
 		//transComp->SetScale(10, 1, 10); // XZ方向に拡大する

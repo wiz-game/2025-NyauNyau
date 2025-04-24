@@ -25,7 +25,7 @@ namespace basecross {
 	void Wall::OnCreate() {
 		// ドローコンポーネントの追加と設定
 		auto drawComp = AddComponent<PNTStaticDraw>();
-		drawComp->SetMeshResource(L"DEFAULT_CUBE"); // キューブ型のメッシュを設定する
+		drawComp->SetMeshResource(L"DEFAULT_SQUARE"); // キューブ型のメッシュを設定する
 		//drawComp->SetTextureResource(L"TEX_KABE");
 		auto ptrTransform = GetComponent<Transform>();
 		ptrTransform->SetScale(m_Scale);
@@ -38,6 +38,19 @@ namespace basecross {
 
 	void Wall::OnUpdate()
 	{
+	}
+
+	//壁の法線を取得
+	Vec3 Wall::GetWallNormal() const
+	{
+		return GetComponent<Transform>()->GetForward();
+	}
+
+	//壁の位置を取得
+	Vec3 Wall::GetWallPosition() const
+	{
+		return GetComponent<Transform>()->GetPosition();
+
 	}
 }
 //end basecross

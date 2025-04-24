@@ -7,13 +7,15 @@
 #include "stdafx.h"
 #include "Project.h"
 
+#include "ShadowObject.h"
+
 namespace basecross {
 
 	//--------------------------------------------------------------------------------------
 	//	ゲームステージクラス実体
 	//--------------------------------------------------------------------------------------
 	void GameStage::CreateViewLight() {
-		const Vec3 eye(10.0f, 6.0f, 0.0f);// 10,20,-8
+		const Vec3 eye(15.0f, 6.0f, 0.0f);// 10,20,-8
 		const Vec3 at(-3.0f,0.0f,0.0f);
 		auto PtrView = CreateView<SingleView>();
 		//ビューのカメラの設定
@@ -37,8 +39,8 @@ namespace basecross {
 			//},
 			{
 				Vec3(30.0f, 10.0f, 1.0f),
-				Vec3(0.0f, XM_PI / 2, 0.0f),
-				Vec3(-5.3f, 4.0f, 0.0f)
+				Vec3(0.0f, -XM_PIDIV2,0.0f),
+				Vec3(-5.30f, 4.0f, 0.0f)
 			},
 
 		};
@@ -231,6 +233,8 @@ namespace basecross {
 			//SpotLightの作成
 			auto spotLight = AddGameObject<SpotLight>();
 			SetSharedGameObject(L"SpotLight", spotLight);
+			//影の作成
+			AddGameObject<ShadowObject>();
 			//プレイヤーの作成
 			CreatePlayer();
 			//スタートの作成

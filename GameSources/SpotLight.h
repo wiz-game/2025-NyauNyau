@@ -8,7 +8,7 @@
 #include "stdafx.h"
 
 namespace basecross {
-	class SpotLight : GameObject
+	class SpotLight : public GameObject
 	{
 	public:
 		//コンストラクタ
