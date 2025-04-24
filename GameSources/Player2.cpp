@@ -158,21 +158,21 @@ namespace basecross
 		//èdóÕÇÇ¬ÇØÇÈ
 		auto ptrGra = AddComponent<Gravity>();
 
-		if (jump->FindTag(L"BOX"))
-		{
-			if (pos.y == 0.502f || pos.y == 0.501f)
-			{
-				pos.y = 0.50f; 
-			}
+		//if (jump->FindTag(L"BOX"))
+		//{
+		//	if (pos.y == 0.502f || pos.y == 0.501f)
+		//	{
+		//		pos.y = 0.50f; 
+		//	}
 
 
-			if (pos.y == 0.50f)
-			{
-				m_velocity.y = 8.0f;
-				//m_isAir = true;
-			}
+		//	if (pos.y == 0.50f)
+		//	{
+		//		m_velocity.y = 8.0f;
+		//		//m_isAir = true;
+		//	}
 
-		}
+		//}
 	}
 
 
@@ -307,19 +307,19 @@ namespace basecross
 	//AÉ{É^Éì
 	void Player::OnPushA()
 	{ 
-		//auto pos = GetComponent<Transform>()->GetPosition();
+		auto pos = GetComponent<Transform>()->GetPosition();
 
-		//if (pos.y == 0.502f || pos.y == 0.501f)
-		//{
-		//	pos.y = 0.50f; 
-		//}
+		if (pos.y == 0.502f || pos.y == 0.501f)
+		{
+			pos.y = 0.50f; 
+		}
 
 
-		//if (pos.y == 0.50f)
-		//{
-		//	m_velocity.y = 8.0f;
-		//	//m_isAir = true;
-		//}
+		if (pos.y == 0.50f)
+		{
+			m_velocity.y = 8.0f;
+			//m_isAir = true;
+		}
 
 	}
 

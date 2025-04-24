@@ -25,7 +25,7 @@ namespace basecross {
 		void CreategoalGate();
 		//チーズの作成
 		void CreateCheese();
-
+		//テクスチャの読込
 		void LoadTextures();
 
 		void CreateBox();
@@ -34,6 +34,8 @@ namespace basecross {
 		void CreatePlayer();
 
 		shared_ptr<SoundItem> m_BGM;
+
+		shared_ptr<MainCamera> m_mainCamera; // メインカメラへの参照
 
 
 	public:

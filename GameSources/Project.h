@@ -27,6 +27,7 @@
 #include "TitleSprite.h"
 #include "goalStage.h"
 #include "gameClearSprite.h"
+#include "MainCamera.h"
 
 
 

@@ -60,6 +60,13 @@ namespace basecross
 		void SetPlayerMove(bool Player1);
 
 
+		// カメラの回り込みを設定する
+		void SetCameraAngleY(float angleY)
+		{
+			m_cameraAngleY = angleY;
+		}
+
+
 		virtual ~Player() {}
 		//アクセサ
 		//初期化

@@ -13,14 +13,22 @@ namespace basecross {
 	//	ゲームステージクラス実体
 	//--------------------------------------------------------------------------------------
 	void GameStage::CreateViewLight() {
-		const Vec3 eye(15.0f, 10.0f, 0.0f);// 10,20,-8
-		const Vec3 at(-3.0f,0.0f,0.0f);
-		auto PtrView = CreateView<SingleView>();
-		//ビューのカメラの設定
-		auto PtrCamera = ObjectFactory::Create<Camera>();
-		PtrView->SetCamera(PtrCamera);
-		PtrCamera->SetEye(eye);
-		PtrCamera->SetAt(at);
+		// カメラの設定
+		auto camera = ObjectFactory::Create<MainCamera>();
+		camera->SetEye(Vec3(0.0f, 5.0f, -5.5f));
+		camera->SetAt(Vec3(0.0f, 0.0f, 0.0f));
+		m_mainCamera = camera; // カメラへの参照を保持しておく
+
+		// ビューにカメラを設定
+		auto view = CreateView<SingleView>();
+		view->SetCamera(camera);
+
+		//マルチライトの作成
+		auto light = CreateLight<MultiLight>();
+		light->SetDefaultLighting(); //デフォルトのライティングを指定
+
+
+
 		//マルチライトの作成
 		auto PtrMultiLight = CreateLight<MultiLight>();
 		//デフォルトのライティングを指定
@@ -69,7 +77,7 @@ namespace basecross {
 	{
 		vector<vector<Vec3>> vec = {
 		{
-			Vec3(20.0f, 1.0f, 30.0f),  // 10,1,10
+			Vec3(20.0f, 1.0f, 80.0f),  // 10,1,10
 			Vec3(0.0f, 0.0f, 0.0f),
 			Vec3(0.0f, -1.0f, 0.0f)
 		},
