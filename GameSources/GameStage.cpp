@@ -158,6 +158,7 @@ namespace basecross {
 		for (auto& v : vec) 
 		{
 			auto ptrPlayer = AddGameObject<Player>(v[0],v[1],v[2]);
+			m_mainCamera->SetTargetObject(ptrPlayer);
 
 			// ƒ†ƒj[ƒN–¼‚ğ¶¬
 			wstring uniqueTag = L"Player_" + to_wstring(index);

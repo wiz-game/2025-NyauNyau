@@ -6,6 +6,7 @@
 
 #pragma once
 #include "stdafx.h"
+#include "MainCamera.h"
 
 namespace basecross {
 
@@ -40,7 +41,7 @@ namespace basecross {
 
 	public:
 		//\’z‚Æ”jŠü
-		GameStage() :Stage() {}
+		GameStage() :Stage(){}
 		virtual ~GameStage() {}
 		//‰Šú‰»
 		virtual void OnCreate()override;

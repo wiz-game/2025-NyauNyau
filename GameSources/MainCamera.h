@@ -23,10 +23,10 @@ namespace basecross {
 
 	public:
 		// 構築と破棄
-		MainCamera(const shared_ptr<Stage>& stage) :
+		MainCamera() :
 			m_height(4.5f),
-			m_distance(4.0f),
-			m_angleY(-XM_PIDIV2) // 「π/2」ラジアン→「90°」
+			m_distance(20.0f),
+			m_angleY(0.0f) // 「π/2」ラジアン→「90°」
 		{
 		}
 
