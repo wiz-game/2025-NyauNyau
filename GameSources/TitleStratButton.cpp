@@ -38,13 +38,27 @@ namespace basecross {
 
 	void TitleStartButton::OnUpdate()
 	{
-		// アルファ値を変更して点滅させる
-		static float time = 0.0f;
-		time += 0.1f; // 時間の進行
-		float alpha = (sin(time) + 1.0f) * 0.5f; // sin波を使ってアルファ値を変化
+		//// アルファ値を変更して点滅させる
+		//static float time = 0.0f;
+		//time += 0.1f; // 時間の進行
+		//float alpha = (sin(time) + 1.0f) * 0.5f; // sin波を使ってアルファ値を変化
+
+		//auto drawComp = GetComponent<PCTSpriteDraw>();
+		//drawComp->SetAlpha(alpha);
+
+		auto& app = App::GetApp();
+		//経過時間を取得
+		float elapsedTiem = app->GetElapsedTime();
+		//累積時間を保持
+		static float accumulatedTime = 0.0f;
+		accumulatedTime += elapsedTiem;//経過時間を加算
+
+		//アルファ地の変更を計算
+		float alpha = (sin(accumulatedTime) + 1.0f) * 0.5f;
 
 		auto drawComp = GetComponent<PCTSpriteDraw>();
 		drawComp->SetAlpha(alpha);
+	
 	}
 
 
