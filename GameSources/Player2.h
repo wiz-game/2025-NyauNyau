@@ -43,6 +43,9 @@ namespace basecross
 		void DrawStrings();
 		void MoveY();
 		void MoveXZ();
+		void OnCollisionExcute(shared_ptr<GameObject>& Other);
+		void OnCollisionExit(shared_ptr<GameObject>& Other);
+		void Jump(shared_ptr<GameObject>& jump);
 
 		shared_ptr<PNTStaticDraw> m_drawComp; // 標準的なアニメーション無しのドローコンポーネント
 
@@ -55,6 +58,13 @@ namespace basecross
 		);
 
 		void SetPlayerMove(bool Player1);
+
+
+		// カメラの回り込みを設定する
+		void SetCameraAngleY(float angleY)
+		{
+			m_cameraAngleY = angleY;
+		}
 
 
 		virtual ~Player() {}

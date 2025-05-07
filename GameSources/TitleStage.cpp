@@ -42,6 +42,11 @@ namespace basecross {
 			AddGameObject<TitleSprite>();
 
 
+
+			auto ptrXA = App::GetApp()->GetXAudio2Manager();
+			m_BGM = ptrXA->Start(L"Titlebgm", XAUDIO2_LOOP_INFINITE, 0.1f);
+
+
 			//MessageBox(0, L"ニャウニャウシルエット", L"タイトル", 0);
 		}
 		catch (...) {
@@ -49,6 +54,8 @@ namespace basecross {
 		}
 
 	}
+
+
 	void TitleStage::OnUpdate()
 	{
 		//コントローラチェックして入力があればコマンド呼び出し
@@ -78,6 +85,12 @@ namespace basecross {
 
 		// テクスチャの読込と登録
 		app->RegisterTexture(L"TEX_TITLESTAGE", texPath + L"TitleStage.png");
+	}
+
+	void TitleStage::OnDestroy() {
+		//BGMのストップ
+		auto XAPtr = App::GetApp()->GetXAudio2Manager();
+		XAPtr->Stop(m_BGM);
 	}
 
 }

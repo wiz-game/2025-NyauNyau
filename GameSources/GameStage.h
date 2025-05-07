@@ -7,6 +7,7 @@
 #pragma once
 #include "stdafx.h"
 #include "PauseSprite.h"
+#include "MainCamera.h"
 
 namespace basecross {
 
@@ -26,8 +27,10 @@ namespace basecross {
 		void CreategoalGate();
 		//チーズの作成
 		void CreateCheese();
+		//テクスチャの読込
 		void LoadTextures();
 
+		void CreateBox();
 		
 		//プレイヤーの生成
 		void CreatePlayer();
@@ -41,15 +44,22 @@ namespace basecross {
 		InputHandler<GameStage> m_InputHandler;
 
 
+		shared_ptr<SoundItem> m_BGM;
+
+		shared_ptr<MainCamera> m_mainCamera; // メインカメラへの参照
+
+
 	public:
 		//構築と破棄
-		GameStage() :Stage() {}
+		GameStage() :Stage(){}
 		virtual ~GameStage() {}
 		//初期化
 		virtual void OnCreate()override;
 		virtual void OnUpdate()override;
 
 		void OnPushA();
+		virtual void OnDestroy()override;
+
 	};
 
 

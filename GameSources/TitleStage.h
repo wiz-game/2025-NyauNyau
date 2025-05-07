@@ -14,10 +14,11 @@ namespace basecross {
 	class TitleStage : public Stage {
 		void CreateViewLight(); //ビューの作成
 		void LoadTextures();//テクスチャの読込
-
+		void OnDestroy();
 
 		//入力ハンドラー
 		InputHandler<TitleStage> m_InputHandler;
+		shared_ptr<SoundItem> m_BGM;
 
 
 	public:

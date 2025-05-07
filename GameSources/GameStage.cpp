@@ -13,14 +13,22 @@ namespace basecross {
 	//	ゲームステージクラス実体
 	//--------------------------------------------------------------------------------------
 	void GameStage::CreateViewLight() {
-		const Vec3 eye(10.0f, 6.0f, 0.0f);// 10,20,-8
-		const Vec3 at(-3.0f,0.0f,0.0f);
-		auto PtrView = CreateView<SingleView>();
-		//ビューのカメラの設定
-		auto PtrCamera = ObjectFactory::Create<Camera>();
-		PtrView->SetCamera(PtrCamera);
-		PtrCamera->SetEye(eye);
-		PtrCamera->SetAt(at);
+		// カメラの設定
+		auto camera = ObjectFactory::Create<MainCamera>();
+		camera->SetEye(Vec3(0.0f, 5.0f, -5.5f));
+		camera->SetAt(Vec3(0.0f, 0.0f, 0.0f));
+		m_mainCamera = camera; // カメラへの参照を保持しておく
+
+		// ビューにカメラを設定
+		auto view = CreateView<SingleView>();
+		view->SetCamera(camera);
+
+		//マルチライトの作成
+		auto light = CreateLight<MultiLight>();
+		light->SetDefaultLighting(); //デフォルトのライティングを指定
+
+
+
 		//マルチライトの作成
 		auto PtrMultiLight = CreateLight<MultiLight>();
 		//デフォルトのライティングを指定
@@ -36,7 +44,7 @@ namespace basecross {
 			//	Vec3(0.0f, 4.0f, 5.0f)
 			//},
 			{
-				Vec3(30.0f, 10.0f, 1.0f),
+				Vec3(80.0f, 10.0f, 1.0f),
 				Vec3(0.0f, XM_PI / 2, 0.0f),
 				Vec3(-5.3f, 4.0f, 0.0f)
 			},
@@ -69,7 +77,7 @@ namespace basecross {
 	{
 		vector<vector<Vec3>> vec = {
 		{
-			Vec3(20.0f, 1.0f, 30.0f),  // 10,1,10
+			Vec3(20.0f, 1.0f, 80.0f),  // 10,1,10
 			Vec3(0.0f, 0.0f, 0.0f),
 			Vec3(0.0f, -1.0f, 0.0f)
 		},
@@ -115,9 +123,9 @@ namespace basecross {
 	{
 		vector< vector <Vec3> > vec = {
 		{
-			Vec3(0.1f,0.7f,0.5f),
+			Vec3(0.0f,0.7f,0.5f),
 			Vec3(0.0f,0.0f,0.0f),
-			Vec3(-4.7f,0.005f,-10.0f)
+			Vec3(-4.7f,0.005f,-12.0f)
 		}
 		};
 		//オブジェクトの作成
@@ -129,12 +137,12 @@ namespace basecross {
 	//プレイヤー
 	void GameStage::CreatePlayer()
 	{
-		vector<vector<Vec3>> vec = 
+		vector<vector<Vec3>> vec =
 		{
 			{
-				Vec3(0.0f, 0.25f, 0.25f),
-				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(-4.75f, 0.0f, -9.0f)
+				Vec3(2.5f, 2.0f, 2.0f),
+				Vec3(0.0f, 0.0f + XMConvertToRadians(270) , 0.0f),
+				Vec3(-4.75f, 0.50f, -9.0f)
 			},
 			//{
 			//	Vec3(0.0f, 0.25f, 0.25f),
@@ -150,6 +158,7 @@ namespace basecross {
 		for (auto& v : vec) 
 		{
 			auto ptrPlayer = AddGameObject<Player>(v[0],v[1],v[2]);
+			m_mainCamera->SetTargetObject(ptrPlayer);
 
 			// ユニーク名を生成
 			wstring uniqueTag = L"Player_" + to_wstring(index);
@@ -187,7 +196,7 @@ namespace basecross {
 		{
 			Vec3(0.0f,0.7f,0.5f),
 			Vec3(0.0f,0.0f,0.0f),
-			Vec3(-4.7f,0.005f,10.0f)
+			Vec3(-4.7f,0.005f,15.0f)
 		}
 		};
 		//オブジェクトの作成
@@ -201,9 +210,9 @@ namespace basecross {
 	{
 		vector< vector <Vec3> > vec = {
 		{
-			Vec3(0.002f,0.5f,0.7f),
-			Vec3(0.0f,0.0f,0.0f),
-			Vec3(-4.75f,0.001f,2.0f)
+			Vec3(0.5f,0.5f,0.5f),
+			Vec3(0.0f,0.0f + XMConvertToRadians(270),0.0f),
+			Vec3(-4.72f,0.80f,2.0f)
 		}
 		};
 		//オブジェクトの作成
@@ -212,7 +221,13 @@ namespace basecross {
 		}
 	}
 
+	void GameStage::CreateBox()
+	{
 
+		auto ptrBox = AddGameObject<Box>();
+		//タグをつける
+		ptrBox->AddTag(L"Box");
+	}
 
 
 	void GameStage::OnCreate() {
@@ -227,7 +242,7 @@ namespace basecross {
 			//ステージの作成
 			CreateGround();
 			//Boxの作成
-			AddGameObject<Box>();
+			CreateBox();
 			//SpotLightの作成
 			//AddGameObject<SpotLight>();
 			//プレイヤーの作成
@@ -244,6 +259,8 @@ namespace basecross {
 			//チーズの作成
 			CreateCheese();
 
+			auto ptrXA = App::GetApp()->GetXAudio2Manager();
+			m_BGM = ptrXA->Start(L"Gamebgm", XAUDIO2_LOOP_INFINITE, 0.1f);
 
 
 		}
@@ -316,13 +333,29 @@ namespace basecross {
 	    // テクスチャフォルダの定義
 		auto texPath = mediaPath + L"Textures\\";
 
+		// サウンドフォルダの定義
+		auto soundPath = mediaPath + L"Sounds\\";
+
 		// テクスチャの読込と登録
 		//app->RegisterTexture(L"TEX_BOX", texPath + L"brick.jpg");
 		app->RegisterTexture(L"TEX_CHEESE", texPath + L"cheese.png");
 		app->RegisterTexture(L"TEX_KABE", texPath + L"kabe.jpg");
 		app->RegisterTexture(L"TEX_YUKA", texPath + L"yuka.jpg");
 		app->RegisterTexture(L"TEX_PAUSE", texPath + L"pauseSprite.png");
+		app->RegisterTexture(L"TEX_NEZUMI", texPath + L"nezumi.png");
+		app->RegisterTexture(L"TEX_NEZUMI2", texPath + L"nezumi2.png");
+
+
+
 	}
+
+	void GameStage::OnDestroy()
+	{
+		//BGMのストップ
+		auto XAPtr = App::GetApp()->GetXAudio2Manager();
+		XAPtr->Stop(m_BGM);
+	}
+
 
 }
 //end basecross

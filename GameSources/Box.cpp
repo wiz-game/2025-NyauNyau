@@ -19,13 +19,12 @@ namespace basecross
 		//トランスフォームコンポーネント取得と設定
 		auto transComp = GetComponent<Transform>();
 		transComp->SetScale(0.5f, 0.5f, 0.5f);
-		transComp->SetPosition(Vec3(0.0f, 0.125f, 0));
+		transComp->SetPosition(Vec3(-4.75f, 0.0f, -4.0f));
 
 		//コリジョンつける
 		auto ptrColl = AddComponent<CollisionObb>();
 		ptrColl->SetFixed(true);
-		//タグをつける
-		AddTag(L"Box");
+
 	}
 
 	void Box::OnUpdate()

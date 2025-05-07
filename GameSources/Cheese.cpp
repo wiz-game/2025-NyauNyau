@@ -29,10 +29,11 @@ namespace basecross {
 		//ドローコンポーネントの追加と設定
 		auto ptrDraw = AddComponent<BcPNTStaticDraw>();		
 		//ptrDraw->SetRasterizerState(RasterizerState::Wireframe);
-		ptrDraw->SetMeshResource(L"DEFAULT_CUBE");
+		ptrDraw->SetMeshResource(L"DEFAULT_SQUARE");
 		ptrDraw->SetFogEnabled(true);
 		ptrDraw->SetOwnShadowActive(true);
 		ptrDraw->SetTextureResource(L"TEX_CHEESE");
+		SetAlphaActive(true);
 		
 
 		//トランスフォームコンポーネントの取得と設定
@@ -62,7 +63,7 @@ namespace basecross {
 		auto len = length(playerPos - cheesePos);
 
 		//追尾処理
-		if (len < 0.5f) {
+		if (len < 0.3f) {
 
 			isTarget = true;
 		}
