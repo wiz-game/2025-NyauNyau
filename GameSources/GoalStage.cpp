@@ -46,6 +46,9 @@ namespace basecross {
 
 
 			}
+			AddGameObject<goalClearSprite>();
+
+					}
 		catch (...) {
 			throw;
 		}

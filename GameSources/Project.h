@@ -28,6 +28,7 @@
 #include "goalStage.h"
 #include "gameClearSprite.h"
 #include "PauseSprite.h"
+#include "TitleStratButton.h"
 #include "MainCamera.h"
 
 

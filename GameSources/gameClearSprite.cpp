@@ -1,5 +1,5 @@
 /*!
-@file gameClearSprite.cpp
+@file goalClearSprite.cpp
 @brief ゲームクリア スプライト実体
 */
 
@@ -9,7 +9,7 @@
 namespace basecross {
 
 	//初期化
-	void gameClearSprite::OnCreate()
+	void goalClearSprite::OnCreate()
 	{
 		// 頂点(Vertex)データを設定
 		Col4 color(1, 1, 1, 1);

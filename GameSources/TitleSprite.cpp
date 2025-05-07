@@ -12,12 +12,12 @@ namespace basecross {
 	void TitleSprite::OnCreate()
 	{
 		// 頂点(Vertex)データを設定
-		Col4 color(1, 1, 1, 1);
+		Col4 m_color(1, 1, 1, 1);
 		std::vector<VertexPositionColorTexture> vertices = {
-			{Vec3(-640, +400, 0), color, Vec2(0, 0)}, // ①
-			{Vec3(+640, +400, 0), color, Vec2(1, 0)}, // ②
-			{Vec3(-640, -400, 0), color, Vec2(0, 1)}, // ③
-			{Vec3(+640, -400, 0), color, Vec2(1, 1)}, // ④
+			{Vec3(-640, +400, 0), m_color, Vec2(0, 0)}, // ①
+			{Vec3(+640, +400, 0), m_color, Vec2(1, 0)}, // ②
+			{Vec3(-640, -400, 0), m_color, Vec2(0, 1)}, // ③
+			{Vec3(+640, -400, 0), m_color, Vec2(1, 1)}, // ④
 		};
 
 		// インデックスデータを設定（頂点をつなげる順番・3つの数値を組にして三角形を作る）
@@ -32,8 +32,9 @@ namespace basecross {
 		SetAlphaActive(true);
 
 		// 位置を設定する
-		auto transComp = GetComponent<Transform>();
-		transComp->SetPosition(0, 0, 0); // 画面の中心を原点としたピクセル単位（1280x800）
+		auto ptrTrans = GetComponent<Transform>();
+		ptrTrans->SetPosition(0, 0, 0); // 画面の中心を原点としたピクセル単位（1280x800）
+
 	}
 
 }
