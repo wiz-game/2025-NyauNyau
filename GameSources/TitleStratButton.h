@@ -14,6 +14,9 @@ namespace basecross {
 	//--------------------------------------------------------------------------------------
 	class TitleStartButton : public GameObject
 	{
+		float m_totalTime;
+		std::vector<VertexPositionColorTexture> m_vertices;
+
 	public:
 		// \’z‚Æ”jŠü
 		TitleStartButton(const shared_ptr<Stage>& stage) :
