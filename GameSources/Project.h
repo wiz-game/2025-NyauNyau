@@ -25,7 +25,7 @@
 #include "SystemManager.h"
 #include "TitleStage.h"
 #include "TitleSprite.h"
-#include "goalStage.h"
+#include "GoalStage.h"
 #include "gameClearSprite.h"
 #include "PauseSprite.h"
 #include "TitleStratButton.h"

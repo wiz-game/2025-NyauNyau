@@ -1,5 +1,5 @@
 /*!
-@file goalClearSprite.h
+@file gameClearSprite.h
 @brief ゲームクリア スプライトなど
 */
 
@@ -10,17 +10,17 @@ namespace basecross {
 
 
 	//--------------------------------------------------------------------------------------
-	//	class goalClearSprite : public GameObject;
+	//	class gameClearSprite : public GameObject;
 	//--------------------------------------------------------------------------------------
-	class goalClearSprite : public GameObject
+	class gameClearSprite : public GameObject
 	{
 	public:
 		// 構築と破棄
-		goalClearSprite(const shared_ptr<Stage>& stage) :
+		gameClearSprite(const shared_ptr<Stage>& stage) :
 			GameObject(stage)
 		{
 		}
-		virtual ~goalClearSprite()
+		virtual ~gameClearSprite()
 		{
 		}
 

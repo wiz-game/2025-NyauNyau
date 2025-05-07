@@ -40,20 +40,19 @@ namespace basecross {
 
 			//スプライトオブジェクト
 			AddGameObject<gameClearSprite>();
-			
+
 			auto ptrXA = App::GetApp()->GetXAudio2Manager();
 			m_BGM = ptrXA->Start(L"GameClearbgm", XAUDIO2_LOOP_INFINITE, 0.1f);
 
 
-			}
-			AddGameObject<goalClearSprite>();
+		}
 
-					}
 		catch (...) {
 			throw;
 		}
 
 	}
+
 	void goalStage::OnUpdate()
 	{
 		//コントローラチェックして入力があればコマンド呼び出し

@@ -20,7 +20,6 @@ namespace basecross {
 		InputHandler<goalStage> m_InputHandler;
 		shared_ptr<SoundItem> m_BGM;
 
-		void OnDestroy();
 
 	public:
 		//\’z‚Æ”jŠü
@@ -32,6 +31,7 @@ namespace basecross {
 
 		//Aƒ{ƒ^ƒ“
 		void OnPushA();
+		void OnDestroy();
 
 	};
 }
