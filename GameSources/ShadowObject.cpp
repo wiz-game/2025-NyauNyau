@@ -1,6 +1,6 @@
 /*!
 @file ShadowObject.h
-@brief 影の算出・描画を行うオブジェクト
+@brief 影の算出・描画を行うオブジェクト（CUBE限定）
 */
 
 #pragma once
@@ -10,86 +10,135 @@
 
 namespace basecross
 {
-	void ShadowObject::OnCreate()
-	{
-		m_drawComp = AddComponent<PCStaticDraw>();
-		m_drawComp->SetMeshResource(L"DEFAULT_CUBE");
-		m_drawComp->SetDiffuse(Col4(0, 0, 0, 1));
-		m_drawComp->SetEmissive(Col4(0.2, 0.2, 0.2, 1));
-
-		//文字列をつける
-		auto ptrString = AddComponent<StringSprite>();
-		ptrString->SetText(L"");
-		ptrString->SetTextRect(Rect2D<float>(32.0f, 32.0f, 640.0f, 480.0f));
-
-	}
+    void ShadowObject::OnCreate()
+    {
+        m_drawComp = AddComponent<PCStaticDraw>();
+        m_drawComp->SetMeshResource(L"DEFAULT_CUBE");
+        m_drawComp->SetDiffuse(Col4(0, 0, 0, 1));
+        m_drawComp->SetEmissive(Col4(0.2, 0.2, 0.2, 1));
+    }
 
     void ShadowObject::OnUpdate()
     {
-        static float rotate = 0.0f; // 回転
-
-        // ライトの位置を取得
         auto light = GetStage()->GetSharedGameObject<SpotLight>(L"SpotLight");
-        Vec3 lightPos = light->GetComponent<Transform>()->GetPosition();
+        m_lightPos = light->GetComponent<Transform>()->GetPosition();
 
-        // 壁の情報を取得
+        auto boxObj = GetStage()->GetSharedGameObject<Box>(L"Box");
+        Vec3 boxObjPos = boxObj->GetComponent<Transform>()->GetPosition();
+
         auto wall = GetStage()->GetSharedGameObject<Wall>(L"Wall_0");
         Vec3 wallNormal = wall->GetWallNormal();
         Vec3 wallPoint = wall->GetWallPosition();
 
-        //オブジェクトの位置情報の取得
-        auto boxObj = GetStage()->GetSharedGameObject<Box>(L"Box");
-        Vec3 boxObjPos = boxObj->GetComponent<Transform>()->GetPosition();
+        //Vec4 wallPlane = GeneratePlane(wallPoint, wallNormal);
+        //std::vector<Vec3> shadowIntersections = ComputeShadowIntersections(wallPlane, m_lightPos, GetBoxVertices());
 
-        // **影の倍率を動的に計算**
-        float shadowScale = CalculateShadowScale(lightPos, boxObjPos, wallPoint, wallNormal);
+        // 影ポリゴンの形状を整理（凸包適用）
+       /* std::vector<Vec2> projectedVertices;
+        for (const auto& vertex : shadowIntersections)
+        {
+            projectedVertices.push_back(Vec2(vertex.x, vertex.y));
+        }
+        m_shadowVertices = ComputeConvexHull(projectedVertices);*/
 
-        // **オブジェクトの動きに応じて影の位置を更新**
-        Vec3 lightDirection = Vec3(boxObjPos - lightPos).normalize();
-        float t = ((wallPoint - lightPos).dot(wallNormal)) / (lightDirection.dot(wallNormal));
-        Vec3 shadowPosition = lightPos + lightDirection * t;
-
-        // **影の行列を適用**
-        Mat4x4 matrix;
-        matrix.affineTransformation(Vec3(shadowScale), Vec3(0), Vec3(rotate, rotate, rotate), shadowPosition);
-
-        // 射影行列を適用（光源と影の関係を考慮）
+        // `XMMatrixShadow` を使用して影を描画
         auto wallPointVec = XMVectorSet(wallPoint.x, wallPoint.y, wallPoint.z, 0.0f);
         auto wallNormalVec = XMVectorSet(wallNormal.x, wallNormal.y, wallNormal.z, 0.0f);
+
+        // 平面を生成
         auto plane = XMPlaneFromPointNormal(wallPointVec, wallNormalVec);
-        auto shadowMatrix = XMMatrixShadow(plane, lightPos * -1);
+
+        auto shadowMatrix = XMMatrixShadow(plane, XMVectorSet(m_lightPos.x, m_lightPos.y, m_lightPos.z, 1.0f) * -1);
 
         Mat4x4 shadowMat4x4(shadowMatrix);
-
-        // **影の行列をオブジェクトに適用**
-        m_drawComp->SetMeshToTransformMatrix(matrix * shadowMat4x4);
+        m_drawComp->SetMeshToTransformMatrix(shadowMat4x4);
     }
 
-    float  ShadowObject::CalculateShadowScale(const Vec3& lightPos, const Vec3& objectPos, const Vec3& wallPoint, const Vec3& wallNormal)
+    std::vector<Vec3> ShadowObject::GetBoxVertices()
     {
-        // 光源がオブジェクトより低い場合、影の倍率は 1.0f にする（影が正しく生成されない）
-        if (lightPos.y <= objectPos.y) {
-            return 1.0f;
+        std::vector<Vec3> boxVertices;
+
+        auto box = GetStage()->GetSharedGameObject<Box>(L"Box");
+        if (!box)
+        {
+            std::cerr << "Box object not found!" << std::endl;
+            return boxVertices; // 空のリストを返す
         }
 
-        // 光源とオブジェクトの距離を計算
-        float objectDistance = (objectPos - lightPos).length();
+        auto boxTransform = box->GetComponent<Transform>();
+        Vec3 position = boxTransform->GetPosition();
+        Vec3 scale = boxTransform->GetScale();
 
-        // 光線の方向（光源 → オブジェクトの方向）
-        Vec3 lightDirection = Vec3(objectPos - lightPos).normalize();
+        // **Boxの各頂点を計算**
+        boxVertices = {
+            position + Vec3(-scale.x / 2, -scale.y / 2, -scale.z / 2),
+            position + Vec3(scale.x / 2, -scale.y / 2, -scale.z / 2),
+            position + Vec3(-scale.x / 2, scale.y / 2, -scale.z / 2),
+            position + Vec3(scale.x / 2, scale.y / 2, -scale.z / 2),
+            position + Vec3(-scale.x / 2, -scale.y / 2, scale.z / 2),
+            position + Vec3(scale.x / 2, -scale.y / 2, scale.z / 2),
+            position + Vec3(-scale.x / 2, scale.y / 2, scale.z / 2),
+            position + Vec3(scale.x / 2, scale.y / 2, scale.z / 2)
+        };
 
-        // 壁との交点を求める（光線の方向と壁の法線を用いた計算）
-        float t = ((wallPoint - lightPos).dot(wallNormal)) / (lightDirection.dot(wallNormal));
+        return boxVertices;
+    }
 
-        // 壁に投影された影の位置を求める
-        Vec3 shadowPoint = lightPos + lightDirection * t;
+    /*std::vector<Vec3> ShadowObject::ComputeShadowIntersections(const Vec4& plane, const Vec3& lightPos, const std::vector<Vec3>& vertices)
+    {
+        std::vector<Vec3> intersections;
+        for (const auto& vertex : vertices)
+        {
+            Vec3 lightDir = Vec3(vertex - lightPos).normalize();
+            float denominator = plane.x * lightDir.x + plane.y * lightDir.y + plane.z * lightDir.z;
 
-        // 影の長さを計算（オブジェクトから影の投影点まで）
-        float shadowLength = Vec3(shadowPoint - objectPos).length();
+            if (fabs(denominator) < 1e-6f) continue;
 
-        // 影の倍率を計算（影の長さ / 光源とオブジェクトの距離）
-        float shadowScale = shadowLength / objectDistance;
+            float t = -(plane.x * lightPos.x + plane.y * lightPos.y + plane.z * lightPos.z + plane.w) / denominator;
+            intersections.push_back(lightPos + lightDir * t);
+        }
+        return intersections;
+    }*/
 
-        return shadowScale;
+    /*std::vector<Vec2> ShadowObject::ComputeConvexHull(const std::vector<Vec2>& vertices)
+    {
+        std::vector<Vec2> hull;
+        if (vertices.size() < 3) return vertices;
+
+        std::sort(vertices.begin(), vertices.end(), [](const Vec2& a, const Vec2& b) { return a.x < b.x; });
+
+        std::vector<Vec2> lower, upper;
+        for (const auto& v : vertices)
+        {
+            while (lower.size() >= 2 && Cross(lower[lower.size() - 2], lower.back(), v) <= 0)
+            {
+                lower.pop_back();
+            }
+            lower.push_back(v);
+        }
+        for (size_t i = vertices.size() - 1; i >= 0; --i)
+        {
+            while (upper.size() >= 2 && Cross(upper[upper.size() - 2], upper.back(), vertices[i]) <= 0)
+            {
+                upper.pop_back();
+            }
+            upper.push_back(vertices[i]);
+        }
+        lower.pop_back();
+        upper.pop_back();
+        hull.insert(hull.end(), lower.begin(), lower.end());
+        hull.insert(hull.end(), upper.begin(), upper.end());
+
+        return hull;
+    }*/
+
+    Vec4 ShadowObject::GeneratePlane(const Vec3& wallPoint, const Vec3& wallNormal)
+    {
+        return Vec4(wallNormal.x, wallNormal.y, wallNormal.z, -wallNormal.dot(wallPoint));
+    }
+
+    float ShadowObject::Cross(const Vec2& a, const Vec2& b, const Vec2& c)
+    {
+        return (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
     }
 }
