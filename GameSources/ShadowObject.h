@@ -22,6 +22,9 @@ namespace basecross {
 		{
 		}
 
+		//‰e‚Ì”{—¦‚ğ‹‚ß‚éŠÖ”
+		float CalculateShadowScale(const Vec3& lightPos, const Vec3& objectPos, const Vec3& wallPoint, const Vec3& wallNormal);
+
 		virtual void OnCreate() override;
 		virtual void OnUpdate() override;
 

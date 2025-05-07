@@ -229,7 +229,8 @@ namespace basecross {
 			//ステージの作成
 			CreateGround();
 			//Boxの作成
-			AddGameObject<Box>();
+			auto box = AddGameObject<Box>();
+			SetSharedGameObject(L"Box", box);
 			//SpotLightの作成
 			auto spotLight = AddGameObject<SpotLight>();
 			SetSharedGameObject(L"SpotLight", spotLight);
