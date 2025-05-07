@@ -340,7 +340,7 @@ namespace basecross {
 		//app->RegisterTexture(L"TEX_BOX", texPath + L"brick.jpg");
 		app->RegisterTexture(L"TEX_CHEESE", texPath + L"cheese.png");
 		app->RegisterTexture(L"TEX_KABE", texPath + L"kabe.jpg");
-		app->RegisterTexture(L"TEX_YUKA", texPath + L"yuka.jpg");
+		app->RegisterTexture(L"TEX_YUKA", texPath + L"floor.png");
 		app->RegisterTexture(L"TEX_PAUSE", texPath + L"pauseSprite.png");
 		app->RegisterTexture(L"TEX_NEZUMI", texPath + L"nezumi.png");
 		app->RegisterTexture(L"TEX_NEZUMI2", texPath + L"nezumi2.png");
