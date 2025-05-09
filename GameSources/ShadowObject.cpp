@@ -13,9 +13,12 @@ namespace basecross
     void ShadowObject::OnCreate()
     {
         m_drawComp = AddComponent<PCStaticDraw>();
-        m_drawComp->SetMeshResource(L"DEFAULT_CUBE");
-        m_drawComp->SetDiffuse(Col4(0, 0, 0, 1));
-        m_drawComp->SetEmissive(Col4(0.2, 0.2, 0.2, 1));
+        m_drawComp->SetOriginalMeshUse(true);
+
+        //m_drawComp->SetMeshResource(L"DEFAULT_CUBE");
+        //m_drawComp->SetDiffuse(Col4(0, 0, 0, 1));
+        //m_drawComp->SetEmissive(Col4(0.2, 0.2, 0.2, 1));
+        //ptrDraw->CreateOriginalMesh(vertices, indices);
     }
 
     void ShadowObject::OnUpdate()
@@ -23,37 +26,121 @@ namespace basecross
         auto light = GetStage()->GetSharedGameObject<SpotLight>(L"SpotLight");
         m_lightPos = light->GetComponent<Transform>()->GetPosition();
 
-        auto boxObj = GetStage()->GetSharedGameObject<Box>(L"Box");
-        Vec3 boxObjPos = boxObj->GetComponent<Transform>()->GetPosition();
+        auto boxVertices = GetBoxVertices();
 
-        auto wall = GetStage()->GetSharedGameObject<Wall>(L"Wall_0");
-        Vec3 wallNormal = wall->GetWallNormal();
-        Vec3 wallPoint = wall->GetWallPosition();
+        auto shadowIntersections = ComputeShadowIntersections(m_lightPos, boxVertices);
 
-        //Vec4 wallPlane = GeneratePlane(wallPoint, wallNormal);
-        //std::vector<Vec3> shadowIntersections = ComputeShadowIntersections(wallPlane, m_lightPos, GetBoxVertices());
-
-        // 影ポリゴンの形状を整理（凸包適用）
-       /* std::vector<Vec2> projectedVertices;
+        // 最も外側の交点を求める（凸包アルゴリズムを適用）
+        std::vector<Vec2> projectedVertices;
         for (const auto& vertex : shadowIntersections)
         {
             projectedVertices.push_back(Vec2(vertex.x, vertex.y));
         }
-        m_shadowVertices = ComputeConvexHull(projectedVertices);*/
+        m_shadowVertices = ComputeConvexHull(projectedVertices);
 
-        // `XMMatrixShadow` を使用して影を描画
-        auto wallPointVec = XMVectorSet(wallPoint.x, wallPoint.y, wallPoint.z, 0.0f);
-        auto wallNormalVec = XMVectorSet(wallNormal.x, wallNormal.y, wallNormal.z, 0.0f);
-
-        // 平面を生成
-        auto plane = XMPlaneFromPointNormal(wallPointVec, wallNormalVec);
-
-        auto shadowMatrix = XMMatrixShadow(plane, XMVectorSet(m_lightPos.x, m_lightPos.y, m_lightPos.z, 1.0f) * -1);
-
-        Mat4x4 shadowMat4x4(shadowMatrix);
-        m_drawComp->SetMeshToTransformMatrix(shadowMat4x4);
+        // 影ポリゴンを生成
+        CreatePolygonMesh(m_shadowVertices);
     }
 
+    // 光源とボックスの頂点を線で結び、その延長線を壁まで伸ばし交点を取得
+    std::vector<Vec3> ShadowObject::ComputeShadowIntersections(const Vec3& lightPos, const std::vector<Vec3>& boxVertices)
+    {
+        std::vector<Vec3> intersections;
+
+        auto wall = GetStage()->GetSharedGameObject<Wall>(L"Wall_0");
+        if (!wall)
+            return intersections;
+
+        Vec3 wallNormal = wall->GetWallNormal();
+        Vec3 wallPoint = wall->GetWallPosition();
+
+        Vec4 wallPlane = GeneratePlane(wallPoint, wallNormal);
+
+        for (const auto& vertex : boxVertices)
+        {
+            Vec3 lightDir = Vec3(vertex - lightPos).normalize();
+
+            float denominator = wallPlane.x * lightDir.x + wallPlane.y * lightDir.y + wallPlane.z * lightDir.z;
+
+            if (fabs(denominator) < 1e-6f)
+                continue;
+
+            float t = -(wallPlane.x * lightPos.x + wallPlane.y * lightPos.y + wallPlane.z * lightPos.z + wallPlane.w) / denominator;
+
+            intersections.push_back(lightPos + lightDir * t);
+        }
+
+        return intersections;
+    }
+
+    // 壁平面の方程式を生成
+    Vec4 ShadowObject::GeneratePlane(const Vec3& wallPoint, const Vec3& wallNormal)
+    {
+        return Vec4(wallNormal.x, wallNormal.y, wallNormal.z, -wallNormal.dot(wallPoint));
+    }
+
+    // 交点の凸包を計算（影の形状を整理）
+    std::vector<Vec2> ShadowObject::ComputeConvexHull(std::vector<Vec2> vertices)
+    {
+        std::vector<Vec2> hull;
+        if (vertices.size() < 3) return hull; // 3点未満なら凸包は作れない
+
+        // バブルソートで座標を昇順に整理
+        BubbleSort(vertices);
+
+        // 下部凸包
+        for (const auto& v : vertices)
+        {
+            while (hull.size() >= 2 && Cross(hull[hull.size() - 2], hull.back(), v) <= 0)
+            {
+                hull.pop_back();
+            }
+            hull.push_back(v);
+        }
+
+        // 上部凸包
+        size_t hull_size = hull.size();
+        for (int i = vertices.size() - 2; i >= 0; i--)
+        {
+            while (hull.size() > hull_size && Cross(hull[hull.size() - 2], hull.back(), vertices[i]) <= 0)
+            {
+                hull.pop_back();
+            }
+            hull.push_back(vertices[i]);
+        }
+
+        hull.pop_back(); // 始点を削除
+        return hull;
+    }
+
+
+    // 影ポリゴンを生成
+    void ShadowObject::CreatePolygonMesh(const std::vector<Vec2>& vertices)
+    {
+        if (vertices.empty()) return;
+
+        std::vector<VertexPositionColor> meshVertices;
+        Col4 color(0.0f, 0.0f, 0.0f, 1.0f);
+
+        for (const auto& vertex : vertices)
+        {
+            Vec3 v(vertex.x, vertex.y, 0.0f);
+            meshVertices.push_back(VertexPositionColor(v, color));
+        }
+
+        std::vector<uint16_t> indices;
+        for (size_t i = 0; i < vertices.size() - 2; ++i)
+        {
+            indices.push_back(0);
+            indices.push_back(i + 1);
+            indices.push_back(i + 2);
+        }
+
+        m_drawComp->CreateOriginalMesh(meshVertices, indices);
+        //m_drawComp->SetOriginalMeshUse(true);
+    }
+
+    // Boxの頂点を取得
     std::vector<Vec3> ShadowObject::GetBoxVertices()
     {
         std::vector<Vec3> boxVertices;
@@ -62,14 +149,13 @@ namespace basecross
         if (!box)
         {
             std::cerr << "Box object not found!" << std::endl;
-            return boxVertices; // 空のリストを返す
+            return boxVertices;
         }
 
         auto boxTransform = box->GetComponent<Transform>();
         Vec3 position = boxTransform->GetPosition();
         Vec3 scale = boxTransform->GetScale();
 
-        // **Boxの各頂点を計算**
         boxVertices = {
             position + Vec3(-scale.x / 2, -scale.y / 2, -scale.z / 2),
             position + Vec3(scale.x / 2, -scale.y / 2, -scale.z / 2),
@@ -84,61 +170,27 @@ namespace basecross
         return boxVertices;
     }
 
-    /*std::vector<Vec3> ShadowObject::ComputeShadowIntersections(const Vec4& plane, const Vec3& lightPos, const std::vector<Vec3>& vertices)
-    {
-        std::vector<Vec3> intersections;
-        for (const auto& vertex : vertices)
-        {
-            Vec3 lightDir = Vec3(vertex - lightPos).normalize();
-            float denominator = plane.x * lightDir.x + plane.y * lightDir.y + plane.z * lightDir.z;
-
-            if (fabs(denominator) < 1e-6f) continue;
-
-            float t = -(plane.x * lightPos.x + plane.y * lightPos.y + plane.z * lightPos.z + plane.w) / denominator;
-            intersections.push_back(lightPos + lightDir * t);
-        }
-        return intersections;
-    }*/
-
-    /*std::vector<Vec2> ShadowObject::ComputeConvexHull(const std::vector<Vec2>& vertices)
-    {
-        std::vector<Vec2> hull;
-        if (vertices.size() < 3) return vertices;
-
-        std::sort(vertices.begin(), vertices.end(), [](const Vec2& a, const Vec2& b) { return a.x < b.x; });
-
-        std::vector<Vec2> lower, upper;
-        for (const auto& v : vertices)
-        {
-            while (lower.size() >= 2 && Cross(lower[lower.size() - 2], lower.back(), v) <= 0)
-            {
-                lower.pop_back();
-            }
-            lower.push_back(v);
-        }
-        for (size_t i = vertices.size() - 1; i >= 0; --i)
-        {
-            while (upper.size() >= 2 && Cross(upper[upper.size() - 2], upper.back(), vertices[i]) <= 0)
-            {
-                upper.pop_back();
-            }
-            upper.push_back(vertices[i]);
-        }
-        lower.pop_back();
-        upper.pop_back();
-        hull.insert(hull.end(), lower.begin(), lower.end());
-        hull.insert(hull.end(), upper.begin(), upper.end());
-
-        return hull;
-    }*/
-
-    Vec4 ShadowObject::GeneratePlane(const Vec3& wallPoint, const Vec3& wallNormal)
-    {
-        return Vec4(wallNormal.x, wallNormal.y, wallNormal.z, -wallNormal.dot(wallPoint));
-    }
-
+    // ベクトルの外積を計算（2D版）
     float ShadowObject::Cross(const Vec2& a, const Vec2& b, const Vec2& c)
     {
         return (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
     }
+
+    //バブルソート
+    void ShadowObject::BubbleSort(std::vector<Vec2>& points)
+    {
+        size_t n = points.size();
+        for (size_t i = 0; i < n - 1; ++i)
+        {
+            for (size_t j = 0; j < n - i - 1; ++j)
+            {
+                if (points[j].x > points[j + 1].x ||
+                    (points[j].x == points[j + 1].x && points[j].y > points[j + 1].y))
+                {
+                    std::swap(points[j], points[j + 1]);
+                }
+            }
+        }
+    }
+
 }

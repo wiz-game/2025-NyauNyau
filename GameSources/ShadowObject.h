@@ -23,24 +23,26 @@ namespace basecross
 
         virtual ~ShadowObject() {}
 
-        // 影の倍率を求める関数
-        //float CalculateShadowScale(const Vec3& lightPos, const Vec3& objectPos, const Vec3& wallPoint, const Vec3& wallNormal);
-
         // Boxの頂点を取得
         std::vector<Vec3> GetBoxVertices();
 
-        // 交点を計算
-        //std::vector<Vec3> ComputeShadowIntersections(const Vec4& plane, const Vec3& lightPos, const std::vector<Vec3>& vertices);
+        // 光源とボックスの頂点を線で結び、その延長線を壁まで伸ばし交点を取得
+        std::vector<Vec3> ComputeShadowIntersections(const Vec3& lightPos, const std::vector<Vec3>& boxVertices);
 
-        // 影のポリゴンを生成（凸包適用）
-        //std::vector<Vec2> ComputeConvexHull(const std::vector<Vec2>& vertices);
-
-        // 壁の平面を作成
+        // 壁平面の方程式を生成
         Vec4 GeneratePlane(const Vec3& wallPoint, const Vec3& wallNormal);
 
-        // 凸包計算用の外積関数
+        // 交点の凸包を計算（影の形状を整理）
+        std::vector<Vec2> ComputeConvexHull(std::vector<Vec2> vertices);
+
+        // 影ポリゴンを生成
+        void CreatePolygonMesh(const std::vector<Vec2>& vertices);
+
+        // ベクトルの外積を計算（2D版）
         float Cross(const Vec2& a, const Vec2& b, const Vec2& c);
 
+        //バブルソート
+        void BubbleSort(std::vector<Vec2>& points);
         virtual void OnCreate() override;
         virtual void OnUpdate() override;
     };
