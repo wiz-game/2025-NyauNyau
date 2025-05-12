@@ -40,6 +40,8 @@ namespace basecross {
 
 			//スプライトオブジェクト
 			AddGameObject<gameClearSprite>();
+			AddGameObject<BackTitleButton>();
+
 
 			auto ptrXA = App::GetApp()->GetXAudio2Manager();
 			m_BGM = ptrXA->Start(L"GameClearbgm", XAUDIO2_LOOP_INFINITE, 0.1f);
