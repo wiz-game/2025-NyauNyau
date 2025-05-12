@@ -31,6 +31,7 @@
 #include "TitleStratButton.h"
 #include "MainCamera.h"
 #include "BackTitleButton.h"
+#include "StageSelect.h"
 
 
 
