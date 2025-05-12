@@ -146,7 +146,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)TitleStage.cpp">
       <Filter>Seino_Stage</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)SystemManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GoalStage.cpp">
       <Filter>Seino_Stage</Filter>
     </ClCompile>
@@ -166,6 +165,9 @@
       <Filter>Seino_Stage</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Shelf.cpp">
+      <Filter>Tamura_Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)SystemManager.cpp">
       <Filter>Tamura_Stage</Filter>
     </ClCompile>
   </ItemGroup>
