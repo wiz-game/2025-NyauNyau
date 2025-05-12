@@ -30,6 +30,7 @@
 #include "PauseSprite.h"
 #include "TitleStratButton.h"
 #include "MainCamera.h"
+#include "Shelf.h"
 
 
 

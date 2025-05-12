@@ -27,6 +27,8 @@ namespace basecross {
 		void CreategoalGate();
 		//チーズの作成
 		void CreateCheese();
+		//棚の作成
+		void CreateShelf();
 		//テクスチャの読込
 		void LoadTextures();
 

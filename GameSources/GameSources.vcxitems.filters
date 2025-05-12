@@ -93,6 +93,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)TitleStratButton.h">
       <Filter>Seino_Stage</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Shelf.h">
+      <Filter>Tamura_Stage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Character.cpp">
@@ -161,6 +164,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)TitleStratButton.cpp">
       <Filter>Seino_Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Shelf.cpp">
+      <Filter>Tamura_Stage</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
