@@ -31,6 +31,7 @@
 #include "TitleStratButton.h"
 #include "MainCamera.h"
 #include "Shelf.h"
+#include "Enemy.h"
 
 
 

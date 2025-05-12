@@ -96,6 +96,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Shelf.h">
       <Filter>Tamura_Stage</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Enemy.h">
+      <Filter>Tamura_Stage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Character.cpp">
@@ -168,6 +171,9 @@
       <Filter>Tamura_Stage</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)SystemManager.cpp">
+      <Filter>Tamura_Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Enemy.cpp">
       <Filter>Tamura_Stage</Filter>
     </ClCompile>
   </ItemGroup>

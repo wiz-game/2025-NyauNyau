@@ -309,10 +309,10 @@ namespace basecross
 	{ 
 		auto pos = GetComponent<Transform>()->GetPosition();
 
-		if (pos.y == 0.502f || pos.y == 0.501f)
-		{
+		//if (pos.y == 0.502f || pos.y == 0.501f)
+		//{
 			pos.y = 0.50f; 
-		}
+		//}
 
 
 		if (pos.y == 0.50f)

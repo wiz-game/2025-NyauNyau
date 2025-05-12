@@ -37,6 +37,9 @@ namespace basecross {
 		//プレイヤーの生成
 		void CreatePlayer();
 
+		//エネミーの生成
+		void CreateEnemy();
+
 		bool m_PauseFlag = false;
 		bool m_pauseSprite = false;
 

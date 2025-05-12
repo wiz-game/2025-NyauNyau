@@ -230,6 +230,23 @@ namespace basecross {
 
 	}
 
+	void GameStage::CreateEnemy()
+	{
+		vector< vector <Vec3> > vec = {
+		{
+			Vec3(-0.01f,7.0f,7.0f),
+			Vec3(0.0f,0.0f,0.0f),
+			Vec3(-4.7f,3.0f,-45.0f)
+		}
+		};
+		for (auto& v : vec) {
+
+			auto ptrEnemy = AddGameObject<Enemy>(v[0], v[1], v[2]);
+
+		}
+	}
+
+
 	//ゴール
 	void GameStage::CreategoalGate()
 	{
@@ -328,6 +345,8 @@ namespace basecross {
 			//AddGameObject<SpotLight>();
 			//プレイヤーの作成
 			CreatePlayer();
+			//エネミーの作成
+			CreateEnemy();
 			//スタートの作成
 			CreatestartGate();
 			//ゴールの作成
@@ -426,6 +445,7 @@ namespace basecross {
 		app->RegisterTexture(L"TEX_NEZUMI", texPath + L"nezumi.png");
 		app->RegisterTexture(L"TEX_NEZUMI2", texPath + L"nezumi2.png");
 		app->RegisterTexture(L"TEX_SHELF", texPath + L"Shelf.png");
+		app->RegisterTexture(L"TEX_ENEMY", texPath + L"Cat.png");
 
 
 
