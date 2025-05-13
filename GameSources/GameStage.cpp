@@ -275,7 +275,7 @@ namespace basecross {
 		{
 			Vec3(1.0f,1.0f,0.5f),
 			Vec3(0.0f,0.0f + XMConvertToRadians(270),0.0f),
-			Vec3(-4.72f,0.80f,-20.0f)
+			Vec3(-4.75f,0.80f,-20.0f)
 		}
 		};
 		//オブジェクトの作成
@@ -328,11 +328,11 @@ namespace basecross {
 			);
 
 
-			//AddGameObject<Shelf>(
-			//	Vec3(1.0f, 20.0f, 10.0f),  // 10,1,10
-			//	Vec3(0.0f, 0.0f, 0.0f),
-			//	Vec3(-5.0f, -9.5f, -5.0f)
-			//);
+			AddGameObject<Shelf>(
+				Vec3(1.0f, 20.0f, 10.0f),  // 10,1,10
+				Vec3(0.0f, 0.0f, 0.0f),
+				Vec3(-5.0f, -9.5f, -5.0f)
+			);
 
 
 
