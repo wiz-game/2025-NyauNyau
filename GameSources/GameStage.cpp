@@ -141,10 +141,10 @@ namespace basecross {
 		};
 
 		int index = 0; // ユニーク名用のインデックス
-		vector<shared_ptr<Shelf>> grounds; // 生成した `Ground` を管理するリスト
+		vector<shared_ptr<ShadowFloor>> grounds; // 生成した `Ground` を管理するリスト
 
 		for (auto& v : vec) {
-			auto ptrGround = AddGameObject<Shelf>(v[0], v[1], v[2]);
+			auto ptrGround = AddGameObject<ShadowFloor>(v[0], v[1], v[2]);
 
 			// ユニーク名を生成
 			wstring uniqueTag = L"Ground_1" + to_wstring(index);
@@ -306,29 +306,29 @@ namespace basecross {
 			CreateGround();
 
 			//ステージの見た目(ガチ雑スクリプトのため後で消す)
-			AddGameObject<Shelf>(
+			AddGameObject<ShadowFloor>(
 				Vec3(1.0f, 20.0f, 40.0f),  
 				Vec3(0.0f, 0.0f, 0.0f),
 				Vec3(-5.0f, -10.5f, -30.0f)
 			);
-			AddGameObject<Shelf>(
+			AddGameObject<ShadowFloor>(
 				Vec3(1.0f, 10.0f, 40.0f),  
 				Vec3(0.0f, 0.0f, 0.0f),
 				Vec3(-5.0f, 10.5f, -30.0f)
 			);
-			AddGameObject<Shelf>(
+			AddGameObject<ShadowFloor>(
 				Vec3(1.0f, 50.0f, 100.0f), 
 				Vec3(0.0f, 0.0f, 0.0f),
 				Vec3(-5.0f, 35.5f, 0.0f)
 			);
-			AddGameObject<Shelf>(
+			AddGameObject<ShadowFloor>(
 				Vec3(1.0f, 20.0f, 40.0f),  
 				Vec3(0.0f, 0.0f, 0.0f),
 				Vec3(-5.0f, -8.5f, 20.0f)
 			);
 
 
-			AddGameObject<Shelf>(
+			AddGameObject<ShadowFloor>(
 				Vec3(1.0f, 20.0f, 10.0f),  // 10,1,10
 				Vec3(0.0f, 0.0f, 0.0f),
 				Vec3(-5.0f, -9.5f, -5.0f)
@@ -354,7 +354,7 @@ namespace basecross {
 			AddGameObject<goalGate>(
 				Vec3(0.0f, 0.7f, 0.5f),
 				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(-4.7f, 2.0f, 4.0f)
+				Vec3(-4.7f, 2.0f, 20.0f)
 			);
 			//チーズの作成
 			CreateCheese();
@@ -446,6 +446,8 @@ namespace basecross {
 		app->RegisterTexture(L"TEX_NEZUMI2", texPath + L"nezumi2.png");
 		app->RegisterTexture(L"TEX_SHELF", texPath + L"Shelf.png");
 		app->RegisterTexture(L"TEX_ENEMY", texPath + L"Cat.png");
+		app->RegisterTexture(L"TEX_START", texPath + L"Goal.png");
+		app->RegisterTexture(L"TEX_GOAL", texPath + L"Goal.png");
 
 
 

@@ -9,7 +9,7 @@
 
 namespace basecross {
 
-	Shelf::Shelf(const shared_ptr<Stage>& StagePtr,
+	ShadowFloor::ShadowFloor(const shared_ptr<Stage>& StagePtr,
 		const Vec3& Scale,
 		const Vec3& Rotation,
 		const Vec3& Position
@@ -20,9 +20,9 @@ namespace basecross {
 		m_Position(Position)
 	{
 	}
-	Shelf::~Shelf() {}
+	ShadowFloor::~ShadowFloor() {}
 
-	void Shelf::OnCreate()
+	void ShadowFloor::OnCreate()
 	{
 		// ドローコンポーネントの追加と設定
 		auto drawComp = AddComponent<PNTStaticDraw>();
@@ -45,7 +45,7 @@ namespace basecross {
 
 	}
 
-	void Shelf::OnUpdate()
+	void ShadowFloor::OnUpdate()
 	{
 	}
 
