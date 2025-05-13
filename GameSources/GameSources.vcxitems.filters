@@ -96,7 +96,10 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)BackTitleButton.h">
       <Filter>Seino_Stage</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)StageSelect.h">
+    <ClInclude Include="$(MSBuildThisFileDirectory)SelectStage.h">
+      <Filter>Seino_Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SelectStageSprite.h">
       <Filter>Seino_Stage</Filter>
     </ClInclude>
   </ItemGroup>
@@ -171,7 +174,10 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)BackTitleButton.cpp">
       <Filter>Seino_Stage</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)StageSelect.cpp">
+    <ClCompile Include="$(MSBuildThisFileDirectory)SelectStage.cpp">
+      <Filter>Seino_Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)SelectStageSprite.cpp">
       <Filter>Seino_Stage</Filter>
     </ClCompile>
   </ItemGroup>
