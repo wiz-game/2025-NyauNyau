@@ -6,44 +6,65 @@
 
 namespace basecross
 {
+    std::vector<std::shared_ptr<RaycastLine>> activeRays; // レイ管理リスト
+
     void ShadowObject::OnCreate()
     {
-        m_drawComp = AddComponent<PCStaticDraw>();
+        m_drawComp = AddComponent<PNTStaticDraw>();
         m_drawComp->SetOriginalMeshUse(true);
     }
 
     void ShadowObject::OnUpdate()
     {
+        auto& app = App::GetApp();
+        auto scene = app->GetScene<Scene>();
+
+        wstring log = scene->GetDebugString();
+        wstringstream wss;
+        wss << log;
+
+        // 光源位置を確認
         auto light = GetStage()->GetSharedGameObject<SpotLight>(L"SpotLight");
         m_lightPos = light->GetComponent<Transform>()->GetPosition();
+        wss << L"Light Position: " << m_lightPos.x << L", " << m_lightPos.y << L", " << m_lightPos.z << L"\n";
 
         auto boxVertices = GetBoxVertices();
         auto shadowIntersections = ComputeShadowIntersections(m_lightPos, boxVertices);
 
-        // 交点がない場合は処理を中断（強制終了を防止）
-        if (shadowIntersections.empty())
+        // 交点デバッグ表示
+        wss << L"Shadow Intersections Count: " << shadowIntersections.size() << L"\n";
+        for (const auto& intersection : shadowIntersections)
         {
-            std::cerr << "No intersections found! Skipping shadow generation." << std::endl;
-            return;
+            wss << L"Intersection: " << intersection.x << L", " << intersection.y << L", " << intersection.z << L"\n";
         }
 
-        // 最も外側の交点を求める（凸包アルゴリズムを適用）
+        //修正: 凸包計算後の交点確認
         std::vector<Vec2> projectedVertices;
         for (const auto& vertex : shadowIntersections)
         {
-            projectedVertices.push_back(Vec2(vertex.x, vertex.y));
+            projectedVertices.push_back(Vec2(vertex.z, vertex.y)); //Zを横、Yを上下として処理
         }
+
+        //`ComputeConvexHull` のデバッグログを統合
+        wss << L"Initial Vertex Count: " << projectedVertices.size() << L"\n";
+
+        BubbleSort(projectedVertices);
+
+        wss << L"After Sorting:\n";
+        for (const auto& v : projectedVertices)
+        {
+            wss << L"Vertex: " << v.x << L", " << v.y << L"\n";
+        }
+
         m_shadowVertices = ComputeConvexHull(projectedVertices);
+
+        wss << L"Final Convex Hull Count: " << m_shadowVertices.size() << L"\n";
+
+        //シーンにデバッグログを適用
+        scene->SetDebugString(wss.str());
 
         // 影ポリゴンを生成
         CreatePolygonMesh(m_shadowVertices);
-
-        // 光源から交点へのレイを生成（デバッグ用）
-        for (const auto& intersection : shadowIntersections)
-        {
-            auto rayFromLight = GetStage()->AddGameObject<RaycastLine>();
-            rayFromLight->SetLinePosition(m_lightPos, intersection);
-        }
     }
 
     std::vector<Vec3> ShadowObject::ComputeShadowIntersections(const Vec3& lightPos, const std::vector<Vec3>& boxVertices)
@@ -60,31 +81,19 @@ namespace basecross
 
         for (const auto& vertex : boxVertices)
         {
-            // 光源からボックスの頂点へ向かうレイを生成
             Vec3 lightDir = Vec3(vertex - lightPos).normalize();
 
+            //平面との交点を計算
             float denominator = wallPlane.x * lightDir.x + wallPlane.y * lightDir.y + wallPlane.z * lightDir.z;
-            if (fabs(denominator) < 1e-6f) // 壁と平行ならスキップ
+            if (fabs(denominator) < 1e-6f)
                 continue;
 
             float t = -(wallPlane.x * lightPos.x + wallPlane.y * lightPos.y + wallPlane.z * lightPos.z + wallPlane.w) / denominator;
-            if (t < 0) // 交点が光源の後ろなら除外
+            if (t < 0)
                 continue;
 
-            // 交点を計算
             Vec3 intersection = lightPos + lightDir * t;
-
-            if ((intersection - lightPos).length() < 1000.0f) // 有効範囲かチェック
-            {
-                intersections.push_back(intersection);
-            }
-        }
-
-        // デバッグ出力：交点の数を確認
-        std::cout << "Computed Intersections Count: " << intersections.size() << std::endl;
-
-        if (intersections.empty()) {
-            std::cerr << "No valid intersections found! Check wall positioning and light direction." << std::endl;
+            intersections.push_back(intersection);
         }
 
         return intersections;
@@ -98,9 +107,9 @@ namespace basecross
     std::vector<Vec2> ShadowObject::ComputeConvexHull(std::vector<Vec2> vertices)
     {
         std::vector<Vec2> hull;
-        if (vertices.size() < 3) return hull;
+        if (vertices.size() < 3) return hull; //3未満なら凸包計算不可
 
-        BubbleSort(vertices);
+        BubbleSort(vertices); // Z → Y の順でソート
 
         for (const auto& v : vertices)
         {
@@ -111,17 +120,15 @@ namespace basecross
             hull.push_back(v);
         }
 
-        size_t hull_size = hull.size();
-        for (int i = vertices.size() - 2; i >= 0; i--)
+        for (int i = vertices.size() - 1; i >= 0; i--)
         {
-            while (hull.size() > hull_size && Cross(hull[hull.size() - 2], hull.back(), vertices[i]) <= 0)
+            while (hull.size() >= 2 && Cross(hull[hull.size() - 2], hull.back(), vertices[i]) <= 0)
             {
                 hull.pop_back();
             }
             hull.push_back(vertices[i]);
         }
 
-        hull.pop_back();
         return hull;
     }
 
@@ -143,14 +150,12 @@ namespace basecross
         }
 
         std::vector<uint16_t> indices;
-        for (size_t i = 1; i < vertices.size() - 1; ++i)
+        for (size_t i = 0; i < vertices.size() - 2; ++i)
         {
             indices.push_back(0);
-            indices.push_back(i);
             indices.push_back(i + 1);
+            indices.push_back(i + 2);
         }
-
-        std::cout << "Created Indices Count: " << indices.size() << std::endl;
 
         m_drawComp->CreateOriginalMesh(meshVertices, indices);
     }
@@ -186,20 +191,22 @@ namespace basecross
 
     float ShadowObject::Cross(const Vec2& a, const Vec2& b, const Vec2& c)
     {
-        return (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
+        Vec2 ab = b - a;
+        Vec2 ac = c - a;
+
+        return ab.x * ac.y - ab.y * ac.x; //Z-Y 平面の判定
     }
 
-    void ShadowObject::BubbleSort(std::vector<Vec2>& points)
+    void ShadowObject::BubbleSort(std::vector<Vec2>& vertices)
     {
-        size_t n = points.size();
-        for (size_t i = 0; i < n - 1; ++i)
+        for (size_t i = 0; i < vertices.size() - 1; ++i)
         {
-            for (size_t j = 0; j < n - i - 1; ++j)
+            for (size_t j = 0; j < vertices.size() - i - 1; ++j)
             {
-                if (points[j].x > points[j + 1].x ||
-                    (points[j].x == points[j + 1].x && points[j].y > points[j + 1].y))
+                if (vertices[j].x > vertices[j + 1].x ||
+                    (vertices[j].x == vertices[j + 1].x && vertices[j].y > vertices[j + 1].y))
                 {
-                    std::swap(points[j], points[j + 1]);
+                    std::swap(vertices[j], vertices[j + 1]);
                 }
             }
         }
