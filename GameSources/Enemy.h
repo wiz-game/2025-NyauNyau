@@ -15,7 +15,7 @@ namespace basecross {
 		Vec3 m_Rotation;
 		Vec3 m_Position;
 		bool isGameOver;//ゲームオーバーを管理
-		float followDistance;//プレイヤーとの一定距離
+		float EnemySpeed;
 
 
 
@@ -26,6 +26,7 @@ namespace basecross {
 			const Vec3& Scale,
 			const Vec3& Rotation,
 			const Vec3& Position
+			
 		);
 
 

@@ -14,10 +14,11 @@ namespace basecross {
 		const Vec3& Position
 	) :
 		GameObject(StagePtr),
-		m_Scale(Scale), m_Rotation(Rotation),
-		m_Position(Position), isGameOver(false),
-		followDistance(0.5f)
-
+		m_Scale(Scale),
+		m_Rotation(Rotation),
+		m_Position(Position), 
+		isGameOver(false),
+		EnemySpeed(0.05f)
 	{
 	}
 
@@ -60,6 +61,17 @@ namespace basecross {
 
 		scene->SetDebugString(wss.str());
 
+		// Transform コンポーネントを取得
+		auto ptrTransform = GetComponent<Transform>();
+
+		// 現在の位置を取得
+		Vec3 currentPosition = ptrTransform->GetPosition();
+
+		// 右方向へ `EnemySpeed` だけ移動
+		currentPosition.z += EnemySpeed;
+
+		// 更新した位置をセット
+		ptrTransform->SetPosition(currentPosition);
 
 
 	}
