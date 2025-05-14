@@ -18,7 +18,7 @@ namespace basecross {
 		m_Rotation(Rotation),
 		m_Position(Position), 
 		isGameOver(false),
-		EnemySpeed(0.05f)
+		EnemySpeed(5.7f)
 	{
 	}
 
@@ -63,12 +63,13 @@ namespace basecross {
 
 		// Transform コンポーネントを取得
 		auto ptrTransform = GetComponent<Transform>();
+		float elapsedTime = App::GetApp()->GetElapsedTime();
 
 		// 現在の位置を取得
 		Vec3 currentPosition = ptrTransform->GetPosition();
 
 		// 右方向へ `EnemySpeed` だけ移動
-		currentPosition.z += EnemySpeed;
+		currentPosition.z += EnemySpeed * elapsedTime;
 
 		// 更新した位置をセット
 		ptrTransform->SetPosition(currentPosition);
