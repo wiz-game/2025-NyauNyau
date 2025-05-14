@@ -10,7 +10,7 @@ namespace basecross
 
     void ShadowObject::OnCreate()
     {
-        m_drawComp = AddComponent<PNTStaticDraw>();
+        m_drawComp = AddComponent<PCStaticDraw>();
         m_drawComp->SetOriginalMeshUse(true);
     }
 
@@ -26,34 +26,34 @@ namespace basecross
         // 光源位置を確認
         auto light = GetStage()->GetSharedGameObject<SpotLight>(L"SpotLight");
         m_lightPos = light->GetComponent<Transform>()->GetPosition();
-        wss << L"Light Position: " << m_lightPos.x << L", " << m_lightPos.y << L", " << m_lightPos.z << L"\n";
+        //wss << L"Light Position: " << m_lightPos.x << L", " << m_lightPos.y << L", " << m_lightPos.z << L"\n";
 
         auto boxVertices = GetBoxVertices();
         auto shadowIntersections = ComputeShadowIntersections(m_lightPos, boxVertices);
 
         // 交点デバッグ表示
-        wss << L"Shadow Intersections Count: " << shadowIntersections.size() << L"\n";
+        //wss << L"Shadow Intersections Count: " << shadowIntersections.size() << L"\n";
         for (const auto& intersection : shadowIntersections)
         {
-            wss << L"Intersection: " << intersection.x << L", " << intersection.y << L", " << intersection.z << L"\n";
+           // wss << L"Intersection: " << intersection.x << L", " << intersection.y << L", " << intersection.z << L"\n";
         }
 
         //修正: 凸包計算後の交点確認
-        std::vector<Vec2> projectedVertices;
+        std::vector<Vec3> projectedVertices;
         for (const auto& vertex : shadowIntersections)
         {
-            projectedVertices.push_back(Vec2(vertex.z, vertex.y)); //Zを横、Yを上下として処理
+            projectedVertices.push_back(Vec3(vertex.z, vertex.y,vertex.x)); //Zを横、Yを上下として処理
         }
 
         //`ComputeConvexHull` のデバッグログを統合
-        wss << L"Initial Vertex Count: " << projectedVertices.size() << L"\n";
+       // wss << L"Initial Vertex Count: " << projectedVertices.size() << L"\n";
 
         BubbleSort(projectedVertices);
 
-        wss << L"After Sorting:\n";
+        //wss << L"After Sorting:\n";
         for (const auto& v : projectedVertices)
         {
-            wss << L"Vertex: " << v.x << L", " << v.y << L"\n";
+          //  wss << L"Vertex: " << v.x << L", " << v.y << L"\n";
         }
 
         m_shadowVertices = ComputeConvexHull(projectedVertices);
@@ -65,7 +65,11 @@ namespace basecross
 
         // 影ポリゴンを生成
         CreatePolygonMesh(m_shadowVertices);
+
+
     }
+
+    
 
     std::vector<Vec3> ShadowObject::ComputeShadowIntersections(const Vec3& lightPos, const std::vector<Vec3>& boxVertices)
     {
@@ -104,9 +108,9 @@ namespace basecross
         return Vec4(wallNormal.x, wallNormal.y, wallNormal.z, -wallNormal.dot(wallPoint));
     }
 
-    std::vector<Vec2> ShadowObject::ComputeConvexHull(std::vector<Vec2> vertices)
+    std::vector<Vec3> ShadowObject::ComputeConvexHull(std::vector<Vec3> vertices)
     {
-        std::vector<Vec2> hull;
+        std::vector<Vec3> hull;
         if (vertices.size() < 3) return hull; //3未満なら凸包計算不可
 
         BubbleSort(vertices); // Z → Y の順でソート
@@ -132,7 +136,7 @@ namespace basecross
         return hull;
     }
 
-    void ShadowObject::CreatePolygonMesh(const std::vector<Vec2>& vertices)
+    void ShadowObject::CreatePolygonMesh(const std::vector<Vec3>& vertices)
     {
         if (vertices.size() < 3)
         {
@@ -197,7 +201,7 @@ namespace basecross
         return ab.x * ac.y - ab.y * ac.x; //Z-Y 平面の判定
     }
 
-    void ShadowObject::BubbleSort(std::vector<Vec2>& vertices)
+    void ShadowObject::BubbleSort(std::vector<Vec3>& vertices)
     {
         for (size_t i = 0; i < vertices.size() - 1; ++i)
         {

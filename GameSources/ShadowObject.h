@@ -10,7 +10,7 @@ namespace basecross
 {
     class ShadowObject : public GameObject
     {
-        std::shared_ptr<PNTStaticDraw> m_drawComp; // 描画コンポーネント  
+        std::shared_ptr<PCStaticDraw> m_drawComp; // 描画コンポーネント  
         std::vector<Vec2> m_shadowVertices; //影のポリゴン頂点  
 
     public:
@@ -33,16 +33,16 @@ namespace basecross
         Vec4 GeneratePlane(const Vec3& wallPoint, const Vec3& wallNormal);
 
         //交点の凸包を計算  
-        std::vector<Vec2> ComputeConvexHull(std::vector<Vec2> vertices);
+        std::vector<Vec3> ComputeConvexHull(std::vector<Vec3> vertices);
 
         //影ポリゴンを生成  
-        void CreatePolygonMesh(const std::vector<Vec2>& vertices);
+        void CreatePolygonMesh(const std::vector<Vec3>& vertices);
 
         //ベクトルの外積を計算
         float Cross(const Vec2& a, const Vec2& b, const Vec2& c);
 
         //バブルソート  
-        void BubbleSort(std::vector<Vec2>& vertices);
+        void BubbleSort(std::vector<Vec3>& vertices);
 
         virtual void OnCreate() override;
         virtual void OnUpdate() override;

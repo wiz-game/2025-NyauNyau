@@ -34,6 +34,7 @@ namespace basecross {
 		//ƒRƒŠƒWƒ‡ƒ“‚Â‚¯‚é
 		/*auto ptrColl = AddComponent<CollisionObb>();
 		ptrColl->SetFixed(true);*/
+		drawComp->SetRasterizerState(RasterizerState::Wireframe);
 	}
 
 	void Wall::OnUpdate()
