@@ -275,7 +275,7 @@ namespace basecross {
 		{
 			Vec3(1.0f,1.0f,0.5f),
 			Vec3(0.0f,0.0f + XMConvertToRadians(270),0.0f),
-			Vec3(-4.75f,0.80f,-20.0f)
+			Vec3(-4.6f,0.80f,-20.0f)
 		}
 		};
 		//オブジェクトの作成
@@ -352,9 +352,9 @@ namespace basecross {
 			//ゴールの作成
 			//CreategoalGate();
 			AddGameObject<goalGate>(
-				Vec3(0.0f, 0.7f, 0.5f),
+				Vec3(0.0f, 2.5f, 1.5f),
 				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(-4.7f, 2.0f, 20.0f)
+				Vec3(-4.7f, 2.0f, 25.0f)
 			);
 			//チーズの作成
 			CreateCheese();

@@ -61,6 +61,8 @@ namespace basecross {
 
 		scene->SetDebugString(wss.str());
 
+		auto ptrGra = AddComponent<Gravity>();
+
 		// Transform コンポーネントを取得
 		auto ptrTransform = GetComponent<Transform>();
 		float elapsedTime = App::GetApp()->GetElapsedTime();
