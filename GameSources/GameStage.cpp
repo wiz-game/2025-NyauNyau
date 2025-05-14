@@ -321,18 +321,46 @@ namespace basecross {
 				Vec3(0.0f, 0.0f, 0.0f),
 				Vec3(-5.0f, 35.5f, 0.0f)
 			);
+
 			AddGameObject<ShadowFloor>(
-				Vec3(1.0f, 20.0f, 40.0f),  
+				Vec3(1.0f, 20.0f, 5.0f),
 				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(-5.0f, -8.5f, 20.0f)
+				Vec3(-5.0f, -8.5f, -5.0f)
+			);
+			AddGameObject<ShadowFloor>(
+				Vec3(1.0f, 15.0f, 5.0f),
+				Vec3(0.0f, 0.0f, 0.0f),
+				Vec3(-5.0f, -8.5f, 5.0f)
+			);
+			AddGameObject<ShadowFloor>(
+				Vec3(1.0f, 17.0f, 5.0f),
+				Vec3(0.0f, 0.0f, 0.0f),
+				Vec3(-5.0f, -8.5f, 15.0f)
+			);
+			AddGameObject<ShadowFloor>(
+				Vec3(1.0f, 20.0f, 20.0f),
+				Vec3(0.0f, 0.0f, 0.0f),
+				Vec3(-5.0f, -8.5f, 25.0f)
 			);
 
 
-			AddGameObject<ShadowFloor>(
-				Vec3(1.0f, 20.0f, 10.0f),  // 10,1,10
-				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(-5.0f, -9.5f, -5.0f)
-			);
+
+
+
+
+
+			//AddGameObject<ShadowFloor>(
+			//	Vec3(1.0f, 20.0f, 40.0f),  
+			//	Vec3(0.0f, 0.0f, 0.0f),
+			//	Vec3(-5.0f, -8.5f, 20.0f)
+			//);
+
+
+			//AddGameObject<ShadowFloor>(
+			//	Vec3(1.0f, 20.0f, 10.0f),  // 10,1,10
+			//	Vec3(0.0f, 0.0f, 0.0f),
+			//	Vec3(-5.0f, -9.5f, -5.0f)
+			//);
 
 
 
