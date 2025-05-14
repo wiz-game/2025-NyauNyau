@@ -107,15 +107,19 @@
 						ChangeSelect(StageNum);
 					}
 
-					if (StageNum == 1)
-					{
-						m_Blinking = true;
-					}
-					else if (StageNum == 2)
-					{
-						m_Blinking = true;
-					}
-					else if (StageNum == 3)
+					//if (StageNum == 1)
+					//{
+					//	m_Blinking = true;
+					//}
+					//else if (StageNum == 2)
+					//{
+					//	m_Blinking = true;
+					//}
+					//else if (StageNum == 3)
+					//{
+					//	m_Blinking = true;
+					//}
+					if (StageNum >= 1 && StageNum <= 3)
 					{
 						m_Blinking = true;
 					}
@@ -126,6 +130,8 @@
 					{
 						m_CntrolLock = false;
 					}
+
+					m_Blinking = false;
 				}
 			}
 
@@ -135,9 +141,6 @@
 
 		void SelectStage::ChangeSelect(int StageNum) 
 		{
-			auto PtrScene = App::GetApp()->GetScene<Scene>();
-			PtrScene->SetStageNum(StageNum);  // 既存のメソッドを利用してステージを変更
-
 		}
 
 

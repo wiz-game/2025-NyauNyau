@@ -41,7 +41,9 @@ namespace basecross {
 
 	void Stage1::OnUpdate()
 	{
-		auto selectStage = App::GetApp()->GetScene<SelectStage>();
+		//Scene‚ÌStage‚ðŽæ“¾
+		auto stage = App::GetApp()->GetScene<Scene>()->GetActiveStage();
+		auto selectStage = dynamic_pointer_cast<SelectStage>(stage);
 		int blinking = selectStage->GetBlinking();
 
 		if (blinking)
@@ -102,8 +104,10 @@ namespace basecross {
 
 	void Stage2::OnUpdate()
 	{
-		auto selectStage = App::GetApp()->GetScene<SelectStage>();
+		auto stage = App::GetApp()->GetScene<Scene>()->GetActiveStage();
+		auto selectStage = dynamic_pointer_cast<SelectStage>(stage);
 		int blinking = selectStage->GetBlinking();
+
 
 		if (blinking)
 		{
@@ -162,8 +166,10 @@ namespace basecross {
 	}
 	void Stage3::OnUpdate()
 	{
-		auto selectStage = App::GetApp()->GetScene<SelectStage>();
+		auto stage = App::GetApp()->GetScene<Scene>()->GetActiveStage();
+		auto selectStage = dynamic_pointer_cast<SelectStage>(stage);
 		int blinking = selectStage->GetBlinking();
+
 
 		if (blinking)
 		{
