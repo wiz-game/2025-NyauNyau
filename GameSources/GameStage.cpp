@@ -7,7 +7,8 @@
 #include "stdafx.h"
 #include "Project.h"
 
-namespace basecross {
+namespace basecross 
+{
 
 	//--------------------------------------------------------------------------------------
 	//	ゲームステージクラス実体
@@ -98,7 +99,8 @@ namespace basecross {
 		int index = 0; // ユニーク名用のインデックス
 		vector<shared_ptr<Ground>> grounds; // 生成した `Ground` を管理するリスト
 
-		for (auto& v : vec) {
+		for (auto& v : vec) 
+		{
 			auto ptrGround = AddGameObject<Ground>(v[0], v[1], v[2]);
 
 			// ユニーク名を生成
@@ -208,7 +210,8 @@ namespace basecross {
 	//チーズ
 	void GameStage::CreateCheese()
 	{
-		vector< vector <Vec3> > vec = {
+		vector< vector <Vec3> > vec = 
+		{
 		{
 			Vec3(0.5f,0.5f,0.5f),
 			Vec3(0.0f,0.0f + XMConvertToRadians(270),0.0f),
@@ -228,6 +231,36 @@ namespace basecross {
 		//タグをつける
 		ptrBox->AddTag(L"Box");
 	}
+	
+
+	void GameStage::Initialize()
+	{
+		// ゲーム開始時のフェーズ設定
+		currentPhase = GamePhase::Phase1;
+
+		// Boxオブジェクトと他のゲームオブジェクトをセットアップ
+		//boxObject = std::make_shared<GameObject>();
+		//gameObjects.push_back(boxObject);
+
+		//for (int i = 0; i < 5; i++) 
+		//{
+			//auto obj = std::make_shared<GameObject>();
+			//gameObjects.push_back(obj);
+		//}
+
+		// Phase1 では Box 以外を固定
+		//for (auto& obj : gameObjects) 
+		//{
+		//	if (obj != boxObject) {
+		//		obj->SetUpdateActive(true);
+		//		obj->;
+		//	}
+		//}
+
+
+	}
+
+
 
 	//void GameStage::CreateTestShadowBox()
 	//{
@@ -284,7 +317,7 @@ namespace basecross {
 			//Boxの作成
 			CreateBox();
 
-			CreateTestShadowBox();
+			//CreateTestShadowBox();
 
 			//SpotLightの作成
 			//AddGameObject<SpotLight>();
@@ -311,6 +344,35 @@ namespace basecross {
 			throw;
 		}
 
+
+	}
+
+	void GameStage::OnUpdate()
+	{
+		// BボタンでPhase2(GameStart)へ
+		auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+		if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B) 
+		{
+			currentPhase = GamePhase::Phase2;
+
+		}
+
+
+
+		//// フェーズの切り替え処理
+		//if (currentPhase == GamePhase::Phase1) {
+		//	// Boxのみ動作可能
+		//	if (boxObject) {
+		//		//boxObject->Update();
+		//	}
+		//}
+		//else if (currentPhase == GamePhase::Phase2) {
+		//	// すべてのオブジェクトを動作可能に
+		//	for (auto& obj : gameObjects) {
+		//		//obj->SetCollisionEnabled(true);
+		//		//obj->Update();
+		//	}
+		//}
 
 	}
 

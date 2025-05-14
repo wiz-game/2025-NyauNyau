@@ -3,6 +3,7 @@
 
 namespace basecross
 {
+
 	class Phase1 : public GameObject 
 	{
 
