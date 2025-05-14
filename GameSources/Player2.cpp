@@ -187,8 +187,8 @@ namespace basecross
 		//ptr->SetRotation(0.0f, 0.0f, 0.0f);
 		//ptr->SetPosition(Vec3(-4.75f, 0.125f, -5.0f));
 
-		//CollisionSphere衝突判定を付ける
-		auto ptrColl = AddComponent<CollisionSphere>();
+		//Collision衝突判定を付ける
+		auto ptrColl = AddComponent<CollisionObb>();
 
 
 		//各パフォーマンスを得る

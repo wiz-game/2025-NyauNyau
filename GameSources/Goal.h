@@ -18,9 +18,9 @@ namespace basecross {
 	public:
 		//ç\ízÇ∆îjâÛ
 		goalGate(const shared_ptr<Stage>& StagePtr,
-			const Vec3& Scale,
-			const Vec3& Rotation,
-			const Vec3& Position
+			 Vec3& Scale,
+			 Vec3& Rotation,
+			 Vec3& Position
 		);
 
 		virtual ~goalGate();

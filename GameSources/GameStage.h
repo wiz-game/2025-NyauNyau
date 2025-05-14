@@ -30,7 +30,8 @@ namespace basecross {
 		void LoadTextures();
 
 		void CreateBox();
-		
+		//void CreateTestShadowBox();
+
 		//ƒvƒŒƒCƒ„[‚Ì¶¬
 		void CreatePlayer();
 

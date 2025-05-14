@@ -196,7 +196,7 @@ namespace basecross {
 		{
 			Vec3(0.0f,0.7f,0.5f),
 			Vec3(0.0f,0.0f,0.0f),
-			Vec3(-4.7f,0.005f,15.0f)
+			Vec3(-4.7f,0.005f,30.0f)
 		}
 		};
 		//オブジェクトの作成
@@ -229,6 +229,46 @@ namespace basecross {
 		ptrBox->AddTag(L"Box");
 	}
 
+	//void GameStage::CreateTestShadowBox()
+	//{
+	//	vector<vector<Vec3>> vec =
+	//	{
+	//		{
+	//			Vec3(0.0f, 0.5f, 0.5f),
+	//			Vec3(0.0f, 0.0f, 0.0f),
+	//			Vec3(-4.75f, 1.2f, -7.0f)
+	//		},
+
+	//	};
+
+		//int index = 0; // ユニーク名用のインデックス
+		//vector<shared_ptr<TestShadowBox>> TestShadowBoxs; // 生成した `` を管理するリスト
+
+		//for (auto& v : vec)
+		//{
+		//	auto ptrTestShadowBox = AddGameObject<TestShadowBox>(v[0], v[1], v[2]);
+
+		//	// ユニーク名を生成
+		//	wstring uniqueTag = L"TestShadowBox_" + to_wstring(index);
+
+		//	ptrTestShadowBox->AddTag(uniqueTag);  // ユニークなタグを適用
+		//	TestShadowBoxs.push_back(ptrTestShadowBox);    // `` をリストに保存
+		//	index++; // 次のオブジェクトのためにインデックスを増加		
+
+		//}
+
+		//// すべての `` を共有ゲームオブジェクトとして登録
+		//for (size_t i = 0; i < TestShadowBoxs.size(); i++)
+		//{
+		//	wstring uniqueName = L"TestShadowBox_" + to_wstring(i);  // ユニーク名を生成
+		//	SetSharedGameObject(uniqueName, TestShadowBoxs[i]);      // ユニーク名で共有登録
+
+		//}
+
+
+
+	//}
+
 
 	void GameStage::OnCreate() {
 		try {	
@@ -243,6 +283,9 @@ namespace basecross {
 			CreateGround();
 			//Boxの作成
 			CreateBox();
+
+			CreateTestShadowBox();
+
 			//SpotLightの作成
 			//AddGameObject<SpotLight>();
 			//プレイヤーの作成
@@ -254,7 +297,7 @@ namespace basecross {
 			AddGameObject<goalGate>(
 				Vec3(0.0f, 0.7f, 0.5f),
 				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(-4.7f, 0.005f, 4.0f)
+				Vec3(-4.7f, 0.005f, 10.0f)
 			);
 			//チーズの作成
 			CreateCheese();

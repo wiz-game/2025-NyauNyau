@@ -40,12 +40,13 @@ namespace basecross
 		Vec3 m_velocity;
 		bool m_collisionFlag;
 		const float m_gravity;
-		void DrawStrings();
+	
 		void MoveY();
 		void MoveXZ();
 		void OnCollisionExcute(shared_ptr<GameObject>& Other);
 		void OnCollisionExit(shared_ptr<GameObject>& Other);
 		void Jump(shared_ptr<GameObject>& jump);
+	    void DrawStrings();
 
 		shared_ptr<PNTStaticDraw> m_drawComp; // 標準的なアニメーション無しのドローコンポーネント
 
@@ -59,6 +60,8 @@ namespace basecross
 
 		void SetPlayerMove(bool Player1);
 
+		//Aボタン
+		void OnPushA();
 
 		// カメラの回り込みを設定する
 		void SetCameraAngleY(float angleY)
@@ -73,13 +76,7 @@ namespace basecross
 		virtual void OnCreate() override;
 		//更新
 		virtual void OnUpdate() override;
-		//virtual void OnUpdate2() override;
-		//virtual void OnCollisionEnter(shared_ptr<GameObject>& Other) override;
-		//void OnCollisionExit(shared_ptr<GameObject>& Other) override;
 
-		
-		//Aボタン
-		void OnPushA();
 
 	};
 }
