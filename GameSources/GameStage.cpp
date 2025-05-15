@@ -15,7 +15,6 @@ namespace basecross {
 	//	ゲームステージクラス実体
 	//--------------------------------------------------------------------------------------
 	void GameStage::CreateViewLight() {
-<<<<<<< HEAD
 		// カメラの設定
 		auto camera = ObjectFactory::Create<MainCamera>();
 		camera->SetEye(Vec3(0.0f, 5.0f, -5.5f));
@@ -32,16 +31,6 @@ namespace basecross {
 
 
 
-=======
-		const Vec3 eye(20.0f, 10.0f, 15.0f);// 10,20,-8
-		const Vec3 at(-3.0f,0.0f,0.0f);
-		auto PtrView = CreateView<SingleView>();
-		//ビューのカメラの設定
-		auto PtrCamera = ObjectFactory::Create<Camera>();
-		PtrView->SetCamera(PtrCamera);
-		PtrCamera->SetEye(eye);
-		PtrCamera->SetAt(at);
->>>>>>> Takumu_Honda-
 		//マルチライトの作成
 		auto PtrMultiLight = CreateLight<MultiLight>();
 		//デフォルトのライティングを指定
@@ -57,15 +46,9 @@ namespace basecross {
 			//	Vec3(0.0f, 4.0f, 5.0f)
 			//},
 			{
-<<<<<<< HEAD
 				Vec3(80.0f, 10.0f, 1.0f),
 				Vec3(0.0f, XM_PI / 2, 0.0f),
 				Vec3(-5.3f, 4.0f, 0.0f)
-=======
-				Vec3(30.0f, 10.0f, 1.0f),
-				Vec3(0.0f, -XM_PIDIV2,0.0f),
-				Vec3(-5.30f, 4.0f, 0.0f)
->>>>>>> Takumu_Honda-
 			},
 
 		};
@@ -261,12 +244,7 @@ namespace basecross {
 			//ステージの作成
 			CreateGround();
 			//Boxの作成
-<<<<<<< HEAD
-			CreateBox();
-=======
-			auto box = AddGameObject<Box>();
-			SetSharedGameObject(L"Box", box);
->>>>>>> Takumu_Honda-
+			AddGameObject<Box>();
 			//SpotLightの作成
 			auto spotLight = AddGameObject<SpotLight>();
 			SetSharedGameObject(L"SpotLight", spotLight);
@@ -285,16 +263,8 @@ namespace basecross {
 			);
 			//チーズの作成
 			CreateCheese();
-<<<<<<< HEAD
 
-			auto ptrXA = App::GetApp()->GetXAudio2Manager();
-			m_BGM = ptrXA->Start(L"Gamebgm", XAUDIO2_LOOP_INFINITE, 0.1f);
 
-=======
-			//レイの生成
-			//auto raycastLine = AddGameObject<RaycastLine>();
-			//SetSharedGameObject(L"RaycastLine", raycastLine);
->>>>>>> Takumu_Honda-
 
 		}
 		catch (...) {
