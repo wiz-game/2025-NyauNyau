@@ -250,8 +250,8 @@ namespace basecross {
 			//チーズの作成
 			CreateCheese();
 			//レイの生成
-			auto raycastLine = AddGameObject<RaycastLine>();
-			SetSharedGameObject(L"RaycastLine", raycastLine);
+			//auto raycastLine = AddGameObject<RaycastLine>();
+			//SetSharedGameObject(L"RaycastLine", raycastLine);
 
 		}
 		catch (...) {

@@ -17,11 +17,11 @@ namespace basecross {
 		//ドローコンポーネントの追加と設定
 		auto drawComp = AddComponent<PNTStaticDraw>();
 		drawComp->SetMeshResource(L"DEFAULT_SPHERE");
-
+		  
 		//トランスフォームコンポーネント取得と設定
 		auto transComp = GetComponent<Transform>();
 		transComp->SetScale(0.25f, 0.25f, 0.25f);
-		transComp->SetPosition(5.0f, -0.5f, 3.0f);
+		transComp->SetPosition(5.0f, 0.1f, 3.0f);
 
 		//コリジョンつける
 		//auto ptrColl = AddComponent<CollisionObb>();
