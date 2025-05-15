@@ -47,7 +47,7 @@ namespace basecross {
 			//},
 			{
 				Vec3(80.0f, 10.0f, 1.0f),
-				Vec3(0.0f, XM_PI / 2, 0.0f),
+				Vec3(0.0f,-XM_PIDIV2, 0.0f),// XM_PI / 2
 				Vec3(-5.3f, 4.0f, 0.0f)
 			},
 
@@ -227,8 +227,9 @@ namespace basecross {
 	{
 
 		auto ptrBox = AddGameObject<Box>();
+		SetSharedGameObject(L"Box",ptrBox);
 		//タグをつける
-		ptrBox->AddTag(L"Box");
+		//ptrBox->AddTag(L"Box");
 	}
 
 
@@ -244,7 +245,7 @@ namespace basecross {
 			//ステージの作成
 			CreateGround();
 			//Boxの作成
-			AddGameObject<Box>();
+			CreateBox();
 			//SpotLightの作成
 			auto spotLight = AddGameObject<SpotLight>();
 			SetSharedGameObject(L"SpotLight", spotLight);

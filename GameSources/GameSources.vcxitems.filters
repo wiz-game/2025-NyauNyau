@@ -162,5 +162,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)TitleSprite.cpp">
       <Filter>Seino_Stage</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)MainCamera.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)RaycastLine.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ShadowObject.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)TitleStratButton.cpp" />
   </ItemGroup>
 </Project>

@@ -127,9 +127,6 @@ namespace basecross
 
         for (const auto& v : vertices)
         {
-            {
-                hull.pop_back();
-            }
             hull.push_back(v);
         }
 
