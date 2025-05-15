@@ -30,8 +30,8 @@ namespace basecross
         // 光源位置を確認
         auto light = GetStage()->GetSharedGameObject<SpotLight>(L"SpotLight");
         m_lightPos = light->GetComponent<Transform>()->GetPosition();
-        m_lightPos = Vec3(m_lightPos.x, m_lightPos.y, m_lightPos.z);
-        wss << L"Light Position: " << m_lightPos.x << L", " << m_lightPos.y << L", " << m_lightPos.z << L"\n";
+        m_lightPos = Vec3(m_lightPos.x, m_lightPos.y, -m_lightPos.z);
+       // wss << L"Light Position: " << m_lightPos.x << L", " << m_lightPos.y << L", " << m_lightPos.z << L"\n";
 
         auto boxVertices = GetBoxVertices();
         auto shadowIntersections = ComputeShadowIntersections(m_lightPos, boxVertices);
@@ -40,7 +40,7 @@ namespace basecross
         //wss << L"Shadow Intersections Count: " << shadowIntersections.size() << L"\n";
         for (const auto& intersection : shadowIntersections)
         {
-           wss << L"Intersection: " << intersection.x << L", " << intersection.y << L", " << intersection.z << L"\n";
+          // wss << L"Intersection: " << intersection.x << L", " << intersection.y << L", " << intersection.z << L"\n";
         }
 
         //修正: 凸包計算後の交点確認
@@ -127,6 +127,10 @@ namespace basecross
 
         for (const auto& v : vertices)
         {
+            while (hull.size() >= 2 && Cross(hull[hull.size() - 2], hull.back(), v).z <= 0)
+            {
+                hull.pop_back();
+            }
             hull.push_back(v);
         }
 

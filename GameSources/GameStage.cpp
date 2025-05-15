@@ -47,7 +47,7 @@ namespace basecross {
 			//},
 			{
 				Vec3(80.0f, 10.0f, 1.0f),
-				Vec3(0.0f,-XM_PIDIV2, 0.0f),// XM_PI / 2
+				Vec3(0.0f,-XM_PIDIV2, 0.0f),
 				Vec3(-5.3f, 4.0f, 0.0f)
 			},
 
