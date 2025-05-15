@@ -25,6 +25,9 @@ namespace basecross {
 
 		void OnCreate() override;
 		void OnUpdate() override;
+
+		Vec3 GetWallNormal() const;
+		Vec3 GetWallPosition() const;
 	};
 
 

@@ -128,5 +128,3 @@ using namespace Microsoft::WRL::Details;
 using namespace basecross::bsm;
 
 #include "resource.h"
-
-

@@ -87,11 +87,19 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)PauseSprite.h">
       <Filter>Seino_Stage</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="$(MSBuildThisFileDirectory)MainCamera.h">
       <Filter>Katono_Stage</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)TitleStratButton.h">
       <Filter>Seino_Stage</Filter>
+=======
+    <ClInclude Include="$(MSBuildThisFileDirectory)ShadowObject.h">
+      <Filter>Honda_Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)RaycastLine.h">
+      <Filter>Honda_Stage</Filter>
+>>>>>>> Takumu_Honda-
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -156,11 +164,19 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)TitleSprite.cpp">
       <Filter>Seino_Stage</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="$(MSBuildThisFileDirectory)MainCamera.cpp">
       <Filter>Katono_Stage</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)TitleStratButton.cpp">
       <Filter>Seino_Stage</Filter>
+=======
+    <ClCompile Include="$(MSBuildThisFileDirectory)ShadowObject.cpp">
+      <Filter>Honda_Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)RaycastLine.cpp">
+      <Filter>Honda_Stage</Filter>
+>>>>>>> Takumu_Honda-
     </ClCompile>
   </ItemGroup>
 </Project>

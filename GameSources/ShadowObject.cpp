@@ -12,6 +12,13 @@ namespace basecross
     {
         m_drawComp = AddComponent<PCStaticDraw>();
         m_drawComp->SetOriginalMeshUse(true);
+<<<<<<< HEAD
+=======
+
+        auto traComp = GetComponent<Transform>();
+        traComp->SetRotation(Vec3(0.0f, XM_PIDIV2, 0.0f));
+        traComp->SetPosition(Vec3(0.1f, 0.0f, 0.0f));
+>>>>>>> Takumu_Honda-
     }
 
     void ShadowObject::OnUpdate()
@@ -26,6 +33,10 @@ namespace basecross
         // 光源位置を確認
         auto light = GetStage()->GetSharedGameObject<SpotLight>(L"SpotLight");
         m_lightPos = light->GetComponent<Transform>()->GetPosition();
+<<<<<<< HEAD
+=======
+        m_lightPos = Vec3(m_lightPos.x, m_lightPos.y, -m_lightPos.z);
+>>>>>>> Takumu_Honda-
         //wss << L"Light Position: " << m_lightPos.x << L", " << m_lightPos.y << L", " << m_lightPos.z << L"\n";
 
         auto boxVertices = GetBoxVertices();
@@ -42,7 +53,11 @@ namespace basecross
         std::vector<Vec3> projectedVertices;
         for (const auto& vertex : shadowIntersections)
         {
+<<<<<<< HEAD
             projectedVertices.push_back(Vec3(vertex.z, vertex.y,vertex.x)); //Zを横、Yを上下として処理
+=======
+            projectedVertices.push_back(Vec3(vertex.z,vertex.y,vertex.x)); //Zを横、Yを上下として処理
+>>>>>>> Takumu_Honda-
         }
 
         //`ComputeConvexHull` のデバッグログを統合
@@ -53,12 +68,20 @@ namespace basecross
         //wss << L"After Sorting:\n";
         for (const auto& v : projectedVertices)
         {
+<<<<<<< HEAD
           //  wss << L"Vertex: " << v.x << L", " << v.y << L"\n";
+=======
+          // wss << L"Vertex: " << v.x << L", " << v.y << L", "<< v.z << L"\n";
+>>>>>>> Takumu_Honda-
         }
 
         m_shadowVertices = ComputeConvexHull(projectedVertices);
 
+<<<<<<< HEAD
         wss << L"Final Convex Hull Count: " << m_shadowVertices.size() << L"\n";
+=======
+       // wss << L"Final Convex Hull Count: " << m_shadowVertices.size() << L"\n";
+>>>>>>> Takumu_Honda-
 
         //シーンにデバッグログを適用
         scene->SetDebugString(wss.str());
@@ -66,6 +89,10 @@ namespace basecross
         // 影ポリゴンを生成
         CreatePolygonMesh(m_shadowVertices);
 
+<<<<<<< HEAD
+=======
+       // m_drawComp->UpdateVertices(m_shadowVertices);
+>>>>>>> Takumu_Honda-
 
     }
 
@@ -87,7 +114,10 @@ namespace basecross
         {
             Vec3 lightDir = Vec3(vertex - lightPos).normalize();
 
+<<<<<<< HEAD
             //平面との交点を計算
+=======
+>>>>>>> Takumu_Honda-
             float denominator = wallPlane.x * lightDir.x + wallPlane.y * lightDir.y + wallPlane.z * lightDir.z;
             if (fabs(denominator) < 1e-6f)
                 continue;
@@ -97,6 +127,13 @@ namespace basecross
                 continue;
 
             Vec3 intersection = lightPos + lightDir * t;
+<<<<<<< HEAD
+=======
+
+            //壁の位置に影を固定
+            intersection.x = wallPoint.x;
+
+>>>>>>> Takumu_Honda-
             intersections.push_back(intersection);
         }
 
@@ -111,6 +148,7 @@ namespace basecross
     std::vector<Vec3> ShadowObject::ComputeConvexHull(std::vector<Vec3> vertices)
     {
         std::vector<Vec3> hull;
+<<<<<<< HEAD
         if (vertices.size() < 3) return hull; //3未満なら凸包計算不可
 
         BubbleSort(vertices); // Z → Y の順でソート
@@ -118,6 +156,15 @@ namespace basecross
         for (const auto& v : vertices)
         {
             while (hull.size() >= 2 && Cross(hull[hull.size() - 2], hull.back(), v) <= 0)
+=======
+        if (vertices.size() < 3) return hull;
+
+        BubbleSort(vertices); //X → Y → Z の順にソート
+
+        for (const auto& v : vertices)
+        {
+            while (hull.size() >= 2 && Cross(hull[hull.size() - 2], hull.back(), v).z <= 0)
+>>>>>>> Takumu_Honda-
             {
                 hull.pop_back();
             }
@@ -126,7 +173,11 @@ namespace basecross
 
         for (int i = vertices.size() - 1; i >= 0; i--)
         {
+<<<<<<< HEAD
             while (hull.size() >= 2 && Cross(hull[hull.size() - 2], hull.back(), vertices[i]) <= 0)
+=======
+            while (hull.size() >= 2 && Cross(hull[hull.size() - 2], hull.back(), vertices[i]).z <= 0)
+>>>>>>> Takumu_Honda-
             {
                 hull.pop_back();
             }
@@ -149,7 +200,11 @@ namespace basecross
 
         for (const auto& vertex : vertices)
         {
+<<<<<<< HEAD
             Vec3 v(vertex.x, vertex.y, 0.0f);
+=======
+            Vec3 v(vertex.x, vertex.y, vertex.z); //Z座標を固定せず適用
+>>>>>>> Takumu_Honda-
             meshVertices.push_back(VertexPositionColor(v, color));
         }
 
@@ -193,6 +248,7 @@ namespace basecross
         return boxVertices;
     }
 
+<<<<<<< HEAD
     float ShadowObject::Cross(const Vec2& a, const Vec2& b, const Vec2& c)
     {
         Vec2 ab = b - a;
@@ -201,18 +257,44 @@ namespace basecross
         return ab.x * ac.y - ab.y * ac.x; //Z-Y 平面の判定
     }
 
+=======
+    Vec3 ShadowObject::Cross(const Vec3& a, const Vec3& b, const Vec3& c)
+    {
+        Vec3 ab = b - a;
+        Vec3 ac = c - a;
+
+        return Vec3(
+            ab.z * ac.y - ab.y * ac.z,  // X成分（左手系に変更）
+            ab.x * ac.z - ab.z * ac.x,  // Y成分
+            -(ab.y * ac.x - ab.x * ac.y)   // Z成分
+        );
+    }
+
+
+>>>>>>> Takumu_Honda-
     void ShadowObject::BubbleSort(std::vector<Vec3>& vertices)
     {
         for (size_t i = 0; i < vertices.size() - 1; ++i)
         {
             for (size_t j = 0; j < vertices.size() - i - 1; ++j)
             {
+<<<<<<< HEAD
                 if (vertices[j].x > vertices[j + 1].x ||
                     (vertices[j].x == vertices[j + 1].x && vertices[j].y > vertices[j + 1].y))
+=======
+                //X → Y → Z の順でソート
+                if (vertices[j].z > vertices[j + 1].z ||
+                    (vertices[j].z == vertices[j + 1].z && vertices[j].y > vertices[j + 1].y) ||
+                    (vertices[j].z == vertices[j + 1].z && vertices[j].y == vertices[j + 1].y && vertices[j].x > vertices[j + 1].x))
+>>>>>>> Takumu_Honda-
                 {
                     std::swap(vertices[j], vertices[j + 1]);
                 }
             }
         }
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> Takumu_Honda-
 }

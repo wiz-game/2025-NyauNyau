@@ -38,8 +38,16 @@ namespace basecross
         //影ポリゴンを生成  
         void CreatePolygonMesh(const std::vector<Vec3>& vertices);
 
+<<<<<<< HEAD
         //ベクトルの外積を計算
         float Cross(const Vec2& a, const Vec2& b, const Vec2& c);
+=======
+        //交点を回転させる
+        Vec3 RotateVertex(const Vec3& vertex, const Vec3& rotation);
+
+        //ベクトルの外積を計算
+        Vec3 Cross(const Vec3& a, const Vec3& b, const Vec3& c);
+>>>>>>> Takumu_Honda-
 
         //バブルソート  
         void BubbleSort(std::vector<Vec3>& vertices);

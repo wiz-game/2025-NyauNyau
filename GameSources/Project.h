@@ -14,6 +14,7 @@
 #include "Ground.h"
 #include "Box.h"
 #include "SpotLight.h"
+#include "ShadowObject.h"
 #include "GameStage.h"
 #include "Character.h"
 #include "Player.h"
