@@ -17,10 +17,11 @@ namespace basecross {
 		//void OnDestroy();
 		//shared_ptr<SoundItem> m_BGM;
 
-		void ChangeSelect(int StageNum);
+		std::vector<std::shared_ptr<SelectStageSprite>> m_stageSprites;
+
+		void ChangeSelect(int um);
 		//void DrawString();
 
-		bool m_Blinking;
 
 	public:
 		//構築と破棄
@@ -33,16 +34,6 @@ namespace basecross {
 
 		bool m_CntrolLock;
 
-		//m_Blinkingのアクセサ
-		int GetBlinking() const
-		{
-			return m_Blinking;
-		}
-
-		void SetBlinking()
-		{
-			m_Blinking = false;
-		}
 
 	};
 	

@@ -39,10 +39,23 @@
 				LoadTextures();
 
 				//スプライトオブジェクトの追加
-				AddGameObject<Stage1>();
-				AddGameObject<Stage2>();
-				AddGameObject<Stage3>();
+				//ステージ１
+				auto stage1 = AddGameObject<SelectStageSprite>(
+					true, Vec2(256.0f, 64.0f), Vec2(0.0f, 100.0f));
+				stage1->SetTexture(L"TEX_STAGE1");
+				m_stageSprites.push_back(stage1);
 
+				//スタージ２
+				auto stage2 = AddGameObject<SelectStageSprite>(
+					true, Vec2(256.0f, 64.0f), Vec2(0.0f, 0.0f));
+				stage1->SetTexture(L"TEX_STAGE2");
+				m_stageSprites.push_back(stage2);
+
+				//ステージ３
+				auto stage3 = AddGameObject<SelectStageSprite>(
+					true, Vec2(256.0f, 64.0f), Vec2(0.0f, -100.0f));
+				stage1->SetTexture(L"TEX_STAGE3");
+				m_stageSprites.push_back(stage3);
 
 				//auto ptrXA = App::GetApp()->GetXAudio2Manager();
 				//m_BGM = ptrXA->Start(L"Titlebgm", XAUDIO2_LOOP_INFINITE, 0.1f);
@@ -52,12 +65,6 @@
 				throw;
 			}
 
-			//文字列をつける
-			//auto ptrString = AddComponent<StringSprite>();
-			//ptrString->SetText(L"");
-			//ptrString->SetTextRect(Rect2D<float>(16.0f, 16.0f, 640.0f, 480.0f));
-
-
 		}
 
 
@@ -66,6 +73,8 @@
 			//シーンの取得
 			auto PtrScene = App::GetApp()->GetScene<Scene>();
 			int StageNum = PtrScene->GetStageNum();
+
+			
 
 			//コントローラの取得
 			auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
@@ -107,22 +116,14 @@
 						ChangeSelect(StageNum);
 					}
 
-					//if (StageNum == 1)
-					//{
-					//	m_Blinking = true;
-					//}
-					//else if (StageNum == 2)
-					//{
-					//	m_Blinking = true;
-					//}
-					//else if (StageNum == 3)
-					//{
-					//	m_Blinking = true;
-					//}
-					if (StageNum >= 1 && StageNum <= 3)
+					//スプライトの点滅をリセット
+					for (int i = 0; i < 3; i++)
 					{
-						m_Blinking = true;
+						m_stageSprites[i]->SetSelected(false);
 					}
+
+					m_stageSprites[StageNum - 1]->SetSelected(true);
+
 				}
 				else
 				{
@@ -130,17 +131,28 @@
 					{
 						m_CntrolLock = false;
 					}
-
-					m_Blinking = false;
 				}
 			}
-
-			//DrawString();
-
 		}
 
-		void SelectStage::ChangeSelect(int StageNum) 
+		void SelectStage::ChangeSelect(int num) 
 		{
+			for (int i = 0; i < 3; i++)
+			{
+				std::shared_ptr<SelectStageSprite> m_Srptr = m_stageSprites[i].lock();
+				if (m_Srptr)
+				{
+					if ((i + 1) == num)
+					{
+						m_Srptr->SetSelected(true);
+					}
+					else
+					{
+						m_Srptr->SetSelected(false);
+					}
+				}
+
+			}
 		}
 
 
@@ -160,27 +172,6 @@
 			app->RegisterTexture(L"TEX_STAGE2", texPath + L"stage2.png");
 			app->RegisterTexture(L"TEX_STAGE3", texPath + L"stage3.png");
 		}
-
-
-		//void SelectStage::DrawString()
-		//{
-		//		// シーンの取得
-		//		auto PtrScene = App::GetApp()->GetScene<Scene>();
-		//		int StageNum = PtrScene->GetStageNum();
-
-		//		// ステージ番号を表示する文字列を作成
-		//		wstring stageStr(L"現在選択中のステージ:\t");
-		//		stageStr += L"Stage " + std::to_wstring(StageNum) + L"\n";
-
-		//		// 文字列コンポーネントの取得
-		//		auto ptrString = GetComponent<StringSprite>();
-		//		ptrString->SetText(stageStr);
-		//}
-		//void SelectStage::OnDestroy() {
-		//	//BGMのストップ
-		//	auto XAPtr = App::GetApp()->GetXAudio2Manager();
-		//	XAPtr->Stop(m_BGM);
-		//}
 
 	}
 	//end basecross
