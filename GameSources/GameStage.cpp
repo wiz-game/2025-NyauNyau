@@ -238,6 +238,15 @@ namespace basecross
 		// ゲーム開始時のフェーズ設定
 		currentPhase = GamePhase::Phase1;
 
+		if (Phase1)
+		{
+			auto gameObjectVec = GetGameObjectVec();
+			for (auto obj : gameObjectVec)
+			{
+				if (dynamic_pointer_cast<Box>(obj))continue;
+			}
+		}
+
 		// Boxオブジェクトと他のゲームオブジェクトをセットアップ
 		//boxObject = std::make_shared<GameObject>();
 		//gameObjects.push_back(boxObject);
@@ -349,6 +358,8 @@ namespace basecross
 
 	void GameStage::OnUpdate()
 	{
+		Initialize();
+
 		// BボタンでPhase2(GameStart)へ
 		auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
 		if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B) 

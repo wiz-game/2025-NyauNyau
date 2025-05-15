@@ -42,17 +42,19 @@ namespace basecross {
 		//プレイヤーの生成
 		void CreatePlayer();
 
-		bool SetActive;
+		bool Phase1 = true;
 
 		shared_ptr<SoundItem> m_BGM;
 
 		shared_ptr<MainCamera> m_mainCamera; // メインカメラへの参照
 
-		//std::shared_ptr<GameObject> boxObject;
+		GamePhase currentPhase = GamePhase::Phase1;
+
+
+		//std::shared_ptr<Box> boxObject;
 		//std::vector<std::shared_ptr<GameObject>> gameObjects;
 
-
-		GamePhase currentPhase = GamePhase::Phase1;
+		
 
 	public:
 		//構築と破棄
