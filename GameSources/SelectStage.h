@@ -5,6 +5,7 @@
 
 #pragma once
 #include "stdafx.h"
+#include "SelectStageSprite.h"
 
 namespace basecross {
 
@@ -17,7 +18,7 @@ namespace basecross {
 		//void OnDestroy();
 		//shared_ptr<SoundItem> m_BGM;
 
-		std::vector<std::shared_ptr<SelectStageSprite>> m_stageSprites;
+		std::vector<std::weak_ptr<SelectStageSprite>> m_stageSprites;
 
 		void ChangeSelect(int um);
 		bool m_CntrolLock;
@@ -26,8 +27,7 @@ namespace basecross {
 
 	public:
 		//ç\ízÇ∆îjä¸
-		SelectStage() :Stage(),m_CntrolLock(false),
-			m_stageSprites(3)
+		SelectStage() :Stage(),m_CntrolLock(false)
 		{
 		}
 		virtual ~SelectStage() {}

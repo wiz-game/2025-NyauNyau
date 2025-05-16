@@ -8,12 +8,6 @@
 
 namespace basecross {
 
-	SelectStageSprite::SelectStageSprite(const shared_ptr<Stage>& stage) :
-		GameObject(stage)
-	{
-	}
-
-	SelectStageSprite::~SelectStageSprite() {}
 	//初期化
 	void SelectStageSprite::OnCreate()
 	{
@@ -33,15 +27,15 @@ namespace basecross {
 		};
 
 		// スプライト用のドローコンポーネントを追加する
-		auto drawComp = AddComponent<PCTSpriteDraw>(vertices, indices); // 頂点データとインデックスデータを設定する
-		drawComp->SetSamplerState(SamplerState::LinearWrap);
+		m_drawComp = AddComponent<PCTSpriteDraw>(vertices, indices); // 頂点データとインデックスデータを設定する
+		m_drawComp->SetSamplerState(SamplerState::LinearWrap);
 		SetAlphaActive(true);
 
 		// 位置を設定する
-		auto ptrTrans = GetComponent<Transform>();
-		ptrTrans->SetScale(1, 1, 1);
-		ptrTrans->SetRotation(0, 0, 0);
-		ptrTrans->SetPosition(0, 220.0f, 0);// 画面の中心を原点としたピクセル単位（1280x800）
+		m_ptrTrans = GetComponent<Transform>();
+		m_ptrTrans->SetScale(1, 1, 1);
+		m_ptrTrans->SetRotation(0, 0, 0);
+		m_ptrTrans->SetPosition(0, 0, 0);// 画面の中心を原点としたピクセル単位（1280x800）
 	}
 
 	void SelectStageSprite::OnUpdate()
@@ -50,26 +44,34 @@ namespace basecross {
 		if (m_Selected)
 		{
 			//経過時間を取得
-			float elapsedTiem = App::GetApp()->GetElapsedTime();
+			float elapsedTime = App::GetApp()->GetElapsedTime();
 
 			//時間経過
-			m_totalTime += elapsedTiem;
+			m_totalTime += elapsedTime * 3;
 			if (m_totalTime >= XM_PI)
 			{
 				m_totalTime = 0.0f;
 			}
 
-			auto drawComp = GetComponent<PCTSpriteDraw>();
 			//明滅の変化
 			float s = sin(m_totalTime) * 0.75f + 0.25f;
 			//ライトの当たり具合
-			drawComp->SetDiffuse(Col4(1, 1, 1, s));
+			m_drawComp->SetDiffuse(Col4(1, 1, 1, s));//ｓ：半透明
+		}
+		else
+		{
+			m_drawComp->SetDiffuse(Col4(1, 1, 1, 1));
 		}
 	}
 
 	void SelectStageSprite::SetTexture(const std::wstring& Key)
 	{
 		m_drawComp->SetTextureResource(Key);
+	}
+
+	void SelectStageSprite::SetPosition(float x,float y, float z)
+	{
+		m_ptrTrans->SetPosition(x, y, z);
 	}
 }
 //end basecross

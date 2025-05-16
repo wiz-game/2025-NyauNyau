@@ -20,7 +20,7 @@ namespace basecross {
 		bool m_Selected;
 
 		std::shared_ptr<PCTSpriteDraw> m_drawComp;
-
+		std::shared_ptr<Transform> m_ptrTrans;
 		
 
 	public:
@@ -37,7 +37,7 @@ namespace basecross {
 		virtual void OnUpdate() override; // 更新
 		//virtual void OnDraw() override; // 描画
 		void SetTexture(const std::wstring& Key);
-
+		void SetPosition(float x, float y, float z);
 
 		//m_Blinkingのアクセサ
 		int IsSelected() const
