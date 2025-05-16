@@ -8,6 +8,12 @@
 
 namespace basecross {
 
+	SelectStageSprite::SelectStageSprite(const shared_ptr<Stage>& stage) :
+		GameObject(stage)
+	{
+	}
+
+	SelectStageSprite::~SelectStageSprite() {}
 	//‰Šú‰»
 	void SelectStageSprite::OnCreate()
 	{

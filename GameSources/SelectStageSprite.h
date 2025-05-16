@@ -45,9 +45,9 @@ namespace basecross {
 			return m_Selected;
 		}
 
-		void SetSelected()
+		void SetSelected(bool b)
 		{
-			m_Selected = false;
+			m_Selected = b;
 			m_totalTime = 0.0f;
 		}
 

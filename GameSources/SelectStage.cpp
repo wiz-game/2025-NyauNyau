@@ -172,6 +172,5 @@
 			app->RegisterTexture(L"TEX_STAGE2", texPath + L"stage2.png");
 			app->RegisterTexture(L"TEX_STAGE3", texPath + L"stage3.png");
 		}
-
 	}
 	//end basecross

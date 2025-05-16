@@ -20,21 +20,20 @@ namespace basecross {
 		std::vector<std::shared_ptr<SelectStageSprite>> m_stageSprites;
 
 		void ChangeSelect(int um);
+		bool m_CntrolLock;
 		//void DrawString();
 
 
 	public:
 		//\’z‚Æ”jŠü
-		SelectStage() :Stage() {}
+		SelectStage() :Stage(),m_CntrolLock(false),
+			m_stageSprites(3)
+		{
+		}
 		virtual ~SelectStage() {}
 
 		virtual void OnCreate()override; //‰Šú‰»
 		virtual void OnUpdate()override; //XV
-
-
-		bool m_CntrolLock;
-
-
 	};
 	
 }
