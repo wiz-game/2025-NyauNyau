@@ -42,7 +42,6 @@ namespace basecross {
 		//ƒvƒŒƒCƒ„[‚Ì¶¬
 		void CreatePlayer();
 
-		bool Phase1 = true;
 
 		shared_ptr<SoundItem> m_BGM;
 

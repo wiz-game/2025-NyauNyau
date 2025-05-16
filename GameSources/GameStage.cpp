@@ -235,27 +235,12 @@ namespace basecross
 
 	void GameStage::Initialize()
 	{
-		// ゲーム開始時のフェーズ設定
-		currentPhase = GamePhase::Phase1;
 
-		if (Phase1)
-		{
-			auto gameObjectVec = GetGameObjectVec();
-			for (auto obj : gameObjectVec)
-			{
-				if (dynamic_pointer_cast<Box>(obj))continue;
-			}
-		}
+		
 
 		// Boxオブジェクトと他のゲームオブジェクトをセットアップ
 		//boxObject = std::make_shared<GameObject>();
 		//gameObjects.push_back(boxObject);
-
-		//for (int i = 0; i < 5; i++) 
-		//{
-			//auto obj = std::make_shared<GameObject>();
-			//gameObjects.push_back(obj);
-		//}
 
 		// Phase1 では Box 以外を固定
 		//for (auto& obj : gameObjects) 
@@ -358,7 +343,36 @@ namespace basecross
 
 	void GameStage::OnUpdate()
 	{
-		Initialize();
+		//Initialize();
+
+		// ゲーム開始時のフェーズ設定
+		currentPhase = GamePhase::Phase1;
+
+		if (currentPhase == GamePhase::Phase1)
+		{
+			auto gameObjectVec = GetGameObjectVec();
+			for (auto obj : gameObjectVec)
+			{
+
+				if (gameObjectVec.empty())
+				{
+					std::cout << "GetGameObjectVec() によって取得されたオブジェクトのリストが空です。" << std::endl;
+					return;
+				}
+
+				if (dynamic_pointer_cast<Box>(obj))
+				{
+					obj->SetUpdateActive(true);
+				}
+				else
+				{
+					obj->SetUpdateActive(false);
+				}
+
+
+			}
+		}
+
 
 		// BボタンでPhase2(GameStart)へ
 		auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
@@ -366,24 +380,17 @@ namespace basecross
 		{
 			currentPhase = GamePhase::Phase2;
 
+			if (currentPhase == GamePhase::Phase2)
+			{
+				auto gameObjectVec = GetGameObjectVec();
+				for (auto obj : gameObjectVec)
+				{
+					obj->SetUpdateActive(true);
+				}
+			}
+
 		}
 
-
-
-		//// フェーズの切り替え処理
-		//if (currentPhase == GamePhase::Phase1) {
-		//	// Boxのみ動作可能
-		//	if (boxObject) {
-		//		//boxObject->Update();
-		//	}
-		//}
-		//else if (currentPhase == GamePhase::Phase2) {
-		//	// すべてのオブジェクトを動作可能に
-		//	for (auto& obj : gameObjects) {
-		//		//obj->SetCollisionEnabled(true);
-		//		//obj->Update();
-		//	}
-		//}
 
 	}
 
