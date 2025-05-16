@@ -99,6 +99,15 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)TitleStratButton.h">
       <Filter>Seino_Stage</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)BackTitleButton.h">
+      <Filter>Seino_Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SelectStage.h">
+      <Filter>Seino_Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SelectStageSprite.h">
+      <Filter>Seino_Stage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Character.cpp">
@@ -166,5 +175,20 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)RaycastLine.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ShadowObject.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TitleStratButton.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MainCamera.cpp">
+      <Filter>Katono_Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)TitleStratButton.cpp">
+      <Filter>Seino_Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)BackTitleButton.cpp">
+      <Filter>Seino_Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)SelectStage.cpp">
+      <Filter>Seino_Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)SelectStageSprite.cpp">
+      <Filter>Seino_Stage</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

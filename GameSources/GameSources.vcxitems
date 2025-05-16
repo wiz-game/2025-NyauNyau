@@ -14,6 +14,7 @@
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)BackTitleButton.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Box.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Character.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)gameClearSprite.h" />
@@ -33,7 +34,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)RaycastLine.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Scene.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ShadowObject.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SelectStageSprite.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SpotLight.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SelectStage.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Start.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TitleSprite.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TitleStratButton.h" />
@@ -42,6 +45,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Wall.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)BackTitleButton.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Box.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Character.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Cheese.cpp" />
@@ -59,7 +63,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)RaycastLine.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Scene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ShadowObject.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SelectStageSprite.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SpotLight.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SelectStage.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Start.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TitleSprite.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TitleStratButton.cpp" />

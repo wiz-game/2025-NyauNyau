@@ -16,12 +16,17 @@ namespace basecross {
 		void CreateResourses();
 
 		bool m_isPlaying;
+
+		//現在セレクトされているステージナンバー
+		int m_StageNum;
 	public:
 		//--------------------------------------------------------------------------------------
 		/*!
 		@brief コンストラクタ
 		*/
 		//--------------------------------------------------------------------------------------
+		
+		//Pauseの処理
 		Scene() :
 			SceneBase(),
 			m_isPlaying(true)
@@ -50,6 +55,18 @@ namespace basecross {
 		{
 			PlayGame(!IsPlaying());
 		}
+
+		//ステージナンバーのアクセサ
+		int GetStageNum() const
+		{
+			return m_StageNum;
+		}
+
+		void SetStageNum(int i)
+		{
+			m_StageNum = i;
+		}
+
 		//--------------------------------------------------------------------------------------
 		/*!
 		@brief デストラクタ

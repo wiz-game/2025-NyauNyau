@@ -67,7 +67,7 @@ namespace basecross {
 	void TitleStage::OnPushA()
 	{
 		auto scene = App::GetApp()->GetScene<Scene>();
-		PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"ToGameStage");
+		PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"ToSelectStage");
 
 		//一定時間後にスプライトを削除する（タイトル画面からゲームステージに移るタイミング）
 		PostEvent(5.0f, GetThis<ObjectInterface>(), scene, L"RemoveSprite");
