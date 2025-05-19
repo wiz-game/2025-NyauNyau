@@ -58,6 +58,12 @@
 				stage3->SetPosition(0, -200.0f, 0);
 				m_stageSprites.push_back(stage3);
 
+				//左三角矢印
+				leftPointSprite = AddGameObject<SelectStageSprite>();
+				leftPointSprite->SetTexture(L"TEX_POINT");
+				leftPointSprite->SetPosition(-250.0f, m_select + 200.0f, 0);
+				leftPointSprite->SetScale(0.25f, 0.25f, 0.25f);
+
 				//auto ptrXA = App::GetApp()->GetXAudio2Manager();
 				//m_BGM = ptrXA->Start(L"Titlebgm", XAUDIO2_LOOP_INFINITE, 0.1f);
 
@@ -96,6 +102,7 @@
 					if (CntlVec[0].fThumbLY >= 0.8f)
 					{
 						StageNum--;
+						//ステージ１より上にスティックを動かしたらステージ３に移動
 						if (StageNum < 0)
 						{
 							StageNum = 2;
@@ -103,6 +110,14 @@
 						m_CntrolLock = true;
 						PtrScene->SetStageNum(StageNum);
 						ChangeSelect(StageNum);
+						SetSelectYPosition(StageNum);
+						//ポイントスプライトの座標変更
+
+						if (leftPointSprite)
+						{
+							leftPointSprite->SetPosition(-250.0f, m_select, 0);
+						}
+
 					}
 					//下向き
 					else if (CntlVec[0].fThumbLY <= -0.8f)
@@ -116,6 +131,12 @@
 						m_CntrolLock = true;
 						PtrScene->SetStageNum(StageNum);
 						ChangeSelect(StageNum);
+						SetSelectYPosition(StageNum);
+						//ポイントスプライトの座標変更
+						if (leftPointSprite)
+						{
+							leftPointSprite->SetPosition(-250.0f, m_select, 0);
+						}
 					}
 
 				}
@@ -142,6 +163,7 @@
 					if (i == num)
 					{
 						srptr->SetSelected(true);
+
 					}
 					else
 					{
@@ -152,6 +174,24 @@
 			}
 		}
 
+		//ステージ番号からm_selectを設定する関数
+		void SelectStage::SetSelectYPosition(int StageNum)
+		{
+			switch (StageNum)
+			{
+			case 0:
+				m_select = 200.0f;
+				break;
+			case 1:
+				m_select = 0;
+				break;
+			case 2:
+				m_select = -200.0f;
+				break;
+			default:
+				break;
+			}
+		}
 
 		void SelectStage::LoadTextures()
 		{
@@ -168,6 +208,12 @@
 			app->RegisterTexture(L"TEX_STAGE1", texPath + L"stage1.png");
 			app->RegisterTexture(L"TEX_STAGE2", texPath + L"stage2.png");
 			app->RegisterTexture(L"TEX_STAGE3", texPath + L"stage3.png");
+			app->RegisterTexture(L"TEX_POINT", texPath + L"point.png");
+			app->RegisterTexture(L"TEX_POINT2", texPath + L"point2.png");
+
+
 		}
+
+
 	}
 	//end basecross

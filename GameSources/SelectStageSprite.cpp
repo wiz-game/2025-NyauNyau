@@ -62,6 +62,11 @@ namespace basecross {
 		{
 			m_drawComp->SetDiffuse(Col4(1, 1, 1, 1));
 		}
+
+		if (m_isArrow)
+		{
+
+		}
 	}
 
 	void SelectStageSprite::SetTexture(const std::wstring& Key)
@@ -73,5 +78,11 @@ namespace basecross {
 	{
 		m_ptrTrans->SetPosition(x, y, z);
 	}
+
+	void SelectStageSprite::SetScale(float x, float y, float z)
+	{
+		m_ptrTrans->SetScale(x, y, z);
+	}
+
 }
 //end basecross

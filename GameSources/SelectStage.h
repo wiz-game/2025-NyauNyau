@@ -19,10 +19,15 @@ namespace basecross {
 		//shared_ptr<SoundItem> m_BGM;
 
 		std::vector<std::weak_ptr<SelectStageSprite>> m_stageSprites;
+		std::shared_ptr<SelectStageSprite> leftPointSprite;
 
-		void ChangeSelect(int um);
+		void ChangeSelect(int num);
 		bool m_CntrolLock;
+		float m_select;//矢印の位置
 		//void DrawString();
+
+		//矢印のY軸を変更させる関数
+		void SetSelectYPosition(int StageNum);
 
 
 	public:
@@ -34,6 +39,7 @@ namespace basecross {
 
 		virtual void OnCreate()override; //初期化
 		virtual void OnUpdate()override; //更新
+
 	};
 	
 }

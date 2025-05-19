@@ -18,6 +18,7 @@ namespace basecross {
 		float m_totalTime;
 		//選択しているかどうか
 		bool m_Selected;
+		bool m_isArrow;//矢印かどうかの判定グラフ
 
 		std::shared_ptr<PCTSpriteDraw> m_drawComp;
 		std::shared_ptr<Transform> m_ptrTrans;
@@ -38,6 +39,8 @@ namespace basecross {
 		//virtual void OnDraw() override; // 描画
 		void SetTexture(const std::wstring& Key);
 		void SetPosition(float x, float y, float z);
+		void SetScale(float x, float y, float z);
+
 
 		//m_Blinkingのアクセサ
 		int IsSelected() const
@@ -49,6 +52,12 @@ namespace basecross {
 		{
 			m_Selected = b;
 			m_totalTime = 0.0f;
+		}
+
+
+		void SetArrow(bool isArrow)
+		{
+			m_isArrow = isArrow;
 		}
 
 	};
