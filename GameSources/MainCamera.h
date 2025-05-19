@@ -24,8 +24,8 @@ namespace basecross {
 	public:
 		// 構築と破棄
 		MainCamera() :
-			m_height(4.5f),
-			m_distance(20.0f),
+			m_height(2.5f),
+			m_distance(10.0f),
 			m_angleY(0.0f) // 「π/2」ラジアン→「90°」
 		{
 		}

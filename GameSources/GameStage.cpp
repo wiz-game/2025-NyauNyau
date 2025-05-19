@@ -186,9 +186,9 @@ namespace basecross {
 		vector<vector<Vec3>> vec =
 		{
 			{
-				Vec3(2.5f, 2.0f, 2.0f),
+				Vec3(3.75f, 3.0f, 3.0f),
 				Vec3(0.0f, 0.0f + XMConvertToRadians(270) , 0.0f),
-				Vec3(-4.75f, 0.50f, -40.0f)
+				Vec3(-4.75f, 1.0f, -40.0f)
 			},
 			//{
 			//	Vec3(0.0f, 0.25f, 0.25f),
@@ -234,9 +234,9 @@ namespace basecross {
 	{
 		vector< vector <Vec3> > vec = {
 		{
-			Vec3(-0.01f,7.0f,7.0f),
+			Vec3(-0.01f,9.0f,9.0f),
 			Vec3(0.0f,0.0f,0.0f),
-			Vec3(-4.7f,3.0f,-50.0f)
+			Vec3(-4.7f,4.0f,-50.0f)
 		}
 		};
 		for (auto& v : vec) {
