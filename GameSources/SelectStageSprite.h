@@ -18,7 +18,6 @@ namespace basecross {
 		float m_totalTime;
 		//‘I‘ð‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©
 		bool m_Selected;
-		bool m_isArrow;//–îˆó‚©‚Ç‚¤‚©‚Ì”»’èƒOƒ‰ƒt
 
 		std::shared_ptr<PCTSpriteDraw> m_drawComp;
 		std::shared_ptr<Transform> m_ptrTrans;
@@ -53,13 +52,6 @@ namespace basecross {
 			m_Selected = b;
 			m_totalTime = 0.0f;
 		}
-
-
-		void SetArrow(bool isArrow)
-		{
-			m_isArrow = isArrow;
-		}
-
 	};
 
 

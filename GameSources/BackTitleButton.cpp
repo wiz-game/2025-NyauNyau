@@ -1,5 +1,5 @@
 /*!
-@file BackTitleButton.cpp
+@file TitleStartButton.cpp
 @brief スタートボタン スプライト実体
 */
 
@@ -14,10 +14,10 @@ namespace basecross {
 		// 頂点(Vertex)データを設定
 		Col4 color(1, 1, 1, 1);
 		m_vertices = {
-			{Vec3(-200, +100, 0), color, Vec2(0, 0)}, // ①
-			{Vec3(+200, +100, 0), color, Vec2(1, 0)}, // ②
-			{Vec3(-200, -100, 0), color, Vec2(0, 1)}, // ③
-			{Vec3(+200, -100, 0), color, Vec2(1, 1)}, // ④
+			{Vec3(-300, +150, 0), color, Vec2(0, 0)}, // ①
+			{Vec3(+300, +150, 0), color, Vec2(1, 0)}, // ②
+			{Vec3(-300, -150, 0), color, Vec2(0, 1)}, // ③
+			{Vec3(+300, -150, 0), color, Vec2(1, 1)}, // ④
 		};
 
 		// インデックスデータを設定（頂点をつなげる順番・3つの数値を組にして三角形を作る）
@@ -28,7 +28,7 @@ namespace basecross {
 
 		// スプライト用のドローコンポーネントを追加する
 		auto drawComp = AddComponent<PCTSpriteDraw>(m_vertices, indices); // 頂点データとインデックスデータを設定する
-		drawComp->SetTextureResource(L"TEX_TITLESTRATBUTTON");
+		drawComp->SetTextureResource(L"TEX_BACKTITLE");
 		drawComp->SetSamplerState(SamplerState::LinearWrap);
 		SetAlphaActive(true);
 

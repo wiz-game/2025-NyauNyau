@@ -63,10 +63,6 @@ namespace basecross {
 			m_drawComp->SetDiffuse(Col4(1, 1, 1, 1));
 		}
 
-		if (m_isArrow)
-		{
-
-		}
 	}
 
 	void SelectStageSprite::SetTexture(const std::wstring& Key)

@@ -86,6 +86,7 @@ namespace basecross {
 
 		// ƒeƒNƒXƒ`ƒƒ‚Ì“Çž‚Æ“o˜^
 		app->RegisterTexture(L"TEX_GOALSTAGE", texPath + L"GoalStage.png");
+		app->RegisterTexture(L"TEX_BACKTITLE", texPath + L"Back Title.png");
 	}
 	void goalStage::OnDestroy()
 	{
