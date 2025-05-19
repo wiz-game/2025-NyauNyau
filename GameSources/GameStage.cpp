@@ -233,8 +233,10 @@ namespace basecross
 	}
 	
 
-	void GameStage::Initialize()
-	{
+	//void GameStage::Initialize()
+	//{
+
+
 
 		
 
@@ -252,8 +254,7 @@ namespace basecross
 		//}
 
 
-	}
-
+	//}
 
 
 	//void GameStage::CreateTestShadowBox()
@@ -333,6 +334,11 @@ namespace basecross
 			m_BGM = ptrXA->Start(L"Gamebgm", XAUDIO2_LOOP_INFINITE, 0.1f);
 
 
+
+
+			// ゲーム開始時のフェーズ設定
+			currentPhase = GamePhase::Phase1;
+
 		}
 		catch (...) {
 			throw;
@@ -344,54 +350,6 @@ namespace basecross
 	void GameStage::OnUpdate()
 	{
 		//Initialize();
-
-		// ゲーム開始時のフェーズ設定
-		currentPhase = GamePhase::Phase1;
-
-		if (currentPhase == GamePhase::Phase1)
-		{
-			auto gameObjectVec = GetGameObjectVec();
-			for (auto obj : gameObjectVec)
-			{
-
-				if (gameObjectVec.empty())
-				{
-					std::cout << "GetGameObjectVec() によって取得されたオブジェクトのリストが空です。" << std::endl;
-					return;
-				}
-
-				if (dynamic_pointer_cast<Box>(obj))
-				{
-					obj->SetUpdateActive(true);
-				}
-				else
-				{
-					obj->SetUpdateActive(false);
-				}
-
-
-			}
-		}
-
-
-		// BボタンでPhase2(GameStart)へ
-		auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
-		if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B) 
-		{
-			currentPhase = GamePhase::Phase2;
-
-			if (currentPhase == GamePhase::Phase2)
-			{
-				auto gameObjectVec = GetGameObjectVec();
-				for (auto obj : gameObjectVec)
-				{
-					obj->SetUpdateActive(true);
-				}
-			}
-
-		}
-
-
 	}
 
 
@@ -429,6 +387,52 @@ namespace basecross
 		XAPtr->Stop(m_BGM);
 	}
 
+	void GameStage::OnUpdate2()
+	{
+
+			if (currentPhase == GamePhase::Phase1)
+			{
+				auto gameObjectVec = GetGameObjectVec();
+				for (auto& obj : gameObjectVec)
+				{
+
+					if (gameObjectVec.empty())
+					{
+						std::cout << "GetGameObjectVec() によって取得されたオブジェクトのリストが空です。" << std::endl;
+						return;
+					}
+
+					if (obj->FindTag(L"Box")) //dynamic_pointer_cast<Box>(obj) 
+					{
+						obj->SetUpdateActive(true);
+					}
+					else
+					{
+						obj->SetUpdateActive(false);
+					}
+
+
+				}
+			}
+
+
+			// BボタンでPhase2(GameStart)へ
+			auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+			if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B)
+			{
+				currentPhase = GamePhase::Phase2;
+
+					auto gameObjectVec = GetGameObjectVec();
+					for (auto obj : gameObjectVec)
+					{
+						obj->SetUpdateActive(true);
+					}
+
+
+			}
+		
+
+	}
 
 }
 //end basecross
