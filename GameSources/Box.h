@@ -15,6 +15,9 @@ namespace basecross {
 
 		Vec3 GetMoveVector() const;
 
+		InputHandler<Player> m_InputHandler;
+
+
 		float m_Speed;
 
 		bool m_isAir;

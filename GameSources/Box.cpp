@@ -26,6 +26,16 @@ namespace basecross
 		auto ptrColl = AddComponent<CollisionRect>();
 		ptrColl->SetFixed(true);
 
+		//各パフォーマンスを得る
+		GetStage()->SetCollisionPerformanceActive(true);
+		GetStage()->SetUpdatePerformanceActive(true);
+		GetStage()->SetDrawPerformanceActive(true);
+
+
+
+		//重力をつける
+		auto ptrGra = AddComponent<Gravity>();
+
 	}
 
 
@@ -33,6 +43,7 @@ namespace basecross
 	{
 		auto G = GetStage()->GetThis<GameStage>()->GetGameObjectVec();
 		//コントローラチェックして入力があればコマンド呼び出し
+
 		MoveXZ();
 
 	}
@@ -109,16 +120,12 @@ namespace basecross
 	{
 		float elapsedTime = App::GetApp()->GetElapsedTime();
 		auto angle = GetMoveVector();
-
 		if (angle.length() > 0.0f)
 		{
 			auto pos = GetComponent<Transform>()->GetPosition();
 			pos += angle * elapsedTime * 6.0f;
 			GetComponent<Transform>()->SetPosition(pos); // 更新後
-
 		}
-
-
 	}
 
 
