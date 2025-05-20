@@ -38,32 +38,6 @@ namespace basecross {
 		m_ptrTrans->SetPosition(0, 0, 0);// 画面の中心を原点としたピクセル単位（1280x800）
 	}
 
-	void FootprintSprite::OnUpdate()
-	{
-
-		if (m_Selected)
-		{
-			//経過時間を取得
-			float elapsedTime = App::GetApp()->GetElapsedTime();
-
-			//時間経過
-			m_totalTime += elapsedTime * 3;
-			if (m_totalTime >= XM_PI)
-			{
-				m_totalTime = 0.0f;
-			}
-
-			//明滅の変化
-			float s = sin(m_totalTime) * 0.75f + 0.25f;
-			//ライトの当たり具合
-			m_drawComp->SetDiffuse(Col4(1, 1, 1, s));//ｓ：半透明
-		}
-		else
-		{
-			m_drawComp->SetDiffuse(Col4(1, 1, 1, 1));
-		}
-
-	}
 
 	//テクスチャ
 	void FootprintSprite::SetTexture(const std::wstring& Key)
@@ -81,6 +55,10 @@ namespace basecross {
 	void FootprintSprite::SetScale(float x, float y, float z)
 	{
 		m_ptrTrans->SetScale(x, y, z);
+	}
+	void FootprintSprite::SetRotate(float x, float y, float z)
+	{
+		m_ptrTrans->SetRotation(x, y, z);
 	}
 
 }

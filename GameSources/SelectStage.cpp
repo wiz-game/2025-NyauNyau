@@ -38,6 +38,8 @@
 				//テクスチャの読込
 				LoadTextures();
 
+				CreateFootprints();
+
 				//スプライトオブジェクトの追加
 				//ステージ１
 				auto stage1 = AddGameObject<SelectStageSprite>();
@@ -81,7 +83,7 @@
 			auto PtrScene = App::GetApp()->GetScene<Scene>();
 			int StageNum = PtrScene->GetStageNum();
 
-			
+
 
 			//コントローラの取得
 			auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
@@ -149,6 +151,33 @@
 					}
 				}
 			}
+			//経過時間を取得
+			auto delta = App::GetApp()->GetElapsedTime();
+
+			static float timeElapsed = 0.0f;
+			timeElapsed += delta;
+
+			//円を書くような足跡（途中）
+			const float centerX = 270.0f; // 軌道の中心
+			const float centerY = -175.0f;
+			const float radius = 200.0f; // 半径
+			const float speed = XM_PI / 3.0f; // 速度（円周を描く速さ）
+
+			int index = static_cast<int>(timeElapsed / 0.5f);//0.5秒ごとに足跡を表示する
+
+			if (index < m_footprints.size())
+			{
+				auto footprintPtr = m_footprints[index].lock();
+				if (footprintPtr)
+				{
+					footprintPtr->SetDrawActive(true);
+					float angle = speed * index; // 時間に応じた角度
+					float newX = centerX + radius * cos(angle);
+					float newY = centerY + radius * sin(angle);
+					footprintPtr->SetPosition(newX, newY, 0);
+					footprintPtr->SetDrawActive(true);
+				}
+			}
 		}
 
 		//選択しているSpriteを点滅させる処理
@@ -193,6 +222,29 @@
 			}
 		}
 
+		//ネコの足跡の処理
+		void SelectStage::CreateFootprints()
+		{
+			const int footprintCount = 10;//ネコの足跡の数
+			const float startX = -100.0f;//中央下
+			const float startY = -350.0f;
+			const float endX = 640.0f;//中央右
+			const float endY = 0.0f;
+			const float stepX = (endX - startX) / footprintCount;
+			const float stepY = (endY - startY) / footprintCount;
+
+			for (int i = 0; i < footprintCount; i++)
+			{
+				auto footprint = AddGameObject<FootprintSprite>();
+				footprint->SetTexture(L"TEX_FOOTPRINT");
+				footprint->SetPosition(startX + (stepX * i), startY + (stepY * i), 0);
+				footprint->SetScale(0.2f, 0.2f, 0.2f);
+				footprint->SetRotate(0, 0,-(XM_PI / 6));
+				footprint->SetDrawActive(false);//最初は非表示
+				m_footprints.push_back(footprint);
+			}
+		}
+
 		void SelectStage::LoadTextures()
 		{
 			// アプリケーションオブジェクトを取得する
@@ -210,7 +262,7 @@
 			app->RegisterTexture(L"TEX_STAGE3", texPath + L"stage3.png");
 			app->RegisterTexture(L"TEX_POINT", texPath + L"point.png");
 			app->RegisterTexture(L"TEX_POINT2", texPath + L"point2.png");
-
+			app->RegisterTexture(L"TEX_FOOTPRINT", texPath + L"Footprint.png");
 
 		}
 
