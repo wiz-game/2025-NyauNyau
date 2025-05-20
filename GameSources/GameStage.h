@@ -35,13 +35,22 @@ namespace basecross {
 		//プレイヤーの生成
 		void CreatePlayer();
 
+		//ポーズフラグ
 		bool m_PauseFlag = false;
 		bool m_pauseSprite = false;
 
 		std::shared_ptr<pauseSprite> m_Pause;
 
+		void ChangeSelect(int num);
+		bool m_CntrolLock;
+		float m_select;//矢印の位置
+
+		std::vector<std::weak_ptr<pauseSprite>> m_pauseSprites;//ポーズスプライトの変数
+		std::shared_ptr<pauseSprite> leftPointSprite;//左矢印
+
+
 		//入力ハンドラー
-		InputHandler<GameStage> m_InputHandler;
+		//InputHandler<GameStage> m_InputHandler;
 
 
 		shared_ptr<SoundItem> m_BGM;

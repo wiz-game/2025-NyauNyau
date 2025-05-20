@@ -276,27 +276,94 @@ namespace basecross {
 	{
 
 		//コントローラチェックして入力があればコマンド呼び出し
-		m_InputHandler.PushHandle(GetThis<GameStage>());
+		//m_InputHandler.PushHandle(GetThis<GameStage>());
+		//auto& app = App::GetApp();
+		//auto device = app->GetInputDevice();
+		//auto pad = device.GetControlerVec()[0];
+		
+		//コントローラの取得
+		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
 
-
-		auto& app = App::GetApp();
-
-		auto device = app->GetInputDevice();
-		auto pad = device.GetControlerVec()[0];
 
 		//スタートボタンを押したときにボーズする
-		if (pad.wPressedButtons & XINPUT_GAMEPAD_START)
+		if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_START)
 		{
 
 			auto scene = App::GetApp()->GetScene<Scene>();
+			int StageNum = scene->GetStageNum();
 			scene->PauseGame();
 			m_PauseFlag = !m_PauseFlag;
 
 			if (m_PauseFlag)
 			{
-
 				m_Pause = AddGameObject<pauseSprite>();
 				m_pauseSprite = true;
+
+
+				if (CntlVec[0].bConnected)
+				{
+					//Aボタンを押したときにゲームステージに移動する
+					if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A)
+					{
+						PostEvent(0.0f, GetThis<SelectStage>(), scene, L"ToGameStage");
+						return;
+					}
+
+					//CntrolLock = falseの時
+					if (!m_CntrolLock)
+					{
+						//上向き
+						if (CntlVec[0].fThumbLY >= 0.8f)
+						{
+							StageNum--;
+							//ステージ１より上にスティックを動かしたらステージ３に移動
+							if (StageNum < 0)
+							{
+								StageNum = 2;
+							}
+							m_CntrolLock = true;
+							scene->SetStageNum(StageNum);
+							ChangeSelect(StageNum);
+							//SetSelectYPosition(StageNum);
+							//ポイントスプライトの座標変更
+
+							if (leftPointSprite)
+							{
+								leftPointSprite->SetPosition(-250.0f, m_select, 0);
+							}
+
+						}
+						//下向き
+						else if (CntlVec[0].fThumbLY <= -0.8f)
+						{
+							StageNum++;
+							//ステージ３に来たらステージ１に戻る
+							if (StageNum >= 3)
+							{
+								StageNum = 0;
+							}
+							m_CntrolLock = true;
+							scene->SetStageNum(StageNum);
+							ChangeSelect(StageNum);
+							//SetSelectYPosition(StageNum);
+							//ポイントスプライトの座標変更
+							if (leftPointSprite)
+							{
+								leftPointSprite->SetPosition(-250.0f, m_select, 0);
+							}
+						}
+
+					}
+					//動かしていない時
+					else
+					{
+						if (CntlVec[0].fThumbLY == 0.0f)
+						{
+							m_CntrolLock = false;
+						}
+					}
+				}
+
 			}
 			else
 			{
@@ -309,6 +376,30 @@ namespace basecross {
 			}
 		}
 	}
+
+	//選択しているSpriteを点滅させる処理
+	void GameStage::ChangeSelect(int num)
+	{
+		for (int i = 0; i < 3; i++)
+		{
+			std::shared_ptr<pauseSprite> srptr = m_pauseSprites[i].lock();
+			if (srptr)
+			{
+				//StageNumがm_pauseSpritesと一致していたら
+				if (i == num)
+				{
+					srptr->SetSelected(true);
+
+				}
+				else
+				{
+					srptr->SetSelected(false);
+				}
+			}
+
+		}
+	}
+
 
 	//タイトルに戻る
 	void GameStage::OnPushA()

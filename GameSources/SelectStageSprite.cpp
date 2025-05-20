@@ -65,16 +65,19 @@ namespace basecross {
 
 	}
 
+	//テクスチャ
 	void SelectStageSprite::SetTexture(const std::wstring& Key)
 	{
 		m_drawComp->SetTextureResource(Key);
 	}
-
+	
+	//position
 	void SelectStageSprite::SetPosition(float x,float y, float z)
 	{
 		m_ptrTrans->SetPosition(x, y, z);
 	}
-
+	
+	//scale
 	void SelectStageSprite::SetScale(float x, float y, float z)
 	{
 		m_ptrTrans->SetScale(x, y, z);
