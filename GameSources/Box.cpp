@@ -13,7 +13,7 @@ namespace basecross
 	{
 		//ドローコンポーネントの追加と設定
 		auto drawComp = AddComponent<PNTStaticDraw>();
-		drawComp->SetMeshResource(L"DEFAULT_CUBE");
+		drawComp->SetMeshResource(L"DEFAULT_SPHERE");
 		//drawComp->SetTextureResource(L"TEX_BOX");
 
 		//トランスフォームコンポーネント取得と設定
