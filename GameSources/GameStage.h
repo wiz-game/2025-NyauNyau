@@ -27,6 +27,8 @@ namespace basecross {
 		void CreategoalGate();
 		//チーズの作成
 		void CreateCheese();
+		//棚の作成
+		void CreateShadowFloor();
 		//テクスチャの読込
 		void LoadTextures();
 
@@ -34,6 +36,9 @@ namespace basecross {
 		
 		//プレイヤーの生成
 		void CreatePlayer();
+
+		//エネミーの生成
+		void CreateEnemy();
 
 		bool m_PauseFlag = false;
 		bool m_pauseSprite = false;

@@ -46,9 +46,15 @@ namespace basecross {
 			//	Vec3(0.0f, 4.0f, 5.0f)
 			//},
 			{
+<<<<<<< HEAD
 				Vec3(80.0f, 10.0f, 1.0f),
 				Vec3(0.0f,-XM_PIDIV2, 0.0f),
 				Vec3(-5.3f, 4.0f, 0.0f)
+=======
+				Vec3(100.0f, 50.0f, 1.0f),
+				Vec3(0.0f, -XM_PI / 2, 0.0f),
+				Vec3(-5.0f, 4.0f, 0.0f)
+>>>>>>> Tamura_Fuki
 			},
 
 		};
@@ -79,9 +85,9 @@ namespace basecross {
 	{
 		vector<vector<Vec3>> vec = {
 		{
-			Vec3(20.0f, 1.0f, 80.0f),  // 10,1,10
+			Vec3(50.0f, 10.0f, 100.0f),  // 10,1,10
 			Vec3(0.0f, 0.0f, 0.0f),
-			Vec3(0.0f, -1.0f, 0.0f)
+			Vec3(19.0f, -10.5f, 0.0f)
 		},
 		//{
 		//	Vec3(20.0f, 1.0f, 8.0f),
@@ -120,6 +126,52 @@ namespace basecross {
 
 	}
 
+	void GameStage::CreateShadowFloor()
+	{
+		vector<vector<Vec3>> vec = {
+		{
+			Vec3(1.0f, 20.0f, 20.0f),  // 10,1,10
+			Vec3(0.0f, 0.0f, 0.0f),
+			Vec3(-5.0f, -10.5f, -30.0f)
+		},
+			//{
+			//	Vec3(20.0f, 1.0f, 8.0f),
+			//	Vec3(0.0f, 0.0f, 0.0f),
+			//	Vec3(-8.0f, -1.0f, 6.0f)
+			//},
+			//{
+			//	Vec3(8.0f, 1.0f, 20.0f),
+			//	Vec3(0.0f,  0.0f, 0.0f),
+			//	Vec3(0.0f, -1.0f, 6.0f)
+
+			//}
+
+		};
+
+		int index = 0; // ユニーク名用のインデックス
+		vector<shared_ptr<ShadowFloor>> grounds; // 生成した `Ground` を管理するリスト
+
+		for (auto& v : vec) {
+			auto ptrGround = AddGameObject<ShadowFloor>(v[0], v[1], v[2]);
+
+			// ユニーク名を生成
+			wstring uniqueTag = L"Ground_1" + to_wstring(index);
+
+			ptrGround->AddTag(uniqueTag);  // ユニークなタグを適用
+			grounds.push_back(ptrGround);    // `Ground` をリストに保存
+
+			index++; // 次のオブジェクトのためにインデックスを増加
+		}
+
+		// すべての `Ground` を共有ゲームオブジェクトとして登録
+		for (size_t i = 0; i < grounds.size(); ++i) {
+			wstring uniqueName = L"Ground_1" + to_wstring(i);  // ユニーク名を生成
+			SetSharedGameObject(uniqueName, grounds[i]);      // ユニーク名で共有登録
+		}
+
+	}
+
+
 	//スタート
 	void GameStage::CreatestartGate()
 	{
@@ -127,7 +179,7 @@ namespace basecross {
 		{
 			Vec3(0.0f,0.7f,0.5f),
 			Vec3(0.0f,0.0f,0.0f),
-			Vec3(-4.7f,0.005f,-12.0f)
+			Vec3(-4.7f,0.005f,-40.0f)
 		}
 		};
 		//オブジェクトの作成
@@ -142,9 +194,9 @@ namespace basecross {
 		vector<vector<Vec3>> vec =
 		{
 			{
-				Vec3(2.5f, 2.0f, 2.0f),
+				Vec3(3.75f, 3.0f, 3.0f),
 				Vec3(0.0f, 0.0f + XMConvertToRadians(270) , 0.0f),
-				Vec3(-4.75f, 0.50f, -9.0f)
+				Vec3(-4.75f, 1.0f, -40.0f)
 			},
 			//{
 			//	Vec3(0.0f, 0.25f, 0.25f),
@@ -186,6 +238,23 @@ namespace basecross {
 
 	}
 
+	void GameStage::CreateEnemy()
+	{
+		vector< vector <Vec3> > vec = {
+		{
+			Vec3(-0.01f,9.0f,9.0f),
+			Vec3(0.0f,0.0f,0.0f),
+			Vec3(-4.7f,4.0f,-50.0f)
+		}
+		};
+		for (auto& v : vec) {
+
+			auto ptrEnemy = AddGameObject<Enemy>(v[0], v[1], v[2]);
+
+		}
+	}
+
+
 	//ゴール
 	void GameStage::CreategoalGate()
 	{
@@ -212,9 +281,9 @@ namespace basecross {
 	{
 		vector< vector <Vec3> > vec = {
 		{
-			Vec3(0.5f,0.5f,0.5f),
+			Vec3(1.0f,1.0f,0.5f),
 			Vec3(0.0f,0.0f + XMConvertToRadians(270),0.0f),
-			Vec3(-4.72f,0.80f,2.0f)
+			Vec3(-4.6f,0.80f,-20.0f)
 		}
 		};
 		//オブジェクトの作成
@@ -244,8 +313,71 @@ namespace basecross {
 			CreateWall();
 			//ステージの作成
 			CreateGround();
+
+			//ステージの見た目(ガチ雑スクリプトのため後で消す)
+			AddGameObject<ShadowFloor>(
+				Vec3(1.0f, 20.0f, 40.0f),  
+				Vec3(0.0f, 0.0f, 0.0f),
+				Vec3(-5.0f, -10.5f, -30.0f)
+			);
+			AddGameObject<ShadowFloor>(
+				Vec3(1.0f, 10.0f, 40.0f),  
+				Vec3(0.0f, 0.0f, 0.0f),
+				Vec3(-5.0f, 10.5f, -30.0f)
+			);
+			AddGameObject<ShadowFloor>(
+				Vec3(1.0f, 50.0f, 100.0f), 
+				Vec3(0.0f, 0.0f, 0.0f),
+				Vec3(-5.0f, 35.5f, 0.0f)
+			);
+
+			//AddGameObject<ShadowFloor>(
+			//	Vec3(1.0f, 20.0f, 5.0f),
+			//	Vec3(0.0f, 0.0f, 0.0f),
+			//	Vec3(-5.0f, -8.5f, -5.0f)
+			//);
+			//AddGameObject<ShadowFloor>(
+			//	Vec3(1.0f, 15.0f, 5.0f),
+			//	Vec3(0.0f, 0.0f, 0.0f),
+			//	Vec3(-5.0f, -8.5f, 5.0f)
+			//);
+			//AddGameObject<ShadowFloor>(
+			//	Vec3(1.0f, 17.0f, 5.0f),
+			//	Vec3(0.0f, 0.0f, 0.0f),
+			//	Vec3(-5.0f, -8.5f, 15.0f)
+			//);
+			//AddGameObject<ShadowFloor>(
+			//	Vec3(1.0f, 20.0f, 20.0f),
+			//	Vec3(0.0f, 0.0f, 0.0f),
+			//	Vec3(-5.0f, -8.5f, 25.0f)
+			//);
+
+
+
+
+
+
+
+			//AddGameObject<ShadowFloor>(
+			//	Vec3(1.0f, 20.0f, 40.0f),  
+			//	Vec3(0.0f, 0.0f, 0.0f),
+			//	Vec3(-5.0f, -8.5f, 20.0f)
+			//);
+
+
+			//AddGameObject<ShadowFloor>(
+			//	Vec3(1.0f, 20.0f, 10.0f),  // 10,1,10
+			//	Vec3(0.0f, 0.0f, 0.0f),
+			//	Vec3(-5.0f, -9.5f, -5.0f)
+			//);
+
+
+
+
+
+
 			//Boxの作成
-			CreateBox();
+			//CreateBox();
 			//SpotLightの作成
 			auto spotLight = AddGameObject<SpotLight>();
 			SetSharedGameObject(L"SpotLight", spotLight);
@@ -253,14 +385,16 @@ namespace basecross {
 			AddGameObject<ShadowObject>();
 			//プレイヤーの作成
 			CreatePlayer();
+			//エネミーの作成
+			CreateEnemy();
 			//スタートの作成
 			CreatestartGate();
 			//ゴールの作成
 			//CreategoalGate();
 			AddGameObject<goalGate>(
-				Vec3(0.0f, 0.7f, 0.5f),
+				Vec3(0.0f, 2.5f, 1.5f),
 				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(-4.7f, 0.005f, 4.0f)
+				Vec3(-4.7f, 2.0f, 25.0f)
 			);
 			//チーズの作成
 			CreateCheese();
@@ -348,6 +482,10 @@ namespace basecross {
 		app->RegisterTexture(L"TEX_PAUSE", texPath + L"pauseSprite.png");
 		app->RegisterTexture(L"TEX_NEZUMI", texPath + L"nezumi.png");
 		app->RegisterTexture(L"TEX_NEZUMI2", texPath + L"nezumi2.png");
+		app->RegisterTexture(L"TEX_SHELF", texPath + L"Shelf.png");
+		app->RegisterTexture(L"TEX_ENEMY", texPath + L"Cat.png");
+		app->RegisterTexture(L"TEX_START", texPath + L"Goal.png");
+		app->RegisterTexture(L"TEX_GOAL", texPath + L"Goal.png");
 
 
 
