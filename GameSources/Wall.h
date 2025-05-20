@@ -33,5 +33,3 @@ namespace basecross {
 
 }
 //end basecross
-#pragma once
-#pragma once

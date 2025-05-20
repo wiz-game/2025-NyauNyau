@@ -31,14 +31,11 @@
 #include "PauseSprite.h"
 #include "TitleStratButton.h"
 #include "MainCamera.h"
-<<<<<<< HEAD
 #include "BackTitleButton.h"
 #include "SelectStage.h"
 #include "SelectStageSprite.h"
-=======
 #include "ShadowFloor.h"
 #include "Enemy.h"
->>>>>>> Tamura_Fuki
 
 
 
