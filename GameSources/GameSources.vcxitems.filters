@@ -1,206 +1,68 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Headers">
-      <UniqueIdentifier>{4b0a624a-610d-4bc6-b311-2b02a781cdf9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Sources">
-      <UniqueIdentifier>{96692d2a-8790-41a9-bfac-6c5662d4ad61}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Katono_Stage">
-      <UniqueIdentifier>{a3f572f9-b0aa-49fc-b348-26eeb3ad3751}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Tamura_Stage">
-      <UniqueIdentifier>{a0b52d7f-dfe4-49db-9155-83c487b45409}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Honda_Stage">
-      <UniqueIdentifier>{0fad63fd-b2ee-4473-b3c5-d9b358fa9d02}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Seino_Stage">
-      <UniqueIdentifier>{277448bd-ff6f-4061-9ba3-abda4428356b}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Character.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)GameStage.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Player.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Project.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ProjectShader.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Scene.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ProjectBehavior.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Player2.h">
-      <Filter>Katono_Stage</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Goal.h">
-      <Filter>Seino_Stage</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Start.h">
-      <Filter>Seino_Stage</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Box.h">
-      <Filter>Honda_Stage</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)SpotLight.h">
-      <Filter>Honda_Stage</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Ground.h">
-      <Filter>Honda_Stage</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Wall.h">
-      <Filter>Honda_Stage</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Cheese.h">
-      <Filter>Seino_Stage</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)GameManager.h">
-      <Filter>Tamura_Stage</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)SystemManager.h">
-      <Filter>Tamura_Stage</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)TitleStage.h">
-      <Filter>Seino_Stage</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)TitleSprite.h">
-      <Filter>Seino_Stage</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)GoalStage.h">
-      <Filter>Seino_Stage</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)gameClearSprite.h">
-      <Filter>Seino_Stage</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)PauseSprite.h">
-      <Filter>Seino_Stage</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ShadowObject.h">
-      <Filter>Honda_Stage</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)RaycastLine.h">
-      <Filter>Honda_Stage</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)MainCamera.h">
-      <Filter>Katono_Stage</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)TitleStratButton.h">
-      <Filter>Seino_Stage</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)BackTitleButton.h">
-      <Filter>Seino_Stage</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)SelectStage.h">
-      <Filter>Seino_Stage</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)SelectStageSprite.h">
-      <Filter>Seino_Stage</Filter>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ShadowFloor.h">
-      <Filter>Tamura_Stage</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Enemy.h">
-      <Filter>Tamura_Stage</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Character.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Player.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)ProjectShader.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Scene.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)WinMain.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)ProjectBehavior.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Player2.cpp">
-      <Filter>Katono_Stage</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Goal.cpp">
-      <Filter>Seino_Stage</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Start.cpp">
-      <Filter>Seino_Stage</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Box.cpp">
-      <Filter>Honda_Stage</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)SpotLight.cpp">
-      <Filter>Honda_Stage</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Ground.cpp">
-      <Filter>Honda_Stage</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Wall.cpp">
-      <Filter>Honda_Stage</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Cheese.cpp">
-      <Filter>Seino_Stage</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)TitleStage.cpp">
-      <Filter>Seino_Stage</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)GoalStage.cpp">
-      <Filter>Seino_Stage</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)gameClearSprite.cpp">
-      <Filter>Seino_Stage</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)PauseSprite.cpp">
-      <Filter>Seino_Stage</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)TitleSprite.cpp">
-      <Filter>Seino_Stage</Filter>
-    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)BackTitleButton.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Box.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Character.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Cheese.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Enemy.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)gameClearSprite.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Goal.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)GoalStage.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Ground.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)PauseSprite.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MainCamera.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Player.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Player2.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ProjectBehavior.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ProjectShader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)RaycastLine.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Scene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ShadowObject.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SelectStageSprite.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ShadowFloor.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SpotLight.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SelectStage.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Start.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)TitleSprite.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TitleStratButton.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)MainCamera.cpp">
-      <Filter>Katono_Stage</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)TitleStratButton.cpp">
-      <Filter>Seino_Stage</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)BackTitleButton.cpp">
-      <Filter>Seino_Stage</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)SelectStage.cpp">
-      <Filter>Seino_Stage</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)SelectStageSprite.cpp">
-      <Filter>Seino_Stage</Filter>
-    <ClCompile Include="$(MSBuildThisFileDirectory)ShadowFloor.cpp">
-      <Filter>Tamura_Stage</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)SystemManager.cpp">
-      <Filter>Tamura_Stage</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Enemy.cpp">
-      <Filter>Tamura_Stage</Filter>
-    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)TitleStage.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SystemManager.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Wall.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)WinMain.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)BackTitleButton.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Box.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Character.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Enemy.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)gameClearSprite.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameManager.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Cheese.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameStage.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Goal.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)GoalStage.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Ground.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MainCamera.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)PauseSprite.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Player.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Player2.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Project.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ProjectBehavior.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ProjectShader.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)RaycastLine.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Scene.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ShadowObject.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SelectStageSprite.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ShadowFloor.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SpotLight.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SelectStage.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Start.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TitleSprite.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TitleStratButton.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TitleStage.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SystemManager.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Wall.h" />
   </ItemGroup>
 </Project>

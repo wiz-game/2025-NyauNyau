@@ -371,7 +371,7 @@ namespace basecross {
 
 
 			//Box�̍쐬
-			//CreateBox();
+			CreateBox();
 			//SpotLight�̍쐬
 			auto spotLight = AddGameObject<SpotLight>();
 			SetSharedGameObject(L"SpotLight", spotLight);
