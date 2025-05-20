@@ -99,7 +99,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)TitleStratButton.h">
       <Filter>Seino_Stage</Filter>
     </ClInclude>
-<<<<<<< HEAD
     <ClInclude Include="$(MSBuildThisFileDirectory)BackTitleButton.h">
       <Filter>Seino_Stage</Filter>
     </ClInclude>
@@ -108,13 +107,11 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)SelectStageSprite.h">
       <Filter>Seino_Stage</Filter>
-=======
     <ClInclude Include="$(MSBuildThisFileDirectory)ShadowFloor.h">
       <Filter>Tamura_Stage</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Enemy.h">
       <Filter>Tamura_Stage</Filter>
->>>>>>> Tamura_Fuki
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -188,7 +185,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)TitleStratButton.cpp">
       <Filter>Seino_Stage</Filter>
     </ClCompile>
-<<<<<<< HEAD
     <ClCompile Include="$(MSBuildThisFileDirectory)BackTitleButton.cpp">
       <Filter>Seino_Stage</Filter>
     </ClCompile>
@@ -197,7 +193,6 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)SelectStageSprite.cpp">
       <Filter>Seino_Stage</Filter>
-=======
     <ClCompile Include="$(MSBuildThisFileDirectory)ShadowFloor.cpp">
       <Filter>Tamura_Stage</Filter>
     </ClCompile>
@@ -206,7 +201,6 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Enemy.cpp">
       <Filter>Tamura_Stage</Filter>
->>>>>>> Tamura_Fuki
     </ClCompile>
   </ItemGroup>
 </Project>

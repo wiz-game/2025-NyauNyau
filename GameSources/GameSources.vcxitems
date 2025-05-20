@@ -34,12 +34,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ProjectShader.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RaycastLine.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Scene.h" />
-<<<<<<< HEAD
     <ClInclude Include="$(MSBuildThisFileDirectory)ShadowObject.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SelectStageSprite.h" />
-=======
     <ClInclude Include="$(MSBuildThisFileDirectory)ShadowFloor.h" />
->>>>>>> Tamura_Fuki
     <ClInclude Include="$(MSBuildThisFileDirectory)SpotLight.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SelectStage.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Start.h" />
@@ -68,12 +65,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)ProjectShader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)RaycastLine.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Scene.cpp" />
-<<<<<<< HEAD
     <ClCompile Include="$(MSBuildThisFileDirectory)ShadowObject.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SelectStageSprite.cpp" />
-=======
     <ClCompile Include="$(MSBuildThisFileDirectory)ShadowFloor.cpp" />
->>>>>>> Tamura_Fuki
     <ClCompile Include="$(MSBuildThisFileDirectory)SpotLight.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SelectStage.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Start.cpp" />
