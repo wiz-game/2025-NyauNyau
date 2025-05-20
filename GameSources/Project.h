@@ -34,6 +34,7 @@
 #include "BackTitleButton.h"
 #include "SelectStage.h"
 #include "SelectStageSprite.h"
+#include "FootprintSprite.h"
 
 
 

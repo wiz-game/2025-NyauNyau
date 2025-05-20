@@ -1,6 +1,6 @@
 /*!
-@file pauseSprite.cpp
-@brief キャラクターなど実体
+@file BackTitleButton.cpp
+@brief ステージスプライト実体
 */
 
 #include "stdafx.h"
@@ -9,15 +9,15 @@
 namespace basecross {
 
 	//初期化
-	void pauseSprite::OnCreate()
+	void FootprintSprite::OnCreate()
 	{
 		// 頂点(Vertex)データを設定
 		Col4 color(1, 1, 1, 1);
 		std::vector<VertexPositionColorTexture> vertices = {
-			{Vec3(-400, +200, 0), color, Vec2(0, 0)}, // ①
-			{Vec3(+400, +200, 0), color, Vec2(1, 0)}, // ②
-			{Vec3(-400, -200, 0), color, Vec2(0, 1)}, // ③
-			{Vec3(+400, -200, 0), color, Vec2(1, 1)}, // ④
+			{Vec3(-200, +130, 0), color, Vec2(0, 0)}, // ①
+			{Vec3(+200, +130, 0), color, Vec2(1, 0)}, // ②
+			{Vec3(-200, -130, 0), color, Vec2(0, 1)}, // ③
+			{Vec3(+200, -130, 0), color, Vec2(1, 1)}, // ④
 		};
 
 		// インデックスデータを設定（頂点をつなげる順番・3つの数値を組にして三角形を作る）
@@ -34,18 +34,19 @@ namespace basecross {
 		// 位置を設定する
 		m_ptrTrans = GetComponent<Transform>();
 		m_ptrTrans->SetScale(1, 1, 1);
-		m_ptrTrans->SetPosition(0, 0, 0); // 画面の中心を原点としたピクセル単位（1280x800）
+		m_ptrTrans->SetRotation(0, 0, 0);
+		m_ptrTrans->SetPosition(0, 0, 0);// 画面の中心を原点としたピクセル単位（1280x800）
 	}
 
-	void pauseSprite::OnUpdate()
+	void FootprintSprite::OnUpdate()
 	{
+
 		if (m_Selected)
 		{
-			//明滅の処理
 			//経過時間を取得
 			float elapsedTime = App::GetApp()->GetElapsedTime();
 
-			//経過時間
+			//時間経過
 			m_totalTime += elapsedTime * 3;
 			if (m_totalTime >= XM_PI)
 			{
@@ -55,27 +56,29 @@ namespace basecross {
 			//明滅の変化
 			float s = sin(m_totalTime) * 0.75f + 0.25f;
 			//ライトの当たり具合
-			m_drawComp->SetDiffuse(Col4(1, 1, 1, s));
+			m_drawComp->SetDiffuse(Col4(1, 1, 1, s));//ｓ：半透明
 		}
 		else
 		{
 			m_drawComp->SetDiffuse(Col4(1, 1, 1, 1));
 		}
-		
+
 	}
 
 	//テクスチャ
-	void pauseSprite::SetTexture(const std::wstring& Key)
+	void FootprintSprite::SetTexture(const std::wstring& Key)
 	{
 		m_drawComp->SetTextureResource(Key);
 	}
+
 	//position
-	void pauseSprite::SetPosition(float x, float y, float z)
+	void FootprintSprite::SetPosition(float x, float y, float z)
 	{
 		m_ptrTrans->SetPosition(x, y, z);
 	}
+
 	//scale
-	void pauseSprite::SetScale(float x, float y, float z)
+	void FootprintSprite::SetScale(float x, float y, float z)
 	{
 		m_ptrTrans->SetScale(x, y, z);
 	}

@@ -38,15 +38,19 @@ namespace basecross {
 		//ポーズフラグ
 		bool m_PauseFlag = false;
 		bool m_pauseSprite = false;
+		int m_SpriteNum;//今選択しているスプライト
 
-		std::shared_ptr<pauseSprite> m_Pause;
 
 		void ChangeSelect(int num);
+		//矢印のY軸を変更させる関数
+		void SetSelectPosition(int SpriteNum);
 		bool m_CntrolLock;
-		float m_select;//矢印の位置
+		float m_selectY;//矢印のY座標の位置
+		float m_selectX;//矢印のX座標の位置
 
 		std::vector<std::weak_ptr<pauseSprite>> m_pauseSprites;//ポーズスプライトの変数
 		std::shared_ptr<pauseSprite> leftPointSprite;//左矢印
+		std::shared_ptr<pauseSprite> Pause;
 
 
 		//入力ハンドラー
@@ -68,6 +72,17 @@ namespace basecross {
 
 		void OnPushA();
 		virtual void OnDestroy()override;
+
+		//スプライトナンバーのアクセサ
+		int GetSpriteNum() const
+		{
+			return m_SpriteNum;
+		}
+
+		void SetSpriteNum(int i)
+		{
+			m_SpriteNum = i;
+		}
 
 	};
 
