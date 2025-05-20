@@ -28,7 +28,7 @@ namespace basecross {
 		//チーズの作成
 		void CreateCheese();
 		//棚の作成
-		void CreateShelf();
+		void CreateShadowFloor();
 		//テクスチャの読込
 		void LoadTextures();
 

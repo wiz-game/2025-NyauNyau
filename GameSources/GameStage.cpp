@@ -118,7 +118,7 @@ namespace basecross {
 
 	}
 
-	void GameStage::CreateShelf()
+	void GameStage::CreateShadowFloor()
 	{
 		vector<vector<Vec3>> vec = {
 		{
@@ -322,26 +322,26 @@ namespace basecross {
 				Vec3(-5.0f, 35.5f, 0.0f)
 			);
 
-			AddGameObject<ShadowFloor>(
-				Vec3(1.0f, 20.0f, 5.0f),
-				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(-5.0f, -8.5f, -5.0f)
-			);
-			AddGameObject<ShadowFloor>(
-				Vec3(1.0f, 15.0f, 5.0f),
-				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(-5.0f, -8.5f, 5.0f)
-			);
-			AddGameObject<ShadowFloor>(
-				Vec3(1.0f, 17.0f, 5.0f),
-				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(-5.0f, -8.5f, 15.0f)
-			);
-			AddGameObject<ShadowFloor>(
-				Vec3(1.0f, 20.0f, 20.0f),
-				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(-5.0f, -8.5f, 25.0f)
-			);
+			//AddGameObject<ShadowFloor>(
+			//	Vec3(1.0f, 20.0f, 5.0f),
+			//	Vec3(0.0f, 0.0f, 0.0f),
+			//	Vec3(-5.0f, -8.5f, -5.0f)
+			//);
+			//AddGameObject<ShadowFloor>(
+			//	Vec3(1.0f, 15.0f, 5.0f),
+			//	Vec3(0.0f, 0.0f, 0.0f),
+			//	Vec3(-5.0f, -8.5f, 5.0f)
+			//);
+			//AddGameObject<ShadowFloor>(
+			//	Vec3(1.0f, 17.0f, 5.0f),
+			//	Vec3(0.0f, 0.0f, 0.0f),
+			//	Vec3(-5.0f, -8.5f, 15.0f)
+			//);
+			//AddGameObject<ShadowFloor>(
+			//	Vec3(1.0f, 20.0f, 20.0f),
+			//	Vec3(0.0f, 0.0f, 0.0f),
+			//	Vec3(-5.0f, -8.5f, 25.0f)
+			//);
 
 
 
