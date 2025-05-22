@@ -33,7 +33,3 @@ namespace basecross {
 
 }
 //end basecross
-<<<<<<< HEAD
-=======
-
->>>>>>> Takumu_Honda-
