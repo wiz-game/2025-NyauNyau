@@ -20,7 +20,7 @@ namespace basecross
 		//トランスフォームコンポーネント取得と設定
 		auto transComp = GetComponent<Transform>();
 		transComp->SetScale(0.5f, 0.5f, 0.5f);
-		transComp->SetPosition(Vec3(-4.75f, 1.0f, -4.0f));
+		transComp->SetPosition(Vec3(-4.75f, -0.2f, -4.0f));
 
 		//コリジョンつける
 		auto ptrColl = AddComponent<CollisionRect>();
@@ -32,10 +32,6 @@ namespace basecross
 		GetStage()->SetDrawPerformanceActive(true);
 
 
-
-		//重力をつける
-		auto ptrGra = AddComponent<Gravity>();
-
 	}
 
 
@@ -45,7 +41,7 @@ namespace basecross
 		//コントローラチェックして入力があればコマンド呼び出し
 
 		MoveXZ();
-
+		BoxMove();
 	}
 
 	Vec2 Box::GetInputState() const {

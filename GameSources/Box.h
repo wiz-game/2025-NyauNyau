@@ -15,7 +15,7 @@ namespace basecross {
 
 		Vec3 GetMoveVector() const;
 
-		InputHandler<Player> m_InputHandler;
+		InputHandler<Box> m_InputHandler;
 
 
 		float m_Speed;
@@ -36,7 +36,9 @@ namespace basecross {
 			GameObject(stage),
 			m_Speed(5.0f),
 			m_isAir(false),
-			m_gravity(-9.0)
+			m_gravity(-9.0),
+			m_velocity(0.0f)
+
 
 		{
 		}

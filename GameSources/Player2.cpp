@@ -356,8 +356,8 @@ namespace basecross
 
 
 		//文字列コンポーネントの取得
-		auto ptrString = GetComponent<StringSprite>();
-		ptrString->SetText(str);
+		/*auto ptrString = GetComponent<StringSprite>();
+		ptrString->SetText(str);*/
 
 	}
 }
