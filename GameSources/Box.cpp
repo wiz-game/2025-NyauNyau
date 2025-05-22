@@ -34,7 +34,7 @@ namespace basecross
 
 	void Box::OnUpdate()
 	{
-		float direction = 1.0f; // ˆÚ“®•ûŒüi1.0f:‰EA-1.0f:¶j
+		static float direction = 1.0f; // **ŠÖ”“à‚Å’l‚ð•ÛŽ**
 		float speed = 1.0f; // ˆÚ“®‘¬“x
 		float minX = -3.0f; // ¶ŒÀŠE
 		float maxX = 3.0f; // ‰EŒÀŠE
@@ -44,16 +44,21 @@ namespace basecross
 
 		float deltaZ = elapsedTime * speed * direction;
 
-		// **‹«ŠEƒ`ƒFƒbƒN‚Ìˆ—‚ðC³**
-		if (pos.z + deltaZ >= maxX) {
-			direction *= -1.0f;
-			pos.z = maxX - (deltaZ); // **’´‚¦‚½•ª‚¾‚¯‚ð”½‰f‚µ‚ÄÜ‚è•Ô‚µ**
+		// ‹«ŠEƒ`ƒFƒbƒN‚µ‚Ä•ûŒü”½“]
+		if (pos.z + deltaZ >= maxX) 
+		{
+			direction = -1.0f; // •ûŒü”½“]
+			pos.z = maxX; // ‹«ŠE‚ð’´‚¦‚È‚¢‚æ‚¤‚É‚·‚é
 		}
-		else if (pos.z + deltaZ <= minX) {
-			direction *= -1.0f;
-			pos.z = minX + (deltaZ); // **’´‚¦‚½•ª‚¾‚¯‚ð”½‰f‚µ‚ÄÜ‚è•Ô‚µ**
+
+		else if (pos.z + deltaZ <= minX) 
+		{
+			direction = 1.0f; // •ûŒü”½“]
+			pos.z = minX; // ‹«ŠE‚ð’´‚¦‚È‚¢‚æ‚¤‚É‚·‚é
 		}
-		else {
+
+		else 
+		{
 			pos.z += deltaZ; // ’Êí‚ÌˆÚ“®
 		}
 
