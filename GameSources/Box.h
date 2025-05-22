@@ -10,11 +10,14 @@
 namespace basecross {
 	class Box : public GameObject
 	{
+		shared_ptr<PNTStaticDraw> m_drawComp;
+		shared_ptr<Transform> m_transComp;
+
+
 	public:
 		//コンストラクタ
 		Box(const shared_ptr<Stage>& stage) :
 			GameObject(stage)
-
 		{
 		}
 
@@ -24,5 +27,4 @@ namespace basecross {
 
 }
 //end basecross
-#pragma once
 
