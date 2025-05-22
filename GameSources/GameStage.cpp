@@ -330,10 +330,12 @@ namespace basecross
 			//チーズの作成
 			CreateCheese();
 
+			//スプライトオブジェクト
+			AddGameObject<Phase1>();
+
+
 			auto ptrXA = App::GetApp()->GetXAudio2Manager();
 			m_BGM = ptrXA->Start(L"Gamebgm", XAUDIO2_LOOP_INFINITE, 0.1f);
-
-
 
 
 			// ゲーム開始時のフェーズ設定
@@ -375,6 +377,7 @@ namespace basecross
 		app->RegisterTexture(L"TEX_YUKA", texPath + L"yuka.jpg");
 		app->RegisterTexture(L"TEX_NEZUMI", texPath + L"nezumi.png");
 		app->RegisterTexture(L"TEX_NEZUMI2", texPath + L"nezumi2.png");
+		app->RegisterTexture(L"TEX_BbuttondeGameStart", texPath + L"BbuttondeGameStart.png");
 
 
 
@@ -385,6 +388,7 @@ namespace basecross
 		//BGMのストップ
 		auto XAPtr = App::GetApp()->GetXAudio2Manager();
 		XAPtr->Stop(m_BGM);
+
 	}
 
 	void GameStage::OnUpdate2()
@@ -393,14 +397,14 @@ namespace basecross
 			if (currentPhase == GamePhase::Phase1)
 			{
 				auto gameObjectVec = GetGameObjectVec();
-				for (auto& obj : gameObjectVec)
+				for (auto obj : gameObjectVec)
 				{
 
-					if (gameObjectVec.empty())
+					/*if (gameObjectVec.empty())
 					{
 						std::cout << "GetGameObjectVec() によって取得されたオブジェクトのリストが空です。" << std::endl;
 						return;
-					}
+					}*/
 
 					if (obj->FindTag(L"Box")) //dynamic_pointer_cast<Box>(obj) 
 					{
@@ -422,12 +426,22 @@ namespace basecross
 			{
 				currentPhase = GamePhase::Phase2;
 
+
 					auto gameObjectVec = GetGameObjectVec();
 					for (auto obj : gameObjectVec)
 					{
-						obj->SetUpdateActive(true);
+						if (obj->FindTag(L"Box")) //dynamic_pointer_cast<Box>(obj) 
+						{
+							obj->SetUpdateActive(false);
+						}
+						else
+						{
+						    obj->SetUpdateActive(true);
+
+						}
 					}
 
+					
 
 			}
 		

@@ -3,73 +3,42 @@
 
 namespace basecross
 {
-	//構築と破棄
-	Phase1::Phase1(const shared_ptr<Stage>& StagePtr
-	) :
-		GameObject(StagePtr),
-		m_Phase1(true),
-		m_CollisionEnabled(true)
-	{
-		// 初期化
-		//gameObjects = {}; // 空のリストとして初期化
-		//boxObject = nullptr; // 初期状態でnull
-	}
-
-
-	Vec2 Phase1::GetInputState() const {
-		Vec2 ret;
-		//コントローラの取得
-		auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
-		ret.x = 0.0f;
-		ret.y = 0.0f;
-		WORD wButtons = 0;
-
-		return ret;
-	}
-
-
+    //初期化
     void Phase1::OnCreate()
     {
+        // 頂点(Vertex)データを設定
+        Col4 color(1, 1, 1, 1);
+        std::vector<VertexPositionColorTexture> vertices = {
+            {Vec3(-320, +200, 0), color, Vec2(0, 0)}, // ①
+            {Vec3(+320, +200, 0), color, Vec2(1, 0)}, // ②
+            {Vec3(-320, -200, 0), color, Vec2(0, 1)}, // ③
+            {Vec3(+320, -200, 0), color, Vec2(1, 1)}, // ④
+        };
 
+        // インデックスデータを設定（頂点をつなげる順番・3つの数値を組にして三角形を作る）
+        std::vector<uint16_t> indices = {
+            0, 1, 2, // 1つ目のポリゴン(三角形)
+            2, 1, 3  // 2つ目のポリゴン(三角形)
+        };
+
+        // スプライト用のドローコンポーネントを追加する
+        auto drawComp = AddComponent<PCTSpriteDraw>(vertices, indices); // 頂点データとインデックスデータを設定する
+        drawComp->SetTextureResource(L"TEX_BbuttondeGameStart");
+        SetAlphaActive(true);
+
+        // 位置を設定する
+        auto transComp = GetComponent<Transform>();
+        transComp->SetPosition(-400, 350, 0); // 画面の中心を原点としたピクセル単位（1280x800）
+
+        AddTag(L"Phase1");
     }
-    
+
+
     void Phase1::OnUpdate()
     {
-    	//コントローラの取得
-    	auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
-    
-    	// Bボタンの入力
-    	if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B)
-    	{
-    		for (auto& obj : gameObjects)
-    		{
-                isFrozen = false;
-
-    		}
-    	}
-
-        // isFrozen が true の間は何も動かせない
-        if (isFrozen) return;
-
-        auto playertransform = player->GetComponent<Transform>();
-        // 通常のオブジェクト更新処理
-        //for (auto& obj : GetStage()->GetThis<GameStage>()->GetGameObjectVec()) 
-        //{
-        //    obj->;
-        //}
-
-
+        auto Sprite = GetStage()->GetThis<GameStage>()->GetGameObjectVec();
     }
+
+
     
-    
-    void Phase1::Initialize()
-    {
-        isFrozen = true; // ステージ開始時はすべてのオブジェクトを停止
-        
-    }
-    
-    void SetCollisionEnabled(bool enabled)
-    {
-    	//m_CollisionEnabled = enabled;
-    }
 }
