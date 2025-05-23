@@ -70,7 +70,7 @@ namespace basecross {
 		PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"ToSelectStage");
 
 		//一定時間後にスプライトを削除する（タイトル画面からゲームステージに移るタイミング）
-		PostEvent(5.0f, GetThis<ObjectInterface>(), scene, L"RemoveSprite");
+		PostEvent(5.0f, GetThis<ObjectInterface>(), scene, L"RemoveSprite");    
 	}
 
 	void TitleStage::LoadTextures()

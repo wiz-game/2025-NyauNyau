@@ -14,6 +14,13 @@ namespace basecross {
 	//--------------------------------------------------------------------------------------
 	//	ゲームステージクラス
 	//--------------------------------------------------------------------------------------
+
+	enum class GamePhase
+	{
+		Phase1,  //Box のみ操作可能
+ 	    Phase2   //全オブジェクトが動作開始
+
+	};
 	class GameStage : public Stage {
 		//ビューの作成
 		void CreateViewLight();
@@ -33,7 +40,8 @@ namespace basecross {
 		void LoadTextures();
 
 		void CreateBox();
-		
+		//void CreateTestShadowBox();
+
 		//プレイヤーの生成
 		void CreatePlayer();
 
@@ -53,6 +61,13 @@ namespace basecross {
 
 		shared_ptr<MainCamera> m_mainCamera; // メインカメラへの参照
 
+		GamePhase currentPhase = GamePhase::Phase1;
+
+
+		//std::shared_ptr<Box> boxObject;
+		//std::vector<std::shared_ptr<GameObject>> gameObjects;
+
+		
 
 	public:
 		//構築と破棄
@@ -63,7 +78,11 @@ namespace basecross {
 		virtual void OnUpdate()override;
 
 		void OnPushA();
+		virtual void OnUpdate()override;
+		virtual void OnUpdate2()override;
 		virtual void OnDestroy()override;
+
+		//void Initialize();
 
 	};
 

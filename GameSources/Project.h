@@ -37,6 +37,8 @@
 #include "ShadowFloor.h"
 #include "Enemy.h"
 
+#include "TestShadowBox.h"
+#include "Phase1.h"
 
 
 

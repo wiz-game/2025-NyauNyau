@@ -100,7 +100,8 @@ namespace basecross {
 		int index = 0; // ユニーク名用のインデックス
 		vector<shared_ptr<Ground>> grounds; // 生成した `Ground` を管理するリスト
 
-		for (auto& v : vec) {
+		for (auto& v : vec) 
+		{
 			auto ptrGround = AddGameObject<Ground>(v[0], v[1], v[2]);
 
 			// ユニーク名を生成
@@ -261,7 +262,7 @@ namespace basecross {
 		{
 			Vec3(0.0f,0.7f,0.5f),
 			Vec3(0.0f,0.0f,0.0f),
-			Vec3(-4.7f,0.005f,15.0f)
+			Vec3(-4.7f,0.005f,30.0f)
 		}
 		};
 		//オブジェクトの作成
@@ -273,7 +274,7 @@ namespace basecross {
 	//チーズ
 	void GameStage::CreateCheese()
 	{
-		vector< vector <Vec3> > vec = {
+		vector< vector <Vec3> > vec = 
 		{
 			Vec3(1.0f,1.0f,0.5f),
 			Vec3(0.0f,0.0f + XMConvertToRadians(270),0.0f),
@@ -294,6 +295,71 @@ namespace basecross {
 		//タグをつける
 		//ptrBox->AddTag(L"Box");
 	}
+	
+
+	//void GameStage::Initialize()
+	//{
+
+
+
+		
+
+		// Boxオブジェクトと他のゲームオブジェクトをセットアップ
+		//boxObject = std::make_shared<GameObject>();
+		//gameObjects.push_back(boxObject);
+
+		// Phase1 では Box 以外を固定
+		//for (auto& obj : gameObjects) 
+		//{
+		//	if (obj != boxObject) {
+		//		obj->SetUpdateActive(true);
+		//		obj->;
+		//	}
+		//}
+
+
+	//}
+
+
+	//void GameStage::CreateTestShadowBox()
+	//{
+	//	vector<vector<Vec3>> vec =
+	//	{
+	//		{
+	//			Vec3(0.0f, 0.5f, 0.5f),
+	//			Vec3(0.0f, 0.0f, 0.0f),
+	//			Vec3(-4.75f, 1.2f, -7.0f)
+	//		},
+
+	//	};
+
+		//int index = 0; // ユニーク名用のインデックス
+		//vector<shared_ptr<TestShadowBox>> TestShadowBoxs; // 生成した `` を管理するリスト
+
+		//for (auto& v : vec)
+		//{
+		//	auto ptrTestShadowBox = AddGameObject<TestShadowBox>(v[0], v[1], v[2]);
+
+		//	// ユニーク名を生成
+		//	wstring uniqueTag = L"TestShadowBox_" + to_wstring(index);
+
+		//	ptrTestShadowBox->AddTag(uniqueTag);  // ユニークなタグを適用
+		//	TestShadowBoxs.push_back(ptrTestShadowBox);    // `` をリストに保存
+		//	index++; // 次のオブジェクトのためにインデックスを増加		
+
+		//}
+
+		//// すべての `` を共有ゲームオブジェクトとして登録
+		//for (size_t i = 0; i < TestShadowBoxs.size(); i++)
+		//{
+		//	wstring uniqueName = L"TestShadowBox_" + to_wstring(i);  // ユニーク名を生成
+		//	SetSharedGameObject(uniqueName, TestShadowBoxs[i]);      // ユニーク名で共有登録
+
+		//}
+
+
+
+	//}
 
 
 	void GameStage::OnCreate() {
@@ -372,6 +438,9 @@ namespace basecross {
 
 			//Boxの作成
 			CreateBox();
+
+			//CreateTestShadowBox();
+
 			//SpotLightの作成
 			auto spotLight = AddGameObject<SpotLight>();
 			SetSharedGameObject(L"SpotLight", spotLight);
@@ -393,7 +462,16 @@ namespace basecross {
 			//チーズの作成
 			CreateCheese();
 
+			//スプライトオブジェクト
+			AddGameObject<Phase1>();
 
+
+			auto ptrXA = App::GetApp()->GetXAudio2Manager();
+			m_BGM = ptrXA->Start(L"Gamebgm", XAUDIO2_LOOP_INFINITE, 0.1f);
+
+
+			// ゲーム開始時のフェーズ設定
+			currentPhase = GamePhase::Phase1;
 
 		}
 		catch (...) {
@@ -452,6 +530,11 @@ namespace basecross {
 		}
 	}
 
+	void GameStage::OnUpdate()
+	{
+		//Initialize();
+	}
+
 
 	//// テクスチャの読込
 	void GameStage::LoadTextures()
@@ -480,6 +563,7 @@ namespace basecross {
 		app->RegisterTexture(L"TEX_ENEMY", texPath + L"Cat.png");
 		app->RegisterTexture(L"TEX_START", texPath + L"Goal.png");
 		app->RegisterTexture(L"TEX_GOAL", texPath + L"Goal.png");
+		app->RegisterTexture(L"TEX_BbuttondeGameStart", texPath + L"BbuttondeGameStart.png");
 
 
 
@@ -490,8 +574,65 @@ namespace basecross {
 		//BGMのストップ
 		auto XAPtr = App::GetApp()->GetXAudio2Manager();
 		XAPtr->Stop(m_BGM);
+
 	}
 
+	void GameStage::OnUpdate2()
+	{
+
+			if (currentPhase == GamePhase::Phase1)
+			{
+				auto gameObjectVec = GetGameObjectVec();
+				for (auto obj : gameObjectVec)
+				{
+
+					/*if (gameObjectVec.empty())
+					{
+						std::cout << "GetGameObjectVec() によって取得されたオブジェクトのリストが空です。" << std::endl;
+						return;
+					}*/
+
+					if (obj->FindTag(L"Box")) //dynamic_pointer_cast<Box>(obj) 
+					{
+						obj->SetUpdateActive(true);
+					}
+					else
+					{
+						obj->SetUpdateActive(false);
+					}
+
+
+				}
+			}
+
+
+			// BボタンでPhase2(GameStart)へ
+			auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+			if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B)
+			{
+				currentPhase = GamePhase::Phase2;
+
+
+					auto gameObjectVec = GetGameObjectVec();
+					for (auto obj : gameObjectVec)
+					{
+						if (obj->FindTag(L"Box")) //dynamic_pointer_cast<Box>(obj) 
+						{
+							obj->SetUpdateActive(false);
+						}
+						else
+						{
+						    obj->SetUpdateActive(true);
+
+						}
+					}
+
+					
+
+			}
+		
+
+	}
 
 }
 //end basecross
