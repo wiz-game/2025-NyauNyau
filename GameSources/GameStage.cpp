@@ -17,7 +17,7 @@ namespace basecross {
 	void GameStage::CreateViewLight() {
 		// カメラの設定
 		auto camera = ObjectFactory::Create<MainCamera>();
-		camera->SetEye(Vec3(0.0f, 5.0f, -5.5f));
+		camera->SetEye(Vec3(10.0f, 5.0f, 5.5f));
 		camera->SetAt(Vec3(0.0f, 0.0f, 0.0f));
 		m_mainCamera = camera; // カメラへの参照を保持しておく
 
@@ -494,7 +494,7 @@ namespace basecross {
 
 		//スタートボタンを押したときにボーズする
 		if (pad.wPressedButtons & XINPUT_GAMEPAD_START)
-		{
+		{ 
 
 			auto scene = App::GetApp()->GetScene<Scene>();
 			scene->PauseGame();
@@ -575,9 +575,13 @@ namespace basecross {
 
 	void GameStage::OnUpdate2()
 	{
+	/*	auto& app = App::GetApp();
+		MainCamera* mainCam = app->*/
 
 		if (currentPhase == GamePhase::Phase1)
 		{
+
+
 			auto gameObjectVec = GetGameObjectVec();
 			for (auto obj : gameObjectVec)
 			{
