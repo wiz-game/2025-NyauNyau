@@ -67,7 +67,7 @@ namespace basecross
 		float moveX = inPut.x;
 		float moveZ = inPut.y;
 
-		if (moveX != 0 || moveZ != 0) 
+		if (moveX != 0 || moveZ != 0)
 		{
 			auto ptrTransform = GetComponent<Transform>();
 			auto ptrCamera = OnGetDrawCamera();
@@ -97,6 +97,8 @@ namespace basecross
 
 			//x²‚ğŒÅ’è
 			angle.x = 0;
+		}
+		return angle;
 
 		static float direction = 1.0f; // **ŠÖ”“à‚Å’l‚ğ•Û**
 		float speed = 1.0f; // ˆÚ“®‘¬“x
@@ -109,19 +111,19 @@ namespace basecross
 		float deltaZ = elapsedTime * speed * direction;
 
 		// ‹«ŠEƒ`ƒFƒbƒN‚µ‚Ä•ûŒü”½“]
-		if (pos.z + deltaZ >= maxX) 
+		if (pos.z + deltaZ >= maxX)
 		{
 			direction = -1.0f; // •ûŒü”½“]
 			pos.z = maxX; // ‹«ŠE‚ğ’´‚¦‚È‚¢‚æ‚¤‚É‚·‚é
 		}
 
-		else if (pos.z + deltaZ <= minX) 
+		else if (pos.z + deltaZ <= minX)
 		{
 			direction = 1.0f; // •ûŒü”½“]
 			pos.z = minX; // ‹«ŠE‚ğ’´‚¦‚È‚¢‚æ‚¤‚É‚·‚é
 		}
 
-		else 
+		else
 		{
 			pos.z += deltaZ; // ’Êí‚ÌˆÚ“®
 		}
@@ -143,9 +145,7 @@ namespace basecross
 		auto ptrString = GetComponent<StringSprite>();
 		ptrString->SetText(str);
 	}
-		}
-		return angle;
-	}
+
 
 	void Box::MoveXZ() {
 		auto angle = GetInputState();
@@ -166,7 +166,6 @@ namespace basecross
 			GetComponent<Transform>()->SetPosition(pos); // XVŒã
 		}
 	}
-
 
 }
 //end basecross

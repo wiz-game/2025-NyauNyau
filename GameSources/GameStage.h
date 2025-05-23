@@ -73,11 +73,10 @@ namespace basecross {
 		//\’z‚Æ”jŠü
 		GameStage() :Stage(){}
 		virtual ~GameStage() {}
-		//‰Šú‰»
-		virtual void OnCreate()override;
-		virtual void OnUpdate()override;
+		void OnPushA();	
 
-		void OnPushA();
+		//‰Šú‰»		
+		virtual void OnCreate()override;
 		virtual void OnUpdate()override;
 		virtual void OnUpdate2()override;
 		virtual void OnDestroy()override;

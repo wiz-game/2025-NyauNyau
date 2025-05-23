@@ -83,24 +83,24 @@ namespace basecross {
 			Vec3(0.0f, 0.0f, 0.0f),
 			Vec3(19.0f, -10.5f, 0.0f)
 		},
-		//{
-		//	Vec3(20.0f, 1.0f, 8.0f),
-		//	Vec3(0.0f, 0.0f, 0.0f),
-		//	Vec3(-8.0f, -1.0f, 6.0f)
-		//},
-		//{
-		//	Vec3(8.0f, 1.0f, 20.0f),
-		//	Vec3(0.0f,  0.0f, 0.0f),
-		//	Vec3(0.0f, -1.0f, 6.0f)
+			//{
+			//	Vec3(20.0f, 1.0f, 8.0f),
+			//	Vec3(0.0f, 0.0f, 0.0f),
+			//	Vec3(-8.0f, -1.0f, 6.0f)
+			//},
+			//{
+			//	Vec3(8.0f, 1.0f, 20.0f),
+			//	Vec3(0.0f,  0.0f, 0.0f),
+			//	Vec3(0.0f, -1.0f, 6.0f)
 
-		//}
+			//}
 
 		};
 
 		int index = 0; // ユニーク名用のインデックス
 		vector<shared_ptr<Ground>> grounds; // 生成した `Ground` を管理するリスト
 
-		for (auto& v : vec) 
+		for (auto& v : vec)
 		{
 			auto ptrGround = AddGameObject<Ground>(v[0], v[1], v[2]);
 
@@ -204,14 +204,14 @@ namespace basecross {
 		int index = 0; // ユニーク名用のインデックス
 		vector<shared_ptr<Player>> players; // 生成した `Player` を管理するリスト
 
-		for (auto& v : vec) 
+		for (auto& v : vec)
 		{
-			auto ptrPlayer = AddGameObject<Player>(v[0],v[1],v[2]);
+			auto ptrPlayer = AddGameObject<Player>(v[0], v[1], v[2]);
 			m_mainCamera->SetTargetObject(ptrPlayer);
 
 			// ユニーク名を生成
 			wstring uniqueTag = L"Player_" + to_wstring(index);
-			
+
 			ptrPlayer->AddTag(uniqueTag);  // ユニークなタグを適用
 			players.push_back(ptrPlayer);    // `Player` をリストに保存
 			index++; // 次のオブジェクトのためにインデックスを増加		
@@ -223,7 +223,7 @@ namespace basecross {
 
 
 		// すべての `Player` を共有ゲームオブジェクトとして登録
-		for (size_t i = 0; i < players.size(); i++) 
+		for (size_t i = 0; i < players.size(); i++)
 		{
 			wstring uniqueName = L"Player_" + to_wstring(i);  // ユニーク名を生成
 			SetSharedGameObject(uniqueName, players[i]);      // ユニーク名で共有登録
@@ -274,35 +274,37 @@ namespace basecross {
 	//チーズ
 	void GameStage::CreateCheese()
 	{
-		vector< vector <Vec3> > vec = 
+		vector< vector <Vec3> > vec ={
 		{
 			Vec3(1.0f,1.0f,0.5f),
 			Vec3(0.0f,0.0f + XMConvertToRadians(270),0.0f),
 			Vec3(-4.6f,0.80f,-20.0f)
+
 		}
-		};
-		//オブジェクトの作成
+	    };
+	    //オブジェクトの作成
 		for (auto v : vec) {
 			AddGameObject<Cheese>(v[0], v[1], v[2]);
 		}
 	}
 
+
 	void GameStage::CreateBox()
 	{
 
 		auto ptrBox = AddGameObject<Box>();
-		SetSharedGameObject(L"Box",ptrBox);
+		SetSharedGameObject(L"Box", ptrBox);
 		//タグをつける
 		//ptrBox->AddTag(L"Box");
 	}
-	
+
 
 	//void GameStage::Initialize()
 	//{
 
 
 
-		
+
 
 		// Boxオブジェクトと他のゲームオブジェクトをセットアップ
 		//boxObject = std::make_shared<GameObject>();
@@ -363,7 +365,7 @@ namespace basecross {
 
 
 	void GameStage::OnCreate() {
-		try {	
+		try {
 
 			LoadTextures();
 
@@ -376,17 +378,17 @@ namespace basecross {
 
 			//ステージの見た目(ガチ雑スクリプトのため後で消す)
 			AddGameObject<ShadowFloor>(
-				Vec3(1.0f, 20.0f, 40.0f),  
+				Vec3(1.0f, 20.0f, 40.0f),
 				Vec3(0.0f, 0.0f, 0.0f),
 				Vec3(-5.0f, -10.5f, -30.0f)
 			);
 			AddGameObject<ShadowFloor>(
-				Vec3(1.0f, 10.0f, 40.0f),  
+				Vec3(1.0f, 10.0f, 40.0f),
 				Vec3(0.0f, 0.0f, 0.0f),
 				Vec3(-5.0f, 10.5f, -30.0f)
 			);
 			AddGameObject<ShadowFloor>(
-				Vec3(1.0f, 50.0f, 100.0f), 
+				Vec3(1.0f, 50.0f, 100.0f),
 				Vec3(0.0f, 0.0f, 0.0f),
 				Vec3(-5.0f, 35.5f, 0.0f)
 			);
@@ -530,12 +532,6 @@ namespace basecross {
 		}
 	}
 
-	void GameStage::OnUpdate()
-	{
-		//Initialize();
-	}
-
-
 	//// テクスチャの読込
 	void GameStage::LoadTextures()
 	{
@@ -545,7 +541,7 @@ namespace basecross {
 		// メディアフォルダの取得
 		auto mediaPath = app->GetDataDirWString();
 
-	    // テクスチャフォルダの定義
+		// テクスチャフォルダの定義
 		auto texPath = mediaPath + L"Textures\\";
 
 		// サウンドフォルダの定義
@@ -580,59 +576,60 @@ namespace basecross {
 	void GameStage::OnUpdate2()
 	{
 
-			if (currentPhase == GamePhase::Phase1)
+		if (currentPhase == GamePhase::Phase1)
+		{
+			auto gameObjectVec = GetGameObjectVec();
+			for (auto obj : gameObjectVec)
 			{
-				auto gameObjectVec = GetGameObjectVec();
-				for (auto obj : gameObjectVec)
+
+				/*if (gameObjectVec.empty())
 				{
+					std::cout << "GetGameObjectVec() によって取得されたオブジェクトのリストが空です。" << std::endl;
+					return;
+				}*/
 
-					/*if (gameObjectVec.empty())
-					{
-						std::cout << "GetGameObjectVec() によって取得されたオブジェクトのリストが空です。" << std::endl;
-						return;
-					}*/
+				if (obj->FindTag(L"Box")) //dynamic_pointer_cast<Box>(obj) 
+				{
+					obj->SetUpdateActive(true);
+				}
+				else
+				{
+					obj->SetUpdateActive(false);
+				}
 
-					if (obj->FindTag(L"Box")) //dynamic_pointer_cast<Box>(obj) 
-					{
-						obj->SetUpdateActive(true);
-					}
-					else
-					{
-						obj->SetUpdateActive(false);
-					}
 
+			}
+		}
+
+
+		// BボタンでPhase2(GameStart)へ
+		auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+		if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B)
+		{
+			currentPhase = GamePhase::Phase2;
+
+
+			auto gameObjectVec = GetGameObjectVec();
+			for (auto obj : gameObjectVec)
+			{
+				if (obj->FindTag(L"Box")) //dynamic_pointer_cast<Box>(obj) 
+				{
+					obj->SetUpdateActive(false);
+				}
+				else
+				{
+					obj->SetUpdateActive(true);
 
 				}
 			}
 
 
-			// BボタンでPhase2(GameStart)へ
-			auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
-			if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B)
-			{
-				currentPhase = GamePhase::Phase2;
 
+		}
 
-					auto gameObjectVec = GetGameObjectVec();
-					for (auto obj : gameObjectVec)
-					{
-						if (obj->FindTag(L"Box")) //dynamic_pointer_cast<Box>(obj) 
-						{
-							obj->SetUpdateActive(false);
-						}
-						else
-						{
-						    obj->SetUpdateActive(true);
-
-						}
-					}
-
-					
-
-			}
-		
 
 	}
-
 }
+	
+
 //end basecross
