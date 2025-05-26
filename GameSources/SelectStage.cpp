@@ -225,22 +225,22 @@
 		{
 			const int footprintCount = 20; // ネコの足跡の数
 			const float startX = 300.0f;  // 初期X座標
-			const float startY = -450.0f;  // 初期Y座標
-			const float endX = 650.0f;
+			const float startY = -300.0f;  // 初期Y座標
+			const float endX = 600.0f;
 			const float endY = -100.0f;
-			const float amplitude = 80.0f; // Sin波の振幅（上下の幅）
+			const float amplitude = 40.0f; // Sin波の振幅（上下の幅）
 			const float frequency = XM_PI / 2.0f; // 波の周期（間隔）
 
 			const float stepX = (endX - startX) / footprintCount; // X軸方向の移動量
-			const float stepY = (endY - startY) / footprintCount; // X軸方向の移動量
+			const float stepY = (endY - startY) / footprintCount; // Y軸方向の移動量
 			
 			for (int i = 0; i < footprintCount; i++)
 			{
 				auto footprint = AddGameObject<FootprintSprite>();
 				footprint->SetTexture(L"TEX_FOOTPRINT");
 
-				float newX = startX + stepX * i; //X方向に均等配置
-				float newY = (startY + stepY * i) + amplitude * sin(frequency * i); //Y方向にSin波を適用 
+				float newX = startX + stepX * i + amplitude * sin(frequency * i); //X方向に均等配置
+				float newY = startY + stepY * i; //Y方向にSin波を適用 
 
 				footprint->SetPosition(newX, newY, 0);
 				footprint->SetScale(0.2f, 0.2f, 0.2f);
