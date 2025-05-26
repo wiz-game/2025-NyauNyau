@@ -8,6 +8,7 @@
 #include "stdafx.h"
 #include "PauseSprite.h"
 #include "MainCamera.h"
+#include "Phase1Camera.h"
 
 namespace basecross {
 
@@ -60,6 +61,7 @@ namespace basecross {
 		shared_ptr<SoundItem> m_BGM;
 
 		shared_ptr<MainCamera> m_mainCamera; // ƒƒCƒ“ƒJƒƒ‰‚Ö‚ÌQÆ
+		shared_ptr<Phase1Camera> m_phase1Camera;
 
 		GamePhase currentPhase = GamePhase::Phase1;
 

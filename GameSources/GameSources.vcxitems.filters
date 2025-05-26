@@ -97,6 +97,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)SystemManager.cpp">
       <Filter>全体管理</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Phase1Camera.cpp">
+      <Filter>全体管理</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Character.h">
@@ -193,6 +196,9 @@
       <Filter>全体管理</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)SystemManager.h">
+      <Filter>全体管理</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Phase1Camera.h">
       <Filter>全体管理</Filter>
     </ClInclude>
   </ItemGroup>

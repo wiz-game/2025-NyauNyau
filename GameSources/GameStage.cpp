@@ -16,14 +16,18 @@ namespace basecross {
 	//--------------------------------------------------------------------------------------
 	void GameStage::CreateViewLight() {
 		// カメラの設定
-		auto camera = ObjectFactory::Create<MainCamera>();
-		camera->SetEye(Vec3(0.0f, 5.0f, -5.5f));
-		camera->SetAt(Vec3(0.0f, 0.0f, 0.0f));
-		m_mainCamera = camera; // カメラへの参照を保持しておく
+		auto mainCamera = ObjectFactory::Create<MainCamera>();
+		auto phase1Camera = ObjectFactory::Create<Phase1Camera>();
+		phase1Camera->SetEye(Vec3(50.0f, 15.0f, 5.0f));
+		phase1Camera->SetAt(Vec3(-5.0f, -5.0f, 5.0f));
+
+		// カメラへの参照を保持しておく
+		m_mainCamera = mainCamera;
+		m_phase1Camera = phase1Camera; 
 
 		// ビューにカメラを設定
 		auto view = CreateView<SingleView>();
-		view->SetCamera(camera);
+		view->SetCamera(phase1Camera);
 
 		//マルチライトの作成
 		auto light = CreateLight<MultiLight>();
@@ -516,6 +520,7 @@ namespace basecross {
 				m_PauseFlag = false;
 			}
 		}
+
 	}
 
 	//タイトルに戻る
@@ -607,6 +612,7 @@ namespace basecross {
 		if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B)
 		{
 			currentPhase = GamePhase::Phase2;
+
 
 
 			auto gameObjectVec = GetGameObjectVec();
