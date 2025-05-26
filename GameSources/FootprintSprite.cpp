@@ -12,7 +12,7 @@ namespace basecross {
 	void FootprintSprite::OnCreate()
 	{
 		// 頂点(Vertex)データを設定
-		Col4 color(1, 1, 1, 1);
+		Col4 color(0.7f ,0.7f, 0.7f, 0.7f);
 		std::vector<VertexPositionColorTexture> vertices = {
 			{Vec3(-200, +130, 0), color, Vec2(0, 0)}, // ①
 			{Vec3(+200, +130, 0), color, Vec2(1, 0)}, // ②

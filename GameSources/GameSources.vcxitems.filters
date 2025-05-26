@@ -108,6 +108,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SelectStageSprite.h">
       <Filter>Seino_Stage</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)FootprintSprite.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Character.cpp">
@@ -190,5 +191,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)SelectStageSprite.cpp">
       <Filter>Seino_Stage</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)FootprintSprite.cpp" />
   </ItemGroup>
 </Project>
