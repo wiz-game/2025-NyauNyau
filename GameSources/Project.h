@@ -22,7 +22,6 @@
 #include "Start.h"
 #include "Goal.h"
 #include "Cheese.h"
-#include "GameManager.h"
 #include "SystemManager.h"
 #include "TitleStage.h"
 #include "TitleSprite.h"
@@ -37,6 +36,8 @@
 #include "ShadowFloor.h"
 #include "Enemy.h"
 
+#include "TestShadowBox.h"
+#include "Phase1.h"
 
 
 
