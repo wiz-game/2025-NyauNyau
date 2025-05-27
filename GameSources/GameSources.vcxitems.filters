@@ -195,6 +195,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SystemManager.h">
       <Filter>全体管理</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)FootprintSprite.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Character.cpp">
@@ -299,5 +300,18 @@
     <Filter Include="全体管理">
       <UniqueIdentifier>{6dee4595-b099-4e91-9e3e-e8a75a4a72e3}</UniqueIdentifier>
     </Filter>
+    <ClCompile Include="$(MSBuildThisFileDirectory)TitleStratButton.cpp">
+      <Filter>Seino_Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)BackTitleButton.cpp">
+      <Filter>Seino_Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)SelectStage.cpp">
+      <Filter>Seino_Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)SelectStageSprite.cpp">
+      <Filter>Seino_Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)FootprintSprite.cpp" />
   </ItemGroup>
 </Project>

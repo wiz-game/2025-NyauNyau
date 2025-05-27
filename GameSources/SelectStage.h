@@ -6,6 +6,7 @@
 #pragma once
 #include "stdafx.h"
 #include "SelectStageSprite.h"
+#include "FootprintSprite.h"
 
 namespace basecross {
 
@@ -18,7 +19,10 @@ namespace basecross {
 		//void OnDestroy();
 		//shared_ptr<SoundItem> m_BGM;
 
-		std::vector<std::weak_ptr<SelectStageSprite>> m_stageSprites;
+		std::vector<std::weak_ptr<SelectStageSprite>> m_stageSprites;//ステージスプライトを管理する
+		std::vector<std::weak_ptr<FootprintSprite>> m_footprints;//足跡の管理
+		std::shared_ptr<FootprintSprite> m_transFootprints;
+
 		std::shared_ptr<SelectStageSprite> leftPointSprite;
 
 		void ChangeSelect(int num);
@@ -28,6 +32,9 @@ namespace basecross {
 
 		//矢印のY軸を変更させる関数
 		void SetSelectYPosition(int StageNum);
+
+		//ネコの足跡の処理
+		void CreateFootprints();
 
 
 	public:

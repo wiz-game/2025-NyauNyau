@@ -38,6 +38,8 @@
 				//テクスチャの読込
 				LoadTextures();
 
+				CreateFootprints();
+
 				//スプライトオブジェクトの追加
 				//ステージ１
 				auto stage1 = AddGameObject<SelectStageSprite>();
@@ -81,7 +83,7 @@
 			auto PtrScene = App::GetApp()->GetScene<Scene>();
 			int StageNum = PtrScene->GetStageNum();
 
-			
+
 
 			//コントローラの取得
 			auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
@@ -149,6 +151,53 @@
 					}
 				}
 			}
+			//経過時間を取得
+			auto delta = App::GetApp()->GetElapsedTime();
+
+			static float timeElapsed = 0.0f;
+			timeElapsed += delta;
+
+			const float frequency = XM_PI / 2.0f;//波の周期
+
+			int index = static_cast<int>(timeElapsed / 0.3f); // 0.3秒ごとに足跡を表示
+
+			if (index < m_footprints.size())
+			{
+				float waveValue = cos(frequency * index);//sin波の値を計算
+
+				//sin波の値が１または-１に近い場合に表示
+				if (waveValue > 0.99f || waveValue < -0.99f)
+				{
+					auto footprintPtr = m_footprints[index].lock();
+					if (footprintPtr)
+					{
+						footprintPtr->SetDrawActive(true); // 足跡を表示
+
+						static float moveDuration = 3.0f;
+						static float moveElapsed = 0.0f;
+
+						if (moveElapsed < moveDuration)
+						{
+							//下から浮き上がってくる演出処理
+							moveElapsed += delta;
+							//Vec3からfloatへの変換
+							XMFLOAT3 trans = footprintPtr->GetComponent<Transform>()->GetPosition();
+							float startY = trans.y;//Y座標のみ取り出す
+							float targetY = startY + 0.3f;//目標の位置
+
+							float setY = startY + (targetY - startY) * (moveElapsed / moveDuration);
+							
+							//フェードイン処理
+							float alpha = moveElapsed / moveDuration;//透明度の計算（0.0~1.0）
+							footprintPtr->SetAlphaActive(alpha);//アルファ値を更新
+							
+							
+							footprintPtr->SetPosition(trans.x, setY, 0);
+						}
+					}
+				}
+			}
+
 		}
 
 		//選択しているSpriteを点滅させる処理
@@ -193,6 +242,36 @@
 			}
 		}
 
+		//ネコの足跡の処理
+		void SelectStage::CreateFootprints()
+		{
+			const int footprintCount = 20; // ネコの足跡の数
+			const float startX = 300.0f;  // 初期X座標
+			const float startY = -420.0f;  // 初期Y座標
+			const float endX = 650.0f;
+			const float endY = -100.0f;
+			const float amplitude = 80.0f; // Sin波の振幅（上下の幅）
+			const float frequency = XM_PI / 2.0f; // 波の周期（間隔）
+
+			const float stepX = (endX - startX) / footprintCount; // X軸方向の移動量
+			const float stepY = (endY - startY) / footprintCount; // Y軸方向の移動量
+			
+			for (int i = 0; i < footprintCount; i++)
+			{
+				auto footprint = AddGameObject<FootprintSprite>();
+				footprint->SetTexture(L"TEX_FOOTPRINT");
+
+				float newX = startX + stepX * i + amplitude * cos(frequency * i); //X方向に均等配置
+				float newY = startY + stepY * i - 0.3f; //Y方向にSin波を適用 
+
+				footprint->SetPosition(newX, newY, 0);
+				footprint->SetScale(0.2f, 0.2f, 0.2f);
+				footprint->SetRotate(0, 0, -(XM_PI/6));
+				footprint->SetDrawActive(false); // 最初は非表示
+
+				m_footprints.push_back(footprint);
+			}
+		}
 		void SelectStage::LoadTextures()
 		{
 			// アプリケーションオブジェクトを取得する
@@ -210,7 +289,7 @@
 			app->RegisterTexture(L"TEX_STAGE3", texPath + L"stage3.png");
 			app->RegisterTexture(L"TEX_POINT", texPath + L"point.png");
 			app->RegisterTexture(L"TEX_POINT2", texPath + L"point2.png");
-
+			app->RegisterTexture(L"TEX_FOOTPRINT", texPath + L"Footprint.png");
 
 		}
 
