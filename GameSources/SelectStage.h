@@ -21,6 +21,8 @@ namespace basecross {
 
 		std::vector<std::weak_ptr<SelectStageSprite>> m_stageSprites;//ステージスプライトを管理する
 		std::vector<std::weak_ptr<FootprintSprite>> m_footprints;//足跡の管理
+		std::shared_ptr<FootprintSprite> m_transFootprints;
+
 		std::shared_ptr<SelectStageSprite> leftPointSprite;
 
 		void ChangeSelect(int num);
