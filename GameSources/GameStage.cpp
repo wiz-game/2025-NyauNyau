@@ -27,7 +27,12 @@ namespace basecross {
 
 		// ビューにカメラを設定
 		auto view = CreateView<SingleView>();
-		view->SetCamera(phase1Camera);
+		if (currentPhase == GamePhase::Phase1)
+			view->SetCamera(phase1Camera);
+		if (currentPhase == GamePhase::Phase2)
+			view->SetCamera(phase1Camera);
+
+
 
 		//マルチライトの作成
 		auto light = CreateLight<MultiLight>();
@@ -487,6 +492,7 @@ namespace basecross {
 	void GameStage::OnUpdate()
 	{
 
+
 		//コントローラチェックして入力があればコマンド呼び出し
 		m_InputHandler.PushHandle(GetThis<GameStage>());
 
@@ -578,11 +584,18 @@ namespace basecross {
 
 	}
 
+	void GameStage::SwitchCamera()
+	{
+		
+	}
+
 	void GameStage::OnUpdate2()
 	{
 
+
 		if (currentPhase == GamePhase::Phase1)
-		{
+		{	
+
 			auto gameObjectVec = GetGameObjectVec();
 			for (auto obj : gameObjectVec)
 			{
