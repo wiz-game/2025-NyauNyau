@@ -28,9 +28,9 @@ namespace basecross {
 		// ÉrÉÖÅ[Ç…ÉJÉÅÉâÇê›íË
 		auto view = CreateView<SingleView>();
 		if (currentPhase == GamePhase::Phase1)
-			view->SetCamera(phase1Camera);
+			view->SetCamera(m_mainCamera);
 		if (currentPhase == GamePhase::Phase2)
-			view->SetCamera(phase1Camera);
+			view->SetCamera(m_mainCamera);
 
 
 
@@ -402,26 +402,26 @@ namespace basecross {
 				Vec3(-5.0f, 35.5f, 0.0f)
 			);
 
-			//AddGameObject<ShadowFloor>(
-			//	Vec3(1.0f, 20.0f, 5.0f),
-			//	Vec3(0.0f, 0.0f, 0.0f),
-			//	Vec3(-5.0f, -8.5f, -5.0f)
-			//);
-			//AddGameObject<ShadowFloor>(
-			//	Vec3(1.0f, 15.0f, 5.0f),
-			//	Vec3(0.0f, 0.0f, 0.0f),
-			//	Vec3(-5.0f, -8.5f, 5.0f)
-			//);
-			//AddGameObject<ShadowFloor>(
-			//	Vec3(1.0f, 17.0f, 5.0f),
-			//	Vec3(0.0f, 0.0f, 0.0f),
-			//	Vec3(-5.0f, -8.5f, 15.0f)
-			//);
-			//AddGameObject<ShadowFloor>(
-			//	Vec3(1.0f, 20.0f, 20.0f),
-			//	Vec3(0.0f, 0.0f, 0.0f),
-			//	Vec3(-5.0f, -8.5f, 25.0f)
-			//);
+			AddGameObject<ShadowFloor>(
+				Vec3(1.0f, 20.0f, 5.0f),
+				Vec3(0.0f, 0.0f, 0.0f),
+				Vec3(-5.0f, -8.5f, -5.0f)
+			);
+			AddGameObject<ShadowFloor>(
+				Vec3(1.0f, 15.0f, 5.0f),
+				Vec3(0.0f, 0.0f, 0.0f),
+				Vec3(-5.0f, -8.5f, 5.0f)
+			);
+			AddGameObject<ShadowFloor>(
+				Vec3(1.0f, 17.0f, 5.0f),
+				Vec3(0.0f, 0.0f, 0.0f),
+				Vec3(-5.0f, -8.5f, 15.0f)
+			);
+			AddGameObject<ShadowFloor>(
+				Vec3(1.0f, 20.0f, 20.0f),
+				Vec3(0.0f, 0.0f, 0.0f),
+				Vec3(-5.0f, -8.5f, 25.0f)
+			);
 
 
 
