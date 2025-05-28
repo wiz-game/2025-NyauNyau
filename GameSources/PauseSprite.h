@@ -39,7 +39,7 @@ namespace basecross {
 		void SetPosition(float x, float y, float z);
 		void SetScale(float x, float y, float z);
 
-		//m_Blinkingのアクセサ
+		//m_Selectedのアクセサ
 		int IsSelected() const
 		{
 			return m_Selected;

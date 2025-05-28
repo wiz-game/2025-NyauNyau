@@ -23,7 +23,7 @@ namespace basecross {
 		std::vector<std::weak_ptr<FootprintSprite>> m_footprints;//‘«Õ‚ÌŠÇ—
 		std::shared_ptr<FootprintSprite> m_transFootprints;
 
-		std::shared_ptr<SelectStageSprite> leftPointSprite;
+		std::shared_ptr<SelectStageSprite> catPointSprite;
 
 		void ChangeSelect(int num);
 		bool m_CntrolLock;

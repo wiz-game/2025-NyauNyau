@@ -62,7 +62,7 @@ namespace basecross {
 		float m_selectX;//矢印のX座標の位置
 
 		std::vector<std::weak_ptr<pauseSprite>> m_pauseSprites;//ポーズスプライトの変数
-		std::shared_ptr<pauseSprite> leftPointSprite;//左矢印
+		std::shared_ptr<pauseSprite> catPointSprite;//左矢印
 		std::shared_ptr<pauseSprite> Pause;
 
 
