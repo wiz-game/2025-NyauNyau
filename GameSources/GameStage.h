@@ -61,7 +61,7 @@ namespace basecross {
 
 		shared_ptr<MainCamera> m_mainCamera; // ƒƒCƒ“ƒJƒƒ‰‚Ö‚ÌQÆ
 
-		GamePhase currentPhase = GamePhase::Phase1;
+		GamePhase currentPhase = GamePhase::Phase1; // Å‰‚Éİ’è‚³‚ê‚Ä‚¢‚éPhase
 
 
 		//std::shared_ptr<Box> boxObject;

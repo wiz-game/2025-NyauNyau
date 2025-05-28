@@ -17,7 +17,7 @@ namespace basecross {
 	void GameStage::CreateViewLight() {
 		// カメラの設定
 		auto camera = ObjectFactory::Create<MainCamera>();
-		camera->SetEye(Vec3(10.0f, 5.0f, 5.5f));
+		camera->SetEye(Vec3(0.0f, 5.0f, 0.0f));
 		camera->SetAt(Vec3(0.0f, 0.0f, 0.0f));
 		m_mainCamera = camera; // カメラへの参照を保持しておく
 
@@ -40,16 +40,16 @@ namespace basecross {
 	void GameStage::CreateWall()
 	{
 		vector<vector<Vec3>> vec = {
-			//{
-			//	Vec3(30.0f, 10.0f, 1.0f), 
-			//	Vec3(0.0f, 0.0f, 0.0f),
-			//	Vec3(0.0f, 4.0f, 5.0f)
-			//},
 			{
-				Vec3(100.0f, 50.0f, 1.0f),
-				Vec3(0.0f, -XM_PI / 2, 0.0f),
-				Vec3(-5.0f, 4.0f, 0.0f)
+				Vec3(200.0f, 30.0f, 1.0f), 
+				Vec3(0.0f, 0.0f, 0.0f),
+				Vec3(0.0f, 4.0f, 0.0f)
 			},
+			//{
+			//	Vec3(100.0f, 50.0f, 1.0f),
+			//	Vec3(0.0f, -XM_PI / 2, 0.0f),
+			//	Vec3(-5.0f, 4.0f, 0.0f)
+			//},
 
 		};
 
@@ -79,9 +79,9 @@ namespace basecross {
 	{
 		vector<vector<Vec3>> vec = {
 		{
-			Vec3(50.0f, 10.0f, 100.0f),  // 10,1,10
+			Vec3(200.0f, 10.0f, 50.0f),  // 10,1,10
 			Vec3(0.0f, 0.0f, 0.0f),
-			Vec3(19.0f, -10.5f, 0.0f)
+			Vec3(0.0f, -10.5f, 0.0f)
 		},
 			//{
 			//	Vec3(20.0f, 1.0f, 8.0f),
@@ -125,9 +125,9 @@ namespace basecross {
 	{
 		vector<vector<Vec3>> vec = {
 		{
-			Vec3(1.0f, 20.0f, 20.0f),  // 10,1,10
+			Vec3(20.0f, 20.0f, 1.0f),  // 10,1,10
 			Vec3(0.0f, 0.0f, 0.0f),
-			Vec3(-5.0f, -10.5f, -30.0f)
+			Vec3(0.0f, 4.0f, 0.0f)
 		},
 			//{
 			//	Vec3(20.0f, 1.0f, 8.0f),
@@ -174,7 +174,7 @@ namespace basecross {
 		{
 			Vec3(0.0f,0.7f,0.5f),
 			Vec3(0.0f,0.0f,0.0f),
-			Vec3(-4.7f,0.005f,-40.0f)
+			Vec3(-40.0f,0.005f,-0.5f)
 		}
 		};
 		//オブジェクトの作成
@@ -190,8 +190,8 @@ namespace basecross {
 		{
 			{
 				Vec3(3.75f, 3.0f, 3.0f),
-				Vec3(0.0f, 0.0f + XMConvertToRadians(270) , 0.0f),
-				Vec3(-4.75f, 1.0f, -40.0f)
+				Vec3(0.0f, 0.0f/* + XMConvertToRadians(270)*/ , 0.0f),
+				Vec3(0.0f, 1.0f, -0.5f)
 			},
 			//{
 			//	Vec3(0.0f, 0.25f, 0.25f),
@@ -237,9 +237,9 @@ namespace basecross {
 	{
 		vector< vector <Vec3> > vec = {
 		{
-			Vec3(-0.01f,9.0f,9.0f),
+			Vec3(9.0f,9.0f,-0.001f),
 			Vec3(0.0f,0.0f,0.0f),
-			Vec3(-4.7f,4.0f,-50.0f)
+			Vec3(-10.0f,4.0f,-0.5f)
 		}
 		};
 		for (auto& v : vec) {
@@ -278,7 +278,7 @@ namespace basecross {
 		{
 			Vec3(1.0f,1.0f,0.5f),
 			Vec3(0.0f,0.0f + XMConvertToRadians(270),0.0f),
-			Vec3(-4.6f,0.80f,-20.0f)
+			Vec3(-40.0f,0.80f,-0.5f)
 
 		}
 	    };
@@ -297,30 +297,6 @@ namespace basecross {
 		//タグをつける
 		//ptrBox->AddTag(L"Box");
 	}
-
-
-	//void GameStage::Initialize()
-	//{
-
-
-
-
-
-		// Boxオブジェクトと他のゲームオブジェクトをセットアップ
-		//boxObject = std::make_shared<GameObject>();
-		//gameObjects.push_back(boxObject);
-
-		// Phase1 では Box 以外を固定
-		//for (auto& obj : gameObjects) 
-		//{
-		//	if (obj != boxObject) {
-		//		obj->SetUpdateActive(true);
-		//		obj->;
-		//	}
-		//}
-
-
-	//}
 
 
 	//void GameStage::CreateTestShadowBox()
@@ -378,26 +354,26 @@ namespace basecross {
 
 			//ステージの見た目(ガチ雑スクリプトのため後で消す)
 			AddGameObject<ShadowFloor>(
-				Vec3(1.0f, 20.0f, 40.0f),
+				Vec3(40.0f, 8.0f, 1.0f),
 				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(-5.0f, -10.5f, -30.0f)
+				Vec3(0.0f, 13.0f, 0.0f)
 			);
 			AddGameObject<ShadowFloor>(
-				Vec3(1.0f, 10.0f, 40.0f),
+				Vec3(40.0f, 5.0f, 2.0f),
 				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(-5.0f, 10.5f, -30.0f)
+				Vec3(-2.0f, -3.0f, 0.0f)
 			);
 			AddGameObject<ShadowFloor>(
-				Vec3(1.0f, 50.0f, 100.0f),
+				Vec3(20.0f, 7.0f, 1.0f),
 				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(-5.0f, 35.5f, 0.0f)
+				Vec3(30.0f, -3.0f, 0.0f)
 			);
 
-			//AddGameObject<ShadowFloor>(
-			//	Vec3(1.0f, 20.0f, 5.0f),
-			//	Vec3(0.0f, 0.0f, 0.0f),
-			//	Vec3(-5.0f, -8.5f, -5.0f)
-			//);
+			AddGameObject<ShadowFloor>(
+				Vec3(40.0f, 20.0f, 5.0f),
+				Vec3(0.0f, 0.0f, 0.0f),
+				Vec3(60.0f, 13.0f, 0.0f)
+			);
 			//AddGameObject<ShadowFloor>(
 			//	Vec3(1.0f, 15.0f, 5.0f),
 			//	Vec3(0.0f, 0.0f, 0.0f),
@@ -413,9 +389,6 @@ namespace basecross {
 			//	Vec3(0.0f, 0.0f, 0.0f),
 			//	Vec3(-5.0f, -8.5f, 25.0f)
 			//);
-
-
-
 
 
 
@@ -457,9 +430,9 @@ namespace basecross {
 			//ゴールの作成
 			//CreategoalGate();
 			AddGameObject<goalGate>(
-				Vec3(0.0f, 2.5f, 1.5f),
+				Vec3(1.5f, 1.5f, 0.001f),
 				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(-4.7f, 2.0f, 25.0f)
+				Vec3(25.0f, 1.0f, -0.1f)
 			);
 			//チーズの作成
 			CreateCheese();
@@ -581,7 +554,6 @@ namespace basecross {
 		if (currentPhase == GamePhase::Phase1)
 		{
 
-
 			auto gameObjectVec = GetGameObjectVec();
 			for (auto obj : gameObjectVec)
 			{
@@ -592,7 +564,11 @@ namespace basecross {
 					return;
 				}*/
 
-				if (obj->FindTag(L"Box")) //dynamic_pointer_cast<Box>(obj) 
+				if (dynamic_pointer_cast<Box>(obj)) //dynamic_pointer_cast<Box>(obj) 
+				{
+					obj->SetUpdateActive(true);
+				}
+				else if(dynamic_pointer_cast<ShadowObject>(obj))
 				{
 					obj->SetUpdateActive(true);
 				}
@@ -616,7 +592,7 @@ namespace basecross {
 			auto gameObjectVec = GetGameObjectVec();
 			for (auto obj : gameObjectVec)
 			{
-				if (obj->FindTag(L"Box")) //dynamic_pointer_cast<Box>(obj) 
+				if (dynamic_pointer_cast<Box>(obj)) 
 				{
 					obj->SetUpdateActive(false);
 				}

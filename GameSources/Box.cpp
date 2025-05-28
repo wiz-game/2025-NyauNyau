@@ -20,7 +20,7 @@ namespace basecross
 		//トランスフォームコンポーネント取得と設定
 		m_transComp = GetComponent<Transform>();
 		m_transComp->SetScale(0.5f, 0.5f, 0.5f);
-		m_transComp->SetPosition(Vec3(0.0f, -0.25f, 0.0f));
+		m_transComp->SetPosition(Vec3(0.0f, -0.25f, -1.0f));
 
 		//コリジョンつける
 		auto ptrColl = AddComponent<CollisionRect>();
@@ -93,10 +93,10 @@ namespace basecross
 			angle.normalize();
 
 			// 移動サイズの適用
-			angle *= moveVec.length();
+			angle *= -moveVec.length();
 
 			//x軸を固定
-			angle.x = 0;
+			angle.z = 0;
 		}
 		return angle;
 

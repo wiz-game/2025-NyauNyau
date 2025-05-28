@@ -71,7 +71,7 @@ namespace basecross {
 		Vec3 currentPosition = ptrTransform->GetPosition();
 
 		// 右方向へ `EnemySpeed` だけ移動
-		currentPosition.z += EnemySpeed * elapsedTime;
+		currentPosition.x += EnemySpeed * elapsedTime;
 
 		// 更新した位置をセット
 		ptrTransform->SetPosition(currentPosition);

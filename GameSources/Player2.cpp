@@ -22,7 +22,10 @@ namespace basecross
 		m_velocityY(0.0f),
 		m_velocity(0.0f),
 		m_collisionFlag(false),
-		m_gravity(-9.0)
+		m_gravity(-9.0),
+		m_Radius(0.0f),
+		m_Center(0.0f,0.0f,0.0f)
+
 
 
 
@@ -51,7 +54,7 @@ namespace basecross
 		auto inPut = GetInputState();
 		float moveX = inPut.x;
 		float moveZ = inPut.y;
-			
+
 		if (moveX != 0 || moveZ != 0) {
 			//float moveLength = 0;	//動いた時のスピード
 			//auto ptrTransform = GetComponent<Transform>();
@@ -95,7 +98,7 @@ namespace basecross
 			float cntlAngle = atan2(-moveX, moveZ);
 
 			// 合計角度計算（カメラ + スティック + プレイヤー回転）
-			float totalAngle = frontAngle + cntlAngle ;
+			float totalAngle = frontAngle + cntlAngle;
 
 			// 角度から移動ベクトルを作成
 			angle = Vec3(cos(totalAngle), 0, sin(totalAngle));
@@ -128,7 +131,7 @@ namespace basecross
 		auto pos = GetComponent<Transform>()->GetPosition();
 
 		// z方向に自動移動
-		pos.z += elapsedTime * m_Speed;
+		pos.x += elapsedTime * m_Speed;
 
 
 		GetComponent<Transform>()->SetPosition(pos); // 更新後
@@ -147,7 +150,7 @@ namespace basecross
 		//	utilPtr->RotToHead(angle, 1.0f);
 		//}
 
-		
+
 	}
 
 	void Player::Jump(shared_ptr<GameObject>& jump)
@@ -158,7 +161,10 @@ namespace basecross
 		//重力をつける
 		auto ptrGra = AddComponent<Gravity>();
 
-		//if (jump->FindTag(L"BOX"))
+		//auto gameObjectVec = GetGameObjectVec();
+		//for (auto obj : gameObjectVec)
+		//{
+		//if (dynamic_pointer_cast<Box>())
 		//{
 		//	if (pos.y == 0.502f || pos.y == 0.501f)
 		//	{
@@ -173,6 +179,7 @@ namespace basecross
 		//	}
 
 		//}
+	    //}
 	}
 
 
@@ -190,6 +197,8 @@ namespace basecross
 		//Collision衝突判定を付ける
 		auto ptrColl = AddComponent<CollisionObb>();
 
+		m_Center = Vec3(1.2f, 0.6f, 0.3f);
+		m_Radius = 0.1f;
 
 		//各パフォーマンスを得る
 		GetStage()->SetCollisionPerformanceActive(true);
@@ -206,9 +215,7 @@ namespace basecross
 		//ptrDraw->SetTextureResource(L"TEX_NEZUMI");
 
 
-		
 		SetAlphaActive(true);
-
 
 
 		//文字列をつける
@@ -217,6 +224,16 @@ namespace basecross
 		ptrString->SetTextRect(Rect2D<float>(16.0f, 16.0f, 640.0f, 480.0f));
 
 
+        auto objects = GetStage()->GetGameObjectVec();
+		for (auto& obj : objects)
+		{
+			auto result = dynamic_pointer_cast<ShadowObject>(obj);
+			if (result)
+			{
+				m_OtherPolygon = result;
+				break;
+			}
+		}
 
 	}
 
@@ -230,9 +247,21 @@ namespace basecross
 		DrawStrings();
 		MoveY();
 		MoveXZ();
+
 		
 
-		auto ptrDraw = AddComponent<BcPNTStaticDraw>();
+		{
+			Vec3 mtv;
+			if (ComputeMTV(m_OtherPolygon, mtv))
+			{
+				if (mtv.length() > 1e-6f)
+				{
+					Vec3 newCenter = m_Center + mtv;
+				}
+			}
+		}
+	
+		
 
 
 		//auto moveVector = GetMoveVector(); // プレイヤーの移動ベクトルを取得
@@ -250,7 +279,7 @@ namespace basecross
 
 
 	}
-	
+
 
 	void Player::MoveXZ() {
 		auto angle = GetInputState();
@@ -306,12 +335,12 @@ namespace basecross
 
 	//Aボタン
 	void Player::OnPushA()
-	{ 
+	{
 		auto pos = GetComponent<Transform>()->GetPosition();
 
 		//if (pos.y == 0.502f || pos.y == 0.501f)
 		//{
-			pos.y = 0.50f; 
+		pos.y = 0.50f;
 		//}
 
 
@@ -323,7 +352,7 @@ namespace basecross
 
 	}
 
-	void Player::OnCollisionExcute(shared_ptr<GameObject>& Other) 
+	void Player::OnCollisionExcute(shared_ptr<GameObject>& Other)
 	{
 		if (Other->FindTag(L"Ground")) // 衝突対象が地面か確認
 		{
@@ -333,13 +362,13 @@ namespace basecross
 		}
 	}
 
-	void Player::OnCollisionExit(shared_ptr<GameObject>& Other) 
+	void Player::OnCollisionExit(shared_ptr<GameObject>& Other)
 	{
 		m_collisionFlag = false;
 	}
 
 
-	void Player:: SetPlayerMove(bool Player1)
+	void Player::SetPlayerMove(bool Player1)
 	{
 		m_Player1 = Player1;
 	}
@@ -353,6 +382,7 @@ namespace basecross
 		positionStr += L"Z=" + Util::FloatToWStr(pos.z, 6, Util::FloatModify::Fixed) + L"\n";
 
 		wstring str = positionStr;
+		
 
 
 		//文字列コンポーネントの取得
@@ -360,4 +390,49 @@ namespace basecross
 		ptrString->SetText(str);
 
 	}
+
+	bool Player::ComputeMTV(const shared_ptr<ShadowObject>& polygon, Vec3& mtv)
+	{
+		float minOverlap = 1000000.0f; // 初期値を十分に大きく設定
+		Vec2 minAxis = { 0.0f, 0.0f };
+
+		vector<Vec3> polygonVertices = polygon->GetVertices();
+		vector<Vec3> edges;
+		for (size_t i = 0; i < polygonVertices.size(); i++)
+		{
+			edges.push_back(GetNormal(polygonVertices[i], polygonVertices[(i + 1) % polygonVertices.size()], polygonVertices[(i + 2) % polygonVertices.size()]));
+		}
+
+		for (const auto& axis : edges)
+		{
+			float minPoly, maxPoly, minCircle, maxCircle;
+			ProjectOntoAxis(polygonVertices, axis, minPoly, maxPoly);
+			ProjectCircleOntoAxis(m_Center, m_Radius, axis, minCircle, maxCircle);
+
+			float overlap = min(maxPoly, maxCircle) - max(minPoly, minCircle);
+
+			if (overlap <= 0)
+			{
+				return false; // 重なっていない場合
+			}
+
+			if (overlap < minOverlap)
+			{
+				minOverlap = overlap;
+				minAxis = axis;
+			}
+		}
+
+		// 最小押し出しベクトルの正規化
+		if (minAxis.length() > 1e-6f) {
+			minAxis.normalize();
+			mtv = minAxis * minOverlap;
+			mtv *= -0.8f;
+		}
+
+		return true;
+
+	}
+
+
 }
