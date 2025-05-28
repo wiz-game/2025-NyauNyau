@@ -75,8 +75,6 @@ namespace basecross
 
     }
 
-    
-
     std::vector<Vec3> ShadowObject::ComputeShadowIntersections(const Vec3& lightPos, const std::vector<Vec3>& boxVertices)
     {
         std::vector<Vec3> intersections;
