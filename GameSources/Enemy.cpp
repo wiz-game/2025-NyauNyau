@@ -18,7 +18,7 @@ namespace basecross {
 		m_Rotation(Rotation),
 		m_Position(Position), 
 		isGameOver(false),
-		EnemySpeed(5.58f)
+		EnemySpeed(5.2f)
 	{
 	}
 
