@@ -16,6 +16,9 @@ namespace basecross
         auto traComp = GetComponent<Transform>();
         traComp->SetRotation(Vec3(0.0f, XM_PI/2, 0.0f));
         traComp->SetPosition(Vec3(0.1f, 0.75f, 0.0f));
+
+        auto ptrColl = AddComponent<CollisionObb>();
+        GetStage()->SetCollisionPerformanceActive(true);
     }
 
     void ShadowObject::OnUpdate()
