@@ -63,7 +63,7 @@ namespace basecross {
 		auto len = length(playerPos - cheesePos);
 
 		//’Ç”öˆ—
-		if (len < 0.3f) {
+		if (len < 1.0f) {
 
 			isTarget = true;
 		}
