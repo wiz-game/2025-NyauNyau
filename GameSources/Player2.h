@@ -60,6 +60,8 @@ namespace basecross
 		// 衝突相手の情報
 		shared_ptr<ShadowObject> m_OtherPolygon;
 
+	
+
 	public:
 		//構築と破棄
 		Player(const shared_ptr<Stage>& StagePtr,
@@ -72,6 +74,8 @@ namespace basecross
 
 		//Aボタン
 		void OnPushA();
+
+
 
 		// カメラの回り込みを設定する
 		void SetCameraAngleY(float angleY)

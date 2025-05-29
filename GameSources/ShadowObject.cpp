@@ -12,15 +12,13 @@ namespace basecross
     {
         m_drawComp = AddComponent<PCStaticDraw>();
         m_drawComp->SetOriginalMeshUse(true);
+        m_drawComp->SetRasterizerState(RasterizerState::CullNone);
 
         auto traComp = GetComponent<Transform>();
-        traComp->SetRotation(Vec3(0.0f, XM_PI/2, 0.0f));
-        traComp->SetPosition(Vec3(0.1f, 0.75f, 0.0f));
+        traComp->SetRotation(Vec3(0.0f, 0.0f, 0.0f));
+        traComp->SetPosition((const Vec3(2.5f, 0.75f, -0.5f)));
 
-        //Collision衝突判定を付ける
-        auto ptrColl = AddComponent<CollisionObb>();
-
-
+        
     }
 
     void ShadowObject::OnUpdate()
@@ -35,7 +33,7 @@ namespace basecross
         // 光源位置を確認
         auto light = GetStage()->GetSharedGameObject<SpotLight>(L"SpotLight");
         m_lightPos = light->GetComponent<Transform>()->GetPosition();
-        m_lightPos = Vec3(m_lightPos.x, m_lightPos.y, -m_lightPos.z);
+        m_lightPos = Vec3(m_lightPos.x, m_lightPos.y, m_lightPos.z);
        // wss << L"Light Position: " << m_lightPos.x << L", " << m_lightPos.y << L", " << m_lightPos.z << L"\n";
 
         auto boxVertices = GetBoxVertices();
@@ -52,7 +50,7 @@ namespace basecross
         std::vector<Vec3> projectedVertices;
         for (const auto& vertex : shadowIntersections)
         {
-            projectedVertices.push_back(Vec3(vertex.z,vertex.y,vertex.x)); //Zを横、Yを上下として処理
+            projectedVertices.push_back(Vec3(vertex.x,vertex.y,vertex.z)); //Zを横、Yを上下として処理
         }
 
         //`ComputeConvexHull` のデバッグログを統合
@@ -110,7 +108,7 @@ namespace basecross
             Vec3 intersection = lightPos + lightDir * t;
 
             //壁の位置に影を固定
-            intersection.x = wallPoint.x;
+            intersection.z = wallPoint.z;
 
             intersections.push_back(intersection);
         }
@@ -120,7 +118,7 @@ namespace basecross
 
     Vec4 ShadowObject::GeneratePlane(const Vec3& wallPoint, const Vec3& wallNormal)
     {
-        return Vec4(wallNormal.x, wallNormal.y, wallNormal.z, -wallNormal.dot(wallPoint));
+        return Vec4(wallNormal.x, wallNormal.y, wallNormal.z, wallNormal.dot(wallPoint));
     }
 
     std::vector<Vec3> ShadowObject::ComputeConvexHull(std::vector<Vec3> vertices)
@@ -192,7 +190,7 @@ namespace basecross
 
         auto boxTransform = box->GetComponent<Transform>();
         Vec3 position = boxTransform->GetPosition();
-        position = Vec3(position.x, position.y, -position.z);
+        position = Vec3(position.x, position.y, position.z);
         Vec3 scale = boxTransform->GetScale();
 
         boxVertices = {
@@ -246,7 +244,7 @@ namespace basecross
         return Vec3(
             ab.z * ac.y - ab.y * ac.z,  // X成分（左手系に変更）
             ab.x * ac.z - ab.z * ac.x,  // Y成分
-            -(ab.y * ac.x - ab.x * ac.y)   // Z成分
+            (ab.y * ac.x - ab.x * ac.y)   // Z成分
         );
     }
 

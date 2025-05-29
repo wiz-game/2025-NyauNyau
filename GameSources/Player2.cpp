@@ -56,36 +56,9 @@ namespace basecross
 		float moveZ = inPut.y;
 
 		if (moveX != 0 || moveZ != 0) {
-			//float moveLength = 0;	//動いた時のスピード
-			//auto ptrTransform = GetComponent<Transform>();
-			//auto ptrCamera = OnGetDrawCamera();
-			////進行方向の向きを計算
-			//auto front = ptrTransform->GetPosition() - ptrCamera->GetEye();
-			//front.y = 0;
-			//front.normalize();
-			////進行方向向きからの角度を算出
-			//float frontAngle = atan2(front.z, front.x);
-			////コントローラの向き計算
-			//Vec2 moveVec(moveX, moveZ);
-			//float moveSize = moveVec.length();
-			////コントローラの向きから角度を計算
-			//float cntlAngle = atan2(-moveX, moveZ);
-			////トータルの角度を算出
-			//// float totalAngle = frontAngle + cntlAngle;
-			//float playerRotationY = XMConvertToRadians(m_Rotation.y + 90.0f); // プレイヤーのY軸回転を取得
-			//float totalAngle = frontAngle + cntlAngle + playerRotationY; // プレイヤー回転を考慮
-			////角度からベクトルを作成
-			//angle = Vec3(cos(totalAngle), 0, sin(totalAngle));
-			////正規化する
-			//angle.normalize();
-			////移動サイズを設定
-			//angle *= moveSize;
 
 			auto ptrTransform = GetComponent<Transform>();
 			auto ptrCamera = OnGetDrawCamera();
-
-			// プレイヤーの回転角を考慮
-			//float playerRotationY = XMConvertToRadians(m_Rotation.y);
 
 			// カメラ方向からの角度
 			auto front = ptrTransform->GetPosition() - ptrCamera->GetEye();
@@ -136,21 +109,6 @@ namespace basecross
 
 		GetComponent<Transform>()->SetPosition(pos); // 更新後
 
-
-
-
-		/*if (angle.length() > 0.0f)
-		{
-			GetComponent<Transform>()->SetPosition(pos);
-		}*/
-
-		//回転の計算
-		//if (angle.length() > 0.0f) {
-		//	auto utilPtr = GetBehavior<UtilBehavior>();
-		//	utilPtr->RotToHead(angle, 1.0f);
-		//}
-
-
 	}
 
 	void Player::Jump(shared_ptr<GameObject>& jump)
@@ -193,6 +151,8 @@ namespace basecross
 		//ptr->SetScale(0.0f, 0.25f, 0.25f);	//直径25センチの球体
 		//ptr->SetRotation(0.0f, 0.0f, 0.0f);
 		//ptr->SetPosition(Vec3(-4.75f, 0.125f, -5.0f));
+
+
 
 		//Collision衝突判定を付ける
 		auto ptrColl = AddComponent<CollisionObb>();

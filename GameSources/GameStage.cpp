@@ -191,7 +191,7 @@ namespace basecross {
 			{
 				Vec3(3.75f, 3.0f, 3.0f),
 				Vec3(0.0f, 0.0f/* + XMConvertToRadians(270)*/ , 0.0f),
-				Vec3(0.0f, 1.0f, -0.5f)
+				Vec3(0.0f, 2.0f, -0.5f)
 			},
 			//{
 			//	Vec3(0.0f, 0.25f, 0.25f),
@@ -208,6 +208,7 @@ namespace basecross {
 		{
 			auto ptrPlayer = AddGameObject<Player>(v[0], v[1], v[2]);
 			m_mainCamera->SetTargetObject(ptrPlayer);
+			SetSharedGameObject(L"Player", ptrPlayer);
 
 			// ユニーク名を生成
 			wstring uniqueTag = L"Player_" + to_wstring(index);
@@ -299,46 +300,6 @@ namespace basecross {
 	}
 
 
-	//void GameStage::CreateTestShadowBox()
-	//{
-	//	vector<vector<Vec3>> vec =
-	//	{
-	//		{
-	//			Vec3(0.0f, 0.5f, 0.5f),
-	//			Vec3(0.0f, 0.0f, 0.0f),
-	//			Vec3(-4.75f, 1.2f, -7.0f)
-	//		},
-
-	//	};
-
-		//int index = 0; // ユニーク名用のインデックス
-		//vector<shared_ptr<TestShadowBox>> TestShadowBoxs; // 生成した `` を管理するリスト
-
-		//for (auto& v : vec)
-		//{
-		//	auto ptrTestShadowBox = AddGameObject<TestShadowBox>(v[0], v[1], v[2]);
-
-		//	// ユニーク名を生成
-		//	wstring uniqueTag = L"TestShadowBox_" + to_wstring(index);
-
-		//	ptrTestShadowBox->AddTag(uniqueTag);  // ユニークなタグを適用
-		//	TestShadowBoxs.push_back(ptrTestShadowBox);    // `` をリストに保存
-		//	index++; // 次のオブジェクトのためにインデックスを増加		
-
-		//}
-
-		//// すべての `` を共有ゲームオブジェクトとして登録
-		//for (size_t i = 0; i < TestShadowBoxs.size(); i++)
-		//{
-		//	wstring uniqueName = L"TestShadowBox_" + to_wstring(i);  // ユニーク名を生成
-		//	SetSharedGameObject(uniqueName, TestShadowBoxs[i]);      // ユニーク名で共有登録
-
-		//}
-
-
-
-	//}
-
 
 	void GameStage::OnCreate() {
 		try {
@@ -359,14 +320,14 @@ namespace basecross {
 				Vec3(0.0f, 13.0f, 0.0f)
 			);
 			AddGameObject<ShadowFloor>(
-				Vec3(40.0f, 5.0f, 2.0f),
+				Vec3(100.0f, 5.0f, 2.0f),
 				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(-2.0f, -3.0f, 0.0f)
+				Vec3(-40.0f, -3.0f, 0.0f)
 			);
 			AddGameObject<ShadowFloor>(
 				Vec3(20.0f, 7.0f, 1.0f),
 				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(30.0f, -3.0f, 0.0f)
+				Vec3(20.0f, -3.0f, 0.0f)
 			);
 
 			AddGameObject<ShadowFloor>(
@@ -405,9 +366,6 @@ namespace basecross {
 			//	Vec3(0.0f, 0.0f, 0.0f),
 			//	Vec3(-5.0f, -9.5f, -5.0f)
 			//);
-
-
-
 
 
 
@@ -465,28 +423,69 @@ namespace basecross {
 		auto device = app->GetInputDevice();
 		auto pad = device.GetControlerVec()[0];
 
-		//スタートボタンを押したときにボーズする
-		if (pad.wPressedButtons & XINPUT_GAMEPAD_START)
-		{ 
-
-			auto scene = App::GetApp()->GetScene<Scene>();
-			scene->PauseGame();
-			m_PauseFlag = !m_PauseFlag;
-
-			if (m_PauseFlag)
+		if (currentPhase == GamePhase::Phase1)
+		{
+			//スタートボタンを押したときにボーズする
+			if (pad.wPressedButtons & XINPUT_GAMEPAD_START)
 			{
 
-				m_Pause = AddGameObject<pauseSprite>();
-				m_pauseSprite = true;
-			}
-			else
-			{
-				if (m_pauseSprite)
+				auto scene = App::GetApp()->GetScene<Scene>();
+				scene->PauseGame();
+				m_PauseFlag = !m_PauseFlag;
+
+
+				if (m_PauseFlag)
 				{
-					RemoveGameObject<pauseSprite>(m_Pause);
-					m_pauseSprite = false;
+
+					m_Pause = AddGameObject<pauseSprite>();
+					m_pauseSprite = true;
+					currentPhase == GamePhase::Phase3;
 				}
-				m_PauseFlag = false;
+				else
+				{
+					if (m_pauseSprite)
+					{
+						RemoveGameObject<pauseSprite>(m_Pause);
+						m_pauseSprite = false;
+					}
+					m_PauseFlag = false;
+					currentPhase == GamePhase::Phase1;
+
+
+				}
+			}
+
+			if (currentPhase == GamePhase::Phase2)
+			{
+				//スタートボタンを押したときにボーズする
+				if (pad.wPressedButtons & XINPUT_GAMEPAD_START)
+				{
+
+					auto scene = App::GetApp()->GetScene<Scene>();
+					scene->PauseGame();
+					m_PauseFlag = !m_PauseFlag;
+
+
+					if (m_PauseFlag)
+					{
+
+						m_Pause = AddGameObject<pauseSprite>();
+						m_pauseSprite = true;
+						currentPhase == GamePhase::Phase3;
+					}
+					else
+					{
+						if (m_pauseSprite)
+						{
+							RemoveGameObject<pauseSprite>(m_Pause);
+							m_pauseSprite = false;
+						}
+						m_PauseFlag = false;
+						currentPhase == GamePhase::Phase2;
+
+
+					}
+				}
 			}
 		}
 	}
@@ -568,7 +567,7 @@ namespace basecross {
 				{
 					obj->SetUpdateActive(true);
 				}
-				else if(dynamic_pointer_cast<ShadowObject>(obj))
+				else if (dynamic_pointer_cast<ShadowObject>(obj))
 				{
 					obj->SetUpdateActive(true);
 				}
@@ -579,32 +578,33 @@ namespace basecross {
 
 
 			}
-		}
 
 
-		// BボタンでPhase2(GameStart)へ
-		auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
-		if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B)
-		{
-			currentPhase = GamePhase::Phase2;
 
-
-			auto gameObjectVec = GetGameObjectVec();
-			for (auto obj : gameObjectVec)
+			// BボタンでPhase2(GameStart)へ
+			auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+			if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B)
 			{
-				if (dynamic_pointer_cast<Box>(obj)) 
-				{
-					obj->SetUpdateActive(false);
-				}
-				else
-				{
-					obj->SetUpdateActive(true);
+				currentPhase = GamePhase::Phase2;
 
+
+				auto gameObjectVec = GetGameObjectVec();
+				for (auto obj : gameObjectVec)
+				{
+					if (dynamic_pointer_cast<Box>(obj))
+					{
+						obj->SetUpdateActive(false);
+					}
+					else
+					{
+						obj->SetUpdateActive(true);
+
+					}
 				}
+
+
+
 			}
-
-
-
 		}
 
 

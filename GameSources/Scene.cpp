@@ -43,7 +43,8 @@ namespace basecross{
 
 			//クリアする色を設定
 			Col4 Col;
-			//Col.set(31.0f / 255.0f, 30.0f / 255.0f, 71.0f / 255.0f, 255.0f / 255.0f);
+			//Col.set(31.0f / 255.0f, 30.0f / 255.0f, 71.0f / 255.0f, 255.0f / 255.0f); //青
+			//Col.set(1.0f, 0.0f, 0.0f, 0.0f);//赤
 			Col.set(0.0f, 0.0f, 0.0f, 0.0f);//黒
 			SetClearColor(Col);
 			//自分自身にイベントを送る

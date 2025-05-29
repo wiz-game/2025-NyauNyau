@@ -18,7 +18,8 @@ namespace basecross {
 	enum class GamePhase
 	{
 		Phase1,  //Box のみ操作可能
- 	    Phase2   //全オブジェクトが動作開始
+		Phase2,   //全オブジェクトが動作開始
+		Phase3
 
 	};
 	class GameStage : public Stage {
