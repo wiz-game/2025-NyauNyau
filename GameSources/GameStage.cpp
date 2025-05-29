@@ -15,22 +15,23 @@ namespace basecross {
 	//	ゲームステージクラス実体
 	//--------------------------------------------------------------------------------------
 	void GameStage::CreateViewLight() {
-		// カメラの設定
-		auto mainCamera = ObjectFactory::Create<MainCamera>();
-		auto phase1Camera = ObjectFactory::Create<Phase1Camera>();
-		phase1Camera->SetEye(Vec3(50.0f, 15.0f, 5.0f));
-		phase1Camera->SetAt(Vec3(-5.0f, -5.0f, 5.0f));
 
-		// カメラへの参照を保持しておく
-		m_mainCamera = mainCamera;
-		m_phase1Camera = phase1Camera; 
+		m_mainView = ObjectFactory::Create<SingleView>(GetThis<Stage>());
+		auto ptrmainCamera = ObjectFactory::Create<MainCamera>();
+		ptrmainCamera->SetEye(Vec3(0.0f, 10.0f, -10.0f));
+		ptrmainCamera->SetAt(Vec3(0.0f, 0.0f, 0.0f));
+		m_mainView->SetCamera(ptrmainCamera);
 
-		// ビューにカメラを設定
-		auto view = CreateView<SingleView>();
-		if (currentPhase == GamePhase::Phase1)
-			view->SetCamera(m_mainCamera);
-		if (currentPhase == GamePhase::Phase2)
-			view->SetCamera(m_mainCamera);
+
+		m_phase1View = ObjectFactory::Create<SingleView>(GetThis<Stage>());
+		auto ptrphase1Camera = ObjectFactory::Create<MainCamera>();
+		ptrphase1Camera->SetEye(Vec3(0.0f, 5.0f, -5.0f));
+		ptrphase1Camera->SetAt(Vec3(0.0f, 0.0f, 0.0f));
+		m_mainView->SetCamera(ptrphase1Camera);
+
+		SetView(m_phase1View);
+
+
 
 
 
@@ -216,7 +217,8 @@ namespace basecross {
 		for (auto& v : vec)
 		{
 			auto ptrPlayer = AddGameObject<Player>(v[0], v[1], v[2]);
-			m_mainCamera->SetTargetObject(ptrPlayer);
+			auto ptrmainCamera = dynamic_pointer_cast<MainCamera>(m_mainView->GetCamera());
+			ptrmainCamera->SetTargetObject(ptrPlayer);
 
 			// ユニーク名を生成
 			wstring uniqueTag = L"Player_" + to_wstring(index);
@@ -543,6 +545,51 @@ namespace basecross {
 		}
 	}
 
+	void GameStage::OnPushB()
+	{
+		switch (currentPhase) {
+		case GamePhase::Phase1:
+		{			
+			auto gameObjectVec = GetGameObjectVec();
+			for (auto obj : gameObjectVec)
+			{
+				if (obj->FindTag(L"Box")) //dynamic_pointer_cast<Box>(obj) 
+				{
+					obj->SetUpdateActive(true);
+				}
+				else
+				{
+					obj->SetUpdateActive(false);
+				}
+			}
+
+
+			SetView(m_mainView);
+			currentPhase = GamePhase::Phase2;
+		}
+		break;
+		case GamePhase::Phase2:
+		{
+			auto gameObjectVec = GetGameObjectVec();
+			for (auto obj : gameObjectVec)
+			{
+				if (obj->FindTag(L"Box")) //dynamic_pointer_cast<Box>(obj) 
+				{
+					obj->SetUpdateActive(false);
+				}
+				else
+				{
+					obj->SetUpdateActive(true);
+
+				}
+			}
+
+			SetView(m_mainView);
+		}
+		break;
+		}
+	}
+
 	//// テクスチャの読込
 	void GameStage::LoadTextures()
 	{
@@ -592,42 +639,30 @@ namespace basecross {
 	void GameStage::OnUpdate2()
 	{
 
-
 		if (currentPhase == GamePhase::Phase1)
 		{	
 
-			auto gameObjectVec = GetGameObjectVec();
-			for (auto obj : gameObjectVec)
-			{
-
-				/*if (gameObjectVec.empty())
-				{
-					std::cout << "GetGameObjectVec() によって取得されたオブジェクトのリストが空です。" << std::endl;
-					return;
-				}*/
-
-				if (obj->FindTag(L"Box")) //dynamic_pointer_cast<Box>(obj) 
-				{
-					obj->SetUpdateActive(true);
-				}
-				else
-				{
-					obj->SetUpdateActive(false);
-				}
+			//auto gameObjectVec = GetGameObjectVec();
+			//for (auto obj : gameObjectVec)
+			//{
+			//	if (obj->FindTag(L"Box")) //dynamic_pointer_cast<Box>(obj) 
+			//	{
+			//		obj->SetUpdateActive(true);
+			//	}
+			//	else
+			//	{
+			//		obj->SetUpdateActive(false);
+			//	}
 
 
-			}
+			//}
 		}
 
 
-		// BボタンでPhase2(GameStart)へ
-		auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
-		if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B)
-		{
-			currentPhase = GamePhase::Phase2;
-
-
-
+		 //BボタンでPhase2(GameStart)へ
+		//auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+		//if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B)
+		//{
 			auto gameObjectVec = GetGameObjectVec();
 			for (auto obj : gameObjectVec)
 			{
@@ -644,7 +679,7 @@ namespace basecross {
 
 
 
-		}
+		//}
 
 
 	}
