@@ -42,6 +42,7 @@
 
 #include "SoundSprite.h"
 #include "SettingStage.h"
+#include "PauseManager.h"
 
 
 

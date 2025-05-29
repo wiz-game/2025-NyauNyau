@@ -18,6 +18,8 @@ namespace basecross {
 		float m_totalTime;
 		//‘I‘ð‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©
 		bool m_Selected;
+		float blinkSpeed = 3;//“_–Å‘¬“x
+
 
 		std::shared_ptr<PCTSpriteDraw> m_drawComp;
 		std::shared_ptr<Transform> m_ptrTrans;

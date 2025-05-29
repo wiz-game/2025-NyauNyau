@@ -66,8 +66,8 @@
 				catPointSprite->SetPosition(-230.0f, m_select + 200.0f, 0);
 				catPointSprite->SetScale(0.5f, 0.5f, 0.5f);
 
-				//auto ptrXA = App::GetApp()->GetXAudio2Manager();
-				//m_BGM = ptrXA->Start(L"Titlebgm", XAUDIO2_LOOP_INFINITE, 0.1f);
+				auto ptrXA = App::GetApp()->GetXAudio2Manager();
+				m_BGM = ptrXA->Start(L"Titlebgm", XAUDIO2_LOOP_INFINITE, 0.1f);
 
 			}
 			catch (...) {
@@ -93,7 +93,7 @@
 				//Aボタンを押したときにゲームステージに移動する
 				if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A)
 				{
-					PostEvent(0.0f, GetThis<SelectStage>(), PtrScene, L"ToSettingStage");
+					PostEvent(2.0f, GetThis<SelectStage>(), PtrScene, L"ToGameStage");
 					return;
 				}
 
@@ -151,6 +151,7 @@
 					}
 				}
 			}
+
 			//経過時間を取得
 			auto delta = App::GetApp()->GetElapsedTime();
 
@@ -186,17 +187,18 @@
 							float targetY = startY + 0.3f;//目標の位置
 
 							float setY = startY + (targetY - startY) * (moveElapsed / moveDuration);
-							
+
 							//フェードイン処理
 							float alpha = moveElapsed / moveDuration;//透明度の計算（0.0~1.0）
 							footprintPtr->SetAlphaActive(alpha);//アルファ値を更新
-							
-							
-							//footprintPtr->SetPosition(trans.x, setY, 0);
+
+
+							footprintPtr->SetPosition(trans.x, setY, 0);
 						}
 					}
 				}
 			}
+
 
 		}
 
@@ -245,48 +247,76 @@
 		//ネコの足跡の処理
 		void SelectStage::CreateFootprints()
 		{
-			const int footprintCount = 20; // ネコの足跡の数
-			const float startX = -320.0f;  // 初期X座標
-			const float startY = -200.0f;  // 初期Y座標
-			const float endX = 320.0f;
-			const float endY = 200.0f;
-			//const float amplitude = 80.0f; // Sin波の振幅（上下の幅）
-			//const float frequency = XM_PI / 2.0f; // 波の周期（間隔）
+			//const int footprintCount = 20; // ネコの足跡の数
+			//const float startX = -320.0f;  // 初期X座標
+			//const float startY = -200.0f;  // 初期Y座標
+			//const float endX = 320.0f;
+			//const float endY = 200.0f;
+			////const float amplitude = 80.0f; // Sin波の振幅（上下の幅）
+			////const float frequency = XM_PI / 2.0f; // 波の周期（間隔）
 
-			Vec3 startPos(startX, startY, 0.0f);//初期位置
-			Vec3 endPos(endX, endY, 0.0f);
-			Vec3 stepPos = endPos - startPos;//ナナメの移動
-			float naname = stepPos.length();
-			float stepLen = naname / footprintCount;
-			Vec3 v = stepPos.normalize();
-			Vec3 z(0, 0, -1);
-			
-			Vec3 cross = v.cross(z);//外積
-			cross = cross.normalize();
+			//Vec3 startPos(startX, startY, 0.0f);//初期位置
+			//Vec3 endPos(endX, endY, 0.0f);
+			//Vec3 stepPos = endPos - startPos;//ナナメの移動
+			//float naname = stepPos.length();
+			//float stepLen = naname / footprintCount;
+			//Vec3 v = stepPos.normalize();
+			//Vec3 z(0, 0, -1);
+			//
+			//Vec3 cross = v.cross(z);//外積
+			//cross = cross.normalize();
+
+			//for (int i = 0; i < footprintCount; i++)
+			//{
+			//	Vec3 pos(startPos + v * stepLen * i);
+
+			//	if (i % 2 == 0)
+			//	{
+			//		pos += cross * 200.0f;
+
+			//	}
+			//	else
+			//	{
+			//		pos -= cross * 200.0f;
+
+			//	}
+
+			//	auto footprint = AddGameObject<FootprintSprite>();
+			//	footprint->SetTexture(L"TEX_FOOTPRINT");
+			//	footprint->SetPosition(pos.x, pos.y, 0);
+			//	footprint->SetScale(0.2f, 0.2f, 0.2f);
+			//	footprint->SetRotate(0, 0, -(XM_PI / 6));
+			//	//footprint->SetDrawActive(false); // 最初は非表示
+
+			//	m_footprints.push_back(footprint);
+
+			const int footprintCount = 20; // ネコの足跡の数
+			const float startX = 300.0f;  // 初期X座標
+			const float startY = -400.0f;  // 初期Y座標
+			const float endX = 630.0f;
+			const float endY = -100.0f;
+			const float amplitude = 80.0f; // Sin波の振幅（上下の幅）
+			const float frequency = XM_PI / 2.0f; // 波の周期（間隔）
+
+			const float stepX = (endX - startX) / footprintCount; // X軸方向の移動量
+			const float stepY = (endY - startY) / footprintCount; // Y軸方向の移動量
 
 			for (int i = 0; i < footprintCount; i++)
 			{
-				Vec3 pos(startPos + v * stepLen * i);
-
-				if (i % 2 == 0)
-				{
-					pos += cross * 200.0f;
-
-				}
-				else
-				{
-					pos -= cross * 200.0f;
-
-				}
-
 				auto footprint = AddGameObject<FootprintSprite>();
 				footprint->SetTexture(L"TEX_FOOTPRINT");
-				footprint->SetPosition(pos.x, pos.y, 0);
+
+				float newX = startX + stepX * i + amplitude * cos(frequency * i); //X方向に均等配置
+				float newY = startY + stepY * i - 0.3f; //Y方向にSin波を適用 
+
+				footprint->SetPosition(newX, newY, 0);
 				footprint->SetScale(0.2f, 0.2f, 0.2f);
 				footprint->SetRotate(0, 0, -(XM_PI / 6));
-				//footprint->SetDrawActive(false); // 最初は非表示
+				footprint->SetDrawActive(false); // 最初は非表示
 
 				m_footprints.push_back(footprint);
+
+
 			}
 		}
 		void SelectStage::LoadTextures()
@@ -308,6 +338,12 @@
 			app->RegisterTexture(L"TEX_POINT2", texPath + L"point2.png");
 			app->RegisterTexture(L"TEX_FOOTPRINT", texPath + L"Footprint.png");
 
+		}
+
+		void SelectStage::OnDestroy() {
+			//BGMのストップ
+			auto XAPtr = App::GetApp()->GetXAudio2Manager();
+			XAPtr->Stop(m_BGM);
 		}
 
 

@@ -47,7 +47,14 @@ namespace basecross {
 			float elapsedTime = App::GetApp()->GetElapsedTime();
 
 			//時間経過
-			m_totalTime += elapsedTime * 3;
+			m_totalTime += elapsedTime * blinkSpeed;
+
+			auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+			if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A)
+			{
+				blinkSpeed = 10;
+			}
+
 			if (m_totalTime >= XM_PI)
 			{
 				m_totalTime = 0.0f;
@@ -57,6 +64,7 @@ namespace basecross {
 			float s = sin(m_totalTime) * 0.75f + 0.25f;
 			//ライトの当たり具合
 			m_drawComp->SetDiffuse(Col4(1, 1, 1, s));//ｓ：半透明
+
 		}
 		else
 		{
