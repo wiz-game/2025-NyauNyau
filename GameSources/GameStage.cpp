@@ -24,10 +24,10 @@ namespace basecross {
 
 
 		m_phase1View = ObjectFactory::Create<SingleView>(GetThis<Stage>());
-		auto ptrphase1Camera = ObjectFactory::Create<MainCamera>();
-		ptrphase1Camera->SetEye(Vec3(0.0f, 5.0f, -5.0f));
+		auto ptrphase1Camera = ObjectFactory::Create<Phase1Camera>();
+		ptrphase1Camera->SetEye(Vec3(50.0f, 15.0f, 0.0f));
 		ptrphase1Camera->SetAt(Vec3(0.0f, 0.0f, 0.0f));
-		m_mainView->SetCamera(ptrphase1Camera);
+		m_phase1View->SetCamera(ptrphase1Camera);
 
 		SetView(m_phase1View);
 
@@ -199,7 +199,7 @@ namespace basecross {
 		vector<vector<Vec3>> vec =
 		{
 			{
-				Vec3(3.75f, 3.0f, 3.0f),
+				Vec3(1.25f, 1.0f, 1.0f),
 				Vec3(0.0f, 0.0f + XMConvertToRadians(270) , 0.0f),
 				Vec3(-4.75f, 1.0f, -40.0f)
 			},
@@ -550,18 +550,18 @@ namespace basecross {
 		switch (currentPhase) {
 		case GamePhase::Phase1:
 		{			
-			auto gameObjectVec = GetGameObjectVec();
-			for (auto obj : gameObjectVec)
-			{
-				if (obj->FindTag(L"Box")) //dynamic_pointer_cast<Box>(obj) 
-				{
-					obj->SetUpdateActive(true);
-				}
-				else
-				{
-					obj->SetUpdateActive(false);
-				}
-			}
+			//auto gameObjectVec = GetGameObjectVec();
+			//for (auto obj : gameObjectVec)
+			//{
+			//	if (obj->FindTag(L"Box")) //dynamic_pointer_cast<Box>(obj) 
+			//	{
+			//		obj->SetUpdateActive(true);
+			//	}
+			//	else
+			//	{
+			//		obj->SetUpdateActive(false);
+			//	}
+			//}
 
 
 			SetView(m_mainView);
@@ -570,21 +570,21 @@ namespace basecross {
 		break;
 		case GamePhase::Phase2:
 		{
-			auto gameObjectVec = GetGameObjectVec();
-			for (auto obj : gameObjectVec)
-			{
-				if (obj->FindTag(L"Box")) //dynamic_pointer_cast<Box>(obj) 
-				{
-					obj->SetUpdateActive(false);
-				}
-				else
-				{
-					obj->SetUpdateActive(true);
+			//auto gameObjectVec = GetGameObjectVec();
+			//for (auto obj : gameObjectVec)
+			//{
+			//	if (obj->FindTag(L"Box")) //dynamic_pointer_cast<Box>(obj) 
+			//	{
+			//		obj->SetUpdateActive(false);
+			//	}
+			//	else
+			//	{
+			//		obj->SetUpdateActive(true);
 
-				}
-			}
+			//	}
+			//}
 
-			SetView(m_mainView);
+			//SetView(m_mainView);
 		}
 		break;
 		}
@@ -642,27 +642,27 @@ namespace basecross {
 		if (currentPhase == GamePhase::Phase1)
 		{	
 
-			//auto gameObjectVec = GetGameObjectVec();
-			//for (auto obj : gameObjectVec)
-			//{
-			//	if (obj->FindTag(L"Box")) //dynamic_pointer_cast<Box>(obj) 
-			//	{
-			//		obj->SetUpdateActive(true);
-			//	}
-			//	else
-			//	{
-			//		obj->SetUpdateActive(false);
-			//	}
+			auto gameObjectVec = GetGameObjectVec();
+			for (auto obj : gameObjectVec)
+			{
+				if (obj->FindTag(L"Box")) //dynamic_pointer_cast<Box>(obj) 
+				{
+					obj->SetUpdateActive(true);
+				}
+				else
+				{
+					obj->SetUpdateActive(false);
+				}
 
 
-			//}
+			}
 		}
 
 
-		 //BボタンでPhase2(GameStart)へ
-		//auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
-		//if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B)
-		//{
+		// BボタンでPhase2(GameStart)へ
+		auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+		if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B)
+		{
 			auto gameObjectVec = GetGameObjectVec();
 			for (auto obj : gameObjectVec)
 			{
@@ -679,7 +679,7 @@ namespace basecross {
 
 
 
-		//}
+		}
 
 
 	}
