@@ -89,14 +89,15 @@ namespace basecross {
 			bigSound->SetDrawActive(false);
 			m_soundSprites.push_back(bigSound);
 
-
-			auto soundVolBox = AddGameObject<SoundSprite>();
-			soundVolBox->SetTexture(L"TEX_SoundVolBox");
-			soundVolBox->SetPosition(-40.0f, 50.0f, 0);//-40.0f~240.0fなので１ブロック46.4くらい
-			soundVolBox->SetScale(1.5f, 1.5f, 1.5f);
-			soundVolBox->SetDrawActive(false);
-			m_soundVolBoxSprites.push_back(soundVolBox);
-			
+			for (int i = 0; i < 5; i++)
+			{
+				auto soundVolBox = AddGameObject<SoundSprite>();
+				soundVolBox->SetTexture(L"TEX_SoundVolBox");
+				soundVolBox->SetPosition(-40.0f, 50.0f, 0);//-40.0f~240.0fなので１ブロック46.4くらい
+				soundVolBox->SetScale(1.5f, 1.5f, 1.5f);
+				soundVolBox->SetDrawActive(true);
+				m_soundVolBoxSprites.push_back(soundVolBox);
+			}
 			//BGM
 			auto ptrXA = App::GetApp()->GetXAudio2Manager();
 			m_BGM = ptrXA->Start(L"Titlebgm", XAUDIO2_LOOP_INFINITE, m_volume);

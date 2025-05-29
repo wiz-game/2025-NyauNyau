@@ -12,9 +12,57 @@ namespace basecross {
 	//----------------------------------------------------------------------------------------------------------------
 	// ポーズマネージャークラス実体
 	// ---------------------------------------------------------------------------------------------------------------
+	void PauseManager::PauseGame()
+	{
+		PlayGame(!IsPlaying());
+
+		auto stage = GetStage();
+		//ポーズ画面
+		Pause = stage->AddGameObject<PauseSprite>();
+		Pause->SetTexture(L"TEX_PAUSE");
+		Pause->SetPosition(0, 0, 0);
+		Pause->SetScale(1.5f, 1.5f, 0);
+
+		//リスタート
+		auto restart = stage->AddGameObject<PauseSprite>();
+		restart->SetTexture(L"TEX_RESTART");
+		restart->SetPosition(0, 20, 0);
+		restart->SetScale(0.5f, 0.5f, 0.5f);
+		restart->SetSelected(true);
+		m_pauseSprites.push_back(restart);//m_pauseSpritesにrestartを入れる
+
+		//タイトルに戻る
+		auto title = stage->AddGameObject<PauseSprite>();
+		title->SetTexture(L"TEX_BACK");
+		title->SetPosition(0, -70.0f, 0);
+		title->SetScale(0.5f, 0.5f, 0.5f);
+		m_pauseSprites.push_back(title);//m_pauseSpritesにbackを入れる
+
+		//設定
+		auto setting = stage->AddGameObject<PauseSprite>();
+		setting->SetTexture(L"TEX_SETTING");
+		setting->SetPosition(0, -160.0f, 0);
+		setting->SetScale(0.47f, 0.47f, 0.47f);
+		m_pauseSprites.push_back(setting);//m_pauseSpritesにendを入れる
+
+		//終了
+		auto end = stage->AddGameObject<PauseSprite>();
+		end->SetTexture(L"TEX_END");
+		end->SetPosition(0, -250.0f, 0);
+		end->SetScale(0.47f, 0.47f, 0.47f);
+		m_pauseSprites.push_back(end);//m_pauseSpritesにendを入れる
+
+		//ネコ矢印
+		catPointSprite = stage->AddGameObject<PauseSprite>();
+		catPointSprite->SetTexture(L"TEX_POINT");
+		catPointSprite->SetPosition(m_selectX + (-200), m_selectY + 20, 0);
+		catPointSprite->SetScale(0.2f, 0.2f, 0.2f);
+
+	}
+
 	void PauseManager::OnCreate()
 	{
-
+		
 	}
 
 	void PauseManager::OnUpdate()
@@ -25,50 +73,27 @@ namespace basecross {
 			//コントローラの取得
 			auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
 			//スタートボタンを押したときにボーズする
-			if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_START)
+			if (CntlVec[0].bConnected)
 			{
-				//シーンの取得
-				auto scene = App::GetApp()->GetScene<Scene>();
-				scene->PauseGame();
-				int SpriteNum = GetSpriteNum();
-
-
-				m_isPlaying = !m_isPlaying;
-
-				//ポーズのスプライトを表示する
-				//for (int i = 0; i < 4; i++)
-				//{
-				//	std::shared_ptr<pauseSprite> sprites = m_pauseSprites[i].lock();
-				//	sprites->SetDrawActive(true);
-				//}
-				//catPointSprite->SetDrawActive(true);
-				//Pause->SetDrawActive(true);
-
-
-				if (CntlVec[0].bConnected)
+				if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_START)
 				{
-					//Aボタンを押したときにゲームステージに移動する
-					if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A)
-					{
-						switch (SpriteNum)
-						{
-						case 0://リスタート
-							PostEvent(0.0f, GetThis<PauseManager>(), scene, L"ToGameStage");
-							return;
+					PlayGame(true);
+					int m_SpriteNum = GetSpriteNum();
 
-						case 1://タイトル
-							PostEvent(0.0f, GetThis<PauseManager>(), scene, L"ToTitleStage");
-							return;
+					m_isPlaying = !m_isPlaying;
 
-						case 2://設定
-							PostEvent(0.0f, GetThis<PauseManager>(), scene, L"ToSettingStage");
-							return;
 
-						case 3://終了
-							return;
+					//ポーズのスプライトを表示する
+					//for (int i = 0; i < 4; i++)
+					//{
+					//	std::shared_ptr<PauseSprite> sprites = m_pauseSprites[i].lock();
+					//	sprites->SetDrawActive(true);
+					//}
+					//catPointSprite->SetDrawActive(true);
+					//Pause->SetDrawActive(true);
 
-						}
-					}
+
+						//Aボタンを押したときにゲームステージに移動する
 
 					//CntrolLock = falseの時
 					if (!m_CntrolLock)
@@ -76,16 +101,16 @@ namespace basecross {
 						//上向き
 						if (CntlVec[0].fThumbLY >= 0.8f)
 						{
-							SpriteNum--;
+							m_SpriteNum--;
 							//ステージ１より上にスティックを動かしたらステージ３に移動
-							if (SpriteNum < 0)
+							if (m_SpriteNum < 0)
 							{
-								SpriteNum = 4;
+								m_SpriteNum = 4;
 							}
 							m_CntrolLock = true;
-							SetSpriteNum(SpriteNum);
-							ChangeSelect(SpriteNum);
-							SetSelectPosition(SpriteNum);
+							SetSpriteNum(m_SpriteNum);
+							ChangeSelect(m_SpriteNum);
+							SetSelectPosition(m_SpriteNum);
 							//ポイントスプライトの座標変更
 
 							if (catPointSprite)
@@ -97,22 +122,24 @@ namespace basecross {
 						//下向き
 						else if (CntlVec[0].fThumbLY <= -0.8f)
 						{
-							SpriteNum++;
+							m_SpriteNum++;
 							//ステージ３に来たらステージ１に戻る
-							if (SpriteNum >= 4)
+							if (m_SpriteNum >= 4)
 							{
-								SpriteNum = 0;
+								m_SpriteNum = 0;
 							}
 							m_CntrolLock = true;
-							SetSpriteNum(SpriteNum);
-							ChangeSelect(SpriteNum);
-							SetSelectPosition(SpriteNum);
+							SetSpriteNum(m_SpriteNum);
+							ChangeSelect(m_SpriteNum);
+							SetSelectPosition(m_SpriteNum);
 							//ポイントスプライトの座標変更
 							if (catPointSprite)
 							{
 								catPointSprite->SetPosition(-250.0f, m_selectY, 0);
 							}
 						}
+
+
 					}
 					//動かしていない時
 					else
@@ -122,22 +149,47 @@ namespace basecross {
 							m_CntrolLock = false;
 						}
 					}
-				}
 
+
+				}
 			}
 			else
 			{
-				//ポーズのスプライトを非表示にする
-				//for (int i = 0; i < 4; i++)
-				//{
-				//	std::shared_ptr<pauseSprite> sprites = m_pauseSprites[i].lock();
-				//	sprites->SetDrawActive(false);
-				//}
-				//catPointSprite->SetDrawActive(false);
-				//Pause->SetDrawActive(false);
+				auto stage = GetStage();
+				Pause = stage->RemoveGameObject<PauseSprite>(Pause);
+				m_pauseSprites = stage->RemoveGameObject<PauseSprite>(m_pauseSprites);
+				catPointSprite = stage->RemoveGameObject<PauseSprite>(catPointSprite);
 
+				
 				m_isPlaying = false;
 				m_CntrolLock = false;
+			}
+
+
+			if (m_isPlaying)
+			{
+				if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A)
+				{
+					auto scene = App::GetApp()->GetScene<Scene>();
+					switch (m_SpriteNum)
+					{
+					case 0://リスタート
+						PostEvent(0.0f, GetThis<PauseManager>(), scene, L"ToGameStage");
+						return;
+
+					case 1://タイトル
+						PostEvent(0.0f, GetThis<PauseManager>(), scene, L"ToTitleStage");
+						return;
+
+					case 2://設定
+						PostEvent(0.0f, GetThis<PauseManager>(), scene, L"ToSettingStage");
+						return;
+
+					case 3://終了
+						return;
+
+					}
+				}
 			}
 		}
 	}
@@ -147,7 +199,7 @@ namespace basecross {
 	{
 		for (int i = 0; i < 4; i++)
 		{
-			std::shared_ptr<pauseSprite> srptr = m_pauseSprites[i].lock();
+			std::shared_ptr<PauseSprite> srptr = m_pauseSprites[i].lock();
 			if (srptr)
 			{
 				//StageNumがm_pauseSpritesと一致していたら
@@ -192,51 +244,5 @@ namespace basecross {
 		}
 	}
 
-	void PauseManager::PauseGame()
-	{
-		PlayGame(!IsPlaying());
-
-		////ポーズ画面
-		//Pause = AddGameObject<pauseSprite>();
-		//Pause->SetTexture(L"TEX_PAUSE");
-		//Pause->SetPosition(0, 0, 0);
-		//Pause->SetScale(1.5f, 1.5f, 0);
-
-		////リスタート
-		//auto restart = AddGameObject<pauseSprite>();
-		//restart->SetTexture(L"TEX_RESTART");
-		//restart->SetPosition(0, 20, 0);
-		//restart->SetScale(0.5f, 0.5f, 0.5f);
-		//restart->SetSelected(true);
-		//m_pauseSprites.push_back(restart);//m_pauseSpritesにrestartを入れる
-
-		////タイトルに戻る
-		//auto title = AddGameObject<pauseSprite>();
-		//title->SetTexture(L"TEX_BACK");
-		//title->SetPosition(0, -70.0f, 0);
-		//title->SetScale(0.5f, 0.5f, 0.5f);
-		//m_pauseSprites.push_back(title);//m_pauseSpritesにbackを入れる
-
-		////設定
-		//auto setting = AddGameObject<pauseSprite>();
-		//setting->SetTexture(L"TEX_SETTING");
-		//setting->SetPosition(0, -160.0f, 0);
-		//setting->SetScale(0.47f, 0.47f, 0.47f);
-		//m_pauseSprites.push_back(setting);//m_pauseSpritesにendを入れる
-
-		////終了
-		//auto end = AddGameObject<pauseSprite>();
-		//end->SetTexture(L"TEX_END");
-		//end->SetPosition(0, -250.0f, 0);
-		//end->SetScale(0.47f, 0.47f, 0.47f);
-		//m_pauseSprites.push_back(end);//m_pauseSpritesにendを入れる
-
-		////ネコ矢印
-		//catPointSprite = AddGameObject<pauseSprite>();
-		//catPointSprite->SetTexture(L"TEX_POINT");
-		//catPointSprite->SetPosition(m_selectX + (-200), m_selectY + 20, 0);
-		//catPointSprite->SetScale(0.2f, 0.2f, 0.2f);
-
-	}
 
 }

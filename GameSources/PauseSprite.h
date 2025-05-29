@@ -1,5 +1,5 @@
 /*!
-@file pauseSprite.h
+@file PauseSprite.h
 @brief タイトル名など
 */
 
@@ -10,9 +10,9 @@ namespace basecross {
 
 
 	//--------------------------------------------------------------------------------------
-	//	class pauseSprite : public GameObject;
+	//	class PauseSprite : public GameObject;
 	//--------------------------------------------------------------------------------------
-	class pauseSprite : public GameObject
+	class PauseSprite : public GameObject
 	{
 	public:
 		float m_totalTime;//トータル時間
@@ -23,11 +23,11 @@ namespace basecross {
 		std::shared_ptr<Transform> m_ptrTrans;
 
 		// 構築と破棄
-		pauseSprite(const shared_ptr<Stage>& stage) :
+		PauseSprite(const shared_ptr<Stage>& stage) :
 			GameObject(stage)
 		{
 		}
-		virtual ~pauseSprite()
+		virtual ~PauseSprite()
 		{
 		}
 

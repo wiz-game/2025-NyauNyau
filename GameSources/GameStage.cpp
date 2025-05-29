@@ -471,7 +471,7 @@ namespace basecross {
 			auto ptrXA = App::GetApp()->GetXAudio2Manager();
 			m_BGM = ptrXA->Start(L"Gamebgm", XAUDIO2_LOOP_INFINITE, 0.1f);
 
-
+			m_pauseManager = AddGameObject<PauseManager>();
 
 		}
 		catch (...) {
@@ -504,7 +504,7 @@ namespace basecross {
 		app->RegisterTexture(L"TEX_CHEESE", texPath + L"cheese.png");
 		app->RegisterTexture(L"TEX_KABE", texPath + L"kabe.jpg");
 		app->RegisterTexture(L"TEX_YUKA", texPath + L"floor.png");
-		app->RegisterTexture(L"TEX_PAUSE", texPath + L"pauseSprite.png");
+		app->RegisterTexture(L"TEX_PAUSE", texPath + L"PauseSprite.png");
 		app->RegisterTexture(L"TEX_NEZUMI", texPath + L"nezumi.png");
 		app->RegisterTexture(L"TEX_NEZUMI2", texPath + L"nezumi2.png");
 		app->RegisterTexture(L"TEX_SHELF", texPath + L"Shelf.png");
@@ -531,8 +531,14 @@ namespace basecross {
 
 	void GameStage::OnUpdate2()
 	{
-
-		//m_pauseManager->PauseGame();
+		//コントローラの取得
+		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+		//スタートボタンを押したときにボーズする
+		if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_START)
+		{
+			auto pauseManager = m_pauseManager.lock();
+			pauseManager->PauseGame();
+		}
 
 		if (currentPhase == GamePhase::Phase1)
 		{

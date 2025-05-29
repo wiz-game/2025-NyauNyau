@@ -14,9 +14,9 @@ namespace basecross {
 	class PauseManager :public GameObject {
 		bool m_isPlaying;//動いてるかどうか
 
-		std::vector<std::weak_ptr<pauseSprite>> m_pauseSprites;//ポーズスプライトの変数
-		std::shared_ptr<pauseSprite> catPointSprite;//左矢印
-		std::shared_ptr<pauseSprite> Pause;
+		std::vector<std::weak_ptr<PauseSprite>> m_pauseSprites;//ポーズスプライトの変数
+		std::shared_ptr<PauseSprite> catPointSprite;//左矢印
+		std::shared_ptr<PauseSprite> Pause;
 
 		//ポーズフラグ
 		//bool m_PauseFlag = false;

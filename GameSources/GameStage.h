@@ -8,6 +8,7 @@
 #include "stdafx.h"
 #include "PauseSprite.h"
 #include "MainCamera.h"
+#include "PauseManager.h"
 
 namespace basecross {
 
@@ -50,7 +51,7 @@ namespace basecross {
 
 		//ポーズフラグ
 		bool m_PauseFlag = false;
-		//std::weak_ptr<PauseManager> m_pauseManager;//ポーズマネージャーへの参照
+		std::weak_ptr<PauseManager> m_pauseManager;//ポーズマネージャーへの参照
 
 		//入力ハンドラー
 		//InputHandler<GameStage> m_InputHandler;
