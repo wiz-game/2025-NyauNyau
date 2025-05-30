@@ -705,6 +705,11 @@ namespace basecross {
 		}
 	}
 
+	void GameStage::OnPushA()
+	{
+
+	}
+
 	void GameStage::OnPushB()
 	{
 		switch (currentPhase) {
