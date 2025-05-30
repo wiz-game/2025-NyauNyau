@@ -68,7 +68,7 @@ namespace basecross {
 
 
 		//“ü—Íƒnƒ“ƒhƒ‰[
-		//InputHandler<GameStage> m_InputHandler;
+		InputHandler<GameStage> m_InputHandler;
 
 
 		shared_ptr<SoundItem> m_BGM;
