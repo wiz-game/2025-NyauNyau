@@ -31,6 +31,7 @@ namespace basecross {
 
 		//Aƒ{ƒ^ƒ“
 		void OnPushA();
+		void OnPushB(){}
 		void OnDestroy();
 
 	};

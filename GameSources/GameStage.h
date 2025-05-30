@@ -8,6 +8,7 @@
 #include "stdafx.h"
 #include "PauseSprite.h"
 #include "MainCamera.h"
+#include "Phase1Camera.h"
 
 namespace basecross {
 
@@ -72,7 +73,8 @@ namespace basecross {
 
 		shared_ptr<SoundItem> m_BGM;
 
-		shared_ptr<MainCamera> m_mainCamera; // メインカメラへの参照
+		shared_ptr<SingleView> m_mainView; // メインカメラへの参照
+		shared_ptr<SingleView> m_phase1View;
 
 		GamePhase currentPhase = GamePhase::Phase1;
 
@@ -87,6 +89,8 @@ namespace basecross {
 		GameStage() :Stage(){}
 		virtual ~GameStage() {}
 		void OnPushA();	
+		void OnPushB();
+		void SwitchCamera();
 
 		//初期化		
 		virtual void OnCreate()override;

@@ -62,6 +62,7 @@ namespace basecross
 
 		//Aƒ{ƒ^ƒ“
 		void OnPushA();
+		void OnPushB(){}
 
 		// ƒJƒƒ‰‚Ì‰ñ‚è‚İ‚ğİ’è‚·‚é
 		void SetCameraAngleY(float angleY)

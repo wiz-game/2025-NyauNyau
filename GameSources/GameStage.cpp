@@ -15,15 +15,25 @@ namespace basecross {
 	//	ゲームステージクラス実体
 	//--------------------------------------------------------------------------------------
 	void GameStage::CreateViewLight() {
-		// カメラの設定
-		auto camera = ObjectFactory::Create<MainCamera>();
-		camera->SetEye(Vec3(0.0f, 5.0f, -5.5f));
-		camera->SetAt(Vec3(0.0f, 0.0f, 0.0f));
-		m_mainCamera = camera; // カメラへの参照を保持しておく
 
-		// ビューにカメラを設定
-		auto view = CreateView<SingleView>();
-		view->SetCamera(camera);
+		m_mainView = ObjectFactory::Create<SingleView>(GetThis<Stage>());
+		auto ptrmainCamera = ObjectFactory::Create<MainCamera>();
+		ptrmainCamera->SetEye(Vec3(0.0f, 10.0f, -10.0f));
+		ptrmainCamera->SetAt(Vec3(0.0f, 0.0f, 0.0f));
+		m_mainView->SetCamera(ptrmainCamera);
+
+
+		m_phase1View = ObjectFactory::Create<SingleView>(GetThis<Stage>());
+		auto ptrphase1Camera = ObjectFactory::Create<Phase1Camera>();
+		ptrphase1Camera->SetEye(Vec3(50.0f, 15.0f, 0.0f));
+		ptrphase1Camera->SetAt(Vec3(0.0f, 0.0f, 0.0f));
+		m_phase1View->SetCamera(ptrphase1Camera);
+
+		SetView(m_phase1View);
+
+
+
+
 
 		//マルチライトの作成
 		auto light = CreateLight<MultiLight>();
@@ -189,7 +199,7 @@ namespace basecross {
 		vector<vector<Vec3>> vec =
 		{
 			{
-				Vec3(3.75f, 3.0f, 3.0f),
+				Vec3(1.25f, 1.0f, 1.0f),
 				Vec3(0.0f, 0.0f + XMConvertToRadians(270) , 0.0f),
 				Vec3(-4.75f, 1.0f, -40.0f)
 			},
@@ -207,7 +217,8 @@ namespace basecross {
 		for (auto& v : vec)
 		{
 			auto ptrPlayer = AddGameObject<Player>(v[0], v[1], v[2]);
-			m_mainCamera->SetTargetObject(ptrPlayer);
+			auto ptrmainCamera = dynamic_pointer_cast<MainCamera>(m_mainView->GetCamera());
+			ptrmainCamera->SetTargetObject(ptrPlayer);
 
 			// ユニーク名を生成
 			wstring uniqueTag = L"Player_" + to_wstring(index);
@@ -278,7 +289,7 @@ namespace basecross {
 		{
 			Vec3(1.0f,1.0f,0.5f),
 			Vec3(0.0f,0.0f + XMConvertToRadians(270),0.0f),
-			Vec3(-4.6f,0.80f,-20.0f)
+			Vec3(-4.6f,3.0f,-5.0f)
 
 		}
 	    };
@@ -526,7 +537,10 @@ namespace basecross {
 		}
 	}
 	void GameStage::OnUpdate()
-	{		
+	{	
+		//コントローラチェックして入力があればコマンド呼び出し
+		m_InputHandler.PushHandle(GetThis<GameStage>());
+
 		//コントローラの取得
 		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
 		//スタートボタンを押したときにボーズする
@@ -543,6 +557,7 @@ namespace basecross {
 			if (m_PauseFlag)
 			{
 				m_pauseSprite = true;
+
 
 				//ポーズのスプライトを表示する
 				for (int i = 0; i < 4; i++)
@@ -637,6 +652,7 @@ namespace basecross {
 
 
 		}
+
 	}
 
 	//選択しているSpriteを点滅させる処理
@@ -689,6 +705,51 @@ namespace basecross {
 		}
 	}
 
+	void GameStage::OnPushB()
+	{
+		switch (currentPhase) {
+		case GamePhase::Phase1:
+		{			
+			//auto gameObjectVec = GetGameObjectVec();
+			//for (auto obj : gameObjectVec)
+			//{
+			//	if (obj->FindTag(L"Box")) //dynamic_pointer_cast<Box>(obj) 
+			//	{
+			//		obj->SetUpdateActive(true);
+			//	}
+			//	else
+			//	{
+			//		obj->SetUpdateActive(false);
+			//	}
+			//}
+
+
+			SetView(m_mainView);
+			currentPhase = GamePhase::Phase2;
+		}
+		break;
+		case GamePhase::Phase2:
+		{
+			//auto gameObjectVec = GetGameObjectVec();
+			//for (auto obj : gameObjectVec)
+			//{
+			//	if (obj->FindTag(L"Box")) //dynamic_pointer_cast<Box>(obj) 
+			//	{
+			//		obj->SetUpdateActive(false);
+			//	}
+			//	else
+			//	{
+			//		obj->SetUpdateActive(true);
+
+			//	}
+			//}
+
+			//SetView(m_mainView);
+		}
+		break;
+		}
+	}
+
 	//// テクスチャの読込
 	void GameStage::LoadTextures()
 	{
@@ -738,17 +799,11 @@ namespace basecross {
 	{
 
 		if (currentPhase == GamePhase::Phase1)
-		{
+		{	
+
 			auto gameObjectVec = GetGameObjectVec();
 			for (auto obj : gameObjectVec)
 			{
-
-				/*if (gameObjectVec.empty())
-				{
-					std::cout << "GetGameObjectVec() によって取得されたオブジェクトのリストが空です。" << std::endl;
-					return;
-				}*/
-
 				if (obj->FindTag(L"Box")) //dynamic_pointer_cast<Box>(obj) 
 				{
 					obj->SetUpdateActive(true);
@@ -767,9 +822,6 @@ namespace basecross {
 		auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
 		if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B)
 		{
-			currentPhase = GamePhase::Phase2;
-
-
 			auto gameObjectVec = GetGameObjectVec();
 			for (auto obj : gameObjectVec)
 			{

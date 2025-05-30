@@ -25,6 +25,11 @@ namespace basecross {
 				if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A) {
 					Obj->OnPushA();
 				}
+				//Bƒ{ƒ^ƒ“
+				if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B) {
+					Obj->OnPushB();
+				}
+
 			}
 		}
 	};
