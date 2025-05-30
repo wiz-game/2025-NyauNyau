@@ -379,6 +379,7 @@ namespace basecross {
 		try {
 
 			LoadTextures();
+			LoadModels();
 
 			//ビューとライトの作成
 			CreateViewLight();
@@ -404,26 +405,26 @@ namespace basecross {
 				Vec3(-5.0f, 35.5f, 0.0f)
 			);
 
-			AddGameObject<ShadowFloor>(
-				Vec3(1.0f, 17.0f, 5.0f),
-				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(-5.0f, -8.5f, -5.0f)
-			);
-			AddGameObject<ShadowFloor>(
-				Vec3(1.0f, 15.0f, 5.0f),
-				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(-5.0f, -8.5f, 5.0f)
-			);
-			AddGameObject<ShadowFloor>(
-				Vec3(1.0f, 17.0f, 5.0f),
-				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(-5.0f, -8.5f, 15.0f)
-			);
-			AddGameObject<ShadowFloor>(
-				Vec3(1.0f, 20.0f, 20.0f),
-				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(-5.0f, -8.5f, 25.0f)
-			);
+			//AddGameObject<ShadowFloor>(
+			//	Vec3(1.0f, 17.0f, 5.0f),
+			//	Vec3(0.0f, 0.0f, 0.0f),
+			//	Vec3(-5.0f, -8.5f, -5.0f)
+			//);
+			//AddGameObject<ShadowFloor>(
+			//	Vec3(1.0f, 15.0f, 5.0f),
+			//	Vec3(0.0f, 0.0f, 0.0f),
+			//	Vec3(-5.0f, -8.5f, 5.0f)
+			//);
+			//AddGameObject<ShadowFloor>(
+			//	Vec3(1.0f, 17.0f, 5.0f),
+			//	Vec3(0.0f, 0.0f, 0.0f),
+			//	Vec3(-5.0f, -8.5f, 15.0f)
+			//);
+			//AddGameObject<ShadowFloor>(
+			//	Vec3(1.0f, 20.0f, 20.0f),
+			//	Vec3(0.0f, 0.0f, 0.0f),
+			//	Vec3(-5.0f, -8.5f, 25.0f)
+			//);
 
 
 
@@ -715,41 +716,12 @@ namespace basecross {
 		switch (currentPhase) {
 		case GamePhase::Phase1:
 		{			
-			//auto gameObjectVec = GetGameObjectVec();
-			//for (auto obj : gameObjectVec)
-			//{
-			//	if (obj->FindTag(L"Box")) //dynamic_pointer_cast<Box>(obj) 
-			//	{
-			//		obj->SetUpdateActive(true);
-			//	}
-			//	else
-			//	{
-			//		obj->SetUpdateActive(false);
-			//	}
-			//}
-
-
 			SetView(m_mainView);
 			currentPhase = GamePhase::Phase2;
 		}
 		break;
 		case GamePhase::Phase2:
 		{
-			//auto gameObjectVec = GetGameObjectVec();
-			//for (auto obj : gameObjectVec)
-			//{
-			//	if (obj->FindTag(L"Box")) //dynamic_pointer_cast<Box>(obj) 
-			//	{
-			//		obj->SetUpdateActive(false);
-			//	}
-			//	else
-			//	{
-			//		obj->SetUpdateActive(true);
-
-			//	}
-			//}
-
-			//SetView(m_mainView);
 		}
 		break;
 		}
@@ -783,14 +755,27 @@ namespace basecross {
 		app->RegisterTexture(L"TEX_START", texPath + L"Goal.png");
 		app->RegisterTexture(L"TEX_GOAL", texPath + L"Goal.png");
 		app->RegisterTexture(L"TEX_BbuttondeGameStart", texPath + L"BbuttondeGameStart.png");
-
-
 		app->RegisterTexture(L"TEX_RESTART", texPath + L"PauseStage restart.png");
 		app->RegisterTexture(L"TEX_BACK", texPath + L"PauseStage title.png");
 		app->RegisterTexture(L"TEX_SETTING", texPath + L"PauseStage setting.png");
 		app->RegisterTexture(L"TEX_END", texPath + L"PauseStage end.png");
 
+
 	}
+
+	void GameStage::LoadModels()
+	{
+		auto& app = App::GetApp();
+
+		auto mediaPath = app->GetDataDirWString();
+
+		auto modelPath = mediaPath + L"Models\\";
+
+		auto meshLamp = MeshResource::CreateStaticModelMesh(modelPath + L"Lamp\\", L"NyauNyauLamp.bmf");
+
+		app->RegisterResource(L"MODEL_LAMP", meshLamp);
+	}
+
 
 	void GameStage::OnDestroy()
 	{

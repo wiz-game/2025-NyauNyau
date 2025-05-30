@@ -39,6 +39,9 @@ namespace basecross {
 		void CreateShadowFloor();
 		//テクスチャの読込
 		void LoadTextures();
+		//モデルの読込
+		void LoadModels();
+
 
 		void CreateBox();
 		//void CreateTestShadowBox();
@@ -90,7 +93,6 @@ namespace basecross {
 		virtual ~GameStage() {}
 		void OnPushA();	
 		void OnPushB();
-		void SwitchCamera();
 
 		//初期化		
 		virtual void OnCreate()override;

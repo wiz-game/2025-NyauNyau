@@ -10,6 +10,9 @@
 namespace basecross {
 	class SpotLight : public GameObject
 	{
+		shared_ptr<PNTStaticModelDraw> m_drawComp;
+
+
 	public:
 		//コンストラクタ
 		SpotLight(const shared_ptr<Stage>& stage) :
@@ -20,6 +23,9 @@ namespace basecross {
 
 		virtual void OnCreate() override;
 		virtual void OnUpdate() override;
+
+		void InitDrawComp();
+
 	};
 
 

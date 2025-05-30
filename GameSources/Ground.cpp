@@ -27,7 +27,7 @@ namespace basecross {
 		// ドローコンポーネントの追加と設定
 		auto drawComp = AddComponent<PNTStaticDraw>();
 		drawComp->SetMeshResource(L"DEFAULT_CUBE"); // キューブ型のメッシュを設定する
-		drawComp->SetOwnShadowActive(true); // 影を受け入れる
+		//drawComp->SetOwnShadowActive(true); // 影を受け入れる
 		drawComp->SetTextureResource(L"TEX_YUKA");
 
 
