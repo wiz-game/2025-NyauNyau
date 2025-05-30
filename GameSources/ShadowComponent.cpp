@@ -20,9 +20,4 @@ namespace basecross
             std::cout << "Shadow Vertex: (" << vertex.x << ", " << vertex.y << ", " << vertex.z << ")" << std::endl;
         }
     }
-
-
-
-
-
 }

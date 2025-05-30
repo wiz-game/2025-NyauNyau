@@ -434,10 +434,6 @@ namespace basecross {
 			//);
 
 
-
-
-
-
 			//Box�̍쐬
 			CreateBox();
 

@@ -4,7 +4,7 @@
 
 namespace basecross
 {
-	class ShadowStrategy
+	class ShadowStrategy : public GameObject
 	{
 	public:
 		virtual ~ShadowStrategy() = default;
