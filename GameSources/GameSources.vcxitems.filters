@@ -100,6 +100,13 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Phase1Camera.cpp">
       <Filter>全体管理</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)SoundSprite.cpp">
+      <Filter>Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)SettingStage.cpp">
+      <Filter>UI関係</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)PauseManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Character.h">
@@ -202,6 +209,13 @@
       <Filter>全体管理</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)FootprintSprite.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SoundSprite.h">
+      <Filter>Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SettingStage.h">
+      <Filter>UI関係</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)PauseManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Character.cpp">

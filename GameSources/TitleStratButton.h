@@ -15,6 +15,7 @@ namespace basecross {
 	class TitleStartButton : public GameObject
 	{
 		float m_totalTime;
+		float blinkSpeed = 3;//“_–Å‘¬“x
 		std::vector<VertexPositionColorTexture> m_vertices;
 
 	public:

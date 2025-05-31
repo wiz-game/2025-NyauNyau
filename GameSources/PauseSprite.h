@@ -1,5 +1,5 @@
 /*!
-@file pauseSprite.h
+@file PauseSprite.h
 @brief タイトル名など
 */
 
@@ -10,9 +10,9 @@ namespace basecross {
 
 
 	//--------------------------------------------------------------------------------------
-	//	class pauseSprite : public GameObject;
+	//	class PauseSprite : public GameObject;
 	//--------------------------------------------------------------------------------------
-	class pauseSprite : public GameObject
+	class PauseSprite : public GameObject
 	{
 	public:
 		float m_totalTime;//トータル時間
@@ -23,11 +23,13 @@ namespace basecross {
 		std::shared_ptr<Transform> m_ptrTrans;
 
 		// 構築と破棄
-		pauseSprite(const shared_ptr<Stage>& stage) :
-			GameObject(stage)
+		PauseSprite(const shared_ptr<Stage>& stage) :
+			GameObject(stage),
+			m_totalTime(0.0f),
+			m_Selected(true)
 		{
 		}
-		virtual ~pauseSprite()
+		virtual ~PauseSprite()
 		{
 		}
 
@@ -39,7 +41,7 @@ namespace basecross {
 		void SetPosition(float x, float y, float z);
 		void SetScale(float x, float y, float z);
 
-		//m_Blinkingのアクセサ
+		//m_Selectedのアクセサ
 		int IsSelected() const
 		{
 			return m_Selected;

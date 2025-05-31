@@ -27,6 +27,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)GoalStage.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Ground.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MainCamera.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)PauseManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Phase1.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PauseSprite.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Player.h" />
@@ -36,9 +37,11 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ProjectShader.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RaycastLine.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Scene.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SettingStage.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ShadowObject.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SelectStageSprite.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ShadowFloor.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SoundSprite.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SpotLight.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SelectStage.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Start.h" />
@@ -62,6 +65,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Goal.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GoalStage.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Ground.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)PauseManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PauseSprite.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MainCamera.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Phase1.cpp" />
@@ -71,9 +75,11 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)ProjectShader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)RaycastLine.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Scene.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SettingStage.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ShadowObject.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SelectStageSprite.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ShadowFloor.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SoundSprite.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SpotLight.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SelectStage.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Start.cpp" />

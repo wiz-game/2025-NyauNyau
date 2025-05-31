@@ -60,7 +60,7 @@ namespace basecross
 		if (dynamic_pointer_cast <Player>(collision))
 		{
 			auto& app = App::GetApp();
-			PostEvent(0.0f, GetThis<ObjectInterface>(), app->GetScene<Scene>(), L"ToGoalStage");
+			PostEvent(1.3f, GetThis<ObjectInterface>(), app->GetScene<Scene>(), L"ToGoalStage");
 
 		}
 	}

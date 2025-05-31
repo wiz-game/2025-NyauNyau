@@ -8,6 +8,7 @@
 #include "stdafx.h"
 #include "PauseSprite.h"
 #include "MainCamera.h"
+#include "PauseManager.h"
 #include "Phase1Camera.h"
 
 namespace basecross {
@@ -19,7 +20,7 @@ namespace basecross {
 	enum class GamePhase
 	{
 		Phase1,  //Box のみ操作可能
- 	    Phase2   //全オブジェクトが動作開始
+ 	    Phase2,   //全オブジェクトが動作開始
 
 	};
 	class GameStage : public Stage {
@@ -49,23 +50,8 @@ namespace basecross {
 		//エネミーの生成
 		void CreateEnemy();
 
-		//ポーズフラグ
-		bool m_PauseFlag = false;
-		bool m_pauseSprite = false;
-		int m_SpriteNum;//今選択しているスプライト
 
-
-		void ChangeSelect(int num);
-		//矢印のY軸を変更させる関数
-		void SetSelectPosition(int SpriteNum);
-		bool m_CntrolLock;
-		float m_selectY;//矢印のY座標の位置
-		float m_selectX;//矢印のX座標の位置
-
-		std::vector<std::weak_ptr<pauseSprite>> m_pauseSprites;//ポーズスプライトの変数
-		std::shared_ptr<pauseSprite> leftPointSprite;//左矢印
-		std::shared_ptr<pauseSprite> Pause;
-
+		std::weak_ptr<PauseManager> m_pauseManager;//ポーズマネージャーへの参照
 
 		//入力ハンドラー
 		InputHandler<GameStage> m_InputHandler;
@@ -100,21 +86,7 @@ namespace basecross {
 
 		//void Initialize();
 
-		//スプライトナンバーのアクセサ
-		int GetSpriteNum() const
-		{
-			return m_SpriteNum;
-		}
-
-		void SetSpriteNum(int i)
-		{
-			m_SpriteNum = i;
-		}
-
 	};
-
-
-
 }
 //end basecross
 

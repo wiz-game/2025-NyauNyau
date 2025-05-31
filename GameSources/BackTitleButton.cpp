@@ -45,7 +45,13 @@ namespace basecross {
 		float elapsedTiem = App::GetApp()->GetElapsedTime();
 
 		//ŽžŠÔŒo‰ß
-		m_totalTime += elapsedTiem;
+		m_totalTime += elapsedTiem * blinkSpeed;
+		auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+		if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A)
+		{
+			blinkSpeed = 10;
+		}
+
 		if (m_totalTime >= XM_PI)
 		{
 			m_totalTime = 0.0f;

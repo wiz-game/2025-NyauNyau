@@ -1,5 +1,5 @@
 /*!
-@file pauseSprite.cpp
+@file PauseSprite.cpp
 @brief キャラクターなど実体
 */
 
@@ -9,7 +9,7 @@
 namespace basecross {
 
 	//初期化
-	void pauseSprite::OnCreate()
+	void PauseSprite::OnCreate()
 	{
 		// 頂点(Vertex)データを設定
 		Col4 color(1, 1, 1, 1);
@@ -37,7 +37,7 @@ namespace basecross {
 		m_ptrTrans->SetPosition(0, 0, 0); // 画面の中心を原点としたピクセル単位（1280x800）
 	}
 
-	void pauseSprite::OnUpdate()
+	void PauseSprite::OnUpdate()
 	{
 		if (m_Selected)
 		{
@@ -61,21 +61,21 @@ namespace basecross {
 		{
 			m_drawComp->SetDiffuse(Col4(1, 1, 1, 1));
 		}
-		
+
 	}
 
 	//テクスチャ
-	void pauseSprite::SetTexture(const std::wstring& Key)
+	void PauseSprite::SetTexture(const std::wstring& Key)
 	{
 		m_drawComp->SetTextureResource(Key);
 	}
 	//position
-	void pauseSprite::SetPosition(float x, float y, float z)
+	void PauseSprite::SetPosition(float x, float y, float z)
 	{
 		m_ptrTrans->SetPosition(x, y, z);
 	}
 	//scale
-	void pauseSprite::SetScale(float x, float y, float z)
+	void PauseSprite::SetScale(float x, float y, float z)
 	{
 		m_ptrTrans->SetScale(x, y, z);
 	}

@@ -9,7 +9,7 @@
 namespace basecross {
 
 	//初期化
-	void SelectStageSprite::OnCreate()
+	void SoundSprite::OnCreate()
 	{
 		// 頂点(Vertex)データを設定
 		Col4 color(1, 1, 1, 1);
@@ -38,55 +38,20 @@ namespace basecross {
 		m_ptrTrans->SetPosition(0, 0, 0);// 画面の中心を原点としたピクセル単位（1280x800）
 	}
 
-	void SelectStageSprite::OnUpdate()
-	{
-
-		if (m_Selected)
-		{
-			//経過時間を取得
-			float elapsedTime = App::GetApp()->GetElapsedTime();
-
-			//時間経過
-			m_totalTime += elapsedTime * blinkSpeed;
-
-			auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
-			if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A)
-			{
-				blinkSpeed = 10;
-			}
-
-			if (m_totalTime >= XM_PI)
-			{
-				m_totalTime = 0.0f;
-			}
-
-			//明滅の変化
-			float s = sin(m_totalTime) * 0.75f + 0.25f;
-			//ライトの当たり具合
-			m_drawComp->SetDiffuse(Col4(1, 1, 1, s));//ｓ：半透明
-
-		}
-		else
-		{
-			m_drawComp->SetDiffuse(Col4(1, 1, 1, 1));
-		}
-
-	}
-
 	//テクスチャ
-	void SelectStageSprite::SetTexture(const std::wstring& Key)
+	void SoundSprite::SetTexture(const std::wstring& Key)
 	{
 		m_drawComp->SetTextureResource(Key);
 	}
-	
+
 	//position
-	void SelectStageSprite::SetPosition(float x,float y, float z)
+	void SoundSprite::SetPosition(float x, float y, float z)
 	{
 		m_ptrTrans->SetPosition(x, y, z);
 	}
-	
+
 	//scale
-	void SelectStageSprite::SetScale(float x, float y, float z)
+	void SoundSprite::SetScale(float x, float y, float z)
 	{
 		m_ptrTrans->SetScale(x, y, z);
 	}

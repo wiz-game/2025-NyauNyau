@@ -41,5 +41,9 @@
 #include "TestShadowBox.h"
 #include "Phase1.h"
 
+#include "SoundSprite.h"
+#include "SettingStage.h"
+#include "PauseManager.h"
+
 
 
