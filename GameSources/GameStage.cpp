@@ -624,7 +624,6 @@ namespace basecross {
 		if (pause->IsPlaying() && cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B)
 		{
 			auto gameObjectVec = GetGameObjectVec();
-			auto gameObjectVec = GetGameObjectVec();
 			for (auto obj : gameObjectVec)
 			{
 				if (obj->FindTag(L"Box")) //dynamic_pointer_cast<Box>(obj) 
