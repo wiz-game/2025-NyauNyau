@@ -49,8 +49,7 @@ namespace basecross {
 		//エネミーの生成
 		void CreateEnemy();
 
-		//ポーズフラグ
-		bool m_PauseFlag = false;
+
 		std::weak_ptr<PauseManager> m_pauseManager;//ポーズマネージャーへの参照
 
 		//入力ハンドラー

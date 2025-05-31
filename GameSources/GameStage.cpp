@@ -274,15 +274,15 @@ namespace basecross {
 	//チーズ
 	void GameStage::CreateCheese()
 	{
-		vector< vector <Vec3> > vec ={
+		vector< vector <Vec3> > vec = {
 		{
 			Vec3(1.0f,1.0f,0.5f),
 			Vec3(0.0f,0.0f + XMConvertToRadians(270),0.0f),
 			Vec3(-4.6f,0.80f,-20.0f)
 
 		}
-	    };
-	    //オブジェクトの作成
+		};
+		//オブジェクトの作成
 		for (auto v : vec) {
 			AddGameObject<Cheese>(v[0], v[1], v[2]);
 		}
@@ -472,14 +472,13 @@ namespace basecross {
 			m_BGM = ptrXA->Start(L"Gamebgm", XAUDIO2_LOOP_INFINITE, 0.1f);
 
 			m_pauseManager = AddGameObject<PauseManager>();
-
 		}
 		catch (...) {
 			throw;
 		}
 	}
 	void GameStage::OnUpdate()
-	{	
+	{
 
 	}
 
@@ -531,15 +530,6 @@ namespace basecross {
 
 	void GameStage::OnUpdate2()
 	{
-		//コントローラの取得
-		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
-		//スタートボタンを押したときにボーズする
-		if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_START)
-		{
-			auto pauseManager = m_pauseManager.lock();
-			pauseManager->PauseGame();
-		}
-
 		if (currentPhase == GamePhase::Phase1)
 		{
 			auto gameObjectVec = GetGameObjectVec();
@@ -566,14 +556,21 @@ namespace basecross {
 		}
 
 
+
+		auto pause = m_pauseManager.lock();
+		if (!pause)
+		{
+			return;
+		}
+
 		// BボタンでPhase2(GameStart)へ
 		auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
-		if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B)
+
+		if (pause->IsPlaying() && cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B)
 		{
 			currentPhase = GamePhase::Phase2;
-
-
 			auto gameObjectVec = GetGameObjectVec();
+
 			for (auto obj : gameObjectVec)
 			{
 				if (obj->FindTag(L"Box")) //dynamic_pointer_cast<Box>(obj) 
@@ -585,13 +582,14 @@ namespace basecross {
 					obj->SetUpdateActive(true);
 
 				}
+
 			}
 
-
+		}
+		else
+		{
 
 		}
-
-
 	}
 }
 	

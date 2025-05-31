@@ -103,6 +103,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)SettingStage.cpp">
       <Filter>UI関係</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)PauseManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Character.h">
@@ -208,6 +209,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SettingStage.h">
       <Filter>UI関係</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)PauseManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Character.cpp">

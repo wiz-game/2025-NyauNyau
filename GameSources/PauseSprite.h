@@ -24,7 +24,9 @@ namespace basecross {
 
 		// \’z‚Æ”jŠü
 		PauseSprite(const shared_ptr<Stage>& stage) :
-			GameObject(stage)
+			GameObject(stage),
+			m_totalTime(0.0f),
+			m_Selected(true)
 		{
 		}
 		virtual ~PauseSprite()

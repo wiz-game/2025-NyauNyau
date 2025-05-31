@@ -15,8 +15,6 @@ namespace basecross {
 
 		void CreateResourses();
 
-		bool m_isPlaying;
-
 		//現在セレクトされているステージナンバー
 		int m_StageNum;
 	public:
@@ -28,33 +26,9 @@ namespace basecross {
 		
 		//Pauseの処理
 		Scene() :
-			SceneBase(),
-			m_isPlaying(true)
+			SceneBase()
 		{}
 
-		bool IsPlaying() const
-		{
-			return m_isPlaying;
-		}
-
-		void PlayGame(bool isPause)
-		{
-			//「ゲーム実行中」フラグを折る
-			m_isPlaying = isPause;
-
-			//「現在のステージ」にあるすべてのゲームオブジェクトを停止させる
-			auto stage = GetActiveStage();
-			auto gameObjects = stage->GetGameObjectVec();
-			for (auto& gameObject : gameObjects)
-			{
-				gameObject->SetUpdateActive(isPause);
-			}
-		}
-
-		void PauseGame()
-		{
-			PlayGame(!IsPlaying());
-		}
 
 		//ステージナンバーのアクセサ
 		int GetStageNum() const

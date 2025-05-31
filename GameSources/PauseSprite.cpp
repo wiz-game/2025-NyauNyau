@@ -61,7 +61,7 @@ namespace basecross {
 		{
 			m_drawComp->SetDiffuse(Col4(1, 1, 1, 1));
 		}
-		
+
 	}
 
 	//テクスチャ

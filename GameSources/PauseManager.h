@@ -5,6 +5,7 @@
 
 #pragma once
 #include "stdafx.h"
+#include "PauseSprite.h"
 
 namespace basecross {
 	//---------------------------------------------------------------------------------------------------------------
@@ -14,13 +15,11 @@ namespace basecross {
 	class PauseManager :public GameObject {
 		bool m_isPlaying;//動いてるかどうか
 
-		std::vector<std::weak_ptr<PauseSprite>> m_pauseSprites;//ポーズスプライトの変数
+		std::vector<std::shared_ptr<PauseSprite>> m_pauseSprites;//ポーズスプライトの変数
 		std::shared_ptr<PauseSprite> catPointSprite;//左矢印
 		std::shared_ptr<PauseSprite> Pause;
 
 		//ポーズフラグ
-		//bool m_PauseFlag = false;
-		bool m_pauseSprite = false;
 		int m_SpriteNum;//今選択しているスプライト
 
 
@@ -37,7 +36,10 @@ namespace basecross {
 		PauseManager(const shared_ptr<Stage>& stage) :
 			GameObject(stage),
 			m_CntrolLock(false),
-			m_isPlaying(true)
+			m_isPlaying(true),
+			m_SpriteNum(0),
+			m_selectX(0.0f),
+			m_selectY(0.0f)
 		{
 		}
 		virtual ~PauseManager(){}
@@ -58,16 +60,21 @@ namespace basecross {
 			auto gameObjects = stage->GetGameObjectVec();
 			for (auto& gameObject : gameObjects)
 			{
+				if (dynamic_pointer_cast<PauseManager>(gameObject))
+				{
+					continue;
+				}
+
 				gameObject->SetUpdateActive(isPause);
+				
 			}
 
 		}
-
 		void PauseManager::PauseGame();
 
 		virtual void OnCreate() override;//初期化
 		virtual void OnUpdate() override;//更新
-
+		virtual void OnDraw() override;//描画
 
 		//スプライトナンバーのアクセサ
 		int GetSpriteNum() const
