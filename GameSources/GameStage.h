@@ -62,7 +62,7 @@ namespace basecross {
 		shared_ptr<SingleView> m_mainView; // ƒƒCƒ“ƒJƒƒ‰‚Ö‚ÌQÆ
 		shared_ptr<SingleView> m_phase1View;
 
-		GamePhase currentPhase = GamePhase::Phase1;
+		GamePhase currentPhase = GamePhase::Phase1; // Å‰‚Éİ’è‚³‚ê‚Ä‚¢‚éPhase
 
 
 		//std::shared_ptr<Box> boxObject;

@@ -57,12 +57,36 @@ namespace basecross
 
 	void goalGate::OnCollisionEnter(shared_ptr<GameObject>& collision)
 	{
+
+		//auto playerpos = GetStage()->GetThis<GameStage>();
+		//auto p = playerpos->GetSharedGameObject<Player>(L"Player");
+		//auto f = p->GetComponent<Transform>()->GetPosition();
+
+		//auto goalpos = GetComponent<Transform>()->GetPosition();
+
+		//Vec3 Ppos = f;
+		//Vec3 Gpos = goalpos;
+
+		//float length = Ppos.x - Gpos.x;
+
+		//if (length < 0.3f)
+		//{
+
+		//	auto& app = App::GetApp();
+		//	PostEvent(0.0f, GetThis<ObjectInterface>(), app->GetScene<Scene>(), L"ToGoalStage");
+
+
+		//}
+
+
 		if (dynamic_pointer_cast <Player>(collision))
 		{
 			auto& app = App::GetApp();
 			PostEvent(1.3f, GetThis<ObjectInterface>(), app->GetScene<Scene>(), L"ToGoalStage");
 
+
 		}
+		return;
 	}
 
 }

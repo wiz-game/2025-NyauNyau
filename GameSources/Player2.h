@@ -50,6 +50,18 @@ namespace basecross
 
 		shared_ptr<PNTStaticDraw> m_drawComp; // 標準的なアニメーション無しのドローコンポーネント
 
+		// BaseCross上で必要な自身の情報
+		shared_ptr<Transform> m_Transform;
+
+		// 自身の情報
+		Vec3 m_Center;
+		float m_Radius;
+
+		// 衝突相手の情報
+		shared_ptr<ShadowObject> m_OtherPolygon;
+
+	
+
 	public:
 		//構築と破棄
 		Player(const shared_ptr<Stage>& StagePtr,
@@ -64,12 +76,65 @@ namespace basecross
 		void OnPushA();
 		void OnPushB(){}
 
+
+
 		// カメラの回り込みを設定する
 		void SetCameraAngleY(float angleY)
 		{
 			m_cameraAngleY = angleY;
 		}
 
+
+		void SetCenter(const Vec2& center)
+		{
+			m_Center = center;
+		}
+
+		Vec3 GetCenter() const
+		{
+			return m_Center;
+		}
+
+
+		//Vec2 GetNormal(const Vec2& a, const Vec2& b)
+		//{
+		//	Vec2 edge = Vec2(b.x - a.x, b.y - a.y);
+		//	return Vec2(-edge.y, edge.x).normalize();
+		//}
+		
+		// ベクトルの法線（直線の分離軸）を取得
+		Vec3 GetNormal(const Vec3& a, const Vec3& b,const Vec3& c)
+		{
+			Vec3 ab = b - a;
+			Vec3 ac = c - a;
+			return Vec3(ab.z * ac.y - ab.y * ac.z, 
+				        ab.x * ac.z - ab.z * ac.x, 
+				        ab.y * ac.x - ab.x * ac.y).normalize();
+		}
+
+		// 多角形を分離軸に投影して範囲を取得
+		void ProjectOntoAxis(const vector<Vec3>& poly, const Vec3& axis, float& min, float& max)
+		{
+			min = max = poly[0].dot(axis);
+			for (const auto& p : poly)
+			{
+				float proj = p.dot(axis);
+				if (proj < min) min = proj;
+				if (proj > max) max = proj;
+			}
+		}
+
+		// 円を分離軸に投影して範囲を取得
+		void ProjectCircleOntoAxis(const Vec3& center, float radius, const Vec3& axis, float& min, float& max)
+		{
+			float centerProj = center.dot(axis);
+			min = centerProj - radius;
+			max = centerProj + radius;
+		}
+
+
+		// 円と凸多角形の最小押し出しベクトル（MTV）を求める
+		bool ComputeMTV(const shared_ptr<ShadowObject>& polygon, Vec3& mtv);
 
 		virtual ~Player() {}
 		//アクセサ

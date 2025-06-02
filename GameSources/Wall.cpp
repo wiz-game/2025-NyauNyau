@@ -35,13 +35,18 @@ namespace basecross {
 		/*auto ptrColl = AddComponent<CollisionObb>();
 		ptrColl->SetFixed(true);*/
 		//drawComp->SetRasterizerState(RasterizerState::Wireframe);
+
+		/*SetAlphaActive(true);
+		drawComp->SetDiffuse(Col4(0.0f));*/
 	}
 
 	void Wall::OnUpdate()
 	{
+
+		
 	}
 
-	//•Ç‚Ì–@ü‚ğæ“¾
+		//•Ç‚Ì–@ü‚ğæ“¾
 	Vec3 Wall::GetWallNormal() const
 	{
 		return GetComponent<Transform>()->GetForward();

@@ -20,7 +20,7 @@ namespace basecross
 		//トランスフォームコンポーネント取得と設定
 		m_transComp = GetComponent<Transform>();
 		m_transComp->SetScale(0.5f, 0.5f, 0.5f);
-		m_transComp->SetPosition(Vec3(0.0f, -0.25f, 0.0f));
+		m_transComp->SetPosition(Vec3(0.0f, -0.25f, -4.0f));
 
 		//コリジョンつける
 		auto ptrColl = AddComponent<CollisionRect>();
@@ -93,17 +93,29 @@ namespace basecross
 			angle.normalize();
 
 			// 移動サイズの適用
-			angle *= moveVec.length();
+			angle *= -moveVec.length();
 
-			//x軸を固定
-			angle.x = 0;
+			//y軸を固定
+			angle.y = 0;
+
+			//if (angle.x >= 1.0f)
+			//{
+			//	angle.z = 0.0f;
+			//}
+			//else if (angle.z >= 1.0f)
+			//{
+			//	angle.x = 0.0f;
+			//}
+
+
+
 		}
 		return angle;
 
 		static float direction = 1.0f; // **関数内で値を保持**
 		float speed = 1.0f; // 移動速度
 		float minX = -3.0f; // 左限界
-		float maxX = 3.0f; // 右限界
+		float maxZ = 3.0f; // 右限界
 
 		float elapsedTime = App::GetApp()->GetElapsedTime();
 		auto pos = m_transComp->GetPosition();
@@ -111,10 +123,10 @@ namespace basecross
 		float deltaZ = elapsedTime * speed * direction;
 
 		// 境界チェックして方向反転
-		if (pos.z + deltaZ >= maxX)
+		if (pos.z + deltaZ >= maxZ)
 		{
 			direction = -1.0f; // 方向反転
-			pos.z = maxX; // 境界を超えないようにする
+			pos.z = maxZ; // 境界を超えないようにする
 		}
 
 		else if (pos.z + deltaZ <= minX)
@@ -164,6 +176,7 @@ namespace basecross
 			auto pos = GetComponent<Transform>()->GetPosition();
 			pos += angle * elapsedTime * 6.0f;
 			GetComponent<Transform>()->SetPosition(pos); // 更新後
+
 		}
 	}
 
