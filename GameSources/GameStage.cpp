@@ -310,6 +310,7 @@ namespace basecross {
 		try {
 
 			LoadTextures();
+			LoadModels();
 
 			//ビューとライトの作成
 			CreateViewLight();
@@ -461,14 +462,27 @@ namespace basecross {
 		app->RegisterTexture(L"TEX_START", texPath + L"Goal.png");
 		app->RegisterTexture(L"TEX_GOAL", texPath + L"Goal.png");
 		app->RegisterTexture(L"TEX_BbuttondeGameStart", texPath + L"BbuttondeGameStart.png");
-
-
 		app->RegisterTexture(L"TEX_RESTART", texPath + L"PauseStage restart.png");
 		app->RegisterTexture(L"TEX_BACK", texPath + L"PauseStage title.png");
 		app->RegisterTexture(L"TEX_SETTING", texPath + L"PauseStage setting.png");
 		app->RegisterTexture(L"TEX_END", texPath + L"PauseStage end.png");
 
+
 	}
+
+	void GameStage::LoadModels()
+	{
+		auto& app = App::GetApp();
+
+		auto mediaPath = app->GetDataDirWString();
+
+		auto modelPath = mediaPath + L"Models\\";
+
+		auto meshLamp = MeshResource::CreateStaticModelMesh(modelPath + L"Lamp\\", L"NyauNyauLamp.bmf");
+
+		app->RegisterResource(L"MODEL_LAMP", meshLamp);
+	}
+
 
 	void GameStage::OnDestroy()
 	{

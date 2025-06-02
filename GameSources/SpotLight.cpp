@@ -11,13 +11,13 @@ namespace basecross {
 
 	void SpotLight::OnCreate()
 	{
+		SetAlphaActive(true);
 		//Col4 color(1.0f, 1.0f, 0.0f, 1.0f);
 
 
-		//ドローコンポーネントの追加と設定
-		auto drawComp = AddComponent<PNTStaticDraw>();
-		drawComp->SetMeshResource(L"DEFAULT_SPHERE");
-		  
+		//3Dモデルの呼び出し
+		InitDrawComp();
+	  
 		//トランスフォームコンポーネント取得と設定
 		auto transComp = GetComponent<Transform>();
 		transComp->SetScale(0.25f, 0.25f, 0.25f);
@@ -34,6 +34,19 @@ namespace basecross {
 	{
 
 	}
+
+	void SpotLight::InitDrawComp()
+	{
+		Mat4x4 span;
+		span.affineTransformation(Vec3(0.5f), Vec3(), Vec3(), Vec3(0.0f,-2.1f,0.0f));
+
+
+		m_drawComp = AddComponent<PNTStaticModelDraw>();
+		m_drawComp->SetMeshResource(L"MODEL_LAMP");
+
+		m_drawComp->SetMeshToTransformMatrix(span);
+	}
+
 
 
 }

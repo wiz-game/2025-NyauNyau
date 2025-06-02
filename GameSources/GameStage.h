@@ -40,6 +40,9 @@ namespace basecross {
 		void CreateShadowFloor();
 		//テクスチャの読込
 		void LoadTextures();
+		//モデルの読込
+		void LoadModels();
+
 
 		void CreateBox();
 		//void CreateTestShadowBox();
