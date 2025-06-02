@@ -15,22 +15,17 @@ namespace basecross {
 	//	ゲームステージクラス実体
 	//--------------------------------------------------------------------------------------
 	void GameStage::CreateViewLight() {
-		// カメラの設定
-		auto camera = ObjectFactory::Create<MainCamera>();
-		camera->SetEye(Vec3(0.0f, 5.0f, -5.5f));
-		camera->SetAt(Vec3(0.0f, 0.0f, 0.0f));
-		m_mainCamera = camera; // カメラへの参照を保持しておく
 
 		m_mainView = ObjectFactory::Create<SingleView>(GetThis<Stage>());
 		auto ptrmainCamera = ObjectFactory::Create<MainCamera>();
-		ptrmainCamera->SetEye(Vec3(0.0f, 10.0f, -10.0f));
+		ptrmainCamera->SetEye(Vec3(0.0f, 15.0f, -50.0f));
 		ptrmainCamera->SetAt(Vec3(0.0f, 0.0f, 0.0f));
 		m_mainView->SetCamera(ptrmainCamera);
 
 
 		m_phase1View = ObjectFactory::Create<SingleView>(GetThis<Stage>());
 		auto ptrphase1Camera = ObjectFactory::Create<Phase1Camera>();
-		ptrphase1Camera->SetEye(Vec3(50.0f, 15.0f, 0.0f));
+		ptrphase1Camera->SetEye(Vec3(0.0f, 15.0f, -50.0f));
 		ptrphase1Camera->SetAt(Vec3(0.0f, 0.0f, 0.0f));
 		m_phase1View->SetCamera(ptrphase1Camera);
 
@@ -204,15 +199,10 @@ namespace basecross {
 		vector<vector<Vec3>> vec =
 		{
 			{
-				Vec3(3.75f, 3.0f, 3.0f),
-				Vec3(0.0f, 0.0f/* + XMConvertToRadians(270)*/ , 0.0f),
+				Vec3(1.25f, 1.0f, 1.0f),
+				Vec3(0.0f, 0.0f, 0.0f),
 				Vec3(0.0f, 2.0f, -0.5f)
 			},
-			//{
-			//	Vec3(0.0f, 0.25f, 0.25f),
-			//	Vec3(0.0f, 90.0f, 0.0f),
-			//	Vec3(-8.0f, 0.0f ,4.0f)
-			//}
 
 		};
 
@@ -345,26 +335,26 @@ namespace basecross {
 				Vec3(20.0f, -3.0f, 0.0f)
 			);
 
-			AddGameObject<ShadowFloor>(
-				Vec3(1.0f, 17.0f, 5.0f),
-				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(-5.0f, -8.5f, -5.0f)
-			);
-			AddGameObject<ShadowFloor>(
-				Vec3(1.0f, 15.0f, 5.0f),
-				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(-5.0f, -8.5f, 5.0f)
-			);
-			AddGameObject<ShadowFloor>(
-				Vec3(1.0f, 17.0f, 5.0f),
-				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(-5.0f, -8.5f, 15.0f)
-			);
-			AddGameObject<ShadowFloor>(
-				Vec3(1.0f, 20.0f, 20.0f),
-				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(-5.0f, -8.5f, 25.0f)
-			);
+			//AddGameObject<ShadowFloor>(
+			//	Vec3(1.0f, 17.0f, 5.0f),
+			//	Vec3(0.0f, 0.0f, 0.0f),
+			//	Vec3(-5.0f, -8.5f, -5.0f)
+			//);
+			//AddGameObject<ShadowFloor>(
+			//	Vec3(1.0f, 15.0f, 5.0f),
+			//	Vec3(0.0f, 0.0f, 0.0f),
+			//	Vec3(-5.0f, -8.5f, 5.0f)
+			//);
+			//AddGameObject<ShadowFloor>(
+			//	Vec3(1.0f, 17.0f, 5.0f),
+			//	Vec3(0.0f, 0.0f, 0.0f),
+			//	Vec3(-5.0f, -8.5f, 15.0f)
+			//);
+			//AddGameObject<ShadowFloor>(
+			//	Vec3(1.0f, 20.0f, 20.0f),
+			//	Vec3(0.0f, 0.0f, 0.0f),
+			//	Vec3(-5.0f, -8.5f, 25.0f)
+			//);
 
 
 
@@ -435,74 +425,8 @@ namespace basecross {
 		auto device = app->GetInputDevice();
 		auto pad = device.GetControlerVec()[0];
 
-		if (currentPhase == GamePhase::Phase1)
-		{
-			//スタートボタンを押したときにボーズする
-			if (pad.wPressedButtons & XINPUT_GAMEPAD_START)
-			{
-
-				auto scene = App::GetApp()->GetScene<Scene>();
-				scene->PauseGame();
-				m_PauseFlag = !m_PauseFlag;
-
-
-				if (m_PauseFlag)
-				{
-
-					m_Pause = AddGameObject<pauseSprite>();
-					m_pauseSprite = true;
-					currentPhase == GamePhase::Phase3;
-				}
-				else
-				{
-					if (m_pauseSprite)
-					{
-						RemoveGameObject<pauseSprite>(m_Pause);
-						m_pauseSprite = false;
-					}
-					m_PauseFlag = false;
-					currentPhase == GamePhase::Phase1;
-
-
-				}
-			}
-
-			if (currentPhase == GamePhase::Phase2)
-			{
-				//スタートボタンを押したときにボーズする
-				if (pad.wPressedButtons & XINPUT_GAMEPAD_START)
-				{
-
-					auto scene = App::GetApp()->GetScene<Scene>();
-					scene->PauseGame();
-					m_PauseFlag = !m_PauseFlag;
-
-
-					if (m_PauseFlag)
-					{
-
-						m_Pause = AddGameObject<pauseSprite>();
-						m_pauseSprite = true;
-						currentPhase == GamePhase::Phase3;
-					}
-					else
-					{
-						if (m_pauseSprite)
-						{
-							RemoveGameObject<pauseSprite>(m_Pause);
-							m_pauseSprite = false;
-						}
-						m_PauseFlag = false;
-						currentPhase == GamePhase::Phase2;
-
-
-					}
-				}
-			}
-		}
 	}
 
-	//タイトルに戻る
 	void GameStage::OnPushA()
 	{
 
@@ -556,8 +480,8 @@ namespace basecross {
 
 	void GameStage::OnUpdate2()
 	{
-	/*	auto& app = App::GetApp();
-		MainCamera* mainCam = app->*/
+		/*	auto& app = App::GetApp();
+			MainCamera* mainCam = app->*/
 
 		if (currentPhase == GamePhase::Phase1)
 		{
@@ -590,20 +514,20 @@ namespace basecross {
 
 
 
-		auto pause = m_pauseManager.lock();
-		if (!pause)
-		{
-			return;
-		}
+			auto pause = m_pauseManager.lock();
+			if (!pause)
+			{
+				return;
+			}
 
-		// BボタンでPhase2(GameStart)へ
-		auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+			// BボタンでPhase2(GameStart)へ
+			auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
 
-		if (pause->IsPlaying() && cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B)
-		{
-			SetView(m_mainView);
+			if (pause->IsPlaying() && cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B)
+			{
+				SetView(m_mainView);
 
-			currentPhase = GamePhase::Phase2;
+				currentPhase = GamePhase::Phase2;
 
 
 				auto gameObjectVec = GetGameObjectVec();
@@ -623,11 +547,6 @@ namespace basecross {
 
 
 			}
-		}
-
-		}
-		else
-		{
 
 		}
 	}

@@ -136,6 +136,8 @@ namespace basecross
 		// 円と凸多角形の最小押し出しベクトル（MTV）を求める
 		bool ComputeMTV(const shared_ptr<ShadowObject>& polygon, Vec3& mtv);
 
+
+
 		virtual ~Player() {}
 		//アクセサ
 		//初期化

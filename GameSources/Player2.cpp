@@ -80,16 +80,16 @@ namespace basecross
 			// 移動サイズの適用
 			angle *= moveVec.length();
 
-			if (m_Player1)
-			{
+			//if (m_Player1)
+			//{
 				//z軸を固定
 				angle.z = 0;
-			}
-			else
-			{
-				//x軸を固定
-				angle.x = 0;
-			}
+			//}
+			//else
+			//{
+			//	//x軸を固定
+			//	angle.x = 0;
+			//}
 
 
 		}
@@ -103,7 +103,7 @@ namespace basecross
 		auto angle = GetMoveVector();
 		auto pos = GetComponent<Transform>()->GetPosition();
 
-		// z方向に自動移動
+		// x方向に自動移動
 		pos.x += elapsedTime * m_Speed;
 
 
