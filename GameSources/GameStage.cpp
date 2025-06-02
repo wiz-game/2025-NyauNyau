@@ -498,50 +498,6 @@ namespace basecross {
 
 	}
 
-	void GameStage::OnPushB()
-	{
-		switch (currentPhase) {
-		case GamePhase::Phase1:
-		{			
-			//auto gameObjectVec = GetGameObjectVec();
-			//for (auto obj : gameObjectVec)
-			//{
-			//	if (obj->FindTag(L"Box")) //dynamic_pointer_cast<Box>(obj) 
-			//	{
-			//		obj->SetUpdateActive(true);
-			//	}
-			//	else
-			//	{
-			//		obj->SetUpdateActive(false);
-			//	}
-			//}
-
-
-			SetView(m_mainView);
-			currentPhase = GamePhase::Phase2;
-		}
-		break;
-		case GamePhase::Phase2:
-		{
-			//auto gameObjectVec = GetGameObjectVec();
-			//for (auto obj : gameObjectVec)
-			//{
-			//	if (obj->FindTag(L"Box")) //dynamic_pointer_cast<Box>(obj) 
-			//	{
-			//		obj->SetUpdateActive(false);
-			//	}
-			//	else
-			//	{
-			//		obj->SetUpdateActive(true);
-
-			//	}
-			//}
-
-			//SetView(m_mainView);
-		}
-		break;
-		}
-	}
 
 	//// テクスチャの読込
 	void GameStage::LoadTextures()
@@ -623,6 +579,10 @@ namespace basecross {
 
 		if (pause->IsPlaying() && cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B)
 		{
+			SetView(m_mainView);
+
+			currentPhase = GamePhase::Phase2;
+
 			auto gameObjectVec = GetGameObjectVec();
 			for (auto obj : gameObjectVec)
 			{
