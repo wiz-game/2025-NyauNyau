@@ -209,7 +209,7 @@ namespace basecross
 		MoveXZ();
 
 		
-
+		if (m_OtherPolygon)
 		{
 			Vec3 mtv;
 			if (ComputeMTV(m_OtherPolygon, mtv))

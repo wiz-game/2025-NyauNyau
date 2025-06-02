@@ -108,7 +108,7 @@ namespace basecross
 			Vec3 ac = c - a;
 			return Vec3(ab.z * ac.y - ab.y * ac.z, 
 				        ab.x * ac.z - ab.z * ac.x, 
-				      -(ab.y * ac.x - ab.x * ac.y)).normalize();
+				        ab.y * ac.x - ab.x * ac.y).normalize();
 		}
 
 		// ‘½ŠpŒ`‚ð•ª—£Ž²‚É“Š‰e‚µ‚Ä”ÍˆÍ‚ðŽæ“¾
