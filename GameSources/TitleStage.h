@@ -21,6 +21,10 @@ namespace basecross {
 		InputHandler<TitleStage> m_InputHandler;
 		shared_ptr<SoundItem> m_BGM;
 		std::vector<std::shared_ptr<TitleSprite>> m_titleSprite;
+		
+		const int spriteCount = 11;
+		float phaseIncrement = 0.5f;
+		float m_totalTime;
 
 
 	public:

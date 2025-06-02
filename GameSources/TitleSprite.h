@@ -19,9 +19,12 @@ namespace basecross {
 		float m_totalTime;
 
 		Vec3 m_basePosition;//基準位置
-		float m_phaseOffset = 0.0f;//各スプライト毎に異なる値をセット
+		float frequency = 2.0f;// 周期
 
 	public:
+		float m_phaseOffset = 0.0f;//各スプライト毎に異なる値をセット
+		float m_amplitude = 10.0f;  // sin波の幅
+
 		// 構築と破棄
 		TitleSprite(const shared_ptr<Stage>& stage) :
 			GameObject(stage),

@@ -126,6 +126,29 @@ namespace basecross {
 	{
 		//コントローラチェックして入力があればコマンド呼び出し
 		m_InputHandler.PushHandle(GetThis<TitleStage>());
+
+
+		auto delta = App::GetApp()->GetElapsedTime();
+		m_totalTime += delta;
+
+
+		for (int i = 0; i < spriteCount; ++i)
+		{
+			m_titleSprite[i]->m_phaseOffset = i * phaseIncrement;
+
+			//m_titleSprite.push_back(m_titleSprite[i]);
+		}
+
+		//if (m_totalTime >= 1.0f)
+		//{
+		//	static int currenSpriteIndex = 0;
+		//	if (currenSpriteIndex < spriteCount)
+		//	{
+		//		m_titleSprite[currenSpriteIndex]->m_phaseOffset = currenSpriteIndex * phaseIncrement;
+		//		currenSpriteIndex++;
+		//	}
+		//}
+
 	}
 
 	//コントローラーのAボタンでゲーム画面に移動
@@ -147,7 +170,7 @@ namespace basecross {
 		auto texPath = mediaPath + L"Textures\\";
 
 		// テクスチャの読込と登録
-		app->RegisterTexture(L"TEX_TITLESTAGE", texPath + L"TitleStage.png");
+		app->RegisterTexture(L"TEX_TITLESTAGE", texPath + L"TitleStage2.png");
 		app->RegisterTexture(L"TEX_TITLESTRATBUTTON", texPath + L"TitleStage StratButton.png");
 		app->RegisterTexture(L"TEX_TITLE ni", texPath + L"Title ni.png");
 		app->RegisterTexture(L"TEX_TITLE lya", texPath + L"Title lya.png");

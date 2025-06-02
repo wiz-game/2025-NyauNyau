@@ -64,7 +64,6 @@ namespace basecross {
 				{
 					continue;
 				}
-
 				gameObject->SetUpdateActive(isPause);
 
 

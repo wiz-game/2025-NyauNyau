@@ -34,8 +34,6 @@ namespace basecross {
 		m_ptrTrans = GetComponent<Transform>();
 		m_ptrTrans->SetPosition(0, 0, 0); // 画面の中心を原点としたピクセル単位（1280x800）
 		m_ptrTrans->SetScale(1, 1, 1);
-
-		m_basePosition = m_ptrTrans->GetPosition();
 	}
 	
 	void TitleSprite::OnUpdate()
@@ -43,11 +41,8 @@ namespace basecross {
 		auto delta = App::GetApp()->GetElapsedTime();
 		m_totalTime += delta;
 
-		float amplitude = 10.0f;  // sin波の幅
-		float frequency = 2.0f;   // 周期
-
 		// Y方向のオフセットをサイン波で計算
-		float y_offset = amplitude * sinf(m_totalTime * frequency + m_phaseOffset);
+		float y_offset = m_amplitude * sinf(m_totalTime * frequency + m_phaseOffset);
 
 		// もともとの基準位置に計算したオフセットを加えて、新たな位置に設定
 		m_ptrTrans->SetPosition(m_basePosition.x, m_basePosition.y + y_offset, m_basePosition.z);
@@ -61,6 +56,7 @@ namespace basecross {
 	void TitleSprite::SetPosition(float x, float y, float z)
 	{
 		m_ptrTrans->SetPosition(x, y, z);
+		m_basePosition = m_ptrTrans->GetPosition();
 	}
 	void TitleSprite::SetScale(float x, float y, float z)
 	{
