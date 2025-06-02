@@ -42,7 +42,7 @@ namespace basecross {
 	//	m_angleY -= XMConvertToRadians(150.0f) * pad.fThumbRX * delta; // 右スティックの傾きに応じて、秒間最大135°回り込む
 
 		Vec3 at = targetPos + Vec3(0.0f, 1.0f, 0.0f);
-		Vec3 eye = targetPos + Vec3(0.0f,15.0f,-20.0f);
+		Vec3 eye = targetPos + Vec3(0.0f,0.0f,-12.0f);
 
 		SetAt(at);
 		SetEye(eye);
