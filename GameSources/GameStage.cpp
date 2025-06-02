@@ -18,14 +18,14 @@ namespace basecross {
 
 		m_mainView = ObjectFactory::Create<SingleView>(GetThis<Stage>());
 		auto ptrmainCamera = ObjectFactory::Create<MainCamera>();
-		ptrmainCamera->SetEye(Vec3(0.0f, 15.0f, -50.0f));
+		ptrmainCamera->SetEye(Vec3(0.0f, 5.0f, -50.0f));
 		ptrmainCamera->SetAt(Vec3(0.0f, 0.0f, 0.0f));
 		m_mainView->SetCamera(ptrmainCamera);
 
 
 		m_phase1View = ObjectFactory::Create<SingleView>(GetThis<Stage>());
 		auto ptrphase1Camera = ObjectFactory::Create<Phase1Camera>();
-		ptrphase1Camera->SetEye(Vec3(0.0f, 15.0f, -50.0f));
+		ptrphase1Camera->SetEye(Vec3(0.0f, 15.0f, -30.0f));
 		ptrphase1Camera->SetAt(Vec3(0.0f, 0.0f, 0.0f));
 		m_phase1View->SetCamera(ptrphase1Camera);
 
@@ -474,6 +474,8 @@ namespace basecross {
 	{
 		auto& app = App::GetApp();
 
+		if (app->CheckResource<MeshResource>(L"MODEL_LAMP")) return;
+
 		auto mediaPath = app->GetDataDirWString();
 
 		auto modelPath = mediaPath + L"Models\\";
@@ -481,6 +483,7 @@ namespace basecross {
 		auto meshLamp = MeshResource::CreateStaticModelMesh(modelPath + L"Lamp\\", L"NyauNyauLamp.bmf");
 
 		app->RegisterResource(L"MODEL_LAMP", meshLamp);
+
 	}
 
 
