@@ -711,21 +711,6 @@ namespace basecross {
 
 	}
 
-	void GameStage::OnPushB()
-	{
-		switch (currentPhase) {
-		case GamePhase::Phase1:
-		{			
-			SetView(m_mainView);
-			currentPhase = GamePhase::Phase2;
-		}
-		break;
-		case GamePhase::Phase2:
-		{
-		}
-		break;
-		}
-	}
 
 	//// テクスチャの読込
 	void GameStage::LoadTextures()
@@ -812,9 +797,14 @@ namespace basecross {
 		auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
 		if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B)
 		{
+			SetView(m_mainView);
+
+			currentPhase = GamePhase::Phase2;
+
 			auto gameObjectVec = GetGameObjectVec();
 			for (auto obj : gameObjectVec)
 			{
+
 				if (obj->FindTag(L"Box")) //dynamic_pointer_cast<Box>(obj) 
 				{
 					obj->SetUpdateActive(false);
