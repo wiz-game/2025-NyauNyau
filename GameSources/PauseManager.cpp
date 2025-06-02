@@ -185,6 +185,7 @@ namespace basecross {
 					return;
 
 				case 3://I—¹
+					PlayGame(!m_isPlaying);
 
 					return;
 
