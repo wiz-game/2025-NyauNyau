@@ -5,6 +5,7 @@
 
 #pragma once
 #include "stdafx.h"
+#include "TitleSprite.h"
 
 namespace basecross {
 
@@ -19,6 +20,7 @@ namespace basecross {
 		//“ü—Íƒnƒ“ƒhƒ‰[
 		InputHandler<TitleStage> m_InputHandler;
 		shared_ptr<SoundItem> m_BGM;
+		std::vector<std::shared_ptr<TitleSprite>> m_titleSprite;
 
 
 	public:
