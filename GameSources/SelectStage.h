@@ -29,7 +29,6 @@ namespace basecross {
 		bool m_CntrolLock;
 		float m_select;//矢印の位置
 		bool footprintsStart;
-		//void DrawString();
 		//bool m_isWalking;//ネコが歩いているかどうかの判定
 
 		//矢印のY軸を変更させる関数
