@@ -158,6 +158,7 @@ namespace basecross
 		auto ptrColl = AddComponent<CollisionObb>();
 
 		m_Center = Vec3(1.2f, 0.6f, 0.3f);
+		Vec3 position = Vec3(m_Center.x, m_Center.y, 0.0f);
 		m_Radius = 0.1f;
 
 		//各パフォーマンスを得る
@@ -195,6 +196,16 @@ namespace basecross
 			}
 		}
 
+
+
+
+		auto pos = GetComponent<Transform>()->GetPosition();
+		auto wall = GetStage()->GetSharedGameObject<Wall>(L"Wall_0");
+		Vec3 wallPoint = wall->GetWallPosition();
+
+		pos.z = wallPoint.z;
+
+
 	}
 
 
@@ -208,21 +219,42 @@ namespace basecross
 		MoveY();
 		MoveXZ();
 
-		
+		auto ptrTransform = GetComponent<Transform>(); // OnCreateでキャッシュしたm_Transformを使ってもOK
+		Vec3 currentPlayerPosition = ptrTransform->GetPosition();
+
+
 		if (m_OtherPolygon)
 		{
 			Vec3 mtv;
 			if (ComputeMTV(m_OtherPolygon, mtv))
 			{
-				if (mtv.length() > 1e-6f)
+				if (mtv.length() > 1e-12f)
 				{
 					Vec3 newCenter = m_Center + mtv;
+					SetCenter(newCenter);
 				}
 			}
 		}
 	
-		
+		//if (m_OtherPolygon)
+		//{
+		//	Vec3 mtv;
+		//	// m_Centerがローカルオフセットの場合のワールド座標計算
+		//	// 例: m_Centerが(0, m_Radius, 0)のような、プレイヤーの足元を中心とするオフセットの場合
+		//	Vec3 sphereWorldCenter = currentPlayerPosition + m_Center; // m_Centerが(0,0,0)なら currentPlayerPosition のまま
 
+		//	// ComputeMTVにワールド座標の中心を渡すように変更
+		//	if (ComputeMTV(m_OtherPolygon, sphereWorldCenter,m_Radius,mtv))
+		//	{
+		//		if (mtv.length() > 1e-12f) // ゼロベクトルでないかチェック (length()よりlengthSq()が効率的)
+		//		{
+		//			// 衝突応答: プレイヤーの位置をmtvで押し出す
+		//			ptrTransform->SetPosition(currentPlayerPosition + mtv);
+		//			// 必要であれば速度にも影響を与える (例: mtvの反対方向に速度を反射させるなど)
+		//			// m_velocity -= m_velocity.dot(mtv.normalized()) * mtv.normalized() * 2.0f; // 完全反射の例
+		//		}
+		//	}
+		//}
 
 		//auto moveVector = GetMoveVector(); // プレイヤーの移動ベクトルを取得
 
@@ -314,7 +346,7 @@ namespace basecross
 
 	void Player::OnCollisionExcute(shared_ptr<GameObject>& Other)
 	{
-		if (Other->FindTag(L"Ground")) // 衝突対象が地面か確認
+		if (dynamic_pointer_cast<Ground>(Other)) // 衝突対象が地面か確認
 		{
 
 			m_velocity.y = 0;
@@ -352,12 +384,49 @@ namespace basecross
 	}
 
 	bool Player::ComputeMTV(const shared_ptr<ShadowObject>& polygon, Vec3& mtv)
+	//bool Player::ComputeMTV(const shared_ptr<ShadowObject>& polygon, const Vec3& sphereWorldCenter, float sphereRadius, Vec3& mtv)// 変更後
 	{
 		float minOverlap = 1000000.0f; // 初期値を十分に大きく設定
 		Vec2 minAxis = { 0.0f, 0.0f };
 
 		vector<Vec3> polygonVertices = polygon->GetVertices();
 		vector<Vec3> edges;
+
+		//vector<Vec3> axes;
+
+		//if (polygonVertices.size() < 2) return false; // 辺が作れない
+
+		//// 1. 影ポリゴンの辺の法線 (壁平面上での法線)
+		//for (size_t i = 0; i < polygonVertices.size(); ++i) {
+		//	Vec3 p1 = polygonVertices[i];
+		//	Vec3 p2 = polygonVertices[(i + 1) % polygonVertices.size()];
+		//	Vec3 edge = p2 - p1;
+		//	// 壁の法線ベクトルを取得 (ShadowObject が壁の情報を持っているか、
+		//	// またはPlayerが知っている必要がある
+		//	// ここでは仮に Wall_0 から取得する例
+		//	auto wall = GetStage()->GetSharedGameObject<Wall>(L"Wall_0");
+		//	if (!wall) continue; // 壁がなければこの軸は作れない
+		//	Vec3 wallNormal = wall->GetWallNormal().normalize();
+
+		//	// 辺ベクトルと壁の法線から、辺に垂直で壁に平行な法線を計算 (外積)
+		//	Vec3 edgeNormal = edge.cross(wallNormal).normalize();
+		//	// もし影が常に特定の平面 (例: XZ平面上の影ならY軸が壁法線) なら、もっと単純化できる
+		//	// 例: XZ平面上の影で、壁法線が(0,1,0)の場合
+		//	// Vec3 edgeNormal = Vec3(edge.z, 0.0f, -edge.x).normalize();
+		//	if (edgeNormal.length() > 1e-12f) axes.push_back(edgeNormal);
+		//}
+
+		//auto wall = GetStage()->GetSharedGameObject<Wall>(L"Wall_0"); // 再度取得するか、キャッシュしておく
+		//if (wall) {
+		//	Vec3 wallNormal = wall->GetWallNormal().normalize();
+		//	if (wallNormal.length() > 1e-12f) axes.push_back(wallNormal);
+		//}
+
+		//for (const auto& polyVertex : polygonVertices) {
+		//	Vec3 toVertex = Vec3(polyVertex - sphereWorldCenter).normalize();
+		//	if (toVertex.length() > 1e-12f) axes.push_back(toVertex);
+		//}
+
 		for (size_t i = 0; i < polygonVertices.size(); i++)
 		{
 			edges.push_back(GetNormal(polygonVertices[i], polygonVertices[(i + 1) % polygonVertices.size()], polygonVertices[(i + 2) % polygonVertices.size()]));
@@ -387,12 +456,56 @@ namespace basecross
 		if (minAxis.length() > 1e-6f) {
 			minAxis.normalize();
 			mtv = minAxis * minOverlap;
-			mtv *= -0.8f;
+			mtv *= -1.0f;
 		}
-
 		return true;
 
+		//if (minAxis.length() > 1e-12f) { // ゼロベクトルチェック
+		//	 minAxisVec3.normalize(); // ProjectOntoAxisで使う軸は正規化されている前提
+		//	mtv = minAxis * minOverlap;
+
+		//	 MTVの方向を調整する: 球の中心からポリゴンの中心へ向かうベクトルとmtvの内積をチェック
+		//	 ShadowObjectにGetCenter()のようなメソッドがあるか、頂点の平均で計算
+		//	Vec3 polyCenterAverage(0, 0, 0);
+		//	if (!polygonVertices.empty()) {
+		//		for (const auto& v : polygonVertices) polyCenterAverage += v;
+		//		polyCenterAverage /= (float)polygonVertices.size();
+		//	}
+		//	Vec3 sphereToPoly = polyCenterAverage - sphereWorldCenter;
+		//	if (mtv.dot(sphereToPoly) < 0.0f) { // mtvがポリゴンから離れる方向を向いていたら反転
+		//		mtv *= -1.0f;
+		//	}
+		//}
+		//else {
+		//	return false; // 有効な軸が見つからなかった (実際にはここまで来ないはず)
+		//}
+		//return true;
+
+
+		auto& app = App::GetApp();
+		auto scene = app->GetScene<Scene>();
+
+
+		wstring log = scene->GetDebugString();
+		wstringstream wss;
+		wss << log;
+
+
+		//if (ComputeMTV(m_OtherPolygon, sphereWorldCenter, m_Radius,mtv))
+		//{
+		//	wss << L"MTV: " << mtv.x << L", " << mtv.y << L", " << mtv.z << L"\n";
+		//}
+		//else
+		//{
+		//	wss << L"衝突なし" << L"\n";
+		//}
 	}
 
+	void Player::OnCollisionEnter(shared_ptr<GameObject>& collision)
+	{
+		auto pos = GetComponent<Transform>()->GetPosition();
 
+		pos.y = 0.50f;
+
+	}
 }

@@ -75,8 +75,10 @@ namespace basecross
 			// ƒvƒŒƒCƒ„[‚Ì‰ñ“]Šp‚ðl—¶
 			//float playerRotationY = XMConvertToRadians(m_Rotation.y);
 
+
+			auto pos = ptrTransform->GetPosition();
 			// ƒJƒƒ‰•ûŒü‚©‚ç‚ÌŠp“x
-			auto front = ptrTransform->GetPosition() - ptrCamera->GetEye();
+			auto front = pos - ptrCamera->GetEye();
 			front.y = 0;
 			front.normalize();
 			float frontAngle = -atan2(front.z, front.x);
@@ -97,6 +99,11 @@ namespace basecross
 
 			//yŽ²‚ðŒÅ’è
 			angle.y = 0;
+
+			//if (angle.z = 0.0f)
+			//{
+			//	angle.z += 0.0f;
+			//}
 
 			//if (angle.x >= 1.0f)
 			//{
