@@ -17,6 +17,10 @@ namespace basecross {
 		bool isGameOver;//ゲームオーバーを管理
 		float EnemySpeed;
 
+		//フォース
+		Vec3 m_Force;
+		//速度
+		Vec3 m_Velocity;
 
 
 

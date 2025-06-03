@@ -63,18 +63,15 @@ namespace basecross {
 
 		auto ptrGra = AddComponent<Gravity>();
 
-		// Transform コンポーネントを取得
-		auto ptrTransform = GetComponent<Transform>();
-		float elapsedTime = App::GetApp()->GetElapsedTime();
 
-		// 現在の位置を取得
-		Vec3 currentPosition = ptrTransform->GetPosition();
+		//// 現在の位置を取得
+		//Vec3 currentPosition = ptrTransform->GetPosition();
 
-		// 右方向へ `EnemySpeed` だけ移動
-		currentPosition.x += EnemySpeed * elapsedTime;
+		//// 右方向へ `EnemySpeed` だけ移動
+		//currentPosition.x += EnemySpeed * elapsedTime;
 
-		// 更新した位置をセット
-		ptrTransform->SetPosition(currentPosition);
+		//// 更新した位置をセット
+		//ptrTransform->SetPosition(currentPosition);
 
 
 	}
