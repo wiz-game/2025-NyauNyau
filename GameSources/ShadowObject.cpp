@@ -16,9 +16,13 @@ namespace basecross
 
         auto traComp = GetComponent<Transform>();
         traComp->SetRotation(Vec3(0.0f, 0.0f, 0.0f));
-        traComp->SetPosition((const Vec3(2.5f, 0.75f, -0.5f)));
+        traComp->SetPosition((const Vec3(0.0f, 0.75f, -0.5f)));
 
-        
+        //文字列をつける
+        auto ptrString = AddComponent<StringSprite>();
+        ptrString->SetText(L"");
+        ptrString->SetTextRect(Rect2D<float>(16.0f, 150.0f, 640.0f, 480.0f));
+
     }
 
     void ShadowObject::OnUpdate()
@@ -34,7 +38,7 @@ namespace basecross
         auto light = GetStage()->GetSharedGameObject<SpotLight>(L"SpotLight");
         m_lightPos = light->GetComponent<Transform>()->GetPosition();
         m_lightPos = Vec3(m_lightPos.x, m_lightPos.y, m_lightPos.z);
-       // wss << L"Light Position: " << m_lightPos.x << L", " << m_lightPos.y << L", " << m_lightPos.z << L"\n";
+       //wss << L"Light Position: " << m_lightPos.x << L", " << m_lightPos.y << L", " << m_lightPos.z << L"\n";
 
         auto boxVertices = GetBoxVertices();
         auto shadowIntersections = ComputeShadowIntersections(m_lightPos, boxVertices);
@@ -50,7 +54,7 @@ namespace basecross
         std::vector<Vec3> projectedVertices;
         for (const auto& vertex : shadowIntersections)
         {
-            projectedVertices.push_back(Vec3(vertex.x,vertex.y,vertex.z)); //Zを横、Yを上下として処理
+            projectedVertices.push_back(Vec3(vertex.x,vertex.y,vertex.z)); //Xを横、Yを上下として処理
         }
 
         //`ComputeConvexHull` のデバッグログを統合
@@ -75,6 +79,9 @@ namespace basecross
         CreatePolygonMesh(m_shadowVertices);
 
        // m_drawComp->UpdateVertices(m_shadowVertices);
+
+
+        DrawStrings();
 
     }
 
@@ -244,7 +251,7 @@ namespace basecross
         return Vec3(
             ab.z * ac.y - ab.y * ac.z,  // X成分（左手系に変更）
             ab.x * ac.z - ab.z * ac.x,  // Y成分
-            (ab.y * ac.x - ab.x * ac.y)   // Z成分
+            ab.y * ac.x - ab.x * ac.y   // Z成分
         );
     }
 
@@ -269,6 +276,24 @@ namespace basecross
     vector<Vec3> ShadowObject::GetVertices() const
     {
         return m_shadowVertices;
+    }
+
+    void ShadowObject::DrawStrings()
+    {
+        auto pos = GetComponent<Transform>()->GetPosition();
+        wstring positionStr(L"Position:\t");
+        positionStr += L"X=" + Util::FloatToWStr(pos.x, 6, Util::FloatModify::Fixed) + L",\n";
+        positionStr += L"Y=" + Util::FloatToWStr(pos.y, 6, Util::FloatModify::Fixed) + L",\n";
+        positionStr += L"Z=" + Util::FloatToWStr(pos.z, 6, Util::FloatModify::Fixed) + L"\n";
+
+        wstring str = positionStr;
+
+
+
+        //文字列コンポーネントの取得
+        auto ptrString = GetComponent<StringSprite>();
+        ptrString->SetText(str);
+
     }
 
 }

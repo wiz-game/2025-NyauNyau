@@ -85,7 +85,7 @@ namespace basecross
 		}
 
 
-		void SetCenter(const Vec2& center)
+		void SetCenter(const Vec3& center)
 		{
 			m_Center = center;
 		}
@@ -107,9 +107,20 @@ namespace basecross
 		{
 			Vec3 ab = b - a;
 			Vec3 ac = c - a;
-			return Vec3(ab.z * ac.y - ab.y * ac.z, 
+		    return Vec3(ab.z * ac.y - ab.y * ac.z,
 				        ab.x * ac.z - ab.z * ac.x, 
 				        ab.y * ac.x - ab.x * ac.y).normalize();
+
+			//if (normal.length() > 1e-6f) 
+			//{ 
+			//	// 小さすぎる値を防ぐ
+			//	return normal.normalize();
+			//}
+			//else 
+			//{
+			//	return Vec3(0, 0, 0); // エラー回避
+			//}
+
 		}
 
 		// 多角形を分離軸に投影して範囲を取得
@@ -135,7 +146,7 @@ namespace basecross
 
 		// 円と凸多角形の最小押し出しベクトル（MTV）を求める
 		bool ComputeMTV(const shared_ptr<ShadowObject>& polygon, Vec3& mtv);
-
+		//bool ComputeMTV(const shared_ptr<ShadowObject>& polygon, const Vec3& sphereWorldCenter, float sphereRadius, Vec3& mtv); // 変更後
 
 
 		virtual ~Player() {}
@@ -144,6 +155,8 @@ namespace basecross
 		virtual void OnCreate() override;
 		//更新
 		virtual void OnUpdate() override;
+
+		void OnCollisionEnter(shared_ptr<GameObject>& collision) override;
 
 
 	};

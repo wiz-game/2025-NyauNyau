@@ -47,6 +47,9 @@ namespace basecross
         //バブルソート  
         void BubbleSort(std::vector<Vec3>& vertices);
 
+        void DrawStrings();
+
+
         vector<Vec3> GetVertices() const;
 
 
