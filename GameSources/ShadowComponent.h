@@ -8,25 +8,20 @@ namespace basecross
     class ShadowComponent : public GameObject
     {
     private:
-        std::vector<Vec3> shadowVertices;  // 影の頂点
-        std::shared_ptr<ShadowStrategy> shadowStrategy; // 影の計算方式（ストラテジー）
+        Vec3 m_lightPos;  // 光源の位置
+        std::vector<Vec3> shadowVerticesCurrent;  // 現在フレームの影ポリゴン
+        std::vector<Vec3> shadowVerticesPrevious; // 前フレームの影ポリゴン
+        bool usePreviousBuffer = false; // ダブルバッファの切り替え
+
+        std::shared_ptr<ShadowStrategy> shadowStrategy;
         std::shared_ptr<PCStaticDraw> m_drawComp; // 描画コンポーネント
-        void CreatePolygonMesh(); // 影のメッシュを作成
 
     public:
+        ShadowComponent(std::shared_ptr<ShadowStrategy> strategy);
 
-        ShadowComponent(std::shared_ptr<Stage> stage, std::shared_ptr<ShadowStrategy> strategy)
-            : GameObject(stage), shadowStrategy(strategy) // 修正
-        {
-        }
-
-        virtual ~ShadowComponent() {} // デストラクタを追加
-        
-        void ComputeShadow(const Vec3& lightPos, const std::vector<Vec3>& objectVertices);
-        const std::vector<Vec3>& GetShadowVertices() const { return shadowVertices; }
-        void SetShadowVertices(const std::vector<Vec3>& vertices) { shadowVertices = vertices; }
+        void OnUpdate() override;  // 毎フレーム光源を取得 & 影を計算
+        void ComputeShadow();
         void RenderShadow();
-
-        void OnCreate() override;
+        void SwapBuffers(); // バッファ切り替え
     };
 }

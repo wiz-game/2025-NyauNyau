@@ -1,54 +1,67 @@
-#pragma once
-#include"stdafx.h"
-#include"Project.h"
-#include"ShadowComponent.h"
-#include"ShadowStrategy.h"
-
+#include "ShadowComponent.h"
 
 namespace basecross
 {
-    void ShadowComponent::OnCreate()
+    ShadowComponent::ShadowComponent(std::shared_ptr<ShadowStrategy> strategy)
+        : shadowStrategy(strategy), m_drawComp(AddComponent<PCStaticDraw>())
     {
-        m_drawComp = AddComponent<PCStaticDraw>();
         m_drawComp->SetOriginalMeshUse(true);
-
-        auto traComp = GetComponent<Transform>();
-        traComp->SetRotation(Vec3(0.0f, XM_PI / 2, 0.0f));
-        traComp->SetPosition(Vec3(0.1f, 0.75f, 0.0f));
-
     }
 
-
-    void ShadowComponent::ComputeShadow(const Vec3& lightPos, const std::vector<Vec3>& objectVertices)
+    void ShadowComponent::OnUpdate()
     {
-        shadowVertices = shadowStrategy->ComputeShadow(lightPos, objectVertices);
+        // 光源の位置を取得
+        auto light = GetStage()->GetSharedGameObject<SpotLight>(L"SpotLight");
+        if (light)
+        {
+            m_lightPos = light->GetComponent<Transform>()->GetPosition();
+        }
+
+        ComputeShadow();
+        RenderShadow();
+    }
+
+    void ShadowComponent::ComputeShadow()
+    {
+        // バッファを切り替え
+        SwapBuffers();
+
+        // ボックスの頂点を取得
+        auto boxVertices = GetStage()->GetSharedGameObject<Box>(L"Box")->GetComponent<Transform>()->GetBoxVertices();
+
+        // 影を計算
+        shadowVerticesCurrent = shadowStrategy->ComputeShadow(m_lightPos, boxVertices);
+    }
+
+    void ShadowComponent::SwapBuffers()
+    {
+        if (usePreviousBuffer)
+        {
+            shadowVerticesPrevious = shadowVerticesCurrent; // 前フレームの影を保存
+        }
+
+        usePreviousBuffer = !usePreviousBuffer; // 次のフレームで切り替え
     }
 
     void ShadowComponent::RenderShadow()
     {
-        
+        const auto& verticesToRender = usePreviousBuffer ? shadowVerticesPrevious : shadowVerticesCurrent;
 
-        CreatePolygonMesh();
-    }
-
-    void ShadowComponent::CreatePolygonMesh()
-    {
-        if (shadowVertices.size() < 3)
+        if (verticesToRender.size() < 3)
         {
             return;
         }
 
         std::vector<VertexPositionColor> meshVertices;
-        Col4 shadowColor(0.0f, 0.0f, 0.0f, 0.5f); // 半透明の黒色の影
+        Col4 shadowColor(0.0f, 0.0f, 0.0f, 0.5f);
 
-        for (const auto& vertex : shadowVertices)
+        for (const auto& vertex : verticesToRender)
         {
-            Vec3 v(vertex.x, vertex.y, vertex.z);
-            meshVertices.push_back(VertexPositionColor(v, shadowColor));
+            meshVertices.push_back(VertexPositionColor(vertex, shadowColor));
         }
 
         std::vector<uint16_t> indices;
-        for (size_t i = 0; i < shadowVertices.size() - 2; ++i)
+        for (size_t i = 0; i < verticesToRender.size() - 2; ++i)
         {
             indices.push_back(0);
             indices.push_back(i + 1);
