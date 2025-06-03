@@ -106,8 +106,15 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)SettingStage.cpp">
       <Filter>UI関係</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)PauseManager.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)BackgroundTitleSprite.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)BackgroundTitleSprite.cpp">
+      <Filter>Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)FootprintSprite.cpp">
+      <Filter>Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)PauseManager.cpp">
+      <Filter>UI関係</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Character.h">
@@ -209,15 +216,21 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Phase1Camera.h">
       <Filter>全体管理</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)FootprintSprite.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SoundSprite.h">
       <Filter>Sprite</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)SettingStage.h">
       <Filter>UI関係</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)PauseManager.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)BackgroundTitleSprite.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)BackgroundTitleSprite.h">
+      <Filter>Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)FootprintSprite.h">
+      <Filter>Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)PauseManager.h">
+      <Filter>UI関係</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Character.cpp">
@@ -334,6 +347,5 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)SelectStageSprite.cpp">
       <Filter>Seino_Stage</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)FootprintSprite.cpp" />
   </ItemGroup>
 </Project>
