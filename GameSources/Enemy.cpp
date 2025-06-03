@@ -63,6 +63,10 @@ namespace basecross {
 
 		auto ptrGra = AddComponent<Gravity>();
 
+		// Transform コンポーネントを取得
+		auto ptrTransform = GetComponent<Transform>();
+		float elapsedTime = App::GetApp()->GetElapsedTime();
+
 
 		// 現在の位置を取得
 		Vec3 currentPosition = ptrTransform->GetPosition();
