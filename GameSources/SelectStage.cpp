@@ -93,8 +93,9 @@
 				//Aボタンを押したときにゲームステージに移動する
 				if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A)
 				{
-					PostEvent(1.3f, GetThis<SelectStage>(), PtrScene, L"ToGameStage");
-					return;
+					CatWalk();
+					//PostEvent(1.3f, GetThis<SelectStage>(), PtrScene, L"ToGameStage");
+					//return;
 				}
 
 				//CntrolLock = falseの時
@@ -319,6 +320,49 @@
 
 			}
 		}
+
+		void SelectStage::CatWalk()
+		{
+			//現在表示されているスプライトを非表示
+			for (auto& sprite : m_stageSprites)
+			{
+				if (auto s = sprite.lock()) s->SetDrawActive(false);
+			}
+
+			catPointSprite->SetAlphaActive(false);
+
+			for (auto& footprint : m_footprints)
+			{
+				if (auto f = footprint.lock()) f->SetDrawActive(false);
+			}
+
+			//ネコの五つのテクスチャを配列に保存
+			std::vector<std::wstring> catWalkTextures = {
+				L"TEX_CAT WALK1", L"TEX_CAT WALK2", L"TEX_CAT WALK3",
+				L"TEX_CAT WALK4", L"TEX_CAT WALK5"
+			};
+
+			auto catSprite = AddGameObject<SelectStageSprite>();
+			catSprite->SetPosition(0, 0, 0);
+			catSprite->SetScale(1.0f, 1.0f, 1.0f);
+			
+			//表示するテクスチャの番号
+			int frameIndex = 0;
+
+			auto animate = [this,catSprite, catWalkTextures, frameIndex]() mutable {
+				if (frameIndex < catWalkTextures.size())
+				{
+					catSprite->SetTexture(catWalkTextures[frameIndex]);
+					catSprite->SetDrawActive(true);
+					frameIndex++;
+					PostEvent(0.5f, GetThis<SelectStage>(), std::shared_ptr<ObjectInterface>(), L"NextFrame", nullptr);
+				}
+			};
+
+			PostEvent(0.5f, GetThis<SelectStage>(), std::shared_ptr<ObjectInterface>(), L"NextFrame", nullptr);
+		}
+
+
 		void SelectStage::LoadTextures()
 		{
 			// アプリケーションオブジェクトを取得する
@@ -337,6 +381,12 @@
 			app->RegisterTexture(L"TEX_POINT", texPath + L"point.png");
 			app->RegisterTexture(L"TEX_POINT2", texPath + L"point2.png");
 			app->RegisterTexture(L"TEX_FOOTPRINT", texPath + L"Footprint.png");
+
+			app->RegisterTexture(L"TEX_CAT WALK1", texPath + L"Cat Walk1.png");
+			app->RegisterTexture(L"TEX_CAT WALK2", texPath + L"Cat Walk2.png");
+			app->RegisterTexture(L"TEX_CAT WALK3", texPath + L"Cat Walk3.png");
+			app->RegisterTexture(L"TEX_CAT WALK4", texPath + L"Cat Walk4.png");
+			app->RegisterTexture(L"TEX_CAT WALK5", texPath + L"Cat Walk5.png");
 
 		}
 

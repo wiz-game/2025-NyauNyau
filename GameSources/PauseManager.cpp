@@ -51,7 +51,7 @@ namespace basecross {
 
 		//終了
 		auto end = ObjectFactory::Create<PauseSprite>(stage);
-		end->SetTexture(L"TEX_END");
+		end->SetTexture(L"TEX_END2");
 		end->SetPosition(0, -250.0f, 0);
 		end->SetScale(0.47f, 0.47f, 0.47f);
 		m_pauseSprites.push_back(end);//m_pauseSpritesにendを入れる
@@ -117,7 +117,7 @@ namespace basecross {
 						//ステージ１より上にスティックを動かしたらステージ３に移動
 						if (m_SpriteNum < 0)
 						{
-							m_SpriteNum = 4;
+							m_SpriteNum = 3;
 						}
 						m_CntrolLock = true;
 						SetSpriteNum(m_SpriteNum);

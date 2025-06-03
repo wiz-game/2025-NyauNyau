@@ -81,6 +81,11 @@ namespace basecross{
 		if (event->m_MsgStr == L"ToSettingStage") {
 			ResetActiveStage<SettingStage>();
 		}
+		//ゲームオーバーステージの設定
+		if (event->m_MsgStr == L"ToGameOverStage") {
+			ResetActiveStage<GameOverStage>();
+		}
+
 
 	}
 

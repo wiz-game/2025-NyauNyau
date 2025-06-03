@@ -517,6 +517,7 @@ namespace basecross {
 		app->RegisterTexture(L"TEX_BACK", texPath + L"PauseStage title.png");
 		app->RegisterTexture(L"TEX_SETTING", texPath + L"PauseStage setting.png");
 		app->RegisterTexture(L"TEX_END", texPath + L"PauseStage end.png");
+		app->RegisterTexture(L"TEX_END2", texPath + L"PauseStage Back.png");
 
 	}
 

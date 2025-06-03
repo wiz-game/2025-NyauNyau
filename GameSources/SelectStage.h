@@ -30,12 +30,14 @@ namespace basecross {
 		float m_select;//矢印の位置
 		bool footprintsStart;
 		//void DrawString();
+		//bool m_isWalking;//ネコが歩いているかどうかの判定
 
 		//矢印のY軸を変更させる関数
 		void SetSelectYPosition(int StageNum);
 
 		//ネコの足跡の処理
 		void CreateFootprints();
+		void CatWalk();//ネコが歩く処理
 
 
 	public:

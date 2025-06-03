@@ -44,6 +44,8 @@
 #include "SoundSprite.h"
 #include "SettingStage.h"
 #include "PauseManager.h"
+#include "GameOverSprite.h"
+#include "GameOverStage.h"
 
 
 

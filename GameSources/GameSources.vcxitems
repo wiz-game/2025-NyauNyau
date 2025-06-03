@@ -21,6 +21,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)FootprintSprite.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)gameClearSprite.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Cheese.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameOverSprite.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameOverStage.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GameStage.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Goal.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GoalStage.h" />
@@ -60,6 +62,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Enemy.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FootprintSprite.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)gameClearSprite.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)GameOverSprite.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)GameOverStage.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Goal.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GoalStage.cpp" />

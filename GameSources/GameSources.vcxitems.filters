@@ -105,6 +105,12 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)PauseManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)BackgroundTitleSprite.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)GameOverSprite.cpp">
+      <Filter>Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)GameOverStage.cpp">
+      <Filter>UI関係</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Character.h">
@@ -212,6 +218,12 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)PauseManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BackgroundTitleSprite.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameOverSprite.h">
+      <Filter>Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameOverStage.h">
+      <Filter>UI関係</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Character.cpp">
