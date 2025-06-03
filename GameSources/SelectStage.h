@@ -36,7 +36,7 @@ namespace basecross {
 
 		//ネコの足跡の処理
 		void CreateFootprints();
-		void CatWalk();//ネコが歩く処理
+		//void CatWalk();//ネコが歩く処理
 
 
 	public:

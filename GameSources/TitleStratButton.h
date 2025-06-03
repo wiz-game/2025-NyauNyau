@@ -33,5 +33,29 @@ namespace basecross {
 		//virtual void OnDraw() override; // •`‰æ
 	};
 
+
+
+
+	class TitleStartButton2 : public GameObject
+	{
+		float m_totalTime;
+		float blinkSpeed = 3;//“_–Å‘¬“x
+		std::vector<VertexPositionColorTexture> m_vertices;
+
+	public:
+		// \’z‚Æ”jŠü
+		TitleStartButton2(const shared_ptr<Stage>& stage) :
+			GameObject(stage)
+		{
+		}
+		virtual ~TitleStartButton2()
+		{
+		}
+
+		virtual void OnCreate() override; // ‰Šú‰»
+		virtual void OnUpdate() override; // XV
+		//virtual void OnDraw() override; // •`‰æ
+	};
+
 }
 //end basecross

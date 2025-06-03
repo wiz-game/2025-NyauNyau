@@ -22,11 +22,23 @@ namespace basecross {
 		std::shared_ptr<PCTSpriteDraw> m_drawComp;
 		std::shared_ptr<Transform> m_ptrTrans;
 
+		float m_width;
+		float m_height;
+		float m_sx;
+		float m_sy;
+		float m_ex;
+		float m_ey;
+
 
 	public:
 		// \’z‚Æ”jŠü
-		SoundSprite(const shared_ptr<Stage>& stage) :
-			GameObject(stage)
+		SoundSprite(const shared_ptr<Stage>& stage, float sx, float sy ,float ex, float ey) :
+			GameObject(stage),
+			m_sx(sx),
+			m_sy(sy),
+			m_ex(ex),
+			m_ey(ey)
+
 		{
 		}
 		virtual ~SoundSprite()

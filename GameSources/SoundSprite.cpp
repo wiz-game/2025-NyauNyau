@@ -11,13 +11,16 @@ namespace basecross {
 	//初期化
 	void SoundSprite::OnCreate()
 	{
+		m_width = m_ex - m_sx;
+		m_height = m_ey - m_sy;
+
 		// 頂点(Vertex)データを設定
 		Col4 color(1, 1, 1, 1);
 		std::vector<VertexPositionColorTexture> vertices = {
-			{Vec3(-200, +130, 0), color, Vec2(0, 0)}, // ①
-			{Vec3(+200, +130, 0), color, Vec2(1, 0)}, // ②
-			{Vec3(-200, -130, 0), color, Vec2(0, 1)}, // ③
-			{Vec3(+200, -130, 0), color, Vec2(1, 1)}, // ④
+			{Vec3(0, 0, 0), color, Vec2(m_sx/1920.0f, m_sy/1080.0f)}, // ①
+			{Vec3(m_width, 0, 0), color, Vec2(m_ex/1920.0f, m_sy/1080.0f)}, // ②
+			{Vec3(0, -m_height, 0), color, Vec2(m_sx/1920.0f, m_ey/1080.0f)}, // ③
+			{Vec3(m_width, -m_height, 0), color, Vec2(m_ex/1920.0f, m_ey/1080.0f)}, // ④
 		};
 
 		// インデックスデータを設定（頂点をつなげる順番・3つの数値を組にして三角形を作る）

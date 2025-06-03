@@ -93,8 +93,8 @@
 				//Aボタンを押したときにゲームステージに移動する
 				if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A)
 				{
-					CatWalk();
-					//PostEvent(1.3f, GetThis<SelectStage>(), PtrScene, L"ToGameStage");
+					//CatWalk();
+					PostEvent(1.3f, GetThis<SelectStage>(), PtrScene, L"ToGameStage");
 					//return;
 				}
 
@@ -321,81 +321,81 @@
 			}
 		}
 
-		void SelectStage::CatWalk()
-		{
-			// 現在表示されているスプライトを非表示
-			for (auto& sprite : m_stageSprites)
-			{
-				if (auto s = sprite.lock()) s->SetDrawActive(false);
-			}
+		//void SelectStage::CatWalk()
+		//{
+		//	// 現在表示されているスプライトを非表示
+		//	for (auto& sprite : m_stageSprites)
+		//	{
+		//		if (auto s = sprite.lock()) s->SetDrawActive(false);
+		//	}
 
-			catPointSprite->SetDrawActive(false);
+		//	catPointSprite->SetDrawActive(false);
 
-			for (auto& footprint : m_footprints)
-			{
-				if (auto f = footprint.lock()) f->SetDrawActive(false);
-			}
+		//	for (auto& footprint : m_footprints)
+		//	{
+		//		if (auto f = footprint.lock()) f->SetDrawActive(false);
+		//	}
 
-			// ネコの五つのテクスチャを `vector<weak_ptr<SelectStageSprite>>` で管理
-			std::vector<std::wstring> catWalkTextures = {
-				L"TEX_CAT WALK1", L"TEX_CAT WALK2", L"TEX_CAT WALK3",
-				L"TEX_CAT WALK4", L"TEX_CAT WALK5"
-			};
+		//	// ネコの五つのテクスチャを `vector<weak_ptr<SelectStageSprite>>` で管理
+		//	std::vector<std::wstring> catWalkTextures = {
+		//		L"TEX_CAT WALK1", L"TEX_CAT WALK2", L"TEX_CAT WALK3",
+		//		L"TEX_CAT WALK4", L"TEX_CAT WALK5"
+		//	};
 
-			// スプライト管理用の `weak_ptr` 配列
-			std::vector<std::weak_ptr<SelectStageSprite>> catSprites;
+		//	// スプライト管理用の `weak_ptr` 配列
+		//	std::vector<std::weak_ptr<SelectStageSprite>> catSprites;
 
-			// `m_totalTime` を初期化（時間管理用）
-			auto delta = App::GetApp()->GetElapsedTime();
-			float m_totalTime = 0.0f;
-			m_totalTime += delta;
+		//	// `m_totalTime` を初期化（時間管理用）
+		//	auto delta = App::GetApp()->GetElapsedTime();
+		//	float m_totalTime = 0.0f;
+		//	m_totalTime += delta;
 
-			int frameIndex = 0;
+		//	int frameIndex = 0;
 
-			// スプライトを作成し、管理する
-			for (const auto& texture : catWalkTextures)
-			{
-				auto catSprite = AddGameObject<SelectStageSprite>();
-				catSprite->SetPosition(0, 0, 0);
-				catSprite->SetScale(1.0f, 1.0f, 1.0f);
-				catSprite->SetTexture(texture);
-				//catSprite->SetDrawActive(false);
-				catSprites.push_back(catSprite);
-			}
+		//	// スプライトを作成し、管理する
+		//	for (const auto& texture : catWalkTextures)
+		//	{
+		//		auto catSprite = AddGameObject<SelectStageSprite>();
+		//		catSprite->SetPosition(0, 0, 0);
+		//		catSprite->SetScale(1.0f, 1.0f, 1.0f);
+		//		catSprite->SetTexture(texture);
+		//		//catSprite->SetDrawActive(false);
+		//		catSprites.push_back(catSprite);
+		//	}
 
-			// フレーム更新の処理
-			auto animate = [this, catSprites, &frameIndex, &m_totalTime]() mutable {
-				if (frameIndex < catSprites.size())
-				{
-					// 前のフレームを非表示にする
-					if (frameIndex > 0)
-					{
-						if (auto prevSprite = catSprites[frameIndex - 1].lock())
-							prevSprite->SetDrawActive(false);
-					}
-					
-					// 現在のフレームを表示
-					if (auto currentSprite = catSprites[frameIndex].lock())
-					{
-						currentSprite->SetDrawActive(true);
-						if (m_totalTime == 1.0f)
-						{
-							currentSprite->SetDrawActive(false);
-							m_totalTime = 0;
-						}
-					}
+		//	// フレーム更新の処理
+		//	auto animate = [this, catSprites, &frameIndex, &m_totalTime]() mutable {
+		//		if (frameIndex < catSprites.size())
+		//		{
+		//			// 前のフレームを非表示にする
+		//			if (frameIndex > 0)
+		//			{
+		//				if (auto prevSprite = catSprites[frameIndex - 1].lock())
+		//					prevSprite->SetDrawActive(false);
+		//			}
+		//			
+		//			// 現在のフレームを表示
+		//			if (auto currentSprite = catSprites[frameIndex].lock())
+		//			{
+		//				currentSprite->SetDrawActive(true);
+		//				if (m_totalTime == 1.0f)
+		//				{
+		//					currentSprite->SetDrawActive(false);
+		//					m_totalTime = 0;
+		//				}
+		//			}
 
-					// 次のフレームへ進む
-					frameIndex++;
+		//			// 次のフレームへ進む
+		//			frameIndex++;
 
-					// 0.5秒後に次のフレームを表示するイベントを登録
-					PostEvent(0.5f, GetThis<SelectStage>(), GetThis<SelectStage>(), L"NextFrame", nullptr);
-				}
-			};
+		//			// 0.5秒後に次のフレームを表示するイベントを登録
+		//			PostEvent(0.5f, GetThis<SelectStage>(), GetThis<SelectStage>(), L"NextFrame", nullptr);
+		//		}
+		//	};
 
-			// アニメーション開始
-			PostEvent(0.5f, GetThis<SelectStage>(), GetThis<SelectStage>(), L"NextFrame", nullptr);
-		}
+		//	// アニメーション開始
+		//	PostEvent(0.5f, GetThis<SelectStage>(), GetThis<SelectStage>(), L"NextFrame", nullptr);
+		//}
 
 
 		void SelectStage::LoadTextures()
