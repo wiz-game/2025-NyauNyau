@@ -35,7 +35,8 @@
 #include "SelectStageSprite.h"
 #include "ShadowFloor.h"
 #include "Enemy.h"
-
+#include "BoxShadowStrategy.h"
+#include "ShadowComponent.h"
 #include "TestShadowBox.h"
 #include "Phase1.h"
 

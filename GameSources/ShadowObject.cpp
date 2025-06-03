@@ -199,9 +199,7 @@ namespace basecross
             position + Vec3(-scale.x / 2, scale.y / 2, scale.z / 2),
             position + Vec3(scale.x / 2, scale.y / 2, scale.z / 2)
         };
-
         return boxVertices;
-
     }
 
     Vec3 ShadowObject::Cross(const Vec3& a, const Vec3& b, const Vec3& c)

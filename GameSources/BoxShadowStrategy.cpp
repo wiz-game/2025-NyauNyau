@@ -1,57 +1,25 @@
-#pragma once
 #include "stdafx.h"
 #include "Project.h"
 #include "BoxShadowStrategy.h"
 
 namespace basecross
 {
-    std::vector<Vec3> BoxShadowStrategy::GetBoxVertices()
+    std::vector<Vec3> BoxShadowStrategy::ComputeShadow(const Vec3& lightPos, const std::shared_ptr<GameObject>& obj)
     {
-        std::vector<Vec3> boxVertices;
-
-        auto box = GetStage()->GetSharedGameObject<Box>(L"Box");
-        if (!box)
+        // `GameObject` Ç™ `Box` Ç»ÇÁÅA`GetBoxVertices()` ÇåƒÇ—èoÇ∑
+        auto box = std::dynamic_pointer_cast<Box>(obj);
+        if (box)
         {
-            std::cerr << "Box object not found!" << std::endl;
-            return boxVertices;
+            std::vector<Vec3> objectVertices = box->GetBoxVertices();
+
+            // âeÇÃåì_ÇåvéZ
+            std::vector<Vec3> shadowVertices = ComputeShadowIntersections(lightPos, objectVertices);
+
+            // ì ïÔÇåvéZÇµÇƒâeÇÃå`èÛÇêÆóù
+            return ComputeConvexHull(shadowVertices);
         }
 
-        auto boxTransform = box->GetComponent<Transform>();
-        Vec3 position = boxTransform->GetPosition();
-        position = Vec3(position.x, position.y, -position.z);
-        Vec3 scale = boxTransform->GetScale();
-
-        boxVertices = {
-            position + Vec3(-scale.x / 2, -scale.y / 2, -scale.z / 2),
-            position + Vec3(scale.x / 2, -scale.y / 2, -scale.z / 2),
-            position + Vec3(-scale.x / 2, scale.y / 2, -scale.z / 2),
-            position + Vec3(scale.x / 2, scale.y / 2, -scale.z / 2),
-            position + Vec3(-scale.x / 2, -scale.y / 2, scale.z / 2),
-            position + Vec3(scale.x / 2, -scale.y / 2, scale.z / 2),
-            position + Vec3(-scale.x / 2, scale.y / 2, scale.z / 2),
-            position + Vec3(scale.x / 2, scale.y / 2, scale.z / 2)
-        };
-
-        return boxVertices;
-
-    }
-
-    //std::vector<Vec3> BoxShadowStrategy::ComputeShadow(const Vec3& lightPos, const std::vector<Vec3>& vertices)
-    //{
-    //    std::vector<Vec3> shadowVertices;
-    //    for (const auto& vertex : vertices)
-    //    {
-    //        Vec3 shadowDir = Vec3(vertex - lightPos).normalize();
-    //        Vec3 shadowVertex = vertex + shadowDir * 0.5f; // âeÇägí£
-    //        shadowVertices.push_back(shadowVertex);
-    //    }
-    //    return shadowVertices;
-    //}
-
-    std::vector<Vec3> BoxShadowStrategy::ComputeShadow(const Vec3& lightPos, const std::vector<Vec3>& objectVertices)
-    {
-        std::vector<Vec3> shadowVertices = ComputeShadowIntersections(lightPos, objectVertices);
-        return ComputeConvexHull(shadowVertices);
+        return {}; // `GameObject` Ç™ `Box` Ç≈Ç»Ç¢èÍçáÅAâeÇåvéZÇµÇ»Ç¢
     }
 
     std::vector<Vec3> BoxShadowStrategy::ComputeShadowIntersections(const Vec3& lightPos, const std::vector<Vec3>& objectVertices)
@@ -79,12 +47,10 @@ namespace basecross
                 continue;
 
             Vec3 intersection = lightPos + lightDir * t;
-
-            intersection.x = wallPoint.x; // ï«ÇÃà íuÇ…âeÇå≈íË
+            intersection.x = wallPoint.x;
 
             intersections.push_back(intersection);
         }
-
         return intersections;
     }
 
@@ -93,7 +59,7 @@ namespace basecross
         return Vec4(wallNormal.x, wallNormal.y, wallNormal.z, -wallNormal.dot(wallPoint));
     }
 
-   std::vector<Vec3> BoxShadowStrategy::ComputeConvexHull(std::vector<Vec3> vertices)
+    std::vector<Vec3> BoxShadowStrategy::ComputeConvexHull(std::vector<Vec3> vertices)
     {
         std::vector<Vec3> hull;
         if (vertices.size() < 3) return hull;
@@ -120,6 +86,4 @@ namespace basecross
 
         return hull;
     }
-
-    
 }

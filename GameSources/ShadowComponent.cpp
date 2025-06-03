@@ -1,12 +1,14 @@
+#include "stdafx.h"
+#include "Project.h"
 #include "ShadowComponent.h"
 
 namespace basecross
 {
-    ShadowComponent::ShadowComponent(std::shared_ptr<ShadowStrategy> strategy)
-        : shadowStrategy(strategy), m_drawComp(AddComponent<PCStaticDraw>())
+    void ShadowComponent::OnCreate()
     {
         m_drawComp->SetOriginalMeshUse(true);
     }
+
 
     void ShadowComponent::OnUpdate()
     {
@@ -23,14 +25,12 @@ namespace basecross
 
     void ShadowComponent::ComputeShadow()
     {
-        // バッファを切り替え
-        SwapBuffers();
 
-        // ボックスの頂点を取得
-        auto boxVertices = GetStage()->GetSharedGameObject<Box>(L"Box")->GetComponent<Transform>()->GetBoxVertices();
+        auto box = GetStage()->GetSharedGameObject<Box>(L"Box");
+        if (!box) return;
 
-        // 影を計算
-        shadowVerticesCurrent = shadowStrategy->ComputeShadow(m_lightPos, boxVertices);
+        shadowVerticesCurrent = boxShadowStrategy->ComputeShadow(m_lightPos, box);
+
     }
 
     void ShadowComponent::SwapBuffers()
@@ -71,3 +71,6 @@ namespace basecross
         m_drawComp->CreateOriginalMesh(meshVertices, indices);
     }
 }
+    
+
+//end basecross

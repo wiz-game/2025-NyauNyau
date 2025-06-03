@@ -6,6 +6,7 @@
 
 #include "stdafx.h"
 #include "Project.h"
+#include "ShadowComponent.h"
 
 namespace basecross
 {
@@ -30,7 +31,7 @@ namespace basecross
 		auto ptrString = AddComponent<StringSprite>();
 		ptrString->SetText(L"");
 		ptrString->SetTextRect(Rect2D<float>(16.0f, 125.0f, 640.0f, 480.0f));
-
+		AddComponent<ShadowComponent>();
 	}
 
 
@@ -167,5 +168,27 @@ namespace basecross
 		}
 	}
 
+	std::vector<Vec3> Box::GetBoxVertices() const
+	{
+		std::vector<Vec3> boxVertices;
+
+		auto transform = GetComponent<Transform>();
+		Vec3 position = transform->GetPosition();
+		Vec3 scale = transform->GetScale();
+
+		boxVertices = {
+			position + Vec3(-scale.x / 2, -scale.y / 2, -scale.z / 2),
+			position + Vec3(scale.x / 2, -scale.y / 2, -scale.z / 2),
+			position + Vec3(-scale.x / 2, scale.y / 2, -scale.z / 2),
+			position + Vec3(scale.x / 2, scale.y / 2, -scale.z / 2),
+			position + Vec3(-scale.x / 2, -scale.y / 2, scale.z / 2),
+			position + Vec3(scale.x / 2, -scale.y / 2, scale.z / 2),
+			position + Vec3(-scale.x / 2, scale.y / 2, scale.z / 2),
+			position + Vec3(scale.x / 2, scale.y / 2, scale.z / 2)
+		};
+
+		return boxVertices;
+	}
 }
+
 //end basecross

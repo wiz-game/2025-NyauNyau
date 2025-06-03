@@ -49,6 +49,8 @@ namespace basecross {
 
 		virtual ~Box(){}
 
+		std::vector<Vec3> GetBoxVertices() const;
+
 		virtual void OnCreate() override;
 		virtual void OnUpdate() override;
 	};
