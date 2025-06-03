@@ -24,6 +24,7 @@
 #include "Cheese.h"
 #include "SystemManager.h"
 #include "TitleStage.h"
+#include "BackgroundTitleSprite.h"
 #include "TitleSprite.h"
 #include "GoalStage.h"
 #include "gameClearSprite.h"

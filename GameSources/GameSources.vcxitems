@@ -46,6 +46,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SelectStage.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Start.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TestShadowBox.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)BackgroundTitleSprite.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TitleSprite.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TitleStratButton.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TitleStage.h" />
@@ -84,6 +85,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)SelectStage.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Start.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TestShadowBox.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)BackgroundTitleSprite.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TitleSprite.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TitleStratButton.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TitleStage.cpp" />

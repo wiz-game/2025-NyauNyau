@@ -88,75 +88,76 @@ namespace basecross {
 			if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_START)
 			{
 				PlayGame(!m_isPlaying);
-				if (!m_isPlaying)
+			}
+
+			if (!m_isPlaying)
+			{
+				Pause->OnUpdate();
+				for (int i = 0; i < 4; i++)
 				{
-					Pause->OnUpdate();
+					m_pauseSprites[i]->OnUpdate();
+				}
+				catPointSprite->OnUpdate();
+
+				m_SpriteNum = GetSpriteNum();
+				//m_isPlaying = !m_isPlaying;
+
+				//CntrolLock = falseの時
+				if (!m_CntrolLock)
+				{
 					for (int i = 0; i < 4; i++)
 					{
-						m_pauseSprites[i]->OnUpdate();
+						auto spriteNum = m_pauseSprites[i]->IsSelected();
 					}
-					catPointSprite->OnUpdate();
 
-					m_SpriteNum = GetSpriteNum();
-					//m_isPlaying = !m_isPlaying;
-
-					//CntrolLock = falseの時
-					if (!m_CntrolLock)
+					//上向き
+					if (CntlVec[0].fThumbLY >= 0.8f)
 					{
-						for (int i = 0; i < 4; i++)
+						m_SpriteNum--;
+						//ステージ１より上にスティックを動かしたらステージ３に移動
+						if (m_SpriteNum < 0)
 						{
-							auto spriteNum = m_pauseSprites[i]->IsSelected();
+							m_SpriteNum = 4;
 						}
-
-						//上向き
-						if (CntlVec[0].fThumbLY >= 0.8f)
+						m_CntrolLock = true;
+						SetSpriteNum(m_SpriteNum);
+						ChangeSelect(m_SpriteNum);
+						SetSelectPosition(m_SpriteNum);
+						//ポイントスプライトの座標変更
+						if (catPointSprite)
 						{
-							m_SpriteNum--;
-							//ステージ１より上にスティックを動かしたらステージ３に移動
-							if (m_SpriteNum < 0)
-							{
-								m_SpriteNum = 4;
-							}
-							m_CntrolLock = true;
-							SetSpriteNum(m_SpriteNum);
-							ChangeSelect(m_SpriteNum);
-							SetSelectPosition(m_SpriteNum);
-							//ポイントスプライトの座標変更
-							if (catPointSprite)
-							{
-								catPointSprite->SetPosition(-250.0f, m_selectY, 0);
-							}
-
+							catPointSprite->SetPosition(-250.0f, m_selectY, 0);
 						}
-						//下向き
-						else if (CntlVec[0].fThumbLY <= -0.8f)
-						{
-							m_SpriteNum++;
-							//ステージ３に来たらステージ１に戻る
-							if (m_SpriteNum >= 4)
-							{
-								m_SpriteNum = 0;
-							}
-							m_CntrolLock = true;
-							SetSpriteNum(m_SpriteNum);
-							ChangeSelect(m_SpriteNum);
-							SetSelectPosition(m_SpriteNum);
-							//ポイントスプライトの座標変更
-							if (catPointSprite)
-							{
-								catPointSprite->SetPosition(-250.0f, m_selectY, 0);
-							}
-						}
-
 
 					}
-					//動かしていない時
-					else
+					//下向き
+					else if (CntlVec[0].fThumbLY <= -0.8f)
 					{
-						if (CntlVec[0].fThumbLY == 0.0f)
+						m_SpriteNum++;
+						//ステージ３に来たらステージ１に戻る
+						if (m_SpriteNum >= 4)
 						{
-							m_CntrolLock = false;
+							m_SpriteNum = 0;
 						}
+						m_CntrolLock = true;
+						SetSpriteNum(m_SpriteNum);
+						ChangeSelect(m_SpriteNum);
+						SetSelectPosition(m_SpriteNum);
+						//ポイントスプライトの座標変更
+						if (catPointSprite)
+						{
+							catPointSprite->SetPosition(-250.0f, m_selectY, 0);
+						}
+					}
+
+
+				}
+				//動かしていない時
+				else
+				{
+					if (CntlVec[0].fThumbLY == 0.0f)
+					{
+						m_CntrolLock = false;
 					}
 				}
 			}
@@ -184,6 +185,7 @@ namespace basecross {
 					return;
 
 				case 3://終了
+					PlayGame(!m_isPlaying);
 
 					return;
 

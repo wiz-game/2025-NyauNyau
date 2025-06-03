@@ -107,6 +107,7 @@
       <Filter>UI関係</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)PauseManager.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)BackgroundTitleSprite.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Character.h">
@@ -216,6 +217,7 @@
       <Filter>UI関係</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)PauseManager.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)BackgroundTitleSprite.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Character.cpp">

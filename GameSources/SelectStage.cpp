@@ -93,7 +93,7 @@
 				//Aボタンを押したときにゲームステージに移動する
 				if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A)
 				{
-					PostEvent(2.0f, GetThis<SelectStage>(), PtrScene, L"ToGameStage");
+					PostEvent(1.3f, GetThis<SelectStage>(), PtrScene, L"ToGameStage");
 					return;
 				}
 

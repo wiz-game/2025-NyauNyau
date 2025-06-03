@@ -1,5 +1,5 @@
 /*!
-@file TitleSprite.cpp
+@file BackgroundTitleSprite.cpp
 @brief ゲームクリア スプライト実体
 */
 
@@ -14,10 +14,10 @@ namespace basecross {
 		// 頂点(Vertex)データを設定
 		Col4 m_color(1, 1, 1, 1);
 		std::vector<VertexPositionColorTexture> vertices = {
-			{Vec3(-640, +400, 0), m_color, Vec2(0, 0)}, // ①
-			{Vec3(+640, +400, 0), m_color, Vec2(1, 0)}, // ②
-			{Vec3(-640, -400, 0), m_color, Vec2(0, 1)}, // ③
-			{Vec3(+640, -400, 0), m_color, Vec2(1, 1)}, // ④
+			{Vec3(-100, +100, 0), m_color, Vec2(0, 0)}, // ①
+			{Vec3(+100, +100, 0), m_color, Vec2(1, 0)}, // ②
+			{Vec3(-100, -100, 0), m_color, Vec2(0, 1)}, // ③
+			{Vec3(+100, -100, 0), m_color, Vec2(1, 1)}, // ④
 		};
 
 		// インデックスデータを設定（頂点をつなげる順番・3つの数値を組にして三角形を作る）
@@ -27,15 +27,42 @@ namespace basecross {
 		};
 
 		// スプライト用のドローコンポーネントを追加する
-		auto drawComp = AddComponent<PCTSpriteDraw>(vertices, indices); // 頂点データとインデックスデータを設定する
-		drawComp->SetTextureResource(L"TEX_TITLESTAGE");
+		m_drawComp = AddComponent<PCTSpriteDraw>(vertices, indices); // 頂点データとインデックスデータを設定する
 		SetAlphaActive(true);
 
 		// 位置を設定する
-		auto ptrTrans = GetComponent<Transform>();
-		ptrTrans->SetPosition(0, 0, 0); // 画面の中心を原点としたピクセル単位（1280x800）
+		m_ptrTrans = GetComponent<Transform>();
+		m_ptrTrans->SetPosition(0, 0, 0); // 画面の中心を原点としたピクセル単位（1280x800）
+		m_ptrTrans->SetScale(1, 1, 1);
+	}
+	
+	void TitleSprite::OnUpdate()
+	{
+		auto delta = App::GetApp()->GetElapsedTime();
+		m_totalTime += delta;
+
+		// Y方向のオフセットをサイン波で計算
+		float y_offset = m_amplitude * sinf(m_totalTime * frequency + m_phaseOffset);
+
+		// もともとの基準位置に計算したオフセットを加えて、新たな位置に設定
+		m_ptrTrans->SetPosition(m_basePosition.x, m_basePosition.y + y_offset, m_basePosition.z);
 
 	}
+
+	void TitleSprite::SetTexture(const std::wstring& Key)
+	{
+		m_drawComp->SetTextureResource(Key);
+	}
+	void TitleSprite::SetPosition(float x, float y, float z)
+	{
+		m_ptrTrans->SetPosition(x, y, z);
+		m_basePosition = m_ptrTrans->GetPosition();
+	}
+	void TitleSprite::SetScale(float x, float y, float z)
+	{
+		m_ptrTrans->SetScale(x, y, z);
+	}
+
 
 }
 //end basecross
