@@ -217,7 +217,7 @@ namespace basecross
 		//コントローラチェックして入力があればコマンド呼び出し
 		m_InputHandler.PushHandle(GetThis<Player>());
 		MovePlayer();
-		DrawStrings();
+		//DrawStrings();
 		MoveY();
 		MoveXZ();
 

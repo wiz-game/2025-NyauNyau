@@ -76,7 +76,7 @@ namespace basecross
         //wss << L"Final Convex Hull Count: " << m_shadowVertices.size() << L"\n";
 
         //シーンにデバッグログを適用
-        scene->SetDebugString(wss.str());
+        //scene->SetDebugString(wss.str());
 
         // 影ポリゴンを生成
         CreatePolygonMesh(m_shadowVertices);
@@ -84,7 +84,7 @@ namespace basecross
        // m_drawComp->UpdateVertices(m_shadowVertices);
 
 
-        DrawStrings();
+        //DrawStrings();
 
     }
 

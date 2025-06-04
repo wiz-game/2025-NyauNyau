@@ -48,18 +48,18 @@ namespace basecross {
 
 	void Enemy::OnUpdate()
 	{
-		// アプリケーションオブジェクトを取得する
-		auto& app = App::GetApp();
+		//// アプリケーションオブジェクトを取得する
+		//auto& app = App::GetApp();
 
-		// シーンを取得する
-		auto scene = app->GetScene<Scene>();
+		//// シーンを取得する
+		//auto scene = app->GetScene<Scene>();
 
-		// デバッグログを取得する
-		wstring log = scene->GetDebugString();
-		wstringstream wss(log);
-		wss << L"\n\n\n\nGameOver:" << isGameOver;
+		//// デバッグログを取得する
+		//wstring log = scene->GetDebugString();
+		//wstringstream wss(log);
+		//wss << L"\n\n\n\nGameOver:" << isGameOver;
 
-		scene->SetDebugString(wss.str());
+		//scene->SetDebugString(wss.str());
 
 		auto ptrGra = AddComponent<Gravity>();
 
