@@ -22,7 +22,7 @@ namespace basecross
 		m_velocityY(0.0f),
 		m_velocity(0.0f),
 		m_collisionFlag(false),
-		m_gravity(7.0),
+		m_gravity(-2.0),
 		m_Radius(0.0f),
 		m_Center(0.0f,0.0f,0.0f)
 
