@@ -22,7 +22,7 @@ namespace basecross
 		m_velocityY(0.0f),
 		m_velocity(0.0f),
 		m_collisionFlag(false),
-		m_gravity(-9.0),
+		m_gravity(7.0),
 		m_Radius(0.0f),
 		m_Center(0.0f,0.0f,0.0f)
 
@@ -157,6 +157,8 @@ namespace basecross
 		//Collision衝突判定を付ける
 		auto ptrColl = AddComponent<CollisionObb>();
 
+		//ptrColl->SetMakedSize(2.5f);
+
 		m_Center = Vec3(1.2f, 0.6f, 0.3f);
 		Vec3 position = Vec3(m_Center.x, m_Center.y, 0.0f);
 		m_Radius = 0.1f;
@@ -168,10 +170,9 @@ namespace basecross
 
 
 		//描画コンポーネントの設定
-		auto ptrDraw = AddComponent<BcPNTStaticDraw>();
+		auto ptrDraw = AddComponent<PNTStaticDraw>();
 		//描画するメッシュを設定
 		ptrDraw->SetMeshResource(L"DEFAULT_SQUARE");
-		ptrDraw->SetFogEnabled(true);
 		ptrDraw->SetTextureResource(L"TEX_NEZUMI2");
 		//ptrDraw->SetTextureResource(L"TEX_NEZUMI");
 
@@ -219,8 +220,23 @@ namespace basecross
 		MoveY();
 		MoveXZ();
 
+		auto& app = App::GetApp();
 		auto ptrTransform = GetComponent<Transform>(); // OnCreateでキャッシュしたm_Transformを使ってもOK
 		Vec3 currentPlayerPosition = ptrTransform->GetPosition();
+		float elapsed = app->GetElapsedTime();
+		float gravity = 0.0f;
+		Vec3 acceleration = Vec3(0.0f, -gravity, 0.0f) * elapsed;
+		static Vec3 velocity = Vec3();
+		velocity += acceleration * elapsed;
+
+		Vec3 position2D = GetCenter() + velocity * elapsed;
+		SetCenter(position2D);
+
+		auto scene = app->GetScene<Scene>();
+
+		wstring log = scene->GetDebugString();
+		wstringstream wss;
+		wss << log;
 
 
 		if (m_OtherPolygon)
@@ -228,14 +244,20 @@ namespace basecross
 			Vec3 mtv;
 			if (ComputeMTV(m_OtherPolygon, mtv))
 			{
-				if (mtv.length() > 1e-12f)
+				if (mtv.length() > 1e-6f)
 				{
 					Vec3 newCenter = m_Center + mtv;
 					SetCenter(newCenter);
 				}
 			}
+			wss << L"MTV:" << mtv.x << L"" << mtv.y << L"" << mtv.z << L"\n";
 		}
 	
+
+		//Vec3 position = Vec3(m_Center.x, m_Center.y, 0.0f);
+		//m_Transform->SetPosition(position);
+
+
 		//if (m_OtherPolygon)
 		//{
 		//	Vec3 mtv;
@@ -287,22 +309,24 @@ namespace basecross
 		auto pos = GetComponent<Transform>()->GetPosition();
 
 
-		if (pos.y > -4.00f)
+		if (pos.y > -4.99f)
 		{
 			// 重力の適用
 			float elapsedTime = App::GetApp()->GetElapsedTime();
 			m_velocity.y += m_gravity * elapsedTime;
 			//pos.y += m_velocity.y * elapsedTime;
 			auto ptrGra = AddComponent<Gravity>();
-
+			m_isAir = true;
 
 
 			// 地面との衝突時の処理
-			if (pos.y <= -4.0f)
+			if (pos.y <= -4.99f)
 			{
 				m_velocity.y = 0.0f; // 速度をリセット
 				m_isAir = false; // 空中状態をリセット
 			}
+
+
 
 			ptrTransform->SetPosition(pos);
 
@@ -332,14 +356,13 @@ namespace basecross
 
 		//if (pos.y == 0.502f || pos.y == 0.501f)
 		//{
-		pos.y = 0.50f;
+		pos.y = 0.70f;
 		//}
 
 
-		if (pos.y == 0.50f)
+		if (m_isAir = true)
 		{
 			m_velocity.y = 8.0f;
-			//m_isAir = true;
 		}
 
 	}
@@ -387,7 +410,7 @@ namespace basecross
 	//bool Player::ComputeMTV(const shared_ptr<ShadowObject>& polygon, const Vec3& sphereWorldCenter, float sphereRadius, Vec3& mtv)// 変更後
 	{
 		float minOverlap = 1000000.0f; // 初期値を十分に大きく設定
-		Vec2 minAxis = { 0.0f, 0.0f };
+		Vec3 minAxis = { 0.0f, 0.0f, 0.0f};
 
 		vector<Vec3> polygonVertices = polygon->GetVertices();
 		vector<Vec3> edges;
@@ -456,7 +479,7 @@ namespace basecross
 		if (minAxis.length() > 1e-6f) {
 			minAxis.normalize();
 			mtv = minAxis * minOverlap;
-			mtv *= -1.0f;
+			mtv *= -0.8f;
 		}
 		return true;
 

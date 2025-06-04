@@ -18,7 +18,7 @@ namespace basecross {
 		m_Rotation(Rotation),
 		m_Position(Position), 
 		isGameOver(false),
-		EnemySpeed(5.2f)
+		EnemySpeed(0.0f)
 	{
 	}
 
@@ -90,8 +90,10 @@ namespace basecross {
 			auto scene = App::GetApp()->GetScene<Scene>();
 			PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"ToGameOverStage");
 
+		//	//一定時間後にスプライトを削除する（タイトル画面からゲームステージに移るタイミング）
+		//	PostEvent(5.0f, GetThis<ObjectInterface>(), scene, L"RemoveSprite");
 
-		}
+		//}
 
 	}
 }
