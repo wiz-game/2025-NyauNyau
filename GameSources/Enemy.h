@@ -17,11 +17,6 @@ namespace basecross {
 		bool isGameOver;//ゲームオーバーを管理
 		float EnemySpeed;
 
-		//フォース
-		Vec3 m_Force;
-		//速度
-		Vec3 m_Velocity;
-
 
 	public:
 		// 構築と破棄
@@ -31,28 +26,6 @@ namespace basecross {
 			const Vec3& Position
 			
 		);
-
-		const Vec3& GetForce()const {
-			return m_Force;
-		}
-		void SetForce(const Vec3& f) {
-			m_Force = f;
-		}
-		void AddForce(const Vec3& f) {
-			m_Force += f;
-		}
-
-		const Vec3& GetVelocity()const {
-			return m_Velocity;
-		}
-		void SetVelocity(const Vec3& v) {
-			m_Velocity = v;
-		}
-
-		void ApplyForce();
-
-		Vec3 GetTargetPos()const;
-
 
 
 

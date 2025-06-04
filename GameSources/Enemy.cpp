@@ -44,20 +44,6 @@ namespace basecross {
 		AddTag(L"Enemy");
 	}
 
-	Vec3 Enemy::GetTargetPos()const {
-		auto ptrTarget = GetStage()->GetSharedObject(L"Player_0");
-		return ptrTarget->GetComponent<Transform>()->GetPosition();
-	}
-
-
-	void Enemy::ApplyForce() {
-		float elapsedTime = App::GetApp()->GetElapsedTime();
-		m_Velocity += m_Force * elapsedTime * 0.1f;
-		auto ptrTrans = GetComponent<Transform>();
-		auto pos = ptrTrans->GetPosition();
-		pos += m_Velocity * elapsedTime;
-		ptrTrans->SetPosition(pos);
-	}
 
 
 	void Enemy::OnUpdate()
@@ -91,17 +77,6 @@ namespace basecross {
 		// 更新した位置をセット
 		ptrTransform->SetPosition(currentPosition);
 
-
-		//// Transform コンポーネントを取得
-		//auto ptrTransform = GetComponent<Transform>();
-		//float elapsedTime = App::GetApp()->GetElapsedTime();
-		//auto ptrSeek = GetBehavior<SeekSteering>();
-		//auto force = GetForce();
-		////ptrSeek->SetMaxSpeed(0.79f);
-		//force = ptrSeek->Execute(force, GetVelocity(), GetTargetPos());
-		//SetForce(force);
-		//ApplyForce();
-
 	}
 
 
@@ -117,6 +92,10 @@ namespace basecross {
 			//一定時間後にスプライトを削除する（タイトル画面からゲームステージに移るタイミング）
 			PostEvent(5.0f, GetThis<ObjectInterface>(), scene, L"RemoveSprite");
 
+		}
+		if (otherObject->FindTag(L"ShadowObject")) {
+			auto grav = GetComponent<Gravity>();
+			grav->StartJump(Vec3(0, 10.0f, 0));
 		}
 
 	}
