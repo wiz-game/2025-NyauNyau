@@ -5,6 +5,7 @@
 
 #pragma once
 #include "stdafx.h"
+#include "SoundSprite.h"
 
 namespace basecross {
 
@@ -39,6 +40,11 @@ namespace basecross {
 		//struct GetBGM {
 		//	return m_BGM;
 		//};
+
+		//float GetBGM() const
+		//{
+		//	return m_volume;
+		//}
 
 	};
 

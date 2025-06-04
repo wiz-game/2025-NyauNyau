@@ -111,6 +111,12 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)GameOverStage.cpp">
       <Filter>UI関係</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)GameStageUI.cpp">
+      <Filter>Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)BackTitleButton2.cpp">
+      <Filter>UI関係</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Character.h">
@@ -222,6 +228,12 @@
       <Filter>Sprite</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)GameOverStage.h">
+      <Filter>UI関係</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameStageUI.h">
+      <Filter>Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)BackTitleButton2.h">
       <Filter>UI関係</Filter>
     </ClInclude>
   </ItemGroup>

@@ -15,6 +15,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)BackTitleButton.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)BackTitleButton2.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Box.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Character.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Enemy.h" />
@@ -24,6 +25,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)GameOverSprite.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GameOverStage.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GameStage.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameStageUI.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Goal.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GoalStage.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Ground.h" />
@@ -56,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)BackTitleButton.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)BackTitleButton2.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Box.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Character.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Cheese.cpp" />
@@ -65,6 +68,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)GameOverSprite.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GameOverStage.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)GameStageUI.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Goal.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GoalStage.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Ground.cpp" />

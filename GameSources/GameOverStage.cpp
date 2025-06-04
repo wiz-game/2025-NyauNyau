@@ -38,8 +38,8 @@ namespace basecross {
 			LoadTextures();
 
 			//スプライトオブジェクト
-			AddGameObject<BackTitleButton>();
 			AddGameObject<GameOverSprite>();
+			AddGameObject<BackTitleButton2>();
 
 
 			auto ptrXA = App::GetApp()->GetXAudio2Manager();

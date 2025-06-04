@@ -131,8 +131,8 @@ namespace basecross {
 			//âEÇ…åXÇØÇΩéû
 			if (CntlVec[0].fThumbLX >= 0.8f)
 			{
-				m_volume += 0.2f;
-				m_volumeLevel += 46.4f;
+				m_volume += 0.01f;
+				m_volumeLevel += 3.0f;
 				if (m_volume > 1.0f)
 				{
 					m_volume = 1.0f;
@@ -142,8 +142,8 @@ namespace basecross {
 			//ç∂Ç…åXÇØÇΩéû
 			if (CntlVec[0].fThumbLX <= -0.8f)
 			{
-				m_volume -= 0.2f;
-				m_volumeLevel -= 46.4f;
+				m_volume -= 0.01f;
+				m_volumeLevel -= 3.0f;
 				if (m_volume < 0.0f)
 				{
 					m_volume = 0.0f;

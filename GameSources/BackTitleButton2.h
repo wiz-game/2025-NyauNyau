@@ -1,5 +1,5 @@
 /*!
-@file TitleStartButton.h
+@file BackTitleButton.h
 @brief スタートボタン スプライトなど
 */
 
@@ -10,9 +10,10 @@ namespace basecross {
 
 
 	//--------------------------------------------------------------------------------------
-	//	class TitleStartButton : public GameObject;
+	//	class BackTitleButton : public GameObject;
 	//--------------------------------------------------------------------------------------
-	class TitleStartButton : public GameObject
+
+	class BackTitleButton2 : public GameObject
 	{
 		float m_totalTime;
 		float blinkSpeed = 3;//点滅速度
@@ -20,11 +21,11 @@ namespace basecross {
 
 	public:
 		// 構築と破棄
-		TitleStartButton(const shared_ptr<Stage>& stage) :
+		BackTitleButton2(const shared_ptr<Stage>& stage) :
 			GameObject(stage)
 		{
 		}
-		virtual ~TitleStartButton()
+		virtual ~BackTitleButton2()
 		{
 		}
 
@@ -32,6 +33,4 @@ namespace basecross {
 		virtual void OnUpdate() override; // 更新
 		//virtual void OnDraw() override; // 描画
 	};
-
 }
-//end basecross

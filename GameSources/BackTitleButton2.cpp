@@ -8,8 +8,9 @@
 
 namespace basecross {
 
+
 	//初期化
-	void BackTitleButton::OnCreate()
+	void BackTitleButton2::OnCreate()
 	{
 		// 頂点(Vertex)データを設定
 		Col4 color(1, 1, 1, 1);
@@ -39,7 +40,7 @@ namespace basecross {
 		ptrTrans->SetPosition(0, -260.0f, 0);// 画面の中心を原点としたピクセル単位（1280x800）
 	}
 
-	void BackTitleButton::OnUpdate()
+	void BackTitleButton2::OnUpdate()
 	{
 		//経過時間を取得
 		float elapsedTiem = App::GetApp()->GetElapsedTime();
@@ -63,10 +64,4 @@ namespace basecross {
 		//ライトの当たり具合
 		drawComp->SetDiffuse(Col4(1, 1, 1, s));
 	}
-
-
-
-
-
 }
-//end basecross

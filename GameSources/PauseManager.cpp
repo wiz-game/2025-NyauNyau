@@ -40,6 +40,7 @@ namespace basecross {
 		title->SetTexture(L"TEX_BACK");
 		title->SetPosition(0, -70.0f, 0);
 		title->SetScale(0.5f, 0.5f, 0.5f);
+		title->SetSelected(false);
 		m_pauseSprites.push_back(title);//m_pauseSprites‚Éback‚ğ“ü‚ê‚é
 
 		//İ’è
@@ -47,6 +48,7 @@ namespace basecross {
 		setting->SetTexture(L"TEX_SETTING");
 		setting->SetPosition(0, -160.0f, 0);
 		setting->SetScale(0.47f, 0.47f, 0.47f);
+		setting->SetSelected(false);
 		m_pauseSprites.push_back(setting);//m_pauseSprites‚Éend‚ğ“ü‚ê‚é
 
 		//I—¹
@@ -54,6 +56,7 @@ namespace basecross {
 		end->SetTexture(L"TEX_END2");
 		end->SetPosition(0, -250.0f, 0);
 		end->SetScale(0.47f, 0.47f, 0.47f);
+		end->SetSelected(false);
 		m_pauseSprites.push_back(end);//m_pauseSprites‚Éend‚ğ“ü‚ê‚é
 
 		//ƒlƒR–îˆó
