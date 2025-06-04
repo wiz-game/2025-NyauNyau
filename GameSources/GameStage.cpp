@@ -406,7 +406,7 @@ namespace basecross {
 
 			auto UI = AddGameObject<GameStageUI>();
 			UI->SetTexture(L"TEX_GameStageUI");
-			UI->SetPosition(0, 0, 0);
+			UI->SetPosition(0,290.0f, 0);
 			UI->SetScale(1.5f, 1.0f, 1.0f);
 			m_gameStageUI.push_back(UI);
 
@@ -483,6 +483,8 @@ namespace basecross {
 		app->RegisterTexture(L"TEX_END", texPath + L"PauseStage end.png");
 		app->RegisterTexture(L"TEX_END2", texPath + L"PauseStage Back.png");
 
+		app->RegisterTexture(L"TEX_GameStageUI", texPath + L"GameStageUI.png");
+		app->RegisterTexture(L"TEX_GameButtonUI", texPath + L"GameButtonUI.png");
 
 
 	}
@@ -501,8 +503,6 @@ namespace basecross {
 
 		app->RegisterResource(L"MODEL_LAMP", meshLamp);
 
-		app->RegisterTexture(L"TEX_GameStageUI", texPath + L"GameStageUI.png");
-		app->RegisterTexture(L"TEX_GameButtonUI", texPath + L"GameButtonUI.png");
 
 	}
 
@@ -566,6 +566,8 @@ namespace basecross {
 
 				currentPhase = GamePhase::Phase2;
 
+				auto UI = m_gameStageUI[0].lock();
+				UI->SetDrawActive(false);
 
 				auto gameObjectVec = GetGameObjectVec();
 				for (auto obj : gameObjectVec)
