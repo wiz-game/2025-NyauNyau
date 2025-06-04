@@ -129,6 +129,18 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)PauseManager.cpp">
       <Filter>UI関係</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ShadowComponent.cpp">
+      <Filter>ShadowHonda</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ShadowProjectionManager.cpp">
+      <Filter>ShadowHonda</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)BoxShadowStrategy.cpp">
+      <Filter>ShadowHonda</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)BaseShadowStrategy.cpp">
+      <Filter>ShadowHonda</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Character.h">
@@ -258,6 +270,18 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)PauseManager.h">
       <Filter>UI関係</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ShadowComponent.h">
+      <Filter>ShadowHonda</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ShadowProjectionManager.h">
+      <Filter>ShadowHonda</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)BoxShadowStrategy.h">
+      <Filter>ShadowHonda</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)BaseShadowStrategy.h">
+      <Filter>ShadowHonda</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

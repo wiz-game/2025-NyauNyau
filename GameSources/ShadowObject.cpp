@@ -88,8 +88,6 @@ namespace basecross
 
     }
 
-    
-
     std::vector<Vec3> ShadowObject::ComputeShadowIntersections(const Vec3& lightPos, const std::vector<Vec3>& boxVertices)
     {
         std::vector<Vec3> intersections;
@@ -213,37 +211,7 @@ namespace basecross
             position + Vec3(-scale.x / 2, scale.y / 2, scale.z / 2),
             position + Vec3(scale.x / 2, scale.y / 2, scale.z / 2)
         };
-
         return boxVertices;
-
-
-        //std::vector<Vec3> circleVertices;
-
-        ////MeshUtill::CreateSphere
-
-        //auto circle = GetStage()->GetSharedGameObject<Box>(L"Box");
-        //if (!circle)
-        //{
-        //    std::cerr << "Circle object not found!" << std::endl;
-        //    return circleVertices;
-        //}
-
-        //auto circleTransform = circle->GetComponent<Transform>();
-        //Vec3 position = circleTransform->GetPosition();
-        //float radius = circleTransform->GetScale().x / 2; // 半径を計算（X方向のスケールを基準）
-
-        //const int SEGMENT_COUNT = 24; // 円を構成する頂点の数
-        //for (int i = 0; i < SEGMENT_COUNT; i++)
-        //{
-        //    float angle = (2.0f * XM_PI / SEGMENT_COUNT) * i;
-        //    float x = position.x + std::cos(angle) * radius; // 中心座標を基準にオフセット
-        //    float y = position.y; // 高さはそのまま
-        //    float z = position.z + std::sin(angle) * radius; // 中心座標を基準にオフセット
-
-        //    circleVertices.emplace_back(x, y, z);
-        //}
-
-        //return circleVertices;
     }
 
     Vec3 ShadowObject::Cross(const Vec3& a, const Vec3& b, const Vec3& c)
@@ -257,7 +225,6 @@ namespace basecross
             ab.y * ac.x - ab.x * ac.y   // Z成分
         );
     }
-
 
     void ShadowObject::BubbleSort(std::vector<Vec3>& vertices)
     {
