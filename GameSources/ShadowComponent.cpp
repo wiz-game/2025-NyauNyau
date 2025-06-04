@@ -11,7 +11,7 @@ namespace basecross
     {
     }
 
-    void ShadowComponent::OnCreate()
+    void ShadowComponent::OnDraw()
     {
         m_drawComp->SetOriginalMeshUse(true);
     }

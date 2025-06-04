@@ -2,7 +2,7 @@
 #include "stdafx.h"
 #include "Project.h"
 #include "Components.h"
-#include "ShadowStrategy.h"
+#include "BoxShadowStrategy.h"
 
 namespace basecross
 {
@@ -20,7 +20,7 @@ namespace basecross
     public:
         ShadowComponent(const std::shared_ptr<GameObject>& owner, const std::shared_ptr<BoxShadowStrategy>& strategy);
 
-        void OnCreate() override;
+        void OnDraw() override;
         void OnUpdate();  // –ˆƒtƒŒ[ƒ€ŒõŒ¹‚ğæ“¾ & ‰e‚ğŒvZ
         void ComputeShadow();
         void RenderShadow();

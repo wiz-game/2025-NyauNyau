@@ -5,6 +5,13 @@
 
 namespace basecross
 {
+    // コンストラクタの実装
+    BoxShadowStrategy::BoxShadowStrategy(const std::shared_ptr<Stage>& stagePtr)
+        : BaseShadowStrategy(stagePtr) // 基底クラスのコンストラクタを呼び出し
+    {
+    }
+
+
     std::vector<Vec3> BoxShadowStrategy::ComputeShadow(const Vec3& lightPos, const std::shared_ptr<GameObject>& obj)
     {
         // `GameObject` が `Box` なら、`GetBoxVertices()` を呼び出す

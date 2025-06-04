@@ -41,7 +41,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SelectStageSprite.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ShadowFloor.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ShadowProjectionManager.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)ShadowStrategy.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SpotLight.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SelectStage.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Start.h" />

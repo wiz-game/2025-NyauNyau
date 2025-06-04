@@ -28,7 +28,9 @@ namespace basecross
 		auto ptrColl = AddComponent<CollisionRect>();
 		ptrColl->SetFixed(true);
 
-		AddComponent<ShadowComponent>(shared_from_this(),std::make_shared<BoxShadowStrategy>());
+		/*auto stage = GetStage();
+		auto shadowStrategy = std::make_shared<basecross::BoxShadowStrategy>(stage);
+		AddComponent<ShadowComponent>(shadowStrategy);*/
 
 		//•¶Žš—ñ‚ð‚Â‚¯‚é
 		auto ptrString = AddComponent<StringSprite>();

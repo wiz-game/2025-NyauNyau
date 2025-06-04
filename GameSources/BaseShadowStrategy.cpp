@@ -4,6 +4,10 @@
 
 namespace basecross
 {
+	BaseShadowStrategy::BaseShadowStrategy(const shared_ptr<Stage>& StagePtr) :
+		GameObject(StagePtr)
+	{
+	}
 
 	Vec3 BaseShadowStrategy::Cross(const Vec3& x, const Vec3& y, const Vec3& z)
 	{
