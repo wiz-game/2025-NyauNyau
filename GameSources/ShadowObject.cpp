@@ -23,6 +23,9 @@ namespace basecross
         ptrString->SetText(L"");
         ptrString->SetTextRect(Rect2D<float>(16.0f, 150.0f, 640.0f, 480.0f));
 
+        auto ptrColl = AddComponent<CollisionObb>();
+        ptrColl->SetMakedSize(2.45f);
+
     }
 
     void ShadowObject::OnUpdate()
@@ -47,7 +50,7 @@ namespace basecross
         //wss << L"Shadow Intersections Count: " << shadowIntersections.size() << L"\n";
         for (const auto& intersection : shadowIntersections)
         {
-          // wss << L"Intersection: " << intersection.x << L", " << intersection.y << L", " << intersection.z << L"\n";
+          //wss << L"Intersection: " << intersection.x << L", " << intersection.y << L", " << intersection.z << L"\n";
         }
 
         //C³: “Ê•ïŒvŽZŒã‚ÌŒð“_Šm”F

@@ -18,7 +18,7 @@ namespace basecross {
 		m_Rotation(Rotation),
 		m_Position(Position), 
 		isGameOver(false),
-		EnemySpeed(5.2f)
+		EnemySpeed(0.0f)
 	{
 	}
 
@@ -82,17 +82,17 @@ namespace basecross {
 
 	void Enemy::OnCollisionEnter(shared_ptr<GameObject>& otherObject)
 	{
-		if (otherObject->FindTag(L"Player_0")) // "Player" タグを持つオブジェクトと衝突
-		{
-			isGameOver = true; // ゲームオーバーフラグを設定
+		//if (otherObject->FindTag(L"Player_0")) // "Player" タグを持つオブジェクトと衝突
+		//{
+		//	isGameOver = true; // ゲームオーバーフラグを設定
 
-			auto scene = App::GetApp()->GetScene<Scene>();
-			PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"ToTitleStage");
+		//	auto scene = App::GetApp()->GetScene<Scene>();
+		//	PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"ToTitleStage");
 
-			//一定時間後にスプライトを削除する（タイトル画面からゲームステージに移るタイミング）
-			PostEvent(5.0f, GetThis<ObjectInterface>(), scene, L"RemoveSprite");
+		//	//一定時間後にスプライトを削除する（タイトル画面からゲームステージに移るタイミング）
+		//	PostEvent(5.0f, GetThis<ObjectInterface>(), scene, L"RemoveSprite");
 
-		}
+		//}
 
 	}
 }
