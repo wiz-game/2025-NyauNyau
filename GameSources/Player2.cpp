@@ -159,7 +159,7 @@ namespace basecross
 
 		//ptrColl->SetMakedSize(2.5f);
 
-		m_Center = Vec3(1.2f, 0.6f, 0.3f);
+		m_Center = Vec3(m_Scale.x / 2, m_Scale.y / 2, 0.0f);
 		Vec3 position = Vec3(m_Center.x, m_Center.y, 0.0f);
 		m_Radius = 0.1f;
 
@@ -167,6 +167,29 @@ namespace basecross
 		GetStage()->SetCollisionPerformanceActive(true);
 		GetStage()->SetUpdatePerformanceActive(true);
 		GetStage()->SetDrawPerformanceActive(true);
+
+		float texW = 50.0f / 512.0f; // 数字の1桁50ピクセルにしてる
+		float texH = 90.0f / 128.0f;
+		float left = texW * m_number;
+		float right = left + texW;
+		float top = 100.0f;
+		float bottom = top + texH; // 文字の高さ / テクスチャの高さ
+
+
+		// 頂点(Vertex)データを設定
+		m_vertices = {
+		   {Vec3(0, 0, 0),m_color, Vec2(left,top)},      // ①
+		   {Vec3(50, 0, 0),m_color, Vec2(right, top)},    // ② 1にすれば1回繰り返され、20にすれば20回繰り返される
+		   {Vec3(0, -90, 0),m_color, Vec2(left,bottom)},   // ③
+		   {Vec3(50, -90, 0),m_color, Vec2(right, bottom)}, // ④
+
+		};
+
+		// インデックスデータを設定
+		m_indices = {
+		   0, 1, 2, // 1つ目のポリゴン（三角形）
+		   2, 1, 3  // 2つ目のポリゴン（三角形）
+		};
 
 
 		//描画コンポーネントの設定

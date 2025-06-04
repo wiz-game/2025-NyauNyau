@@ -23,8 +23,11 @@ namespace basecross
 		Vec3 m_Scale;
 		Vec3 m_Rotation;
 		Vec3 m_Position;
+		Col4 m_color;
+		std::vector<VertexPositionColorTexture> m_vertices;
+		std::vector<uint16_t> m_indices;
 
-
+		int m_number;
 		//入力ハンドラー
 		InputHandler<Player> m_InputHandler;
 		//スピード

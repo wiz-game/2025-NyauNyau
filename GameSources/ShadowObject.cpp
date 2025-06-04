@@ -23,8 +23,8 @@ namespace basecross
         ptrString->SetText(L"");
         ptrString->SetTextRect(Rect2D<float>(16.0f, 150.0f, 640.0f, 480.0f));
 
-        auto ptrColl = AddComponent<CollisionObb>();
-        ptrColl->SetMakedSize(2.5f);
+     /*   auto ptrColl = AddComponent<CollisionObb>();
+        ptrColl->SetMakedSize(2.5f);*/
 
     }
 
