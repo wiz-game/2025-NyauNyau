@@ -1,6 +1,7 @@
 #pragma once
 #include "stdafx.h"
 #include "Project.h"
+#include "Components.h"
 #include "ShadowStrategy.h"
 
 namespace basecross
@@ -17,14 +18,10 @@ namespace basecross
         std::shared_ptr<PCStaticDraw> m_drawComp; // 描画コンポーネント
 
     public:
-        /*ShadowComponent::ShadowComponent(const shared_ptr<Stage>& stage)
-            : GameObject(stage), 
-            m_drawComp(AddComponent<PCStaticDraw>())
-        {
-        }*/
+        ShadowComponent(const std::shared_ptr<GameObject>& owner, const std::shared_ptr<BoxShadowStrategy>& strategy);
 
         void OnCreate() override;
-        void OnUpdate() override;  // 毎フレーム光源を取得 & 影を計算
+        void OnUpdate();  // 毎フレーム光源を取得 & 影を計算
         void ComputeShadow();
         void RenderShadow();
         void SwapBuffers(); // バッファ切り替え

@@ -8,7 +8,6 @@ namespace basecross
 	{
 	public:
 		virtual ~ShadowStrategy() = default;
-		virtual std::vector<Vec3> ComputeShadow(const Vec3& lightPos, const std::shared_ptr<GameObject>& obj) = 0;
 	};
 
 }

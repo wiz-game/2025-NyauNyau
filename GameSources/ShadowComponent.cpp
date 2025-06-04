@@ -1,9 +1,16 @@
 #include "stdafx.h"
 #include "Project.h"
+#include "Components.h"
 #include "ShadowComponent.h"
 
 namespace basecross
 {
+
+    ShadowComponent::ShadowComponent(const std::shared_ptr<GameObject>& owner, const std::shared_ptr<BoxShadowStrategy>& strategy)
+        : Component(owner), boxShadowStrategy(strategy)
+    {
+    }
+
     void ShadowComponent::OnCreate()
     {
         m_drawComp->SetOriginalMeshUse(true);

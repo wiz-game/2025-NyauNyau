@@ -7,7 +7,8 @@ namespace basecross
 {
 	class BaseShadowStrategy :public ShadowStrategy
 	{
-	protected:
+	public:
+		BaseShadowStrategy() = default;
 		virtual ~BaseShadowStrategy() = default; 
 		Vec3 Cross(const Vec3& x, const Vec3& y, const Vec3& z);
 		void BubbleSort(std::vector<Vec3>& vertices);

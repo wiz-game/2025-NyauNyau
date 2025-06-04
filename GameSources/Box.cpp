@@ -7,6 +7,7 @@
 #include "stdafx.h"
 #include "Project.h"
 #include "ShadowComponent.h"
+#include "BoxShadowStrategy.h"
 
 namespace basecross
 {
@@ -27,11 +28,13 @@ namespace basecross
 		auto ptrColl = AddComponent<CollisionRect>();
 		ptrColl->SetFixed(true);
 
+		AddComponent<ShadowComponent>(shared_from_this(),std::make_shared<BoxShadowStrategy>());
+
 		//•¶Žš—ñ‚ð‚Â‚¯‚é
 		auto ptrString = AddComponent<StringSprite>();
 		ptrString->SetText(L"");
 		ptrString->SetTextRect(Rect2D<float>(16.0f, 125.0f, 640.0f, 480.0f));
-		AddComponent<ShadowComponent>();
+		
 	}
 
 

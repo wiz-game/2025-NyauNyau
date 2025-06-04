@@ -4,6 +4,10 @@
 
 namespace basecross
 {
+	BaseShadowStrategy::BaseShadowStrategy()
+	{
+	}
+
 	Vec3 BaseShadowStrategy::Cross(const Vec3& x, const Vec3& y, const Vec3& z)
 	{
 		Vec3 xy = y - x;
