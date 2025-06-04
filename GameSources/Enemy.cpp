@@ -16,9 +16,9 @@ namespace basecross {
 		GameObject(StagePtr),
 		m_Scale(Scale),
 		m_Rotation(Rotation),
-		m_Position(Position), 
+		m_Position(Position),
 		isGameOver(false),
-		EnemySpeed(5.2f)
+		EnemySpeed(5.3)
 	{
 	}
 
@@ -42,7 +42,21 @@ namespace basecross {
 		auto ptrColl = AddComponent<CollisionObb>();
 
 		AddTag(L"Enemy");
+	}
 
+	Vec3 Enemy::GetTargetPos()const {
+		auto ptrTarget = GetStage()->GetSharedObject(L"Player_0");
+		return ptrTarget->GetComponent<Transform>()->GetPosition();
+	}
+
+
+	void Enemy::ApplyForce() {
+		float elapsedTime = App::GetApp()->GetElapsedTime();
+		m_Velocity += m_Force * elapsedTime * 0.1f;
+		auto ptrTrans = GetComponent<Transform>();
+		auto pos = ptrTrans->GetPosition();
+		pos += m_Velocity * elapsedTime;
+		ptrTrans->SetPosition(pos);
 	}
 
 
@@ -63,20 +77,17 @@ namespace basecross {
 
 		auto ptrGra = AddComponent<Gravity>();
 
+
+
 		// Transform コンポーネントを取得
 		auto ptrTransform = GetComponent<Transform>();
 		float elapsedTime = App::GetApp()->GetElapsedTime();
-
-
-		// 現在の位置を取得
-		Vec3 currentPosition = ptrTransform->GetPosition();
-
-		// 右方向へ `EnemySpeed` だけ移動
-		currentPosition.x += EnemySpeed * elapsedTime;
-
-		// 更新した位置をセット
-		ptrTransform->SetPosition(currentPosition);
-
+		auto ptrSeek = GetBehavior<SeekSteering>();
+		auto force = GetForce();
+		//ptrSeek->SetMaxSpeed(0.79f);
+		force = ptrSeek->Execute(force, GetVelocity(), GetTargetPos());
+		SetForce(force);
+		ApplyForce();
 
 	}
 
