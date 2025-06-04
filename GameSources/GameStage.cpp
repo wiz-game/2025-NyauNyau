@@ -404,9 +404,24 @@ namespace basecross {
 			//スプライトオブジェクト
 			AddGameObject<Phase1>();
 
+			auto UI = AddGameObject<GameStageUI>();
+			UI->SetTexture(L"TEX_GameStageUI");
+			UI->SetPosition(0, 0, 0);
+			UI->SetScale(1.5f, 1.0f, 1.0f);
+			m_gameStageUI.push_back(UI);
+
+
+			auto buttonUI = AddGameObject<GameStageUI>();
+			buttonUI->SetTexture(L"TEX_GameButtonUI");
+			buttonUI->SetPosition(520.0f, -320.0f, 0);
+			buttonUI->SetScale(0.5f, 0.6f, 0);
+			m_gameStageUI.push_back(buttonUI);
+
+
+			//auto volume = m_settingStage.lock()->GetBGM();
 
 			auto ptrXA = App::GetApp()->GetXAudio2Manager();
-			m_BGM = ptrXA->Start(L"Gamebgm", XAUDIO2_LOOP_INFINITE, 0.1f);
+			m_BGM = ptrXA->Start(L"Gamebgm", XAUDIO2_LOOP_INFINITE, 1.0f);
 
 			m_pauseManager = AddGameObject<PauseManager>();
 		}
@@ -466,6 +481,8 @@ namespace basecross {
 		app->RegisterTexture(L"TEX_BACK", texPath + L"PauseStage title.png");
 		app->RegisterTexture(L"TEX_SETTING", texPath + L"PauseStage setting.png");
 		app->RegisterTexture(L"TEX_END", texPath + L"PauseStage end.png");
+		app->RegisterTexture(L"TEX_END2", texPath + L"PauseStage Back.png");
+
 
 
 	}
@@ -483,6 +500,9 @@ namespace basecross {
 		auto meshLamp = MeshResource::CreateStaticModelMesh(modelPath + L"Lamp\\", L"NyauNyauLamp.bmf");
 
 		app->RegisterResource(L"MODEL_LAMP", meshLamp);
+
+		app->RegisterTexture(L"TEX_GameStageUI", texPath + L"GameStageUI.png");
+		app->RegisterTexture(L"TEX_GameButtonUI", texPath + L"GameButtonUI.png");
 
 	}
 

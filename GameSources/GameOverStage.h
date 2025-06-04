@@ -1,45 +1,38 @@
 /*!
 @file Character.h
-@brief タイトルステージ
+@brief ゲームオーバーステージ
 */
 
 #pragma once
 #include "stdafx.h"
 #include "TitleSprite.h"
-#include "SettingStage.h"
 
 namespace basecross {
 
 	//--------------------------------------------------------------------------------------
-	//	ゲームステージクラス
+	//	ゲームスオーバーテージクラス
 	//--------------------------------------------------------------------------------------
-	class TitleStage : public Stage {
+	class GameOverStage : public Stage {
 		void CreateViewLight(); //ビューの作成
 		void LoadTextures();//テクスチャの読込
 		void OnDestroy();
 
 		//入力ハンドラー
-		InputHandler<TitleStage> m_InputHandler;
+		InputHandler<GameOverStage> m_InputHandler;
 		shared_ptr<SoundItem> m_BGM;
-		std::vector<std::shared_ptr<TitleSprite>> m_titleSprite;
-		std::weak_ptr<SettingStage> m_settingStage;
-		
-		const int spriteCount = 11;
-		float phaseIncrement = 0.5f;
-		float m_totalTime;
-
+		//std::vector<std::shared_ptr<GameOverSprite>> m_GameOverSprite;
 
 	public:
 		//構築と破棄
-		TitleStage() :Stage() {}
-		virtual ~TitleStage() {}
+		GameOverStage() :Stage() {}
+		virtual ~GameOverStage() {}
 
 		virtual void OnCreate()override; //初期化
 		virtual void OnUpdate()override; //更新
 
 		//Aボタン
 		void OnPushA();
-		void OnPushB(){}
+
 	};
 }
 //end basecross

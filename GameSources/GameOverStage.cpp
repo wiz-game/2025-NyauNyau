@@ -1,0 +1,97 @@
+/*!
+@file Character.cpp
+@brief ゲームオーバーステージの実体
+*/
+
+#include "stdafx.h"
+#include "Project.h"
+
+namespace basecross {
+
+	//--------------------------------------------------------------------------------------
+	//	ゲームオーバーステージクラス実体
+	//--------------------------------------------------------------------------------------
+
+	//ビューとライトの作成
+	void GameOverStage::CreateViewLight() {
+		// カメラの設定
+		auto camera = ObjectFactory::Create<Camera>();
+		camera->SetEye(Vec3(0.0f, 5.0f, -15.0f));
+		camera->SetAt(Vec3(0.0f, 0.0f, 0.0f));
+
+		// ビューにカメラを設定
+		auto view = CreateView<SingleView>();
+		view->SetCamera(camera);
+
+		//マルチライトの作成
+		auto light = CreateLight<MultiLight>();
+		light->SetDefaultLighting(); //デフォルトのライティングを指定
+	}
+
+	void GameOverStage::OnCreate() {
+		try {
+
+			//ビューとライトの作成
+			CreateViewLight();
+
+			//テクスチャの読込
+			LoadTextures();
+
+			//スプライトオブジェクト
+			AddGameObject<GameOverSprite>();
+			AddGameObject<BackTitleButton2>();
+
+
+			auto ptrXA = App::GetApp()->GetXAudio2Manager();
+			m_BGM = ptrXA->Start(L"Titlebgm", XAUDIO2_LOOP_INFINITE, 0.1f);
+
+		}
+		catch (...) {
+			throw;
+		}
+
+	}
+
+
+	void GameOverStage::OnUpdate()
+	{
+		//コントローラチェックして入力があればコマンド呼び出し
+		m_InputHandler.PushHandle(GetThis<GameOverStage>());
+
+
+		//auto delta = App::GetApp()->GetElapsedTime();
+		//m_totalTime += delta;
+
+	}
+
+	//コントローラーのAボタンでゲーム画面に移動
+	void GameOverStage::OnPushA()
+	{
+		auto scene = App::GetApp()->GetScene<Scene>();
+		PostEvent(1.3f, GetThis<ObjectInterface>(), scene, L"ToTitleStage");
+	}
+
+	void GameOverStage::LoadTextures()
+	{
+		// アプリケーションオブジェクトを取得する
+		auto& app = App::GetApp();
+
+		// メディアフォルダの取得
+		auto mediaPath = app->GetDataDirWString();
+
+		// テクスチャフォルダの定義
+		auto texPath = mediaPath + L"Textures\\";
+
+		// テクスチャの読込と登録
+		app->RegisterTexture(L"TEX_GAMEOVER", texPath + L"GameOver.png");
+		app->RegisterTexture(L"TEX_BACKTITLE", texPath + L"Back Title.png");
+	}
+
+	void GameOverStage::OnDestroy() {
+		//BGMのストップ
+		auto XAPtr = App::GetApp()->GetXAudio2Manager();
+		XAPtr->Stop(m_BGM);
+	}
+
+}
+//end basecross
