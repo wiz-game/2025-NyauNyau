@@ -32,12 +32,12 @@ namespace basecross {
 
 	public:
 		// \’z‚Æ”jŠü
-		SoundSprite(const shared_ptr<Stage>& stage, float sx, float sy ,float ex, float ey) :
-			GameObject(stage),
-			m_sx(sx),
-			m_sy(sy),
-			m_ex(ex),
-			m_ey(ey)
+		SoundSprite(const shared_ptr<Stage>& stage/*, float sx, float sy ,float ex, float ey*/) :
+			GameObject(stage)
+			//m_sx(sx),
+			//m_sy(sy),
+			//m_ex(ex),
+			//m_ey(ey)
 
 		{
 		}

@@ -38,68 +38,71 @@ namespace basecross {
 			//テクスチャの読込
 			LoadTextures();
 
+			auto scene = App::GetApp()->GetScene<Scene>();
+			auto volume = scene->m_volume;
+			auto volumeLevel = scene->m_volumeLevel;
 
 			//スプライトオブジェクトの追加
-			Setting = AddGameObject<SoundSprite>(352.0f,0,1592.0f,1080.0f);
+			Setting = AddGameObject<SoundSprite>(/*352.0f,0,1592.0f,1080.0f*/);
 			Setting->SetTexture(L"TEX_Setting");
 			Setting->SetPosition(0, 0, 0);
-			//Setting->SetScale(2.5f, 2.5f, 0);
+			Setting->SetScale(2.5f, 2.5f, 0);
 
 			//BGM
-			auto BGM = AddGameObject<SoundSprite>(300.0f,0,200.0f,376.0f);
-			BGM->SetTexture(L"TEX_Sound");
-			BGM->SetPosition(-250, 50.0f, 0);
+			auto BGM = AddGameObject<SoundSprite>(/*300.0f,0,200.0f,376.0f*/);
+			BGM->SetTexture(L"TEX_BGM");
+			BGM->SetPosition(0, 130.0f, 0);
 			m_soundSprites.push_back(BGM);//m_soundSpritesにBGMを入れる
 
 			//soundVol
-			auto soundVol = AddGameObject<SoundSprite>(750.0f,0,1150.0f,60.0f);
+			auto soundVol = AddGameObject<SoundSprite>(/*750.0f,0,1150.0f,60.0f*/);
 			soundVol->SetTexture(L"TEX_SoundVol");
-			soundVol->SetPosition(0, 50.0f, 0);
+			soundVol->SetPosition(0, -78.0f, 0);
 			m_soundSprites.push_back(soundVol);
 
 			//無音
-			auto notSound = AddGameObject<SoundSprite>(0,200.0f,300.0f,400.0f);
-			notSound->SetTexture(L"TEX_Sound");
-			notSound->SetPosition(-0, 50.0f, 0);
-			//notSound->SetScale(0.4f, 0.4f, 0.4f);
+			auto notSound = AddGameObject<SoundSprite>(/*0,200.0f,300.0f,400.0*/);
+			notSound->SetTexture(L"TEX_NotSound");
+			notSound->SetPosition(-370, 50.0f, 0);
+			notSound->SetScale(0.4f, 0.4f, 0.4f);
 			notSound->SetDrawActive(true);
 			m_soundSprites.push_back(notSound);
 
 			//小音
-			auto littleSound = AddGameObject<SoundSprite>(0,400.0f,300.0f,600.0f);
-			littleSound->SetTexture(L"TEX_Sound");
-			littleSound->SetPosition(-120, 50.0f, 0);
-			//littleSound->SetScale(0.4f, 0.4f, 0.4f);
+			auto littleSound = AddGameObject<SoundSprite>(/*0,400.0f,300.0f,600.0f*/);
+			littleSound->SetTexture(L"TEX_LittleSound");
+			littleSound->SetPosition(-370, 50.0f, 0);
+			littleSound->SetScale(0.4f, 0.4f, 0.4f);
 			littleSound->SetDrawActive(false);
 			m_soundSprites.push_back(littleSound);
 
 			//中音
-			auto normalSound = AddGameObject<SoundSprite>(0,600.0f,300.0f,800.0f);
-			normalSound->SetTexture(L"TEX_Sound");
-			normalSound->SetPosition(-120, 50.0f, 0);
-			//normalSound->SetScale(0.4f, 0.4f, 0.4f);
+			auto normalSound = AddGameObject<SoundSprite>(/*0,600.0f,300.0f,800.0f*/);
+			normalSound->SetTexture(L"TEX_NormalSound");
+			normalSound->SetPosition(-370, 50.0f, 0);
+			normalSound->SetScale(0.4f, 0.4f, 0.4f);
 			normalSound->SetDrawActive(false);
 			m_soundSprites.push_back(normalSound);
 
 			//大音
-			auto bigSound = AddGameObject<SoundSprite>(0,800.0f,300.0f,1000.0f);
-			bigSound->SetTexture(L"TEX_Sound");
-			bigSound->SetPosition(-120, 50.0f, 0);
-			//bigSound->SetScale(0.4f, 0.4f, 0.4f);
+			auto bigSound = AddGameObject<SoundSprite>(/*0,800.0f,300.0f,1000.0f*/);
+			bigSound->SetTexture(L"TEX_BigSound");
+			bigSound->SetPosition(-370, 50.0f, 0);
+			bigSound->SetScale(0.4f, 0.4f, 0.4f);
 			bigSound->SetDrawActive(false);
 			m_soundSprites.push_back(bigSound);
 
 			//ブロック
-			auto soundVolBox = AddGameObject<SoundSprite>(0,0,200.0f,200.0f);
-			soundVolBox->SetTexture(L"TEX_Sound");
-			soundVolBox->SetPosition(m_volumeLevel, 50.0f, 0);//-40.0f~240.0fなので１ブロック46.4くらい
-			//soundVolBox->SetScale(1.5f, 1.5f, 1.5f);
+			auto soundVolBox = AddGameObject<SoundSprite>(/*0,0,200.0f,200.0f*/);
+			soundVolBox->SetTexture(L"TEX_SoundVolBox");
+			soundVolBox->SetPosition(volumeLevel,-0.0f, 0);//-40.0f~240.0fなので１ブロック46.4くらい
+			soundVolBox->SetScale(1.0f, 0.85f, 1.0f);
 			soundVolBox->SetDrawActive(true);
 			m_soundSprites.push_back(soundVolBox);
 
 			//BGM
 			auto ptrXA = App::GetApp()->GetXAudio2Manager();
-			m_BGM = ptrXA->Start(L"Titlebgm", XAUDIO2_LOOP_INFINITE, m_volume);
+			m_BGM = ptrXA->Start(L"Gamebgm", XAUDIO2_LOOP_INFINITE, volume);
 
 		}
 		catch (...) {
@@ -131,29 +134,88 @@ namespace basecross {
 			//右に傾けた時
 			if (CntlVec[0].fThumbLX >= 0.8f)
 			{
-				m_volume += 0.01f;
-				m_volumeLevel += 3.0f;
-				if (m_volume > 1.0f)
+				scene->m_volume += 0.01f;
+				scene->m_volumeLevel += 5.5f;
+				if (scene->m_volume > 1.0f)
 				{
-					m_volume = 1.0f;
-					m_volumeLevel = 240.0f;
+					scene->m_volume = 1.0f;
+					scene->m_volumeLevel = 270.0f;
 				}
 			}
 			//左に傾けた時
 			if (CntlVec[0].fThumbLX <= -0.8f)
 			{
-				m_volume -= 0.01f;
-				m_volumeLevel -= 3.0f;
-				if (m_volume < 0.0f)
+				scene->m_volume -= 0.01f;
+				scene->m_volumeLevel -= 5.5f;
+				if (scene->m_volume < 0.0f)
 				{
-					m_volume = 0.0f;
-					m_volumeLevel = -200.0f;
+					scene->m_volume = 0.0f;
+					scene->m_volumeLevel = -270.0f;
 				}
 			}
-			m_BGM->m_SourceVoice->SetVolume(m_volume);
+			m_BGM->m_SourceVoice->SetVolume(scene->m_volume);
 
 			auto BGM = m_soundSprites[6].lock();
-			BGM->SetPosition(m_volumeLevel, 50.0f, 0.0f);
+			BGM->SetPosition(scene->m_volumeLevel, 50.0f, 0.0f);
+
+
+			if (scene->m_volume == 0.00f)
+			{
+				auto sound1 = m_soundSprites[2].lock();
+				sound1->SetDrawActive(true);
+
+				auto sound2 = m_soundSprites[3].lock();
+				sound2->SetDrawActive(false);
+
+				auto sound3 = m_soundSprites[4].lock();
+				sound3->SetDrawActive(false);
+
+				auto sound4 = m_soundSprites[5].lock();
+				sound4->SetDrawActive(false);
+			}
+			if (0.01f < scene->m_volume > 0.30f)
+			{
+				auto sound1 = m_soundSprites[2].lock();
+				sound1->SetDrawActive(false);
+
+				auto sound2 = m_soundSprites[3].lock();
+				sound2->SetDrawActive(true);
+
+				auto sound3 = m_soundSprites[4].lock();
+				sound3->SetDrawActive(false);
+
+				auto sound4 = m_soundSprites[5].lock();
+				sound4->SetDrawActive(false);
+			}
+			if (0.30f < scene->m_volume > 0.70f)
+			{
+				auto sound1 = m_soundSprites[2].lock();
+				sound1->SetDrawActive(false);
+
+				auto sound2 = m_soundSprites[3].lock();
+				sound2->SetDrawActive(false);
+
+				auto sound3 = m_soundSprites[4].lock();
+				sound3->SetDrawActive(true);
+
+				auto sound4 = m_soundSprites[5].lock();
+				sound4->SetDrawActive(false);
+			}
+			if (0.70f < scene->m_volume >= 1.00f)
+			{
+				auto sound1 = m_soundSprites[2].lock();
+				sound1->SetDrawActive(false);
+
+				auto sound2 = m_soundSprites[3].lock();
+				sound2->SetDrawActive(false);
+
+				auto sound3 = m_soundSprites[4].lock();
+				sound3->SetDrawActive(false);
+
+				auto sound4 = m_soundSprites[5].lock();
+				sound4->SetDrawActive(true);
+
+			}
 
 
 		}

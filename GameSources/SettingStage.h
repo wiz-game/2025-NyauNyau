@@ -24,8 +24,6 @@ namespace basecross {
 		std::shared_ptr<SoundSprite> catPointSprite;
 		std::shared_ptr<SoundSprite> Setting;
 
-		float m_volume = 0.01f;//BGM‚Ì‰Šú‰¹—Ê(0.0~1.0)
-		int m_volumeLevel = 100;
 
 	public:
 		//\’z‚Æ”jŠü
@@ -37,14 +35,6 @@ namespace basecross {
 		virtual void OnCreate()override; //‰Šú‰»
 		virtual void OnUpdate()override; //XV
 
-		//struct GetBGM {
-		//	return m_BGM;
-		//};
-
-		//float GetBGM() const
-		//{
-		//	return m_volume;
-		//}
 
 	};
 

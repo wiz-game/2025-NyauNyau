@@ -417,11 +417,11 @@ namespace basecross {
 			buttonUI->SetScale(0.5f, 0.6f, 0);
 			m_gameStageUI.push_back(buttonUI);
 
-
-			//auto volume = m_settingStage.lock()->GetBGM();
+			auto scene = App::GetApp()->GetScene<Scene>();
+			auto volume = scene->m_volume;
 
 			auto ptrXA = App::GetApp()->GetXAudio2Manager();
-			m_BGM = ptrXA->Start(L"Gamebgm", XAUDIO2_LOOP_INFINITE, 1.0f);
+			m_BGM = ptrXA->Start(L"Gamebgm", XAUDIO2_LOOP_INFINITE, volume);
 
 			m_pauseManager = AddGameObject<PauseManager>();
 		}
@@ -523,68 +523,76 @@ namespace basecross {
 		if (currentPhase == GamePhase::Phase1)
 		{
 
-			auto gameObjectVec = GetGameObjectVec();
-			for (auto obj : gameObjectVec)
-			{
-
-				/*if (gameObjectVec.empty())
-				{
-					std::cout << "GetGameObjectVec() によって取得されたオブジェクトのリストが空です。" << std::endl;
-					return;
-				}*/
-
-				if (dynamic_pointer_cast<Box>(obj)) //dynamic_pointer_cast<Box>(obj) 
-				{
-					obj->SetUpdateActive(true);
-				}
-				else if (dynamic_pointer_cast<ShadowObject>(obj))
-				{
-					obj->SetUpdateActive(true);
-				}
-				else
-				{
-					obj->SetUpdateActive(false);
-				}
-
-
-			}
-
-
-
 			auto pause = m_pauseManager.lock();
 			if (!pause)
 			{
 				return;
 			}
 
-			// BボタンでPhase2(GameStart)へ
-			auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
-
-			if (pause->IsPlaying() && cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B)
+			if (pause->IsPlaying())
 			{
-				SetView(m_mainView);
-
-				currentPhase = GamePhase::Phase2;
-
-				auto UI = m_gameStageUI[0].lock();
-				UI->SetDrawActive(false);
-
 				auto gameObjectVec = GetGameObjectVec();
 				for (auto obj : gameObjectVec)
 				{
-					if (dynamic_pointer_cast<Box>(obj))
+
+					/*if (gameObjectVec.empty())
 					{
-						obj->SetUpdateActive(false);
+						std::cout << "GetGameObjectVec() によって取得されたオブジェクトのリストが空です。" << std::endl;
+						return;
+					}*/
+					if (dynamic_pointer_cast<PauseManager>(obj))
+					{
+						obj->SetUpdateActive(true);
+					}
+
+					if (dynamic_pointer_cast<Box>(obj)) //dynamic_pointer_cast<Box>(obj) 
+					{
+						obj->SetUpdateActive(true);
+					}
+					else if (dynamic_pointer_cast<ShadowObject>(obj))
+					{
+						obj->SetUpdateActive(true);
 					}
 					else
 					{
-						obj->SetUpdateActive(true);
-
+						obj->SetUpdateActive(false);
 					}
+
+
 				}
 
 
 
+
+				// BボタンでPhase2(GameStart)へ
+				auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+
+				if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B)
+				{
+					SetView(m_mainView);
+
+					currentPhase = GamePhase::Phase2;
+
+					auto UI = m_gameStageUI[0].lock();
+					UI->SetDrawActive(false);
+
+					auto gameObjectVec = GetGameObjectVec();
+					for (auto obj : gameObjectVec)
+					{
+						if (dynamic_pointer_cast<Box>(obj))
+						{
+							obj->SetUpdateActive(false);
+						}
+						else
+						{
+							obj->SetUpdateActive(true);
+
+						}
+					}
+
+
+
+				}
 			}
 
 		}
