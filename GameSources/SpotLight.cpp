@@ -21,7 +21,7 @@ namespace basecross {
 		//トランスフォームコンポーネント取得と設定
 		auto transComp = GetComponent<Transform>();
 		transComp->SetScale(0.25f, 0.25f, 0.25f);
-		transComp->SetPosition(2.0f, -4.75f, -15.0f);
+		transComp->SetPosition(10.0f, 15.5f, -30.0f);
 
 		//コリジョンつける
 		//auto ptrColl = AddComponent<CollisionObb>();
