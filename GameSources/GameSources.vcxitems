@@ -15,8 +15,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)BackTitleButton.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)BackTitleButton2.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Box.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CatwalkSprite.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Character.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Enemy.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Phase1Camera.h" />
@@ -59,8 +59,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)BackTitleButton.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)BackTitleButton2.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Box.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CatWalkSprite.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Character.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Cheese.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Enemy.cpp" />

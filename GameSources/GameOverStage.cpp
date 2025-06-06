@@ -38,8 +38,12 @@ namespace basecross {
 			LoadTextures();
 
 			//スプライトオブジェクト
-			AddGameObject<GameOverSprite>();
-			AddGameObject<BackTitleButton2>();
+			m_sprites.push_back(AddGameObject<GameOverSprite>());
+			m_sprites.push_back(AddGameObject<BackTitleButton>());
+
+			m_catSprite = AddGameObject<CatWalkSprite>();
+			auto walk = m_catSprite.lock();
+			walk->SetDrawActive(false);
 
 
 			auto scene = App::GetApp()->GetScene<Scene>();
@@ -59,18 +63,14 @@ namespace basecross {
 	{
 		//コントローラチェックして入力があればコマンド呼び出し
 		m_InputHandler.PushHandle(GetThis<GameOverStage>());
-
-
-		//auto delta = App::GetApp()->GetElapsedTime();
-		//m_totalTime += delta;
-
 	}
 
 	//コントローラーのAボタンでゲーム画面に移動
 	void GameOverStage::OnPushA()
 	{
+		StartCatWalkAnimation();
 		auto scene = App::GetApp()->GetScene<Scene>();
-		PostEvent(1.3f, GetThis<ObjectInterface>(), scene, L"ToTitleStage");
+		PostEvent(3.0f, GetThis<ObjectInterface>(), scene, L"ToTitleStage");
 	}
 
 	void GameOverStage::LoadTextures()
@@ -93,6 +93,23 @@ namespace basecross {
 		//BGMのストップ
 		auto XAPtr = App::GetApp()->GetXAudio2Manager();
 		XAPtr->Stop(m_BGM);
+	}
+
+
+	void GameOverStage::StartCatWalkAnimation()
+	{
+		//スプライトの非表示
+		for (auto sprite : m_sprites)
+		{
+			RemoveGameObject<GameObject>(sprite);
+		}
+
+
+		if (auto spr = m_catSprite.lock())
+		{
+			spr->SetDrawActive(true);
+			spr->StartAnimation();
+		}
 	}
 
 }
