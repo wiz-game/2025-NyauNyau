@@ -71,10 +71,18 @@ namespace basecross {
 		Vec3 currentPosition = ptrTransform->GetPosition();
 
 		// 右方向へ `EnemySpeed` だけ移動
-		currentPosition.x += EnemySpeed * elapsedTime;
+		//currentPosition.x += EnemySpeed * elapsedTime;
+
+		//auto objects = GetStage()->GetGameObjectVec();
+		//for (auto obj : objects)
+		//{
+		//	auto o = dynamic_pointer_cast<Player>(obj);
+		//	o->MovePlayer();
+		//}
 
 		// 更新した位置をセット
 		ptrTransform->SetPosition(currentPosition);
+
 
 
 	}

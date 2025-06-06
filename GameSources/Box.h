@@ -10,10 +10,15 @@
 namespace basecross {
 	class Box : public GameObject
 	{
+		Vec3 m_Scale;
+		Vec3 m_Rotation;
+		Vec3 m_Position;
 
 		Vec2 GetInputState() const;
 
 		Vec3 GetMoveVector() const;
+
+
 
 		InputHandler<Box> m_InputHandler;
 
@@ -29,6 +34,7 @@ namespace basecross {
 
 		void MoveXZ();
 		void BoxMove();
+		void DrawStrings();
 
 		shared_ptr<PNTStaticDraw> m_drawComp;
 		shared_ptr<Transform> m_transComp;
@@ -36,8 +42,13 @@ namespace basecross {
 
 	public:
 		//コンストラクタ
-		Box(const shared_ptr<Stage>& stage) :
+		Box(const shared_ptr<Stage>& stage,
+			const Vec3& Scale,
+			const Vec3& Rotation,
+			const Vec3& Position
+		) :
 			GameObject(stage),
+
 			m_Speed(5.0f),
 			m_isAir(false),
 			m_gravity(-9.0),

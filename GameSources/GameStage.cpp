@@ -297,11 +297,45 @@ namespace basecross {
 
 	void GameStage::CreateBox()
 	{
+		vector<vector<Vec3>> vec = {
+		{
+		    Vec3(2.5f, 2.5f, 2.5f),
+		    Vec3(0.0f, 0.0f, 0.0f),
+		    Vec3(0.0f ,-4.75f, -4.0f)
+		},
+		//{
+		//	Vec3(2.5f, 2.5f, 2.5f),
+		//	Vec3(0.0f, 0.0f, 0.0f),
+		//	Vec3(0.0f, -4.75f, -7.0f)
+        //}
 
-		auto ptrBox = AddGameObject<Box>();
-		SetSharedGameObject(L"Box", ptrBox);
-		//タグをつける
-		//ptrBox->AddTag(L"Box");
+
+		};
+
+		int index = 0; // ユニーク名用のインデックス
+		vector<shared_ptr<Box>> box; // 生成した `Box` を管理するリスト
+
+		for (auto& v : vec) {
+			auto ptrBox = AddGameObject<Box>(v[0], v[1], v[2]);
+
+			// ユニーク名を生成
+			wstring uniqueTag = L"Box_" + to_wstring(index);
+
+			ptrBox->AddTag(uniqueTag);  // ユニークなタグを適用
+			box.push_back(ptrBox);    // `Box` をリストに保存
+
+			index++; // 次のオブジェクトのためにインデックスを増加
+		}
+
+		// すべての `Box` を共有ゲームオブジェクトとして登録
+		for (size_t i = 0; i < box.size(); ++i) {
+			wstring uniqueName = L"Box_" + to_wstring(i);  // ユニーク名を生成
+			SetSharedGameObject(uniqueName, box[i]);      // ユニーク名で共有登録
+		}
+
+		//auto ptrBox = AddGameObject<Box>();
+		//SetSharedGameObject(L"Box", ptrBox);
+
 	}
 
 
@@ -414,6 +448,7 @@ namespace basecross {
 			throw;
 		}
 	}
+
 	void GameStage::OnUpdate()
 	{
 

@@ -19,8 +19,12 @@ namespace basecross
 
 		//トランスフォームコンポーネント取得と設定
 		m_transComp = GetComponent<Transform>();
-		m_transComp->SetScale(2.5f, 2.5f, 2.5f);
-		m_transComp->SetPosition(Vec3(0.0f, -3.75f, -4.0f));
+		m_transComp->SetScale(m_Scale);
+		m_transComp->SetRotation(m_Rotation);
+		m_transComp->SetPosition(m_Position);
+		/*m_transComp->SetScale(2.5f, 2.5f, 2.5f);
+		m_transComp->SetRotation(0,0,0);
+		m_transComp->SetPosition(0.0f, - 4.75f, -4.0f);*/
 
 		//コリジョンつける
 		auto ptrColl = AddComponent<CollisionRect>();
@@ -30,6 +34,8 @@ namespace basecross
 		auto ptrString = AddComponent<StringSprite>();
 		ptrString->SetText(L"");
 		ptrString->SetTextRect(Rect2D<float>(16.0f, 125.0f, 640.0f, 480.0f));
+
+
 
 	}
 
@@ -57,6 +63,14 @@ namespace basecross
 			ret.y = cntlVec[0].fThumbLY;
 		}
 		return ret;
+
+		auto& app = App::GetApp();
+		auto scene = app->GetScene<Scene>();
+
+		wstring log = scene->GetDebugString();
+		wstringstream wss;
+		wss << log;
+
 	}
 
 	Vec3 Box::GetMoveVector() const
@@ -149,20 +163,6 @@ namespace basecross
 
 		m_transComp->SetPosition(pos);
 
-		wstring positionStr(L"Position:\t");
-		positionStr += L"X=" + Util::FloatToWStr(pos.x, 12, Util::FloatModify::Fixed) + L",\n";
-		positionStr += L"Y=" + Util::FloatToWStr(pos.y, 12, Util::FloatModify::Fixed) + L",\n";
-		positionStr += L"Z=" + Util::FloatToWStr(pos.z, 12, Util::FloatModify::Fixed) + L"\n";
-		positionStr += L"direction=" + Util::FloatToWStr(direction, 12, Util::FloatModify::Fixed) + L"\n";
-		positionStr += L"deltaZ=" + Util::FloatToWStr(deltaZ, 12, Util::FloatModify::Fixed) + L"\n";
-		positionStr += L"ElapssedTime=" + Util::FloatToWStr(elapsedTime, 12, Util::FloatModify::Fixed) + L"\n";
-
-		wstring str = positionStr;
-
-
-		//文字列コンポーネントの取得
-		auto ptrString = GetComponent<StringSprite>();
-		ptrString->SetText(str);
 	}
 
 
@@ -186,6 +186,25 @@ namespace basecross
 
 		}
 	}
+
+	void Box::DrawStrings()
+	{
+		auto pos = GetComponent<Transform>()->GetPosition();
+		wstring positionStr(L"Position:\t");
+		positionStr += L"X=" + Util::FloatToWStr(pos.x, 6, Util::FloatModify::Fixed) + L",\n";
+		positionStr += L"Y=" + Util::FloatToWStr(pos.y, 6, Util::FloatModify::Fixed) + L",\n";
+		positionStr += L"Z=" + Util::FloatToWStr(pos.z, 6, Util::FloatModify::Fixed) + L"\n";
+
+		wstring str = positionStr;
+
+
+
+		//文字列コンポーネントの取得
+		auto ptrString = GetComponent<StringSprite>();
+		ptrString->SetText(str);
+
+	}
+
 
 }
 //end basecross

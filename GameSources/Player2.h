@@ -17,9 +17,6 @@ namespace basecross
 		Vec2 GetInputState() const;
 		// コントローラから方向ベクトルを得る
 		Vec3 GetMoveVector() const;
-		//プレイヤーの移動
-		void MovePlayer();
-
 		Vec3 m_Scale;
 		Vec3 m_Rotation;
 		Vec3 m_Position;
@@ -34,6 +31,7 @@ namespace basecross
 		float m_Speed;
 
 		bool m_Player1;
+
 		//空中にいるか
 		bool m_isAir;
 
@@ -57,7 +55,7 @@ namespace basecross
 		shared_ptr<Transform> m_Transform;
 
 		// 自身の情報
-		Vec3 m_Center;
+		Vec2 m_Center;
 		float m_Radius;
 
 		// 衝突相手の情報
@@ -77,7 +75,6 @@ namespace basecross
 
 		//Aボタン
 		void OnPushA();
-		void OnPushB(){}
 
 
 
@@ -88,46 +85,49 @@ namespace basecross
 		}
 
 
-		void SetCenter(const Vec3& center)
+		void SetCenter(const Vec2& center)
 		{
 			m_Center = center;
 		}
 
-		Vec3 GetCenter() const
+		Vec2 GetCenter() const
 		{
 			return m_Center;
 		}
 
+		//プレイヤーの移動
+		void MovePlayer();
 
-		//Vec2 GetNormal(const Vec2& a, const Vec2& b)
-		//{
-		//	Vec2 edge = Vec2(b.x - a.x, b.y - a.y);
-		//	return Vec2(-edge.y, edge.x).normalize();
-		//}
+
+		Vec2 GetNormal(const Vec2& a, const Vec2& b)
+		{
+			Vec2 edge = Vec2(b.x - a.x, b.y - a.y);
+			return Vec2(-edge.y, edge.x).normalize();
+		}
 		
 		// ベクトルの法線（直線の分離軸）を取得
-		Vec3 GetNormal(const Vec3& a, const Vec3& b,const Vec3& c)
-		{
-			Vec3 ab = b - a;
-			Vec3 ac = c - a;
-		    return Vec3(ab.z * ac.y - ab.y * ac.z,
-				        ab.x * ac.z - ab.z * ac.x, 
-				        ab.y * ac.x - ab.x * ac.y).normalize();
+		//Vec3 GetNormal(const Vec3& a, const Vec3& b,const Vec3& c)
+		//{
+		//	Vec3 ab = b - a;
+		//	Vec3 ac = c - a;
+		//    return Vec3(ab.z * ac.y - ab.y * ac.z,
+		//		        ab.x * ac.z - ab.z * ac.x, 
+		//		        ab.y * ac.x - ab.x * ac.y).normalize();
 
-			//if (normal.length() > 1e-6f) 
-			//{ 
-			//	// 小さすぎる値を防ぐ
-			//	return normal.normalize();
-			//}
-			//else 
-			//{
-			//	return Vec3(0, 0, 0); // エラー回避
-			//}
+		//	//if (normal.length() > 1e-6f) 
+		//	//{ 
+		//	//	// 小さすぎる値を防ぐ
+		//	//	return normal.normalize();
+		//	//}
+		//	//else 
+		//	//{
+		//	//	return Vec3(0, 0, 0); // エラー回避
+		//	//}
 
-		}
+		//}
 
 		// 多角形を分離軸に投影して範囲を取得
-		void ProjectOntoAxis(const vector<Vec3>& poly, const Vec3& axis, float& min, float& max)
+		void ProjectOntoAxis(const vector<Vec2>& poly, const Vec2& axis, float& min, float& max)
 		{
 			min = max = poly[0].dot(axis);
 			for (const auto& p : poly)
@@ -139,16 +139,16 @@ namespace basecross
 		}
 
 		// 円を分離軸に投影して範囲を取得
-		void ProjectCircleOntoAxis(const Vec3& center, float radius, const Vec3& axis, float& min, float& max)
+		void ProjectCircleOntoAxis(const Vec2& center, float radius, const Vec2& axis, float& min, float& max)
 		{
 			float centerProj = center.dot(axis);
 			min = centerProj - radius;
-			max = centerProj + radius;
+			max = (centerProj + radius) * 10;
 		}
 
 
 		// 円と凸多角形の最小押し出しベクトル（MTV）を求める
-		bool ComputeMTV(const shared_ptr<ShadowObject>& polygon, Vec3& mtv);
+		//bool ComputeMTV(const shared_ptr<ShadowObject>& polygon, Vec2& mtv);
 		//bool ComputeMTV(const shared_ptr<ShadowObject>& polygon, const Vec3& sphereWorldCenter, float sphereRadius, Vec3& mtv); // 変更後
 
 
