@@ -201,7 +201,7 @@ namespace basecross {
 			{
 				Vec3(1.25f, 1.0f, 1.0f),
 				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(-25.0f, 0.5f, -0.5f)
+				Vec3(-25.0f, 0.5f, -0.2f)
 			},
 
 		};
@@ -438,9 +438,24 @@ namespace basecross {
 			//スプライトオブジェクト
 			AddGameObject<Phase1>();
 
+			auto UI = AddGameObject<GameStageUI>();
+			UI->SetTexture(L"TEX_GameStageUI");
+			UI->SetPosition(0,290.0f, 0);
+			UI->SetScale(1.5f, 1.0f, 1.0f);
+			m_gameStageUI.push_back(UI);
+
+
+			auto buttonUI = AddGameObject<GameStageUI>();
+			buttonUI->SetTexture(L"TEX_GameButtonUI");
+			buttonUI->SetPosition(520.0f, -320.0f, 0);
+			buttonUI->SetScale(0.5f, 0.6f, 0);
+			m_gameStageUI.push_back(buttonUI);
+
+			auto scene = App::GetApp()->GetScene<Scene>();
+			auto volume = scene->m_volume;
 
 			auto ptrXA = App::GetApp()->GetXAudio2Manager();
-			m_BGM = ptrXA->Start(L"Gamebgm", XAUDIO2_LOOP_INFINITE, 0.1f);
+			m_BGM = ptrXA->Start(L"Gamebgm", XAUDIO2_LOOP_INFINITE, volume);
 
 			m_pauseManager = AddGameObject<PauseManager>();
 		}
@@ -501,6 +516,10 @@ namespace basecross {
 		app->RegisterTexture(L"TEX_BACK", texPath + L"PauseStage title.png");
 		app->RegisterTexture(L"TEX_SETTING", texPath + L"PauseStage setting.png");
 		app->RegisterTexture(L"TEX_END", texPath + L"PauseStage end.png");
+		app->RegisterTexture(L"TEX_END2", texPath + L"PauseStage Back.png");
+
+		app->RegisterTexture(L"TEX_GameStageUI", texPath + L"GameStageUI.png");
+		app->RegisterTexture(L"TEX_GameButtonUI", texPath + L"GameButtonUI.png");
 
 
 	}
@@ -518,6 +537,7 @@ namespace basecross {
 		auto meshLamp = MeshResource::CreateStaticModelMesh(modelPath + L"Lamp\\", L"NyauNyauLamp.bmf");
 
 		app->RegisterResource(L"MODEL_LAMP", meshLamp);
+
 
 	}
 
@@ -538,66 +558,76 @@ namespace basecross {
 		if (currentPhase == GamePhase::Phase1)
 		{
 
-			auto gameObjectVec = GetGameObjectVec();
-			for (auto obj : gameObjectVec)
-			{
-
-				/*if (gameObjectVec.empty())
-				{
-					std::cout << "GetGameObjectVec() によって取得されたオブジェクトのリストが空です。" << std::endl;
-					return;
-				}*/
-
-				if (dynamic_pointer_cast<Box>(obj)) //dynamic_pointer_cast<Box>(obj) 
-				{
-					obj->SetUpdateActive(true);
-				}
-				else if (dynamic_pointer_cast<ShadowObject>(obj))
-				{
-					obj->SetUpdateActive(true);
-				}
-				else
-				{
-					obj->SetUpdateActive(false);
-				}
-
-
-			}
-
-
-
 			auto pause = m_pauseManager.lock();
 			if (!pause)
 			{
 				return;
 			}
 
-			// BボタンでPhase2(GameStart)へ
-			auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
-
-			if (pause->IsPlaying() && cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B)
+			if (pause->IsPlaying())
 			{
-				SetView(m_mainView);
-
-				currentPhase = GamePhase::Phase2;
-
-
 				auto gameObjectVec = GetGameObjectVec();
 				for (auto obj : gameObjectVec)
 				{
-					if (dynamic_pointer_cast<Box>(obj))
+
+					/*if (gameObjectVec.empty())
 					{
-						obj->SetUpdateActive(false);
+						std::cout << "GetGameObjectVec() によって取得されたオブジェクトのリストが空です。" << std::endl;
+						return;
+					}*/
+					if (dynamic_pointer_cast<PauseManager>(obj))
+					{
+						obj->SetUpdateActive(true);
+					}
+
+					if (dynamic_pointer_cast<Box>(obj)) //dynamic_pointer_cast<Box>(obj) 
+					{
+						obj->SetUpdateActive(true);
+					}
+					else if (dynamic_pointer_cast<ShadowObject>(obj))
+					{
+						obj->SetUpdateActive(true);
 					}
 					else
 					{
-						obj->SetUpdateActive(true);
-
+						obj->SetUpdateActive(false);
 					}
+
+
 				}
 
 
 
+
+				// BボタンでPhase2(GameStart)へ
+				auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+
+				if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B)
+				{
+					SetView(m_mainView);
+
+					currentPhase = GamePhase::Phase2;
+
+					auto UI = m_gameStageUI[0].lock();
+					UI->SetDrawActive(false);
+
+					auto gameObjectVec = GetGameObjectVec();
+					for (auto obj : gameObjectVec)
+					{
+						if (dynamic_pointer_cast<Box>(obj))
+						{
+							obj->SetUpdateActive(false);
+						}
+						else
+						{
+							obj->SetUpdateActive(true);
+
+						}
+					}
+
+
+
+				}
 			}
 
 		}

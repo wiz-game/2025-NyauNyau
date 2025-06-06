@@ -32,10 +32,13 @@
 #include "TitleStratButton.h"
 #include "MainCamera.h"
 #include "BackTitleButton.h"
+#include "BackTitleButton2.h"
 #include "SelectStage.h"
 #include "SelectStageSprite.h"
 #include "ShadowFloor.h"
 #include "Enemy.h"
+#include "BoxShadowStrategy.h"
+#include "ShadowComponent.h"
 #include "Phase1Camera.h"
 #include "FootprintSprite.h"
 
@@ -45,6 +48,10 @@
 #include "SoundSprite.h"
 #include "SettingStage.h"
 #include "PauseManager.h"
+#include "GameOverSprite.h"
+#include "GameOverStage.h"
+
+#include "GameStageUI.h"
 
 
 

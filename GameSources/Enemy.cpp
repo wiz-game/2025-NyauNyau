@@ -48,18 +48,18 @@ namespace basecross {
 
 	void Enemy::OnUpdate()
 	{
-		// アプリケーションオブジェクトを取得する
-		auto& app = App::GetApp();
+		//// アプリケーションオブジェクトを取得する
+		//auto& app = App::GetApp();
 
-		// シーンを取得する
-		auto scene = app->GetScene<Scene>();
+		//// シーンを取得する
+		//auto scene = app->GetScene<Scene>();
 
-		// デバッグログを取得する
-		wstring log = scene->GetDebugString();
-		wstringstream wss(log);
-		wss << L"\n\n\n\nGameOver:" << isGameOver;
+		//// デバッグログを取得する
+		//wstring log = scene->GetDebugString();
+		//wstringstream wss(log);
+		//wss << L"\n\n\n\nGameOver:" << isGameOver;
 
-		scene->SetDebugString(wss.str());
+		//scene->SetDebugString(wss.str());
 
 		auto ptrGra = AddComponent<Gravity>();
 
@@ -90,18 +90,20 @@ namespace basecross {
 
 	void Enemy::OnCollisionEnter(shared_ptr<GameObject>& otherObject)
 	{
-		//if (otherObject->FindTag(L"Player_0")) // "Player" タグを持つオブジェクトと衝突
-		//{
-		//	isGameOver = true; // ゲームオーバーフラグを設定
+		if (otherObject->FindTag(L"Player_0")) // "Player" タグを持つオブジェクトと衝突
+		{
+			isGameOver = true; // ゲームオーバーフラグを設定
 
-		//	auto scene = App::GetApp()->GetScene<Scene>();
-		//	PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"ToTitleStage");
 
-		//	//一定時間後にスプライトを削除する（タイトル画面からゲームステージに移るタイミング）
-		//	PostEvent(5.0f, GetThis<ObjectInterface>(), scene, L"RemoveSprite");
+			auto scene = App::GetApp()->GetScene<Scene>();
+			PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"ToGameOverStage");
 
-		//}
+			//	//一定時間後にスプライトを削除する（タイトル画面からゲームステージに移るタイミング）
+			//	PostEvent(5.0f, GetThis<ObjectInterface>(), scene, L"RemoveSprite");
 
+			//}
+
+		}
 	}
 }
 //end basecross

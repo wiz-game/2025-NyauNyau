@@ -106,6 +106,20 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)SettingStage.cpp">
       <Filter>UI関係</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)PauseManager.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)BackgroundTitleSprite.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)GameOverSprite.cpp">
+      <Filter>Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)GameOverStage.cpp">
+      <Filter>UI関係</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)GameStageUI.cpp">
+      <Filter>Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)BackTitleButton2.cpp">
+      <Filter>UI関係</Filter>
+    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)BackgroundTitleSprite.cpp">
       <Filter>Sprite</Filter>
     </ClCompile>
@@ -114,6 +128,18 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)PauseManager.cpp">
       <Filter>UI関係</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ShadowComponent.cpp">
+      <Filter>ShadowHonda</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ShadowProjectionManager.cpp">
+      <Filter>ShadowHonda</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)BoxShadowStrategy.cpp">
+      <Filter>ShadowHonda</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)BaseShadowStrategy.cpp">
+      <Filter>ShadowHonda</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -222,6 +248,20 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SettingStage.h">
       <Filter>UI関係</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)PauseManager.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)BackgroundTitleSprite.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameOverSprite.h">
+      <Filter>Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameOverStage.h">
+      <Filter>UI関係</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameStageUI.h">
+      <Filter>Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)BackTitleButton2.h">
+      <Filter>UI関係</Filter>
+    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)BackgroundTitleSprite.h">
       <Filter>Sprite</Filter>
     </ClInclude>
@@ -230,6 +270,18 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)PauseManager.h">
       <Filter>UI関係</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ShadowComponent.h">
+      <Filter>ShadowHonda</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ShadowProjectionManager.h">
+      <Filter>ShadowHonda</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)BoxShadowStrategy.h">
+      <Filter>ShadowHonda</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)BaseShadowStrategy.h">
+      <Filter>ShadowHonda</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -109,8 +109,11 @@ namespace basecross {
 			title11->SetScale(1.8f, 1.8f, 0);
 			m_titleSprite.push_back(title11);
 
+			auto scene = App::GetApp()->GetScene<Scene>();
+			auto volume = scene->m_volume;
+
 			auto ptrXA = App::GetApp()->GetXAudio2Manager();
-			m_BGM = ptrXA->Start(L"Titlebgm", XAUDIO2_LOOP_INFINITE, 0.1f);
+			m_BGM = ptrXA->Start(L"Titlebgm", XAUDIO2_LOOP_INFINITE, volume);
 
 
 			//MessageBox(0, L"ニャウニャウシルエット", L"タイトル", 0);

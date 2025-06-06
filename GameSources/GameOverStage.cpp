@@ -1,20 +1,19 @@
 /*!
 @file Character.cpp
-@brief ゴールタイトルステージの実体
+@brief ゲームオーバーステージの実体
 */
 
 #include "stdafx.h"
 #include "Project.h"
 
-
 namespace basecross {
 
 	//--------------------------------------------------------------------------------------
-	//	ゴールステージクラス実体
+	//	ゲームオーバーステージクラス実体
 	//--------------------------------------------------------------------------------------
 
 	//ビューとライトの作成
-	void goalStage::CreateViewLight() {
+	void GameOverStage::CreateViewLight() {
 		// カメラの設定
 		auto camera = ObjectFactory::Create<Camera>();
 		camera->SetEye(Vec3(0.0f, 5.0f, -15.0f));
@@ -29,7 +28,7 @@ namespace basecross {
 		light->SetDefaultLighting(); //デフォルトのライティングを指定
 	}
 
-	void goalStage::OnCreate() {
+	void GameOverStage::OnCreate() {
 		try {
 
 			//ビューとライトの作成
@@ -39,39 +38,42 @@ namespace basecross {
 			LoadTextures();
 
 			//スプライトオブジェクト
-			AddGameObject<gameClearSprite>();
-			AddGameObject<BackTitleButton>();
+			AddGameObject<GameOverSprite>();
+			AddGameObject<BackTitleButton2>();
+
 
 			auto scene = App::GetApp()->GetScene<Scene>();
 			auto volume = scene->m_volume;
-
 			auto ptrXA = App::GetApp()->GetXAudio2Manager();
-			m_BGM = ptrXA->Start(L"GameClearbgm", XAUDIO2_LOOP_INFINITE, volume);
-
+			m_BGM = ptrXA->Start(L"Titlebgm", XAUDIO2_LOOP_INFINITE, volume);
 
 		}
-
 		catch (...) {
 			throw;
 		}
 
 	}
 
-	void goalStage::OnUpdate()
+
+	void GameOverStage::OnUpdate()
 	{
 		//コントローラチェックして入力があればコマンド呼び出し
-		m_InputHandler.PushHandle(GetThis<goalStage>());
+		m_InputHandler.PushHandle(GetThis<GameOverStage>());
+
+
+		//auto delta = App::GetApp()->GetElapsedTime();
+		//m_totalTime += delta;
 
 	}
 
 	//コントローラーのAボタンでゲーム画面に移動
-	void goalStage::OnPushA()
+	void GameOverStage::OnPushA()
 	{
 		auto scene = App::GetApp()->GetScene<Scene>();
 		PostEvent(1.3f, GetThis<ObjectInterface>(), scene, L"ToTitleStage");
 	}
 
-	void goalStage::LoadTextures()
+	void GameOverStage::LoadTextures()
 	{
 		// アプリケーションオブジェクトを取得する
 		auto& app = App::GetApp();
@@ -83,16 +85,15 @@ namespace basecross {
 		auto texPath = mediaPath + L"Textures\\";
 
 		// テクスチャの読込と登録
-		app->RegisterTexture(L"TEX_GOALSTAGE", texPath + L"GoalStage.png");
+		app->RegisterTexture(L"TEX_GAMEOVER", texPath + L"GameOver.png");
 		app->RegisterTexture(L"TEX_BACKTITLE", texPath + L"Back Title.png");
 	}
-	void goalStage::OnDestroy()
-	{
+
+	void GameOverStage::OnDestroy() {
 		//BGMのストップ
 		auto XAPtr = App::GetApp()->GetXAudio2Manager();
 		XAPtr->Stop(m_BGM);
-
-
 	}
+
 }
 //end basecross

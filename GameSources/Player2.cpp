@@ -109,6 +109,7 @@ namespace basecross
 
 		GetComponent<Transform>()->SetPosition(pos); // 更新後
 
+
 	}
 
 	void Player::Jump(shared_ptr<GameObject>& jump)
@@ -224,7 +225,7 @@ namespace basecross
 		//コントローラチェックして入力があればコマンド呼び出し
 		m_InputHandler.PushHandle(GetThis<Player>());
 		MovePlayer();
-		DrawStrings();
+		//DrawStrings();
 		MoveY();
 		MoveXZ();
 
@@ -247,21 +248,55 @@ namespace basecross
 		wss << log;
 
 
+		//auto ptrTransform = GetComponent<Transform>();
+		Vec3 currentPosition = ptrTransform->GetPosition();
+		m_Center.x = currentPosition.x+m_Scale.x/2;
+		m_Center.y = currentPosition.y-m_Scale.y/2;
+		m_Center.z = 0.0f;
+
+
 		if (m_OtherPolygon)
 		{
-			Vec2 mtv;
-			//if (ComputeMTV(m_OtherPolygon, mtv))
-			//{
-			//	if (mtv.length() > 1e-6f)
-			//	{
-			//		Vec2 newCenter = m_Center + mtv;
-			//		SetCenter(newCenter);
-			//	}
-			//}
-		}
+			// 影の頂点をワールド座標に変換
+			auto shadowTransform = m_OtherPolygon->GetComponent<Transform>();
+			Mat4x4 shadowWorldMatrix = shadowTransform->GetWorldMatrix();
+			std::vector<Vec3> localVertices = m_OtherPolygon->GetVertices();
+			std::vector<Vec3> worldVertices;
+			worldVertices.reserve(localVertices.size());
+			for (const Vec3& localPos : localVertices)
+			{
+				Vec3 worldPos = localPos * shadowWorldMatrix;
+				worldVertices.push_back(worldPos);
+			}
 
-		Vec3 position = Vec3(m_Center.x, m_Center.y, 0.0f);
-		//m_Transform->SetPosition(position);
+			// 衝突判定を実行
+			Vec3 mtv;
+			if (ComputeMTV(worldVertices, mtv))
+			{
+				currentPosition += mtv*1.01; // めり込んだ分を押し戻す
+
+				// 速度を補正する
+				Vec3 collisionNormal = mtv;
+				collisionNormal.normalize();
+
+				// もし、上向きの反発（地面からの反発）を受けたら
+				if (collisionNormal.y > 0.7f)
+				{
+					m_velocity.y = 0;
+					m_isAir = false; // ★地面にいるのでfalse
+				}
+				else
+				{
+					// 地面から離れた瞬間
+					m_isAir = true; // 地面にいないのでtrue
+				}
+
+				// === すべての計算が終わった最終的な位置をTransformに設定 ===
+				ptrTransform->SetPosition(currentPosition);
+
+			}
+
+		}
 
 
 
@@ -386,42 +421,101 @@ namespace basecross
 
 	}
 
-	//bool Player::ComputeMTV(const shared_ptr<ShadowObject>& polygon, Vec2& mtv)
-	////bool Player::ComputeMTV(const shared_ptr<ShadowObject>& polygon, const Vec3& sphereWorldCenter, float sphereRadius, Vec3& mtv)// 変更後
-	//{
-	//	float minOverlap = 1000000.0f; // 初期値を十分に大きく設定
-	//	Vec3 minAxis = { 0.0f, 0.0f, 0.0f};
+	bool Player::ComputeMTV(const std::vector<Vec3>& polygonVertices, Vec3& mtv)
+		//bool Player::ComputeMTV(const shared_ptr<ShadowObject>& polygon, const Vec3& sphereWorldCenter, float sphereRadius, Vec3& mtv)// 変更後
+	{
+		// === 変数の初期化 ===
+		//vector<Vec3> polygonVertices = polygonVertices->GetVertices();
+		if (polygonVertices.empty()) {
+			return false; // ポリゴンに頂点がなければ判定不能
+		}
 
-	//	vector<Vec3> polygonVertices = polygon->GetVertices();
-	//	vector<Vec2> edges;
+		float minOverlap = FLT_MAX; // C++でfloatの最大値 (cfloatヘッダ)
+		Vec3 smallestAxis;          // 最小の重なりを生んだ軸を保存する変数
 
-	//	//vector<Vec3> axes;	
+		std::vector<Vec3> axes;     // テストすべき軸をすべて入れるリスト
 
-	//	for (size_t i = 0; i < polygonVertices.size(); i++)
-	//	{
-	//		edges.push_back(GetNormal(polygonVertices[i], polygonVertices[(i + 1) % polygonVertices.size()]));
-	//	}
 
-	//	for (const auto& axis : edges)
-	//	{
-	//		float minPoly, maxPoly, minCircle, maxCircle;
-	//		ProjectOntoAxis(polygonVertices, axis, minPoly, maxPoly);
-	//		ProjectCircleOntoAxis(m_Center, m_Radius, axis, minCircle, maxCircle);
-	//		//ProjectRectangleOntoAxis();
+		// === 分離軸の候補をすべて集める ===
 
-	//		float overlap = min(maxPoly, maxCircle) - max(minPoly, minCircle);
+		// 2a. ポリゴンの「辺の法線」をすべてリスト(axes)に追加
+		for (size_t i = 0; i < polygonVertices.size(); ++i) {
+			Vec3 p1 = polygonVertices[i];
+			Vec3 p2 = polygonVertices[(i + 1) % polygonVertices.size()];
+			Vec3 normal = GetNormal(p1, p2); // 事前に修正した2D法線関数を想定
+			if (normal.length() > 1e-6f) { // ゼロベクトルでなければ追加
+				axes.push_back(normal);
+			}
+		}
 
-	//		if (overlap <= 0)
-	//		{
-	//			return false; // 重なっていない場合
-	//		}
+		// 2b. 円の中心に「最も近い頂点へのベクトル」をリスト(axes)に追加
+		Vec3 closestVertex;
+		float minDistanceSq = FLT_MAX;
+		for (const auto& vertex : polygonVertices) {
+			// 距離の「2乗」で比較する (高速)
+			Vec3 diff = vertex - m_Center;
+			float distSq = diff.dot(diff);
+			if (distSq < minDistanceSq) {
+				minDistanceSq = distSq;
+				closestVertex = vertex;
+			}
+		}
+		Vec3 axisToClosestVertex = closestVertex - m_Center;
+		if (axisToClosestVertex.dot(axisToClosestVertex) > 1e-6f) {
+			axisToClosestVertex.normalize();
+			axes.push_back(axisToClosestVertex);
+		}
 
-	//		if (overlap < minOverlap)
-	//		{
-	//			minOverlap = overlap;
-	//			minAxis = axis;
-	//		}
-	//	}
+
+		// ===  集めた軸で、一つずつ判定を行う ===
+		for (const auto& axis : axes) {
+			float minPoly, maxPoly, minCircle, maxCircle;
+			ProjectOntoAxis(polygonVertices, axis, minPoly, maxPoly);
+			ProjectCircleOntoAxis(m_Center, m_Radius, axis, minCircle, maxCircle);
+
+			float overlap = min(maxPoly, maxCircle) - max(minPoly, minCircle);
+
+			if (overlap <= 0.0f) {
+				// 分離軸が見つかった！ 即座に「衝突していない」と判断して終了
+				mtv = Vec3(0.0f, 0.0f, 0.0f);
+				return false;
+			}
+
+			// 最小の重なり記録を更新する
+			if (overlap < minOverlap) {
+				minOverlap = overlap;
+				smallestAxis = axis;
+			}
+		}
+
+		// === 最終的な押し出しベクトル(MTV)を計算 ===
+		// この時点ですべての軸で重なりがあったので、衝突が確定している
+
+		// 押し出しベクトルを計算
+		mtv = smallestAxis * minOverlap;
+
+		// MTVの方向を正しくする
+		// 円の中心からポリゴンの中心へのベクトルを計算
+		Vec3 polyCenter(0.0f, 0.0f, 0.0f);
+		for (const auto& v : polygonVertices) polyCenter += v;
+		polyCenter /= static_cast<float>(polygonVertices.size());
+
+		// 円からポリゴンへ向かう方向と、現在のmtvの方向が逆なら、mtvを反転させる
+		Vec3 direction = polyCenter - m_Center;
+		Vec3 potential_mtv = smallestAxis * minOverlap;
+		for (const auto& v : polygonVertices) polyCenter += v;
+		polyCenter /= static_cast<float>(polygonVertices.size());
+		Vec3 centerToCenter = polyCenter - m_Center;
+
+		if (centerToCenter.dot(potential_mtv) < 0.0f) {
+			mtv = potential_mtv;
+		}
+		else {
+			mtv = -potential_mtv;
+		}
+
+
+		return true; // 衝突したことを伝える
 
 	//	// 最小押し出しベクトルの正規化
 	//	if (minAxis.length() > 1e-6f) {
@@ -431,19 +525,15 @@ namespace basecross
 	//	}
 	//	return true;
 
-	//	auto& app = App::GetApp();
-	//	auto scene = app->GetScene<Scene>();
+		//return true;
+		auto& app = App::GetApp();
+		auto scene = app->GetScene<Scene>();
 
 
 	//	wstring log = scene->GetDebugString();
 	//	wstringstream wss;
 	//	wss << log;
 
-
-	//}
-
-	void Player::OnCollisionEnter(shared_ptr<GameObject>& collision)
-	{
-
+		wss << polygonVertices.size();
 	}
 }

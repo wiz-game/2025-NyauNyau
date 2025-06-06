@@ -63,6 +63,5 @@ namespace basecross {
 		drawComp->SetDiffuse(Col4(1, 1, 1, s));
 	}
 
-
 }
 //end basecross
