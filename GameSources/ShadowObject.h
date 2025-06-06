@@ -13,11 +13,12 @@ namespace basecross
         std::shared_ptr<PCStaticDraw> m_drawComp; // 描画コンポーネント  
         std::vector<Vec3> m_shadowVertices; //影のポリゴン頂点  
 
+        Vec3 m_Center;
     public:
         Vec3 m_lightPos; // 光源の位置  
 
         ShadowObject(const shared_ptr<Stage>& stage)
-            : GameObject(stage), m_lightPos(0)
+            : GameObject(stage), m_lightPos(0),m_Center(0)
         {
         }
 
@@ -52,6 +53,11 @@ namespace basecross
 
         vector<Vec3> GetVertices() const;
 
+        Vec3 ComputePolygonCenter(const std::vector<Vec3>& vertices);
+
+        void SetCenter(const Vec3& center);
+
+        Vec3 GetCenter() const;
 
         virtual void OnCreate() override;
         virtual void OnUpdate() override;

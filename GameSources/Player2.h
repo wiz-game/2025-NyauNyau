@@ -103,23 +103,10 @@ namespace basecross
 		//}
 		
 		// ベクトルの法線（直線の分離軸）を取得
-		Vec3 GetNormal(const Vec3& a, const Vec3& b,const Vec3& c)
+		Vec3 GetNormal(const Vec3& a, const Vec3& b)
 		{
-			Vec3 ab = b - a;
-			Vec3 ac = c - a;
-		    return Vec3(ab.z * ac.y - ab.y * ac.z,
-				        ab.x * ac.z - ab.z * ac.x, 
-				        ab.y * ac.x - ab.x * ac.y).normalize();
-
-			//if (normal.length() > 1e-6f) 
-			//{ 
-			//	// 小さすぎる値を防ぐ
-			//	return normal.normalize();
-			//}
-			//else 
-			//{
-			//	return Vec3(0, 0, 0); // エラー回避
-			//}
+			Vec2 edge = Vec2(b.x - a.x, b.y - a.y);
+			return Vec3(-edge.y, edge.x,0.0f).normalize();
 
 		}
 
@@ -145,7 +132,7 @@ namespace basecross
 
 
 		// 円と凸多角形の最小押し出しベクトル（MTV）を求める
-		bool ComputeMTV(const shared_ptr<ShadowObject>& polygon, Vec3& mtv);
+		bool ComputeMTV(const std::vector<Vec3>& polygonVertices, Vec3& mtv);
 		//bool ComputeMTV(const shared_ptr<ShadowObject>& polygon, const Vec3& sphereWorldCenter, float sphereRadius, Vec3& mtv); // 変更後
 
 
@@ -156,7 +143,7 @@ namespace basecross
 		//更新
 		virtual void OnUpdate() override;
 
-		void OnCollisionEnter(shared_ptr<GameObject>& collision) override;
+		//void OnCollisionEnter(shared_ptr<GameObject>& collision) override;
 
 
 	};

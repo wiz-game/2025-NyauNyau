@@ -201,7 +201,7 @@ namespace basecross {
 			{
 				Vec3(1.25f, 1.0f, 1.0f),
 				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(-25.0f, 0.5f, -0.5f)
+				Vec3(-25.0f, 0.5f, -0.2f)
 			},
 
 		};

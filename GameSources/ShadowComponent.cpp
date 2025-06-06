@@ -13,7 +13,7 @@ namespace basecross
 
     void ShadowComponent::OnDraw()
     {
-        m_drawComp->SetOriginalMeshUse(true);
+       
     }
 
 

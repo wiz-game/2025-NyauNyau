@@ -16,15 +16,15 @@ namespace basecross
 
         auto traComp = GetComponent<Transform>();
         traComp->SetRotation(Vec3(0.0f, 0.0f, 0.0f));
-        traComp->SetPosition((const Vec3(0.0f, 0.75f, -0.5f)));
+        traComp->SetPosition((const Vec3(0.0f, 0.75f, -0.2f)));
 
         //文字列をつける
         auto ptrString = AddComponent<StringSprite>();
         ptrString->SetText(L"");
         ptrString->SetTextRect(Rect2D<float>(16.0f, 150.0f, 640.0f, 480.0f));
 
-        auto ptrColl = AddComponent<CollisionObb>();
-        ptrColl->SetMakedSize(2.45f);
+        //auto ptrColl = AddComponent<CollisionObb>();
+        //ptrColl->SetMakedSize(2.45f);
 
     }
 
@@ -33,60 +33,33 @@ namespace basecross
         auto& app = App::GetApp();
         auto scene = app->GetScene<Scene>();
 
-        wstring log = scene->GetDebugString();
-        wstringstream wss;
-        wss << log;
-
-        // 光源位置を確認
+        // 光源の位置取得
         auto light = GetStage()->GetSharedGameObject<SpotLight>(L"SpotLight");
-        m_lightPos = light->GetComponent<Transform>()->GetPosition();
-        m_lightPos = Vec3(m_lightPos.x, m_lightPos.y, m_lightPos.z);
-       //wss << L"Light Position: " << m_lightPos.x << L", " << m_lightPos.y << L", " << m_lightPos.z << L"\n";
+        if (!light) return;
 
+        m_lightPos = light->GetComponent<Transform>()->GetPosition();
+
+        // 影ポリゴンの頂点計算
         auto boxVertices = GetBoxVertices();
         auto shadowIntersections = ComputeShadowIntersections(m_lightPos, boxVertices);
 
-        // 交点デバッグ表示
-        //wss << L"Shadow Intersections Count: " << shadowIntersections.size() << L"\n";
-        for (const auto& intersection : shadowIntersections)
-        {
-          //wss << L"Intersection: " << intersection.x << L", " << intersection.y << L", " << intersection.z << L"\n";
-        }
-
-        //修正: 凸包計算後の交点確認
+        // 凸包の計算
         std::vector<Vec3> projectedVertices;
         for (const auto& vertex : shadowIntersections)
         {
-            projectedVertices.push_back(Vec3(vertex.x,vertex.y,vertex.z)); //Xを横、Yを上下として処理
+            projectedVertices.push_back(Vec3(vertex.x, vertex.y, vertex.z));
         }
-
-        //`ComputeConvexHull` のデバッグログを統合
-       // wss << L"Initial Vertex Count: " << projectedVertices.size() << L"\n";
 
         BubbleSort(projectedVertices);
-
-        //wss << L"After Sorting:\n";
-        for (const auto& v : projectedVertices)
-        {
-          //wss<< L"Vertex: " << v.x << L", " << v.y << L"\n";
-        }
-
         m_shadowVertices = ComputeConvexHull(projectedVertices);
 
-        //wss << L"Final Convex Hull Count: " << m_shadowVertices.size() << L"\n";
+        // **影ポリゴンの中心を計算**
+        m_Center = ComputePolygonCenter(m_shadowVertices);
 
-        //シーンにデバッグログを適用
-        //scene->SetDebugString(wss.str());
-
-        // 影ポリゴンを生成
+        // **影ポリゴンのメッシュを生成**
         CreatePolygonMesh(m_shadowVertices);
-
-       // m_drawComp->UpdateVertices(m_shadowVertices);
-
-
-        //DrawStrings();
-
     }
+
 
     std::vector<Vec3> ShadowObject::ComputeShadowIntersections(const Vec3& lightPos, const std::vector<Vec3>& boxVertices)
     {
@@ -264,6 +237,38 @@ namespace basecross
         auto ptrString = GetComponent<StringSprite>();
         ptrString->SetText(str);
 
+    }
+
+    Vec3 ShadowObject::ComputePolygonCenter(const std::vector<Vec3>& vertices)
+    {
+        if (vertices.empty())
+        {
+            return Vec3(0.0f, 0.0f, 0.0f);
+        }
+
+        Vec3 center(0.0f, 0.0f, 0.0f);
+        for (const auto& vertex : vertices)
+        {
+            center += vertex;
+        }
+
+        center /= static_cast<float>(vertices.size());
+        return center;
+    }
+
+    void ShadowObject::SetCenter(const Vec3& center)
+    {
+        Vec3 offset = center - m_Center;
+        for (auto& vertex : m_shadowVertices)
+        {
+            vertex += offset;
+        }
+        m_Center = center;
+    }
+
+    Vec3 ShadowObject::GetCenter() const
+    {
+        return m_Center;
     }
 
 }
