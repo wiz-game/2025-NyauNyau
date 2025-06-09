@@ -67,10 +67,10 @@ namespace basecross {
 			catPointSprite->SetScale(0.5f, 0.5f, 0.5f);
 
 			auto scene = App::GetApp()->GetScene<Scene>();
-			auto volume = scene->m_volume;
+			auto volumeBGM = scene->m_volumeBGM;
 
 			auto ptrXA = App::GetApp()->GetXAudio2Manager();
-			m_BGM = ptrXA->Start(L"Titlebgm", XAUDIO2_LOOP_INFINITE, volume);
+			m_BGM = ptrXA->Start(L"Titlebgm", XAUDIO2_LOOP_INFINITE, volumeBGM);
 
 
 			m_catWalk = AddGameObject<CatWalkSprite>();
@@ -106,6 +106,10 @@ namespace basecross {
 			//Aボタンを押したときにゲームステージに移動する
 			if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A)
 			{
+				auto volumeSE = PtrScene->m_volumeSE;
+				auto ptrXA = App::GetApp()->GetXAudio2Manager();
+				m_SE = ptrXA->Start(L"button_SE", 0, volumeSE);
+
 				StartCatWalkAnimation();
 				PostEvent(3.0f, GetThis<SelectStage>(), PtrScene, L"ToGameStage");
 				//return;

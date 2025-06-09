@@ -418,7 +418,7 @@ namespace basecross {
 			m_gameStageUI.push_back(buttonUI);
 
 			auto scene = App::GetApp()->GetScene<Scene>();
-			auto volume = scene->m_volume;
+			auto volume = scene->m_volumeBGM;
 
 			auto ptrXA = App::GetApp()->GetXAudio2Manager();
 			m_BGM = ptrXA->Start(L"Gamebgm", XAUDIO2_LOOP_INFINITE, volume);

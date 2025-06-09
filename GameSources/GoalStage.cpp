@@ -49,10 +49,10 @@ namespace basecross {
 
 
 			auto scene = App::GetApp()->GetScene<Scene>();
-			auto volume = scene->m_volume;
+			auto volumeBGM = scene->m_volumeBGM;
 
 			auto ptrXA = App::GetApp()->GetXAudio2Manager();
-			m_BGM = ptrXA->Start(L"GameClearbgm", XAUDIO2_LOOP_INFINITE, volume);
+			m_BGM = ptrXA->Start(L"GameClearbgm", XAUDIO2_LOOP_INFINITE, volumeBGM);
 
 
 		}
@@ -73,8 +73,12 @@ namespace basecross {
 	//コントローラーのAボタンでゲーム画面に移動
 	void goalStage::OnPushA()
 	{
-		StartCatWalkAnimation();
 		auto scene = App::GetApp()->GetScene<Scene>();
+		auto volumeSE = scene->m_volumeSE;
+		auto ptrXA = App::GetApp()->GetXAudio2Manager();
+		m_SE = ptrXA->Start(L"button_SE", 0, volumeSE);
+
+		StartCatWalkAnimation();
 		PostEvent(3.0f, GetThis<ObjectInterface>(), scene, L"ToTitleStage");
 	}
 

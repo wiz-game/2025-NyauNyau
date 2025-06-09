@@ -19,6 +19,7 @@ namespace basecross {
 		void LoadTextures();//テクスチャの読込
 		void OnDestroy();
 		shared_ptr<SoundItem> m_BGM;
+		shared_ptr<SoundItem> m_SE;
 
 		std::vector<std::weak_ptr<SelectStageSprite>> m_stageSprites;//ステージスプライトを管理する
 		std::vector<std::weak_ptr<FootprintSprite>> m_footprints;//足跡の管理

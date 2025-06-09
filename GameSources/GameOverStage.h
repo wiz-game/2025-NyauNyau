@@ -21,6 +21,8 @@ namespace basecross {
 		//“ü—Íƒnƒ“ƒhƒ‰[
 		InputHandler<GameOverStage> m_InputHandler;
 		shared_ptr<SoundItem> m_BGM;
+		shared_ptr<SoundItem> m_SE;
+
 		std::weak_ptr<CatWalkSprite> m_catSprite;
 		std::vector<std::shared_ptr<GameObject>> m_sprites;
 

@@ -21,6 +21,8 @@ namespace basecross {
 		//“ü—Íƒnƒ“ƒhƒ‰[
 		InputHandler<TitleStage> m_InputHandler;
 		shared_ptr<SoundItem> m_BGM;
+		shared_ptr<SoundItem> m_SE;
+
 		std::vector<std::shared_ptr<TitleSprite>> m_titleSprite;
 		std::weak_ptr<SettingStage> m_settingStage;
 		

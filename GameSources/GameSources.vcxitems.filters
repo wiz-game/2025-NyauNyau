@@ -117,9 +117,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStageUI.cpp">
       <Filter>Sprite</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)BackTitleButton2.cpp">
-      <Filter>UI関係</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)BackgroundTitleSprite.cpp">
       <Filter>Sprite</Filter>
     </ClCompile>
@@ -129,6 +126,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)PauseManager.cpp">
       <Filter>UI関係</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CatWalkSprite.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Character.h">
@@ -247,9 +245,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)GameStageUI.h">
       <Filter>Sprite</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)BackTitleButton2.h">
-      <Filter>UI関係</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)BackgroundTitleSprite.h">
       <Filter>Sprite</Filter>
     </ClInclude>
@@ -259,6 +254,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)PauseManager.h">
       <Filter>UI関係</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CatwalkSprite.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Character.cpp">
