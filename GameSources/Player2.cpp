@@ -320,11 +320,11 @@ namespace basecross
 
 
 			// 地面との衝突時の処理
-			if (pos.y <= -4.99f)
-			{
-				m_velocity.y = 0.0f; // 速度をリセット
-				m_isAir = true; // 空中状態をリセット
-			}
+			//if (pos.y <= -4.99f)
+			//{
+			//	m_velocity.y = 0.0f; // 速度をリセット
+			//	m_isAir = true; // 空中状態をリセット
+			//}
 
 
 
@@ -340,7 +340,6 @@ namespace basecross
 
 		//if (pos.y == 0.502f || pos.y == 0.501f)
 		//{
-		pos.y = 0.70f;
 		//}
 
 
@@ -354,10 +353,11 @@ namespace basecross
 
 	void Player::OnCollisionExcute(shared_ptr<GameObject>& Other)
 	{
-		if (dynamic_pointer_cast<Ground>(Other)) // 衝突対象が地面か確認
+	if (dynamic_pointer_cast<Ground>(Other)) // 衝突対象が地面か確認
 		{
 
 			m_velocity.y = 0;
+			m_isAir = false;
 			//m_collisionFlag = true;
 		}
 	}
