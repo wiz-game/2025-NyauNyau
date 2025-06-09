@@ -38,6 +38,8 @@ namespace basecross {
 		void CreateCheese();
 		//棚の作成
 		void CreateShadowFloor();
+		//テーブルの作成
+		void CreateTable();
 		//テクスチャの読込
 		void LoadTextures();
 		//モデルの読込

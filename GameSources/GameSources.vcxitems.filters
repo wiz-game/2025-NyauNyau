@@ -115,6 +115,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)PauseManager.cpp">
       <Filter>UI関係</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Table.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Character.h">
@@ -231,6 +232,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)PauseManager.h">
       <Filter>UI関係</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Table.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Character.cpp">

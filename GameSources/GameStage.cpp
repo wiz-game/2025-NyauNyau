@@ -25,7 +25,7 @@ namespace basecross {
 
 		m_phase1View = ObjectFactory::Create<SingleView>(GetThis<Stage>());
 		auto ptrphase1Camera = ObjectFactory::Create<Phase1Camera>();
-		ptrphase1Camera->SetEye(Vec3(10.0f, 30.0f, -60.0f));
+		ptrphase1Camera->SetEye(Vec3(10.0f, 30.0f, -120.0f));
 		ptrphase1Camera->SetAt(Vec3(10.0f, 25.0f, 0.0f));
 		m_phase1View->SetCamera(ptrphase1Camera);
 
@@ -139,18 +139,6 @@ namespace basecross {
 			Vec3(0.0f, 0.0f, 0.0f),
 			Vec3(0.0f, 4.0f, 0.0f)
 		},
-			//{
-			//	Vec3(20.0f, 1.0f, 8.0f),
-			//	Vec3(0.0f, 0.0f, 0.0f),
-			//	Vec3(-8.0f, -1.0f, 6.0f)
-			//},
-			//{
-			//	Vec3(8.0f, 1.0f, 20.0f),
-			//	Vec3(0.0f,  0.0f, 0.0f),
-			//	Vec3(0.0f, -1.0f, 6.0f)
-
-			//}
-
 		};
 
 		int index = 0; // ユニーク名用のインデックス
@@ -173,6 +161,18 @@ namespace basecross {
 			wstring uniqueName = L"Ground_1" + to_wstring(i);  // ユニーク名を生成
 			SetSharedGameObject(uniqueName, grounds[i]);      // ユニーク名で共有登録
 		}
+
+	}
+
+	void GameStage::CreateTable()
+	{
+		vector<vector<Vec3>> vec = {
+		{
+		Vec3(30.0f, 30.0f, 30.0f),  // 10,1,10
+		Vec3(0.0f, 0.0f, 0.0f),
+		Vec3(10.0f, 0.0f, -30.0f)
+		},
+		};
 
 	}
 
@@ -373,9 +373,9 @@ namespace basecross {
 			//	Vec3(-5.0f, -9.5f, -5.0f)
 			//);
 
-			AddGameObject<ShadowFloor>(
-				Vec3(30.0f, 30.0f, 30.0f),
-				Vec3(0.0f, 0.0f, 0.0f),
+			AddGameObject<Table>(
+				Vec3(3.0f, 3.0f, 3.0f),
+				Vec3(0.0f, XM_PIDIV2, 0.0f),
 				Vec3(10.0f, 0.0f, -30.0f)
 			);
 
@@ -479,15 +479,21 @@ namespace basecross {
 	{
 		auto& app = App::GetApp();
 
-		if (app->CheckResource<MeshResource>(L"MODEL_LAMP")) return;
-
 		auto mediaPath = app->GetDataDirWString();
 
 		auto modelPath = mediaPath + L"Models\\";
 
-		auto meshLamp = MeshResource::CreateStaticModelMesh(modelPath + L"Lamp\\", L"NyauNyauLamp.bmf");
 
+		//ランプ
+		if (app->CheckResource<MeshResource>(L"MODEL_LAMP")) return;
+		auto meshLamp = MeshResource::CreateStaticModelMesh(modelPath + L"Lamp\\", L"NyauNyauLamp.bmf");
 		app->RegisterResource(L"MODEL_LAMP", meshLamp);
+
+
+		//テーブル
+		if (app->CheckResource<MultiMeshResource>(L"MODEL_TABLE")) return;
+		auto meshTable = MultiMeshResource::CreateStaticModelMultiMesh(modelPath + L"Table\\", L"Table.bmf");
+		app->RegisterResource(L"MODEL_TABLE", meshTable);
 
 	}
 
