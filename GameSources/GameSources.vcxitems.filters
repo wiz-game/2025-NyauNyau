@@ -127,6 +127,9 @@
       <Filter>UI関係</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CatWalkSprite.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)GameSprite.cpp">
+      <Filter>Sprite</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Character.h">
@@ -255,6 +258,9 @@
       <Filter>UI関係</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CatwalkSprite.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameSprite.h">
+      <Filter>Sprite</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Character.cpp">

@@ -38,8 +38,15 @@ namespace basecross {
 			LoadTextures();
 
 			//スプライトオブジェクト
+			auto Rat = AddGameObject<GameSprite>();
+			Rat->SetTexture(L"TEX_Rat");
+			Rat->SetPosition(0, 0, 0);
+			Rat->SetScale(2.0f, 1.0f, 1.0f);
+			m_sprites.push_back(Rat);
+
 			m_sprites.push_back(AddGameObject<GameOverSprite>());
 			m_sprites.push_back(AddGameObject<BackTitleButton>());
+
 
 			m_catSprite = AddGameObject<CatWalkSprite>();
 			auto walk = m_catSprite.lock();
@@ -91,6 +98,8 @@ namespace basecross {
 		// テクスチャの読込と登録
 		app->RegisterTexture(L"TEX_GAMEOVER", texPath + L"GameOver.png");
 		app->RegisterTexture(L"TEX_BACKTITLE", texPath + L"Back Title.png");
+		app->RegisterTexture(L"TEX_Rat", texPath + L"Rat GameOver.png");
+
 	}
 
 	void GameOverStage::OnDestroy() {

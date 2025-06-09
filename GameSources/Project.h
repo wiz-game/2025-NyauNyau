@@ -49,6 +49,7 @@
 #include "GameOverStage.h"
 
 #include "GameStageUI.h"
+#include "GameSprite.h"
 
 
 

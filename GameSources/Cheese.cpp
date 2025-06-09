@@ -66,6 +66,11 @@ namespace basecross {
 		if (len < 1.0f) {
 
 			isTarget = true;
+			auto scene = App::GetApp()->GetScene<Scene>();
+			auto volumeSE = scene->m_volumeSE;
+			auto ptrXA = App::GetApp()->GetXAudio2Manager();
+			m_SE = ptrXA->Start(L"Get_SE", 0, volumeSE);
+
 		}
 		//’Ç”ö’†‚È‚çƒvƒŒƒCƒ„[‚ÌŒã•û‚ÖˆÚ“®
 		if (isTarget)
