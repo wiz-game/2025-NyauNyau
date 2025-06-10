@@ -113,7 +113,7 @@ namespace basecross
 		}
 
 		// ‘½ŠpŒ`‚ð•ª—£Ž²‚É“Š‰e‚µ‚Ä”ÍˆÍ‚ðŽæ“¾
-		void ProjectOntoAxis(const vector<Vec2>& poly, const Vec2& axis, float& min, float& max)
+		void ProjectOntoAxis(const vector<Vec3>& poly, const Vec3& axis, float& min, float& max)
 		{
 			min = max = poly[0].dot(axis);
 			for (const auto& p : poly)
@@ -125,7 +125,7 @@ namespace basecross
 		}
 
 		// ‰~‚ð•ª—£Ž²‚É“Š‰e‚µ‚Ä”ÍˆÍ‚ðŽæ“¾
-		void ProjectCircleOntoAxis(const Vec2& center, float radius, const Vec2& axis, float& min, float& max)
+		void ProjectCircleOntoAxis(const Vec3& center, float radius, const Vec3& axis, float& min, float& max)
 		{
 			float centerProj = center.dot(axis);
 			min = centerProj - radius;

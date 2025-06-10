@@ -31,7 +31,7 @@ namespace basecross
         Vec3 lightPos = light->GetComponent<Transform>()->GetPosition();
 
         // 影を落とすオブジェクトを取得 (将来的にはもっと汎用的な方法で)
-        auto box = GetStage()->GetSharedGameObject<Box>(L"Box");
+        auto box = GetStage()->GetSharedGameObject<Box>(L"Box_0");
         if (!box) return;
 
         // ストラテジを使って、影の頂点リストを計算
