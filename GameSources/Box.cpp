@@ -17,6 +17,9 @@ namespace basecross
 		m_drawComp->SetMeshResource(L"DEFAULT_CUBE");
 		//drawComp->SetTextureResource(L"TEX_BOX");
 
+		//3Dモデルの呼び出し
+		InitDrawComp();
+
 		//トランスフォームコンポーネント取得と設定
 		m_transComp = GetComponent<Transform>();
 		m_transComp->SetScale(2.5f, 2.5f, 2.5f);
@@ -177,6 +180,13 @@ namespace basecross
 			GetComponent<Transform>()->SetPosition(pos); // 更新後
 
 		}
+	}
+
+	void Box::InitDrawComp()
+	{
+		m_drawModelComp = AddComponent<PNTStaticModelDraw>();
+		m_drawModelComp->SetMeshResource(L"MODEL_TSUMIKI1");
+
 	}
 
 }

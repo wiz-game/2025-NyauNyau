@@ -495,6 +495,12 @@ namespace basecross {
 		auto meshTable = MultiMeshResource::CreateStaticModelMultiMesh(modelPath + L"Table\\", L"Table.bmf");
 		app->RegisterResource(L"MODEL_TABLE", meshTable);
 
+
+		//‚Â‚Ý‚«(Â)
+		if (app->CheckResource<MeshResource>(L"MODEL_TSUMIKI1")) return;
+		auto meshTsumiki1 = MeshResource::CreateStaticModelMesh(modelPath + L"Block1\\", L"Block1.bmf");
+		app->RegisterResource(L"MODEL_TSUMIKI1", meshTsumiki1);
+
 	}
 
 
