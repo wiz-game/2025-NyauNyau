@@ -55,7 +55,7 @@ namespace basecross
 		shared_ptr<Transform> m_Transform;
 
 		// ©g‚Ìî•ñ
-		Vec2 m_Center;
+		Vec3 m_Center;
 		float m_Radius;
 
 		// Õ“Ë‘Šè‚Ìî•ñ
@@ -85,12 +85,12 @@ namespace basecross
 		}
 
 
-		void SetCenter(const Vec2& center)
+		void SetCenter(const Vec3& center)
 		{
 			m_Center = center;
 		}
 
-		Vec2 GetCenter() const
+		Vec3 GetCenter() const
 		{
 			return m_Center;
 		}
