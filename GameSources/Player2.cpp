@@ -22,9 +22,9 @@ namespace basecross
 		m_velocityY(0.0f),
 		m_velocity(0.0f),
 		m_collisionFlag(false),
-		m_gravity(-2.0),
+		m_gravity(-4.0),
 		m_Radius(0.0f),
-		m_Center(0.0f,0.0f)
+		m_Center(0.0f,0.0f,0.0f)
 
 
 
@@ -159,22 +159,14 @@ namespace basecross
 		auto ptrColl = AddComponent<CollisionObb>();
 		//ptrColl->SetMakedSize(2.5f);
 
-		m_Center = m_Position + Vec3(m_Scale.x / 2, m_Scale.y / 2, 0.0f);
+		m_Center = Vec3(1.2f, 0.6f, 0.3f);
 		Vec3 position = Vec3(m_Center.x, m_Center.y, 0.0f);
-		m_Radius = 10.0f;
+		m_Radius = 0.1f;
 
 		//各パフォーマンスを得る
 		GetStage()->SetCollisionPerformanceActive(true);
 		GetStage()->SetUpdatePerformanceActive(true);
 		GetStage()->SetDrawPerformanceActive(true);
-
-		float texW = 50.0f / 512.0f; // 数字の1桁50ピクセルにしてる
-		float texH = 90.0f / 128.0f;
-		float left = texW * m_number;
-		float right = left + texW;
-		float top = 100.0f;
-		float bottom = top + texH; // 文字の高さ / テクスチャの高さ
-
 
 
 		//描画コンポーネントの設定
@@ -208,7 +200,6 @@ namespace basecross
 
 
 
-
 		auto pos = GetComponent<Transform>()->GetPosition();
 		auto wall = GetStage()->GetSharedGameObject<Wall>(L"Wall_0");
 		Vec3 wallPoint = wall->GetWallPosition();
@@ -230,15 +221,15 @@ namespace basecross
 		MoveXZ();
 
 		auto& app = App::GetApp();
-		//auto ptrTransform = GetComponent<Transform>(); // OnCreateでキャッシュしたm_Transformを使ってもOK
-		//Vec2 currentPlayerPosition = ptrTransform->GetPosition();
+		auto ptrTransform = GetComponent<Transform>(); // OnCreateでキャッシュしたm_Transformを使ってもOK
+		Vec3 currentPlayerPosition = ptrTransform->GetPosition();
 		float elapsed = app->GetElapsedTime();
 		float gravity = 0.0f;
-		Vec2 acceleration = Vec2(0.0f, -gravity) * elapsed;
-		static Vec2 velocity = Vec2();
+		Vec3 acceleration = Vec3(0.0f, -gravity, 0.0f) * elapsed;
+		static Vec3 velocity = Vec3();
 		velocity += acceleration * elapsed;
 
-		Vec2 position2D = GetCenter() + velocity * elapsed;
+		Vec3 position2D = GetCenter() + velocity * elapsed;
 		SetCenter(position2D);
 
 		auto scene = app->GetScene<Scene>();
@@ -316,18 +307,15 @@ namespace basecross
 		auto ptrTransform = GetComponent<Transform>();
 		auto pos = GetComponent<Transform>()->GetPosition();
 
-		auto gameObjectVec = GetStage()->GetGameObjectVec();
-		for (auto obj : gameObjectVec)
-		{
 
-			if (pos.y > -4.99f)
-			{
-				// 重力の適用
-				float elapsedTime = App::GetApp()->GetElapsedTime();
-				m_velocity.y += m_gravity * elapsedTime;
-				//pos.y += m_velocity.y * elapsedTime;
-				auto ptrGra = AddComponent<Gravity>();
-				m_isAir = true;
+		if (pos.y > -4.99f)
+		{
+			// 重力の適用
+			float elapsedTime = App::GetApp()->GetElapsedTime();
+			m_velocity.y += m_gravity * elapsedTime;
+			//pos.y += m_velocity.y * elapsedTime;
+			auto ptrGra = AddComponent<Gravity>();
+			m_isAir = false;
 
 
 			// 地面との衝突時の処理
@@ -341,23 +329,6 @@ namespace basecross
 
 				ptrTransform->SetPosition(pos);
 
-
-
-				////重力をつける
-				//auto ptrGra = AddComponent<Gravity>();
-
-				////前回のターンからの時間 
-				//float elapsedTime = App::GetApp()->GetElapsedTime();
-				//m_velocity.y += m_gravity * elapsedTime;
-
-				//if (pos.y <= 0.0f) // プレイヤーが着地した場合
-				//{
-				//	pos.y = 0.0f;  // 地面にリセット
-				//	m_velocity.y = 0.0f; // 下方向の速度を停止
-				//  m_isAir = false; // 空中状態をリセット
-				//}
-
-			}
 		}
 	}
 
@@ -370,19 +341,12 @@ namespace basecross
 		//{
 		//}
 
-			if (m_isAir == false)
-			{
-				m_velocity.y = 15.0f;
-				m_isAir = true;
-			}
-				
 
-			//if (m_isAir = false)
-			//{
-			//	m_velocity.y = 8.0f;
-			//	m_isAir = true;
-			//}
-
+		if (m_isAir == false)
+		{
+			m_velocity.y = 8.0f; // ジャンプの初速を与える
+			m_isAir = true; // ジャンプしたので空中状態にする
+		}
 
 	}
 
@@ -390,8 +354,6 @@ namespace basecross
 	{
 	if (dynamic_pointer_cast<Ground>(Other)) // 衝突対象が地面か確認
 		{
-			m_velocity.y = 0.0f; // 速度をリセット
-			m_isAir = false; // 空中状態をリセット
 
 			m_velocity.y = 0;
 			m_isAir = false;
@@ -524,22 +486,15 @@ namespace basecross
 
 		return true; // 衝突したことを伝える
 
-	//	// 最小押し出しベクトルの正規化
-	//	if (minAxis.length() > 1e-6f) {
-	//		minAxis.normalize();
-	//		mtv = minAxis * minOverlap;
-	//		mtv *= -0.8f;
-	//	}
-	//	return true;
 
 		//return true;
 		auto& app = App::GetApp();
 		auto scene = app->GetScene<Scene>();
 
 
-	//	wstring log = scene->GetDebugString();
-	//	wstringstream wss;
-	//	wss << log;
+		wstring log = scene->GetDebugString();
+		wstringstream wss;
+		wss << log;
 
 		wss << polygonVertices.size();
 	}
