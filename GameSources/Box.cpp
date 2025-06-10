@@ -195,7 +195,7 @@ namespace basecross
 
 	std::vector<Vec3> Box::GetBoxVertices() const
 	{
-		std::vector<Vec3> boxVertices;
+		/*std::vector<Vec3> boxVertices;
 
 		auto transform = GetComponent<Transform>();
 		Vec3 position = transform->GetPosition();
@@ -212,7 +212,18 @@ namespace basecross
 			position + Vec3(scale.x / 2, scale.y / 2, scale.z / 2)
 		};
 
-		return boxVertices;
+		return boxVertices;*/
+
+		return {
+		Vec3(-0.5f, -0.5f, -0.5f),
+		Vec3(0.5f, -0.5f, -0.5f),
+		Vec3(-0.5f,  0.5f, -0.5f),
+		Vec3(0.5f,  0.5f, -0.5f),
+		Vec3(-0.5f, -0.5f,  0.5f),
+		Vec3(0.5f, -0.5f,  0.5f),
+		Vec3(-0.5f,  0.5f,  0.5f),
+		Vec3(0.5f,  0.5f,  0.5f)
+		};
 	}
 }
 

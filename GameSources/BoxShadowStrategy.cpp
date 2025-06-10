@@ -61,7 +61,7 @@ namespace basecross
                 continue;
 
             float t = -(wallPlane.x * lightPos.x + wallPlane.y * lightPos.y + wallPlane.z * lightPos.z + wallPlane.w) / denominator;
-            if (t < 0)
+            if (t > 0)
                 continue;
 
             Vec3 intersection = lightPos + lightDir * t;
@@ -70,12 +70,13 @@ namespace basecross
             intersections.push_back(intersection);
         }
         return intersections;
+
     }
 
 
     Vec4 BoxShadowStrategy::GeneratePlane(const Vec3& wallPoint, const Vec3& wallNormal)
     {
-        return Vec4(wallNormal.x, wallNormal.y, wallNormal.z, -wallNormal.dot(wallPoint));
+        return Vec4(wallNormal.x, wallNormal.y, wallNormal.z, wallNormal.dot(wallPoint));
     }
 
     std::vector<Vec3> BoxShadowStrategy::ComputeConvexHull(std::vector<Vec3> vertices)
