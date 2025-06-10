@@ -39,8 +39,12 @@ namespace basecross {
 			LoadTextures();
 
 			auto scene = App::GetApp()->GetScene<Scene>();
-			auto volume = scene->m_volume;
-			auto volumeLevel = scene->m_volumeLevel;
+			auto volumeBGM = scene->m_volumeBGM;
+			auto volumeLevelBGM = scene->m_volumeLevelBGM;
+
+			auto volumeSE = scene->m_volumeSE;
+			auto volumeLevelSE = scene->m_volumeLevelSE;
+
 
 			//スプライトオブジェクトの追加
 			Setting = AddGameObject<SoundSprite>(/*352.0f,0,1592.0f,1080.0f*/);
@@ -52,57 +56,115 @@ namespace basecross {
 			auto BGM = AddGameObject<SoundSprite>(/*300.0f,0,200.0f,376.0f*/);
 			BGM->SetTexture(L"TEX_BGM");
 			BGM->SetPosition(0, 130.0f, 0);
-			m_soundSprites.push_back(BGM);//m_soundSpritesにBGMを入れる
+			m_BGMsoundSprites.push_back(BGM);//m_soundSpritesにBGMを入れる
 
 			//soundVol
-			auto soundVol = AddGameObject<SoundSprite>(/*750.0f,0,1150.0f,60.0f*/);
-			soundVol->SetTexture(L"TEX_SoundVol");
-			soundVol->SetPosition(0, -78.0f, 0);
-			m_soundSprites.push_back(soundVol);
+			auto BGM_soundVol = AddGameObject<SoundSprite>(/*750.0f,0,1150.0f,60.0f*/);
+			BGM_soundVol->SetTexture(L"TEX_SoundVol");
+			BGM_soundVol->SetPosition(0, -78.0f, 0);
+			m_BGMsoundSprites.push_back(BGM_soundVol);
 
 			//無音
-			auto notSound = AddGameObject<SoundSprite>(/*0,200.0f,300.0f,400.0*/);
-			notSound->SetTexture(L"TEX_NotSound");
-			notSound->SetPosition(-370, 50.0f, 0);
-			notSound->SetScale(0.4f, 0.4f, 0.4f);
-			notSound->SetDrawActive(true);
-			m_soundSprites.push_back(notSound);
+			auto BGM_notSound = AddGameObject<SoundSprite>(/*0,200.0f,300.0f,400.0*/);
+			BGM_notSound->SetTexture(L"TEX_NotSound");
+			BGM_notSound->SetPosition(-370, 50.0f, 0);
+			BGM_notSound->SetScale(0.4f, 0.4f, 0.4f);
+			BGM_notSound->SetDrawActive(true);
+			m_BGMsoundSprites.push_back(BGM_notSound);
 
 			//小音
-			auto littleSound = AddGameObject<SoundSprite>(/*0,400.0f,300.0f,600.0f*/);
-			littleSound->SetTexture(L"TEX_LittleSound");
-			littleSound->SetPosition(-370, 50.0f, 0);
-			littleSound->SetScale(0.4f, 0.4f, 0.4f);
-			littleSound->SetDrawActive(false);
-			m_soundSprites.push_back(littleSound);
+			auto BGM_littleSound = AddGameObject<SoundSprite>(/*0,400.0f,300.0f,600.0f*/);
+			BGM_littleSound->SetTexture(L"TEX_LittleSound");
+			BGM_littleSound->SetPosition(-370, 50.0f, 0);
+			BGM_littleSound->SetScale(0.4f, 0.4f, 0.4f);
+			BGM_littleSound->SetDrawActive(false);
+			m_BGMsoundSprites.push_back(BGM_littleSound);
 
 			//中音
-			auto normalSound = AddGameObject<SoundSprite>(/*0,600.0f,300.0f,800.0f*/);
-			normalSound->SetTexture(L"TEX_NormalSound");
-			normalSound->SetPosition(-370, 50.0f, 0);
-			normalSound->SetScale(0.4f, 0.4f, 0.4f);
-			normalSound->SetDrawActive(false);
-			m_soundSprites.push_back(normalSound);
+			auto BGM_normalSound = AddGameObject<SoundSprite>(/*0,600.0f,300.0f,800.0f*/);
+			BGM_normalSound->SetTexture(L"TEX_NormalSound");
+			BGM_normalSound->SetPosition(-370, 50.0f, 0);
+			BGM_normalSound->SetScale(0.4f, 0.4f, 0.4f);
+			BGM_normalSound->SetDrawActive(false);
+			m_BGMsoundSprites.push_back(BGM_normalSound);
 
 			//大音
-			auto bigSound = AddGameObject<SoundSprite>(/*0,800.0f,300.0f,1000.0f*/);
-			bigSound->SetTexture(L"TEX_BigSound");
-			bigSound->SetPosition(-370, 50.0f, 0);
-			bigSound->SetScale(0.4f, 0.4f, 0.4f);
-			bigSound->SetDrawActive(false);
-			m_soundSprites.push_back(bigSound);
+			auto BGM_bigSound = AddGameObject<SoundSprite>(/*0,800.0f,300.0f,1000.0f*/);
+			BGM_bigSound->SetTexture(L"TEX_BigSound");
+			BGM_bigSound->SetPosition(-370, 50.0f, 0);
+			BGM_bigSound->SetScale(0.4f, 0.4f, 0.4f);
+			BGM_bigSound->SetDrawActive(false);
+			m_BGMsoundSprites.push_back(BGM_bigSound);
 
 			//ブロック
-			auto soundVolBox = AddGameObject<SoundSprite>(/*0,0,200.0f,200.0f*/);
-			soundVolBox->SetTexture(L"TEX_SoundVolBox");
-			soundVolBox->SetPosition(volumeLevel,-0.0f, 0);//-40.0f~240.0fなので１ブロック46.4くらい
-			soundVolBox->SetScale(1.0f, 0.85f, 1.0f);
-			soundVolBox->SetDrawActive(true);
-			m_soundSprites.push_back(soundVolBox);
+			auto BGM_soundVolBox = AddGameObject<SoundSprite>(/*0,0,200.0f,200.0f*/);
+			BGM_soundVolBox->SetTexture(L"TEX_SoundVolBox");
+			BGM_soundVolBox->SetPosition(volumeLevelBGM,-0.0f, 0);//-40.0f~240.0fなので１ブロック46.4くらい
+			BGM_soundVolBox->SetScale(1.0f, 0.85f, 1.0f);
+			BGM_soundVolBox->SetDrawActive(true);
+			m_BGMsoundSprites.push_back(BGM_soundVolBox);
+
+
+
+
+			//SE
+			auto SE = AddGameObject<SoundSprite>(/*300.0f,0,200.0f,376.0f*/);
+			SE->SetTexture(L"TEX_SE");
+			SE->SetPosition(0, -90.0f, 0);
+			m_SEsoundSprites.push_back(SE);//m_soundSpritesにBGMを入れる
+
+
+			//soundVol
+			auto SE_soundVol = AddGameObject<SoundSprite>(/*750.0f,0,1150.0f,60.0f*/);
+			SE_soundVol->SetTexture(L"TEX_SoundVol");
+			SE_soundVol->SetPosition(0, -290.0f, 0);
+			m_SEsoundSprites.push_back(SE_soundVol);
+
+			//無音
+			auto SE_notSound = AddGameObject<SoundSprite>(/*0,200.0f,300.0f,400.0*/);
+			SE_notSound->SetTexture(L"TEX_NotSound");
+			SE_notSound->SetPosition(-370, -163.0f, 0);
+			SE_notSound->SetScale(0.4f, 0.4f, 0.4f);
+			SE_notSound->SetDrawActive(true);
+			m_SEsoundSprites.push_back(SE_notSound);
+
+			//小音
+			auto SE_littleSound = AddGameObject<SoundSprite>(/*0,400.0f,300.0f,600.0f*/);
+			SE_littleSound->SetTexture(L"TEX_LittleSound");
+			SE_littleSound->SetPosition(-370, -163.0f, 0);
+			SE_littleSound->SetScale(0.4f, 0.4f, 0.4f);
+			SE_littleSound->SetDrawActive(false);
+			m_SEsoundSprites.push_back(SE_littleSound);
+
+			//中音
+			auto SE_normalSound = AddGameObject<SoundSprite>(/*0,600.0f,300.0f,800.0f*/);
+			SE_normalSound->SetTexture(L"TEX_NormalSound");
+			SE_normalSound->SetPosition(-370, -163.0f, 0);
+			SE_normalSound->SetScale(0.4f, 0.4f, 0.4f);
+			SE_normalSound->SetDrawActive(false);
+			m_SEsoundSprites.push_back(SE_normalSound);
+
+			//大音
+			auto SE_bigSound = AddGameObject<SoundSprite>(/*0,800.0f,300.0f,1000.0f*/);
+			SE_bigSound->SetTexture(L"TEX_BigSound");
+			SE_bigSound->SetPosition(-370, -163.0f, 0);
+			SE_bigSound->SetScale(0.4f, 0.4f, 0.4f);
+			SE_bigSound->SetDrawActive(false);
+			m_SEsoundSprites.push_back(SE_bigSound);
+
+			//ブロック
+			auto SE_soundVolBox = AddGameObject<SoundSprite>(/*0,0,200.0f,200.0f*/);
+			SE_soundVolBox->SetTexture(L"TEX_SoundVolBox");
+			SE_soundVolBox->SetPosition(volumeLevelSE, -163.0f, 0);//-40.0f~240.0fなので１ブロック46.4くらい
+			SE_soundVolBox->SetScale(1.0f, 0.85f, 1.0f);
+			SE_soundVolBox->SetDrawActive(true);
+			m_SEsoundSprites.push_back(SE_soundVolBox);
+
+
 
 			//BGM
 			auto ptrXA = App::GetApp()->GetXAudio2Manager();
-			m_BGM = ptrXA->Start(L"Gamebgm", XAUDIO2_LOOP_INFINITE, volume);
+			m_BGM = ptrXA->Start(L"Gamebgm", XAUDIO2_LOOP_INFINITE, volumeBGM);
 
 		}
 		catch (...) {
@@ -119,6 +181,13 @@ namespace basecross {
 		//sceneを取得	
 		auto scene = App::GetApp()->GetScene<Scene>();
 
+		//SEのテスト再生用タイマー
+		static float seCooldown = 0.0f;
+		if (seCooldown > 0.0f)
+		{
+			seCooldown -= delta;
+		}
+
 		//コントローラの取得
 		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
 		if (CntlVec[0].bConnected)
@@ -127,99 +196,225 @@ namespace basecross {
 			//Aボタンを押したときにゲームステージに移動する
 			if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B)
 			{
+				auto ptrXA = App::GetApp()->GetXAudio2Manager();
+				m_SE = ptrXA->Start(L"button_SE", 0, scene->m_volumeSE);
+
 				PostEvent(0.0f, GetThis<SettingStage>(), scene, L"ToGameStage");
 				return;
 			}
 
-			//右に傾けた時
-			if (CntlVec[0].fThumbLX >= 0.8f)
+			if (!m_MenuNavigationLock)
 			{
-				scene->m_volume += 0.01f;
-				scene->m_volumeLevel += 5.5f;
-				if (scene->m_volume > 1.0f)
+				if (CntlVec[0].fThumbLY >= 0.8f)
 				{
-					scene->m_volume = 1.0f;
-					scene->m_volumeLevel = 270.0f;
+					isBGMSelected = true;
+					m_MenuNavigationLock = true;
+				}
+				else if (CntlVec[0].fThumbLY <= -0.8f)
+				{
+					isBGMSelected = false;
+					m_MenuNavigationLock = true;
 				}
 			}
-			//左に傾けた時
-			if (CntlVec[0].fThumbLX <= -0.8f)
+			else
 			{
-				scene->m_volume -= 0.01f;
-				scene->m_volumeLevel -= 5.5f;
-				if (scene->m_volume < 0.0f)
+				if (CntlVec[0].fThumbLY > -0.5f && CntlVec[0].fThumbLY < 0.5f)
 				{
-					scene->m_volume = 0.0f;
-					scene->m_volumeLevel = -270.0f;
+					m_MenuNavigationLock = false;
 				}
 			}
-			m_BGM->m_SourceVoice->SetVolume(scene->m_volume);
 
-			auto BGM = m_soundSprites[6].lock();
-			BGM->SetPosition(scene->m_volumeLevel, 50.0f, 0.0f);
-
-
-			if (scene->m_volume == 0.00f)
+			if (isBGMSelected)
 			{
-				auto sound1 = m_soundSprites[2].lock();
-				sound1->SetDrawActive(true);
+				//BGM
+				//右に傾けた時
+				if (CntlVec[0].fThumbLX >= 0.8f)
+				{
+					scene->m_volumeBGM += 0.01f;
+					scene->m_volumeLevelBGM += 5.5f;
+					volumeChanged = true;
+					if (scene->m_volumeBGM > 1.0f && scene->m_volumeLevelBGM > 270.0f)
+					{
+						scene->m_volumeBGM = 1.0f;
+						scene->m_volumeLevelBGM = 270.0f;
+					}
+				}
+				//左に傾けた時
+				if (CntlVec[0].fThumbLX <= -0.8f)
+				{
+					scene->m_volumeBGM -= 0.01f;
+					scene->m_volumeLevelBGM -= 5.5f;
+					volumeChanged = true;
+					if (scene->m_volumeBGM < 0.0f && scene->m_volumeLevelBGM < -270.0f)
+					{
+						scene->m_volumeBGM = 0.0f;
+						scene->m_volumeLevelBGM = -270.0f;
+					}
+				}
+				m_BGM->m_SourceVoice->SetVolume(scene->m_volumeBGM);
 
-				auto sound2 = m_soundSprites[3].lock();
-				sound2->SetDrawActive(false);
+				auto BGM = m_BGMsoundSprites[6].lock();
+				BGM->SetPosition(scene->m_volumeLevelBGM, 50.0f, 0.0f);
 
-				auto sound3 = m_soundSprites[4].lock();
-				sound3->SetDrawActive(false);
 
-				auto sound4 = m_soundSprites[5].lock();
-				sound4->SetDrawActive(false);
+				if (scene->m_volumeBGM == 0.00f)
+				{
+					auto sound1 = m_BGMsoundSprites[2].lock();
+					sound1->SetDrawActive(true);
+
+					auto sound2 = m_BGMsoundSprites[3].lock();
+					sound2->SetDrawActive(false);
+
+					auto sound3 = m_BGMsoundSprites[4].lock();
+					sound3->SetDrawActive(false);
+
+					auto sound4 = m_BGMsoundSprites[5].lock();
+					sound4->SetDrawActive(false);
+				}
+				if (0.01f < scene->m_volumeBGM > 0.30f)
+				{
+					auto sound1 = m_BGMsoundSprites[2].lock();
+					sound1->SetDrawActive(false);
+
+					auto sound2 = m_BGMsoundSprites[3].lock();
+					sound2->SetDrawActive(true);
+
+					auto sound3 = m_BGMsoundSprites[4].lock();
+					sound3->SetDrawActive(false);
+
+					auto sound4 = m_BGMsoundSprites[5].lock();
+					sound4->SetDrawActive(false);
+				}
+				if (0.30f < scene->m_volumeBGM > 0.70f)
+				{
+					auto sound1 = m_BGMsoundSprites[2].lock();
+					sound1->SetDrawActive(false);
+
+					auto sound2 = m_BGMsoundSprites[3].lock();
+					sound2->SetDrawActive(false);
+
+					auto sound3 = m_BGMsoundSprites[4].lock();
+					sound3->SetDrawActive(true);
+
+					auto sound4 = m_BGMsoundSprites[5].lock();
+					sound4->SetDrawActive(false);
+				}
+				if (0.70f < scene->m_volumeBGM >= 1.00f)
+				{
+					auto sound1 = m_BGMsoundSprites[2].lock();
+					sound1->SetDrawActive(false);
+
+					auto sound2 = m_BGMsoundSprites[3].lock();
+					sound2->SetDrawActive(false);
+
+					auto sound3 = m_BGMsoundSprites[4].lock();
+					sound3->SetDrawActive(false);
+
+					auto sound4 = m_BGMsoundSprites[5].lock();
+					sound4->SetDrawActive(true);
+				}
 			}
-			if (0.01f < scene->m_volume > 0.30f)
+
+			else
 			{
-				auto sound1 = m_soundSprites[2].lock();
-				sound1->SetDrawActive(false);
+				//SE
+				//右に傾けた時
+				if (CntlVec[0].fThumbLX >= 0.8f)
+				{
+					scene->m_volumeSE += 0.01f;
+					scene->m_volumeLevelSE += 5.5f;
+					volumeChanged = true;
+					if (scene->m_volumeSE > 1.0f && scene->m_volumeLevelSE > 270.0f)
+					{
+						scene->m_volumeSE = 1.0f;
+						scene->m_volumeLevelSE = 270.0f;
+					}
+				}
+				//左に傾けた時
+				if (CntlVec[0].fThumbLX <= -0.8f)
+				{
+					scene->m_volumeSE -= 0.01f;
+					scene->m_volumeLevelSE -= 5.5f;
+					volumeChanged = true;
+					if (scene->m_volumeSE < 0.0f && scene->m_volumeLevelSE < -270.0f)
+					{
+						scene->m_volumeSE = 0.0f;
+						scene->m_volumeLevelSE = -270.0f;
+					}
+				}
 
-				auto sound2 = m_soundSprites[3].lock();
-				sound2->SetDrawActive(true);
+				//音量が変更され、かつクールダウンが終わっていたらテストSEを再生
+				if (volumeChanged && seCooldown <= 0.0f)
+				{
+					auto ptrXA = App::GetApp()->GetXAudio2Manager();
+					ptrXA->Start(L"button_SE", 0, scene->m_volumeSE);
+					seCooldown = 1.0f;//0.2秒のクールダウン
+				}
+				//m_SE->m_SourceVoice->SetVolume(scene->m_volumeSE);
 
-				auto sound3 = m_soundSprites[4].lock();
-				sound3->SetDrawActive(false);
+				auto SE = m_SEsoundSprites[6].lock();
+				SE->SetPosition(scene->m_volumeLevelSE, -163.0f, 0.0f);
 
-				auto sound4 = m_soundSprites[5].lock();
-				sound4->SetDrawActive(false);
+
+				if (scene->m_volumeBGM == 0.00f)
+				{
+					auto sound1 = m_SEsoundSprites[2].lock();
+					sound1->SetDrawActive(true);
+
+					auto sound2 = m_SEsoundSprites[3].lock();
+					sound2->SetDrawActive(false);
+
+					auto sound3 = m_SEsoundSprites[4].lock();
+					sound3->SetDrawActive(false);
+
+					auto sound4 = m_SEsoundSprites[5].lock();
+					sound4->SetDrawActive(false);
+				}
+				if (0.01f < scene->m_volumeBGM > 0.30f)
+				{
+					auto sound1 = m_SEsoundSprites[2].lock();
+					sound1->SetDrawActive(false);
+
+					auto sound2 = m_SEsoundSprites[3].lock();
+					sound2->SetDrawActive(true);
+
+					auto sound3 = m_SEsoundSprites[4].lock();
+					sound3->SetDrawActive(false);
+
+					auto sound4 = m_SEsoundSprites[5].lock();
+					sound4->SetDrawActive(false);
+				}
+				if (0.30f < scene->m_volumeBGM > 0.70f)
+				{
+					auto sound1 = m_SEsoundSprites[2].lock();
+					sound1->SetDrawActive(false);
+
+					auto sound2 = m_SEsoundSprites[3].lock();
+					sound2->SetDrawActive(false);
+
+					auto sound3 = m_SEsoundSprites[4].lock();
+					sound3->SetDrawActive(true);
+
+					auto sound4 = m_SEsoundSprites[5].lock();
+					sound4->SetDrawActive(false);
+				}
+				if (0.70f < scene->m_volumeBGM >= 1.00f)
+				{
+					auto sound1 = m_SEsoundSprites[2].lock();
+					sound1->SetDrawActive(false);
+
+					auto sound2 = m_SEsoundSprites[3].lock();
+					sound2->SetDrawActive(false);
+
+					auto sound3 = m_SEsoundSprites[4].lock();
+					sound3->SetDrawActive(false);
+
+					auto sound4 = m_SEsoundSprites[5].lock();
+					sound4->SetDrawActive(true);
+
+				}
 			}
-			if (0.30f < scene->m_volume > 0.70f)
-			{
-				auto sound1 = m_soundSprites[2].lock();
-				sound1->SetDrawActive(false);
-
-				auto sound2 = m_soundSprites[3].lock();
-				sound2->SetDrawActive(false);
-
-				auto sound3 = m_soundSprites[4].lock();
-				sound3->SetDrawActive(true);
-
-				auto sound4 = m_soundSprites[5].lock();
-				sound4->SetDrawActive(false);
-			}
-			if (0.70f < scene->m_volume >= 1.00f)
-			{
-				auto sound1 = m_soundSprites[2].lock();
-				sound1->SetDrawActive(false);
-
-				auto sound2 = m_soundSprites[3].lock();
-				sound2->SetDrawActive(false);
-
-				auto sound3 = m_soundSprites[4].lock();
-				sound3->SetDrawActive(false);
-
-				auto sound4 = m_soundSprites[5].lock();
-				sound4->SetDrawActive(true);
-
-			}
-
-
 		}
-
 	}
 
 

@@ -24,14 +24,20 @@ namespace basecross {
 		*/
 		//--------------------------------------------------------------------------------------
 		
-		float m_volume;
-		float m_volumeLevel;
+		float m_volumeBGM;
+		float m_volumeLevelBGM;
+
+		float m_volumeSE;
+		float m_volumeLevelSE;
 
 		//PauseÇÃèàóù
 		Scene() :
 			SceneBase(),
-			m_volume(0.50f),
-			m_volumeLevel(50)
+			m_volumeBGM(0.50f),
+			m_volumeLevelBGM(0.0f),
+			m_volumeSE(0.50f),
+			m_volumeLevelSE(0.0f)
+
 		{}
 
 
