@@ -21,6 +21,7 @@ namespace basecross
         ShadowComponent(const std::shared_ptr<GameObject>& owner, const std::shared_ptr<BoxShadowStrategy>& strategy);
 
         void OnDraw() override;
+        void OnCreate();
         void OnUpdate();  // –ˆƒtƒŒ[ƒ€ŒõŒ¹‚ğæ“¾ & ‰e‚ğŒvZ
         void ComputeShadow();
         void RenderShadow();

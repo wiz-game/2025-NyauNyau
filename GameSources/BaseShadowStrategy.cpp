@@ -17,26 +17,24 @@ namespace basecross
 		return Vec3(
 			xy.z * xz.y - xy.y * xz.z,  // X成分（左手系に変更）
 			xy.x * xz.z - xy.z * xz.x,  // Y成分
-			-(xy.y * xz.x - xy.x * xz.y)   // Z成分
+			xy.y * xz.x - xy.x * xz.y   // Z成分
 		);
 
 	}
 
-	void BaseShadowStrategy::BubbleSort(std::vector<Vec3>& vertices)
+	std::vector<Vec3> BaseShadowStrategy::Sort(std::vector<Vec3> vertices)
 	{
-		for (size_t i = 0; i < vertices.size() - 1; ++i)
-		{
-			for (size_t j = 0; j < vertices.size() - i - 1; ++j)
-			{
-				//X → Y → Z の順でソート
-				if (vertices[j].z > vertices[j + 1].z ||
-					(vertices[j].z == vertices[j + 1].z && vertices[j].y > vertices[j + 1].y) ||
-					(vertices[j].z == vertices[j + 1].z && vertices[j].y == vertices[j + 1].y && vertices[j].x > vertices[j + 1].x))
-				{
-					std::swap(vertices[j], vertices[j + 1]);
-				}
+		if (vertices.size() < 3) return vertices; // 頂点が3未満ならそのまま返す
+
+		// ラムダ式ソート
+		std::sort(vertices.begin(), vertices.end(), [](const Vec3& a, const Vec3& b) {
+			// X座標で比較する
+			if (a.x != b.x) {
+				return a.x < b.x;
 			}
-		}
+			// X座標が同じなら、Y座標で比較する
+			return a.y < b.y;
+			});
 	}
 
 }

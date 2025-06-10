@@ -16,6 +16,12 @@ namespace basecross
        
     }
 
+    void ShadowComponent::OnCreate()
+    {
+        m_drawComp = GetGameObject()->AddComponent<PCStaticDraw>();
+        m_drawComp->SetOriginalMeshUse(true);
+
+    }
 
     void ShadowComponent::OnUpdate()
     {

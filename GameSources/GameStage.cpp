@@ -418,7 +418,7 @@ namespace basecross {
 			auto spotLight = AddGameObject<SpotLight>();
 			SetSharedGameObject(L"SpotLight", spotLight);
 			//影の作成
-			AddGameObject<ShadowObject>();
+			//AddGameObject<ShadowObject>();
 			//プレイヤーの作成
 			CreatePlayer();
 			//エネミーの作成
