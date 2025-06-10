@@ -8,6 +8,7 @@
 #include "SelectStageSprite.h"
 #include "FootprintSprite.h"
 #include "CatwalkSprite.h"
+#include "GameSprite.h"
 
 namespace basecross {
 
@@ -27,6 +28,10 @@ namespace basecross {
 		std::shared_ptr<SelectStageSprite> catPointSprite;
 
 		std::weak_ptr<CatWalkSprite> m_catWalk;
+		std::weak_ptr<GameSprite> m_loading;
+		std::weak_ptr<GameSprite> m_rat;
+
+
 		int m_catNum;
 		bool m_OnPush;
 

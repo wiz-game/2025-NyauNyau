@@ -34,9 +34,9 @@ namespace basecross {
 		Scene() :
 			SceneBase(),
 			m_volumeBGM(0.50f),
-			m_volumeLevelBGM(0.0f),
+			m_volumeLevelBGM(-50.0f),
 			m_volumeSE(0.50f),
-			m_volumeLevelSE(0.0f)
+			m_volumeLevelSE(-50.0f)
 
 		{}
 

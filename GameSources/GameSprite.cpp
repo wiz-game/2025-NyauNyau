@@ -41,7 +41,39 @@ namespace basecross {
 	void GameSprite::OnUpdate()
 	{
 
+		if (!m_isMoving)
+		{
+			return;
+		}
 
+		if (m_isMoving)
+		{
+			// 経過時間を取得
+			m_totalTime = App::GetApp()->GetElapsedTime();
+			Vec3 currentPos = m_ptrTrans->GetPosition();
+
+
+			// 新しいX座標を計算
+			currentPos.x += m_speed * m_moveDirection * m_totalTime;
+
+			// 境界チェック
+			// 右の境界を超えた場合
+			if (currentPos.x > 600.0f + m_moveRange)
+			{
+				currentPos.x = 600.0f + m_moveRange; // 境界に位置を補正
+				m_moveDirection = -1.0f;      // 方向を左に反転
+			}
+
+			// 左の境界を超えた場合
+			else if (currentPos.x < 600.0f - m_moveRange)
+			{
+				currentPos.x = 600.0f - m_moveRange; // 境界に位置を補正
+				m_moveDirection = 1.0f;       // 方向を右に反転
+			}
+
+			// 計算後の位置を再設定
+			m_ptrTrans->SetPosition(currentPos);
+		}
 	}
 
 	//テクスチャ

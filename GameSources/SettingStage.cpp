@@ -125,7 +125,7 @@ namespace basecross {
 			SE_notSound->SetTexture(L"TEX_NotSound");
 			SE_notSound->SetPosition(-370, -163.0f, 0);
 			SE_notSound->SetScale(0.4f, 0.4f, 0.4f);
-			SE_notSound->SetDrawActive(true);
+			SE_notSound->SetDrawActive(false);
 			m_SEsoundSprites.push_back(SE_notSound);
 
 			//¬‰¹
@@ -141,7 +141,7 @@ namespace basecross {
 			SE_normalSound->SetTexture(L"TEX_NormalSound");
 			SE_normalSound->SetPosition(-370, -163.0f, 0);
 			SE_normalSound->SetScale(0.4f, 0.4f, 0.4f);
-			SE_normalSound->SetDrawActive(false);
+			SE_normalSound->SetDrawActive(true);
 			m_SEsoundSprites.push_back(SE_normalSound);
 
 			//‘å‰¹
@@ -160,6 +160,13 @@ namespace basecross {
 			SE_soundVolBox->SetDrawActive(true);
 			m_SEsoundSprites.push_back(SE_soundVolBox);
 
+
+			//UI
+			m_StageUI = AddGameObject<GameStageUI>();
+			auto stageUI = m_StageUI.lock();
+			stageUI->SetTexture(L"TEX_StageUI");
+			stageUI->SetPosition(380.0f, -300.0f, 0);
+			stageUI->SetScale(0.5f, 0.7f, 0);
 
 
 			//BGM
@@ -356,7 +363,7 @@ namespace basecross {
 				SE->SetPosition(scene->m_volumeLevelSE, -163.0f, 0.0f);
 
 
-				if (scene->m_volumeBGM == 0.00f)
+				if (scene->m_volumeSE == 0.00f)
 				{
 					auto sound1 = m_SEsoundSprites[2].lock();
 					sound1->SetDrawActive(true);
@@ -370,7 +377,7 @@ namespace basecross {
 					auto sound4 = m_SEsoundSprites[5].lock();
 					sound4->SetDrawActive(false);
 				}
-				if (0.01f < scene->m_volumeBGM > 0.30f)
+				if (0.01f < scene->m_volumeSE > 0.30f)
 				{
 					auto sound1 = m_SEsoundSprites[2].lock();
 					sound1->SetDrawActive(false);
@@ -384,7 +391,7 @@ namespace basecross {
 					auto sound4 = m_SEsoundSprites[5].lock();
 					sound4->SetDrawActive(false);
 				}
-				if (0.30f < scene->m_volumeBGM > 0.70f)
+				if (0.30f < scene->m_volumeSE > 0.70f)
 				{
 					auto sound1 = m_SEsoundSprites[2].lock();
 					sound1->SetDrawActive(false);
@@ -398,7 +405,7 @@ namespace basecross {
 					auto sound4 = m_SEsoundSprites[5].lock();
 					sound4->SetDrawActive(false);
 				}
-				if (0.70f < scene->m_volumeBGM >= 1.00f)
+				if (0.70f < scene->m_volumeSE >= 1.00f)
 				{
 					auto sound1 = m_SEsoundSprites[2].lock();
 					sound1->SetDrawActive(false);
@@ -440,6 +447,8 @@ namespace basecross {
 		app->RegisterTexture(L"TEX_BigSound", texPath + L"BigSound.png");
 		app->RegisterTexture(L"TEX_NotSound", texPath + L"NotSound.png");
 		app->RegisterTexture(L"TEX_Sound", texPath + L"Sound.png");
+		app->RegisterTexture(L"TEX_StageUI", texPath + L"SettingStageUI.png");
+
 
 	}
 

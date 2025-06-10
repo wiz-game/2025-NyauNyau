@@ -47,6 +47,21 @@ namespace basecross {
 			auto walk = m_catSprite.lock();
 			walk->SetDrawActive(false);
 
+			m_loading = AddGameObject<GameSprite>();
+			auto loading = m_loading.lock();
+			loading->SetTexture(L"TEX_Loading");
+			loading->SetPosition(270, -350, 0);
+			loading->SetScale(1.0f, 0.5f, 1.0f);
+			loading->SetDrawActive(false);
+
+			m_rat = AddGameObject<GameSprite>();
+			auto rat = m_rat.lock();
+			rat->SetTexture(L"TEX_NEZUMI");
+			rat->SetPosition(610.0f, -385.0f, 0);
+			rat->SetScale(0.1f, 0.2f, 1.0f);
+			rat->SetDrawActive(false);
+			rat->SetMovementActive(false);
+
 
 			auto scene = App::GetApp()->GetScene<Scene>();
 			auto volumeBGM = scene->m_volumeBGM;
@@ -119,6 +134,17 @@ namespace basecross {
 			spr->SetDrawActive(true);
 			spr->StartAnimation();
 		}
+		if (auto spr = m_loading.lock())
+		{
+			spr->SetDrawActive(true);
+		}
+		if (auto spr = m_rat.lock())
+		{
+			spr->SetDrawActive(true);
+			spr->SetMovementActive(true);
+		}
+
+
 	}
 
 }

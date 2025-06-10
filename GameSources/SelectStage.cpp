@@ -81,6 +81,23 @@ namespace basecross {
 			auto walk = m_catWalk.lock();
 			walk->SetDrawActive(false);
 
+			m_loading = AddGameObject<GameSprite>();
+			auto loading = m_loading.lock();
+			loading->SetTexture(L"TEX_Loading");
+			loading->SetPosition(230, -350, 0);
+			loading->SetScale(1.0f, 0.5f, 1.0f);
+			loading->SetDrawActive(false);
+			loading->SetMovementActive(false);
+
+			m_rat = AddGameObject<GameSprite>();
+			auto rat = m_rat.lock();
+			rat->SetTexture(L"TEX_NEZUMI");
+			rat->SetPosition(600.0f, -385.0f, 0);
+			rat->SetScale(0.1f, 0.2f, 1.0f);
+			rat->SetDrawActive(false);
+			rat->SetMovementActive(false);
+
+
 
 		}
 		catch (...) {
@@ -366,6 +383,9 @@ namespace basecross {
 		app->RegisterTexture(L"TEX_CAT WALK4", texPath + L"Cat Walk4.png");
 		app->RegisterTexture(L"TEX_CAT WALK5", texPath + L"Cat Walk5.png");
 		app->RegisterTexture(L"TEX_CatWalk", texPath + L"Cat Walk.png");
+		app->RegisterTexture(L"TEX_Loading", texPath + L"Loading.png");
+		app->RegisterTexture(L"TEX_NEZUMI", texPath + L"nezumi3.png");
+
 
 	}
 
@@ -399,6 +419,15 @@ namespace basecross {
 		{
 			spr->SetDrawActive(true);
 			spr->StartAnimation();
+		}
+		if (auto spr = m_loading.lock())
+		{
+			spr->SetDrawActive(true);
+		}
+		if (auto spr = m_rat.lock())
+		{
+			spr->SetDrawActive(true);
+			spr->SetMovementActive(true);
 		}
 	}
 }

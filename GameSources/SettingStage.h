@@ -6,6 +6,7 @@
 #pragma once
 #include "stdafx.h"
 #include "SoundSprite.h"
+#include "GameStageUI.h"
 
 namespace basecross {
 
@@ -28,6 +29,8 @@ namespace basecross {
 		bool volumeChanged = false;
 		bool isBGMSelected = true;
 		bool m_MenuNavigationLock = true;
+
+		std::weak_ptr<GameStageUI> m_StageUI;
 
 
 	public:

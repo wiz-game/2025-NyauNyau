@@ -6,6 +6,7 @@
 #pragma once
 #include "stdafx.h"
 #include "CatwalkSprite.h"
+#include "GameSprite.h"
 
 namespace basecross {
 
@@ -23,6 +24,10 @@ namespace basecross {
 		shared_ptr<SoundItem> m_SE;
 
 		std::weak_ptr<CatWalkSprite> m_catSprite;
+		std::weak_ptr<GameSprite> m_loading;
+		std::weak_ptr<GameSprite> m_rat;
+
+
 		std::vector<std::shared_ptr<GameObject>> m_sprites;
 
 
