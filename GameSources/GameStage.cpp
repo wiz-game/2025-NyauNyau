@@ -18,7 +18,7 @@ namespace basecross {
 
 		m_mainView = ObjectFactory::Create<SingleView>(GetThis<Stage>());
 		auto ptrmainCamera = ObjectFactory::Create<MainCamera>();
-		ptrmainCamera->SetEye(Vec3(0.0f, 0.0f, 10.0f));
+		ptrmainCamera->SetEye(Vec3(12.0f, 0.0f, 10.0f));
 		ptrmainCamera->SetAt(Vec3(0.0f, 0.0f, 0.0f));
 		m_mainView->SetCamera(ptrmainCamera);
 
@@ -418,7 +418,7 @@ namespace basecross {
 			auto spotLight = AddGameObject<SpotLight>();
 			SetSharedGameObject(L"SpotLight", spotLight);
 			//影の作成
-			//AddGameObject<ShadowObject>();
+			AddGameObject<ShadowObject>();
 			//プレイヤーの作成
 			CreatePlayer();
 			//エネミーの作成

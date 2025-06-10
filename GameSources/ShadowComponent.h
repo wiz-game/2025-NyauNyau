@@ -18,15 +18,31 @@ namespace basecross
         std::shared_ptr<PCStaticDraw> m_drawComp; // 描画コンポーネント
 
     public:
+        // ストラテジ（影の計算方法を定義）
+        std::shared_ptr<BoxShadowStrategy> m_ShadowStrategy;
+
+        // 計算された影の頂点リスト（ワールド座標）
+        std::vector<Vec3> m_shadowVertices;
+
+        // --- プライベートなヘルパー関数 ---
+
+        // 影のメッシュデータを更新する
+        void UpdateMesh();
+
+        // コンストラクタ：オーナーと、使用するストラテジを受け取る
         ShadowComponent(const std::shared_ptr<GameObject>& owner, const std::shared_ptr<BoxShadowStrategy>& strategy);
 
+        // --- ライフサイクルメソッド ---
+
+        // コンポーネントの初期化時に呼び出される
+        void OnCreate() override;
+
+        // 毎フレームの更新時に呼び出される
+        void OnUpdate() override;
+
+        // 描画時に呼び出される（今回は描画コンポーネントに任せるので空）
         void OnDraw() override;
-        void OnCreate();
-        void OnUpdate();  // 毎フレーム光源を取得 & 影を計算
-        void ComputeShadow();
-        void RenderShadow();
-        void SwapBuffers(); // バッファ切り替え
-
-
     };
+
+
 }
