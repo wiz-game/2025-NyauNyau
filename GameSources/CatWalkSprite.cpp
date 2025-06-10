@@ -37,7 +37,7 @@ namespace basecross{
 
 		// 位置を設定する
 		m_transComp = GetComponent<Transform>();
-		m_transComp->SetPosition(550.0f - 64.0f, -300.0f + 50.0f, 0); // 画面の中心を原点としたピクセル単位（1280x800）
+		m_transComp->SetPosition(500.0f - 64.0f, -300.0f + 50.0f, 0); // 画面の中心を原点としたピクセル単位（1280x800）
 		//m_transComp->SetRotation(0, XM_PI, 0);
 		m_transComp->SetScale(1.5f, 1.5f, 1.5f);
 

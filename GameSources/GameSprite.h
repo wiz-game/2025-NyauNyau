@@ -16,10 +16,11 @@ namespace basecross {
 	{
 		//トータル時間
 		float m_totalTime;
-		//選択しているかどうか
-		bool m_Selected;
-		float blinkSpeed = 3;//点滅速度
+		float m_speed = 50;//速度
 
+		bool m_isMoving = false;
+		float m_moveDirection = 1.0f;//移動方向（1.0：右　-1.0：左）
+		float m_moveRange = 15.0f;//移動範囲
 
 		std::shared_ptr<PCTSpriteDraw> m_drawComp;
 		std::shared_ptr<Transform> m_ptrTrans;
@@ -43,16 +44,9 @@ namespace basecross {
 		void SetScale(float x, float y, float z);
 
 
-		//m_Selectedのアクセサ
-		int IsSelected() const
+		void SetMovementActive(bool IsActive)
 		{
-			return m_Selected;
-		}
-
-		void SetSelected(bool b)
-		{
-			m_Selected = b;
-			m_totalTime = 0.0f;
+			m_isMoving = IsActive;
 		}
 	};
 
