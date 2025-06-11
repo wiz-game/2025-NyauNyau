@@ -445,7 +445,7 @@ namespace basecross
 
 			float overlap = min(maxPoly, maxCircle) - max(minPoly, minCircle);
 
-			if (overlap < 0.0f) {
+			if (overlap <= 0.0f) {
 				// 分離軸が見つかった！ 即座に「衝突していない」と判断して終了
 				mtv = Vec3(0.0f, 0.0f, 0.0f);
 				return false;
