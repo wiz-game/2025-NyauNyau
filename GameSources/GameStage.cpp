@@ -555,6 +555,18 @@ namespace basecross {
 		auto meshTsumiki1 = MeshResource::CreateBoneModelMesh(modelPath + L"Block1\\", L"Block1.bmf");
 		app->RegisterResource(L"MODEL_TSUMIKI1", meshTsumiki1);
 
+
+		//‚Â‚Ý‚«(Ô)
+		if (app->CheckResource<MeshResource>(L"MODEL_TSUMIKI2")) return;
+		auto meshTsumiki2 = MeshResource::CreateBoneModelMesh(modelPath + L"Block2\\", L"Block2.bmf");
+		app->RegisterResource(L"MODEL_TSUMIKI2", meshTsumiki2);
+
+
+		////‚Â‚Ý‚«(‰©)
+		//if (app->CheckResource<MeshResource>(L"MODEL_TSUMIKI3")) return;
+		//auto meshTsumiki3 = MeshResource::CreateBoneModelMesh(modelPath + L"Block3\\", L"Block3.bmf");
+		//app->RegisterResource(L"MODEL_TSUMIKI3", meshTsumiki3);
+
 	}
 
 
