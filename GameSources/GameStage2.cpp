@@ -1,4 +1,3 @@
-
 /*!
 @file GameStage.cpp
 @brief ゲームステージ実体
@@ -14,7 +13,8 @@ namespace basecross {
 	//--------------------------------------------------------------------------------------
 	//	ゲームステージクラス実体
 	//--------------------------------------------------------------------------------------
-	void GameStage::CreateViewLight() {
+
+	void GameStage2::CreateViewLight() {
 
 		m_mainView = ObjectFactory::Create<SingleView>(GetThis<Stage>());
 		auto ptrmainCamera = ObjectFactory::Create<MainCamera>();
@@ -47,11 +47,12 @@ namespace basecross {
 		PtrMultiLight->SetDefaultLighting();
 	}
 
-	void GameStage::CreateWall()
+
+	void GameStage2::CreateWall()
 	{
 		vector<vector<Vec3>> vec = {
 			{
-				Vec3(200.0f, 200.0f, 1.0f), 
+				Vec3(200.0f, 200.0f, 1.0f),
 				Vec3(0.0f, 0.0f, 0.0f),
 				Vec3(0.0f, 4.0f, 0.0f)
 			},
@@ -85,7 +86,7 @@ namespace basecross {
 		}
 	}
 
-	void GameStage::CreateGround()
+	void GameStage2::CreateGround()
 	{
 		vector<vector<Vec3>> vec = {
 		{
@@ -103,7 +104,7 @@ namespace basecross {
 				Vec3(0.0f,  0.0f, 0.0f),
 				Vec3(0.0f, -1.0f, 6.0f)*/
 
-			//}
+				//}
 
 		};
 
@@ -131,7 +132,7 @@ namespace basecross {
 
 	}
 
-	void GameStage::CreateShadowFloor()
+	void GameStage2::CreateShadowFloor()
 	{
 		vector<vector<Vec3>> vec = {
 		{
@@ -164,7 +165,8 @@ namespace basecross {
 
 	}
 
-	void GameStage::CreateTable()
+	//テーブル
+	void GameStage2::CreateTable()
 	{
 		vector<vector<Vec3>> vec = {
 		{
@@ -178,7 +180,7 @@ namespace basecross {
 
 
 	//スタート
-	void GameStage::CreatestartGate()
+	void GameStage2::CreatestartGate()
 	{
 		vector< vector <Vec3> > vec = {
 		{
@@ -192,9 +194,25 @@ namespace basecross {
 			AddGameObject<startGate>(v[0], v[1], v[2]);
 		}
 	}
+	//ゴール
+	void GameStage2::CreategoalGate()
+	{
+		vector< vector <Vec3> > vec = {
+		{
+			Vec3(0.0f,0.7f,0.5f),
+			Vec3(0.0f,0.0f,0.0f),
+			Vec3(-4.7f,0.005f,30.0f)
+		}
+		};
+		//オブジェクトの作成
+		for (auto v : vec) {
+			AddGameObject<startGate>(v[0], v[1], v[2]);
+		}
+	}
+
 
 	//プレイヤー
-	void GameStage::CreatePlayer()
+	void GameStage2::CreatePlayer()
 	{
 		vector<vector<Vec3>> vec =
 		{
@@ -240,7 +258,7 @@ namespace basecross {
 
 	}
 
-	void GameStage::CreateEnemy()
+	void GameStage2::CreateEnemy()
 	{
 		vector< vector <Vec3> > vec = {
 		{
@@ -256,59 +274,19 @@ namespace basecross {
 		}
 	}
 
-
-	//ゴール
-	void GameStage::CreategoalGate()
-	{
-
-		//auto ptrgoalGate = AddGameObject<goalGate>(& scale,& rotation,& position);
-		//SetSharedGameObject(L"Goal", ptrgoalGate);
-		//ptrgoalGate->AddTag(L"Goal");
-
-		vector< vector <Vec3> > vec = {
-		{
-			Vec3(0.0f,0.7f,0.5f),
-			Vec3(0.0f,0.0f,0.0f),
-			Vec3(-4.7f,0.005f,30.0f)
-		}
-		};
-		//オブジェクトの作成
-		for (auto v : vec) {
-			AddGameObject<startGate>(v[0], v[1], v[2]);
-		}
-	}
-
-	//チーズ
-	void GameStage::CreateCheese()
-	{
-		vector< vector <Vec3> > vec = {
-		{
-			Vec3(1.0f,1.0f,0.5f),
-			Vec3(0.0f,0.0f + XMConvertToRadians(270),0.0f),
-			Vec3(-40.0f,0.80f,-0.5f)
-
-		}
-		};
-		//オブジェクトの作成
-		for (auto v : vec) {
-			AddGameObject<Cheese>(v[0], v[1], v[2]);
-		}
-	}
-
-
-	void GameStage::CreateBox()
+	void GameStage2::CreateBox()
 	{
 		vector<vector<Vec3>> vec = {
 		{
-		    Vec3(2.5f, 2.5f, 2.5f),
-		    Vec3(0.0f, 0.0f, 0.0f),
-		    Vec3(0.0f ,-4.75f, -4.0f)
+			Vec3(2.5f, 2.5f, 2.5f),
+			Vec3(0.0f, 0.0f, 0.0f),
+			Vec3(0.0f ,-4.75f, -4.0f)
 		},
-		//{
-		//	Vec3(2.5f, 2.5f, 2.5f),
-		//	Vec3(0.0f, 0.0f, 0.0f),
-		//	Vec3(0.0f, -4.75f, -7.0f)
-        //}
+			//{
+			//	Vec3(2.5f, 2.5f, 2.5f),
+			//	Vec3(0.0f, 0.0f, 0.0f),
+			//	Vec3(0.0f, -4.75f, -7.0f)
+			//}
 
 
 		};
@@ -340,12 +318,11 @@ namespace basecross {
 	}
 
 
-
-	void GameStage::OnCreate() {
+	void GameStage2::OnCreate() {
 		try {
 
 			LoadTextures();
-			LoadModels();
+
 
 			//ビューとライトの作成
 			CreateViewLight();
@@ -365,7 +342,7 @@ namespace basecross {
 				Vec3(85.0f, -3.0f, 0.0f)
 			);
 
-
+			//テーブル
 			AddGameObject<Table>(
 				Vec3(3.0f, 6.0f, 1.0f),
 				Vec3(0.0f, XM_PIDIV2, 0.0f),
@@ -373,10 +350,17 @@ namespace basecross {
 			);
 
 
+			//スタートの作成
+			CreatestartGate();
+			//ゴールの作成
+			AddGameObject<goalGate>(
+				Vec3(1.5f, 1.5f, 0.001f),
+				Vec3(0.0f, 0.0f, 0.0f),
+				Vec3(45.0f, 22.75f, -0.1f)
+			);
+
 			//Boxの作成
 			CreateBox();
-
-			//CreateTestShadowBox();
 
 			//SpotLightの作成
 			auto spotLight = AddGameObject<SpotLight>();
@@ -387,24 +371,11 @@ namespace basecross {
 			CreatePlayer();
 			//エネミーの作成
 			CreateEnemy();
-			//スタートの作成
-			CreatestartGate();
-			//ゴールの作成
-			//CreategoalGate();
-			AddGameObject<goalGate>(
-				Vec3(1.5f, 1.5f, 0.001f),
-				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(45.0f, 22.75f, -0.1f)
-			);
-			//チーズの作成
-			CreateCheese();
 
-			//スプライトオブジェクト
-			AddGameObject<Phase1>();
-
+			//UIの表示
 			auto UI = AddGameObject<GameStageUI>();
 			UI->SetTexture(L"TEX_GameStageUI");
-			UI->SetPosition(0,290.0f, 0);
+			UI->SetPosition(0, 290.0f, 0);
 			UI->SetScale(1.5f, 1.0f, 1.0f);
 			m_gameStageUI.push_back(UI);
 
@@ -422,16 +393,20 @@ namespace basecross {
 			m_BGM = ptrXA->Start(L"Gamebgm", XAUDIO2_LOOP_INFINITE, volume);
 
 			m_pauseManager = AddGameObject<PauseManager>();
+
+
 		}
 		catch (...) {
 			throw;
 		}
 	}
-	void GameStage::OnUpdate()
+
+
+	void GameStage2::OnUpdate()
 	{
 
 		//コントローラチェックして入力があればコマンド呼び出し
-		m_InputHandler.PushHandle(GetThis<GameStage>());
+		m_InputHandler.PushHandle(GetThis<GameStage2>());
 
 
 		auto& app = App::GetApp();
@@ -441,14 +416,8 @@ namespace basecross {
 
 	}
 
-	void GameStage::OnPushA()
-	{
-
-	}
-
-
 	//// テクスチャの読込
-	void GameStage::LoadTextures()
+	void GameStage2::LoadTextures()
 	{
 		// アプリケーションオブジェクトを取得する
 		auto& app = App::GetApp(); // アプリケーションオブジェクト(シングルトン)のインスタンスを取得する
@@ -487,7 +456,8 @@ namespace basecross {
 
 	}
 
-	void GameStage::LoadModels()
+
+	void GameStage2::LoadModels()
 	{
 		auto& app = App::GetApp();
 
@@ -515,21 +485,25 @@ namespace basecross {
 
 	}
 
-
-	void GameStage::OnDestroy()
+	void GameStage2::OnDestroy()
 	{
 		//BGMのストップ
 		auto XAPtr = App::GetApp()->GetXAudio2Manager();
 		XAPtr->Stop(m_BGM);
 
 	}
+	void GameStage2::OnPushA()
+	{
 
-	void GameStage::OnUpdate2()
+	}
+
+
+	void GameStage2::OnUpdate2()
 	{
 		/*	auto& app = App::GetApp();
 			MainCamera* mainCam = app->*/
 
-		if (currentPhase == GamePhase::Phase1)
+		if (currentPhase == GamePhase2::Phase1)
 		{
 
 			auto pause = m_pauseManager.lock();
@@ -572,11 +546,11 @@ namespace basecross {
 
 
 
-			auto pause = m_pauseManager.lock();
-			if (!pause)
-			{
-				return;
-			}
+				auto pause = m_pauseManager.lock();
+				if (!pause)
+				{
+					return;
+				}
 
 				// BボタンでPhase2(GameStart)へ
 				auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
@@ -585,7 +559,7 @@ namespace basecross {
 				{
 					SetView(m_mainView);
 
-					currentPhase = GamePhase::Phase2;
+					currentPhase = GamePhase2::Phase2;
 
 					auto UI = m_gameStageUI[0].lock();
 					UI->SetDrawActive(false);
@@ -611,5 +585,6 @@ namespace basecross {
 
 		}
 	}
+
 }
 //end basecross

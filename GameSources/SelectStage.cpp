@@ -179,6 +179,7 @@ namespace basecross {
 						PostEvent(3.0f, GetThis<SelectStage>(), PtrScene, L"ToGameStage");
 						break;
 					case 1:
+						PostEvent(3.0f, GetThis<SelectStage>(), PtrScene, L"ToGameStage2");
 						break;
 					case 2:
 						break;

@@ -53,5 +53,7 @@
 #include "GameStageUI.h"
 #include "GameSprite.h"
 
+#include "GameStage2.h"
+
 
 
