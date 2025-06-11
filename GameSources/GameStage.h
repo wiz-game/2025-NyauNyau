@@ -25,6 +25,13 @@ namespace basecross {
  	    Phase2,   //全オブジェクトが動作開始
 
 	};
+
+	enum class GameControlMode 
+	{
+		SelectBox,  // 現在、操作するBoxを選択している最中であることを示すモード
+		ControlBox  // 特定のBoxを選択し、そのBoxを操作している最中であることを示すモード
+	};
+
 	class GameStage : public Stage {
 		//ビューの作成
 		void CreateViewLight();
@@ -55,6 +62,8 @@ namespace basecross {
 		//エネミーの生成
 		void CreateEnemy();
 
+		void CreateShadowBall();
+
 
 		std::weak_ptr<PauseManager> m_pauseManager;//ポーズマネージャーへの参照
 		std::weak_ptr<SettingStage> m_settingStage;//セッティングステージへの参照
@@ -71,10 +80,14 @@ namespace basecross {
 
 		GamePhase currentPhase = GamePhase::Phase1; // 最初に設定されているPhase
 
+		std::vector<std::shared_ptr<Box>> m_controllableBoxes;
+		// SelectBoxモードの時に、ハイライトされているBox
+		int m_selectedBoxIndex;
 
-		//std::shared_ptr<Box> boxObject;
-		//std::vector<std::shared_ptr<GameObject>> gameObjects;
-
+		// 現在のゲームの操作モード（SelectBox か ControlBox か）を保持する
+		GameControlMode m_currentControlMode;
+		// ControlBoxモードの時に、現在実際に操作対象となっているBoxオブジェクトへのポインタ
+		std::shared_ptr<Box> m_currentlyControlledBox;
 		
 
 	public:
@@ -83,13 +96,26 @@ namespace basecross {
 		virtual ~GameStage() {}
 		void OnPushA();	
 
+
+		// 現在の操作モードを取得する関数
+		GameControlMode GetCurrentControlMode() const;
+		// 現在ハイライトされているBoxを操作対象に設定し、ControlBoxモードへ移行しようと試みる関数
+		void AttemptToControlSelectedBox();
+		// 現在操作中のBoxの操作を終了し、SelectBoxモードへ戻る関数
+		void ReleaseControlOfBox();
+
+		// SelectBoxモードで、次のBoxを選択候補としてハイライトするための関数
+		void SelectNextBox();
+		// SelectBoxモードで、前のBoxを選択候補としてハイライトするための関数
+		void SelectPreviousBox();
+
+
 		//初期化		
 		virtual void OnCreate()override;
 		virtual void OnUpdate()override;
 		virtual void OnUpdate2()override;
 		virtual void OnDestroy()override;
 
-		//void Initialize();
 
 	};
 }

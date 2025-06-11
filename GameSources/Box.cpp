@@ -11,7 +11,6 @@
 
 namespace basecross
 {
-
 	void Box::OnCreate()
 	{
 		//ドローコンポーネントの追加と設定
@@ -43,17 +42,18 @@ namespace basecross
 		
 	}
 
-
 	void Box::OnUpdate()
 	{
-		auto G = GetStage()->GetThis<GameStage>()->GetGameObjectVec();
+		auto cntlVec = GetStage()->GetThis<GameStage>()->GetGameObjectVec();
 		//コントローラチェックして入力があればコマンド呼び出し
 
 		MoveXZ();
 		BoxMove();
+		DrawStrings();
 	}
 
-	Vec2 Box::GetInputState() const {
+	Vec2 Box::GetInputState() const 
+	{
 		Vec2 ret;
 		//コントローラの取得
 		auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
@@ -61,20 +61,20 @@ namespace basecross
 		ret.y = 0.0f;
 		WORD wButtons = 0;
 
-		// 左スティックの状態を判定
-		if (cntlVec[0].bConnected) {
-			ret.x = cntlVec[0].fThumbLX;
-			ret.y = cntlVec[0].fThumbLY;
-		}
-		return ret;
 
-		auto& app = App::GetApp();
-		auto scene = app->GetScene<Scene>();
+			// 左スティックの状態を判定
+			if (cntlVec[0].bConnected) {
+				ret.x = cntlVec[0].fThumbLX;
+				ret.y = cntlVec[0].fThumbLY;
+			}
+			return ret;
 
-		wstring log = scene->GetDebugString();
-		wstringstream wss;
-		wss << log;
+			auto& app = App::GetApp();
+			auto scene = app->GetScene<Scene>();
 
+			wstring log = scene->GetDebugString();
+			wstringstream wss;
+			wss << log;
 	}
 
 	Vec3 Box::GetMoveVector() const
@@ -166,11 +166,26 @@ namespace basecross
 		}
 
 		m_transComp->SetPosition(pos);
-
+		
 	}
 
+	void Box::SetSelectedForControl(bool selected) 
+	{
+		m_isSelectedForControl = selected;
+	}
 
-	void Box::MoveXZ() {
+	bool Box::IsSelectedForControl() const 
+	{
+		return m_isSelectedForControl;
+	}
+
+	void Box::MoveXZ() 
+	{
+		if (!IsSelectedForControl()) 
+		{
+			return;
+		}
+
 		auto angle = GetInputState();
 		float elapsedTime = App::GetApp()->GetElapsedTime();
 		auto pos = GetComponent<Transform>()->GetPosition();
@@ -179,7 +194,13 @@ namespace basecross
 	}
 
 	void Box::BoxMove()
-	{
+	{		
+		// 自分が操作対象として選択されていなければ、移動処理は行わない
+		if (!IsSelectedForControl()) 
+		{
+			return;
+		}
+
 		float elapsedTime = App::GetApp()->GetElapsedTime();
 		auto angle = GetMoveVector();
 		if (angle.length() > 0.0f)
@@ -187,8 +208,8 @@ namespace basecross
 			auto pos = GetComponent<Transform>()->GetPosition();
 			pos += angle * elapsedTime * 6.0f;
 			GetComponent<Transform>()->SetPosition(pos); // 更新後
-
 		}
+
 	}
 
 	std::vector<Vec3> Box::GetBoxVertices() const
@@ -212,6 +233,7 @@ namespace basecross
 
 		return boxVertices;
 	}
+
 	void Box::DrawStrings()
 	{
 		auto pos = GetComponent<Transform>()->GetPosition();
@@ -229,7 +251,6 @@ namespace basecross
 		ptrString->SetText(str);
 
 	}
-
 
 }
 
