@@ -33,7 +33,7 @@ namespace basecross
     void ShadowComponent::ComputeShadow()
     {
 
-        auto box = GetStage()->GetSharedGameObject<Box>(L"Box");
+        auto box = GetStage()->GetSharedGameObject<Box>(L"Box_0");
         if (!box) return;
 
         shadowVerticesCurrent = boxShadowStrategy->ComputeShadow(m_lightPos, box);

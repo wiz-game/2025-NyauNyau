@@ -141,6 +141,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)BaseShadowStrategy.cpp">
       <Filter>ShadowHonda</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ShadowBall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Character.h">
@@ -283,6 +284,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)BaseShadowStrategy.h">
       <Filter>ShadowHonda</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ShadowBall.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Character.cpp">
