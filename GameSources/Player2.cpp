@@ -314,11 +314,15 @@ namespace basecross
 
 	void Player::OnCollisionExcute(shared_ptr<GameObject>& Other)
 	{
-		if (Other->FindTag(L"Ground")) // 衝突対象が地面か確認
+		if (Other->FindTag(L"Ground_0")) // 衝突対象が地面か確認
 		{
 
 			m_velocity.y = 0;
 			//m_collisionFlag = true;
+
+			auto scene = App::GetApp()->GetScene<Scene>();
+			PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"ToGameOverStage");
+
 		}
 	}
 

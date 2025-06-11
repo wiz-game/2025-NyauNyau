@@ -498,7 +498,7 @@ namespace basecross {
 
 		//‚Â‚Ý‚«(Â)
 		if (app->CheckResource<MeshResource>(L"MODEL_TSUMIKI1")) return;
-		auto meshTsumiki1 = MeshResource::CreateStaticModelMesh(modelPath + L"Block1\\", L"Block1.bmf");
+		auto meshTsumiki1 = MeshResource::CreateBoneModelMesh(modelPath + L"Block1\\", L"Block1.bmf");
 		app->RegisterResource(L"MODEL_TSUMIKI1", meshTsumiki1);
 
 	}

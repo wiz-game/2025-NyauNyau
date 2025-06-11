@@ -38,7 +38,12 @@ namespace basecross {
 	void SpotLight::InitDrawComp()
 	{
 		Mat4x4 span;
-		span.affineTransformation(Vec3(1.0f), Vec3(), Vec3(), Vec3(0.0f,-2.1f,0.0f));
+		span.affineTransformation(
+			Vec3(1.0f, 1.0f, 1.0f),
+			Vec3(0.0f, 0.0f, 0.0f),
+			Vec3(0.0f, 0.0f, 0.0f),
+			Vec3(0.0f,-2.1f, 0.0f)
+		);
 
 
 		m_drawComp = AddComponent<PNTStaticModelDraw>();

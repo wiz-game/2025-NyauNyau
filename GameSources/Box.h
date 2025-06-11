@@ -17,7 +17,7 @@ namespace basecross {
 
 		InputHandler<Box> m_InputHandler;
 
-		shared_ptr<PNTStaticModelDraw> m_drawModelComp;
+		shared_ptr<PNTBoneModelDraw> m_drawModelComp;
 
 		float m_Speed;
 

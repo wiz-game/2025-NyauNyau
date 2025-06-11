@@ -89,9 +89,6 @@ namespace basecross {
 			auto scene = App::GetApp()->GetScene<Scene>();
 			PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"ToTitleStage");
 
-			//一定時間後にスプライトを削除する（タイトル画面からゲームステージに移るタイミング）
-			PostEvent(5.0f, GetThis<ObjectInterface>(), scene, L"RemoveSprite");
-
 		}
 		if (otherObject->FindTag(L"ShadowObject")) {
 			auto grav = GetComponent<Gravity>();

@@ -13,8 +13,8 @@ namespace basecross
 	void Box::OnCreate()
 	{
 		//ドローコンポーネントの追加と設定
-		m_drawComp = AddComponent<PNTStaticDraw>();
-		m_drawComp->SetMeshResource(L"DEFAULT_CUBE");
+		//m_drawComp = AddComponent<PNTStaticDraw>();
+		//m_drawComp->SetMeshResource(L"DEFAULT_CUBE");
 		//drawComp->SetTextureResource(L"TEX_BOX");
 
 		//3Dモデルの呼び出し
@@ -22,7 +22,7 @@ namespace basecross
 
 		//トランスフォームコンポーネント取得と設定
 		m_transComp = GetComponent<Transform>();
-		m_transComp->SetScale(2.5f, 2.5f, 2.5f);
+		m_transComp->SetScale(2.5, 2.5f, 2.5f);
 		m_transComp->SetPosition(Vec3(10.0f, 16.25f, -20.0f));
 
 		//コリジョンつける
@@ -184,8 +184,19 @@ namespace basecross
 
 	void Box::InitDrawComp()
 	{
-		m_drawModelComp = AddComponent<PNTStaticModelDraw>();
+		Mat4x4 span;
+		span.affineTransformation
+		(
+			Vec3(1.0f, 1.0f, 1.0f), 
+			Vec3(0.0f, 0.0f, 0.0f), 
+			Vec3(0.0f, 0.0f, 0.0f), 
+			Vec3(0.0f, -0.5f, 0.0f)
+		);
+
+		m_drawModelComp = AddComponent<PNTBoneModelDraw>();
 		m_drawModelComp->SetMeshResource(L"MODEL_TSUMIKI1");
+
+		m_drawModelComp->SetMeshToTransformMatrix(span);
 
 	}
 
