@@ -377,11 +377,6 @@ namespace basecross {
 		app->RegisterTexture(L"TEX_POINT2", texPath + L"point2.png");
 		app->RegisterTexture(L"TEX_FOOTPRINT", texPath + L"Footprint.png");
 
-		app->RegisterTexture(L"TEX_CAT WALK1", texPath + L"Cat Walk1.png");
-		app->RegisterTexture(L"TEX_CAT WALK2", texPath + L"Cat Walk2.png");
-		app->RegisterTexture(L"TEX_CAT WALK3", texPath + L"Cat Walk3.png");
-		app->RegisterTexture(L"TEX_CAT WALK4", texPath + L"Cat Walk4.png");
-		app->RegisterTexture(L"TEX_CAT WALK5", texPath + L"Cat Walk5.png");
 		app->RegisterTexture(L"TEX_CatWalk", texPath + L"Cat Walk.png");
 		app->RegisterTexture(L"TEX_Loading", texPath + L"Loading.png");
 		app->RegisterTexture(L"TEX_NEZUMI", texPath + L"nezumi3.png");
