@@ -39,14 +39,35 @@ namespace basecross {
 			LoadTextures();
 
 			//スプライトオブジェクト
-			AddGameObject<gameClearSprite>();
-			AddGameObject<BackTitleButton>();
+			m_sprites.push_back(AddGameObject<GameOverSprite>());
+			m_sprites.push_back(AddGameObject<BackTitleButton>());
+
+
+			m_catSprite = AddGameObject<CatWalkSprite>();
+			auto walk = m_catSprite.lock();
+			walk->SetDrawActive(false);
+
+			m_loading = AddGameObject<GameSprite>();
+			auto loading = m_loading.lock();
+			loading->SetTexture(L"TEX_Loading");
+			loading->SetPosition(270, -350, 0);
+			loading->SetScale(1.0f, 0.5f, 1.0f);
+			loading->SetDrawActive(false);
+
+			m_rat = AddGameObject<GameSprite>();
+			auto rat = m_rat.lock();
+			rat->SetTexture(L"TEX_NEZUMI");
+			rat->SetPosition(610.0f, -385.0f, 0);
+			rat->SetScale(0.1f, 0.2f, 1.0f);
+			rat->SetDrawActive(false);
+			rat->SetMovementActive(false);
+
 
 			auto scene = App::GetApp()->GetScene<Scene>();
-			auto volume = scene->m_volume;
+			auto volumeBGM = scene->m_volumeBGM;
 
 			auto ptrXA = App::GetApp()->GetXAudio2Manager();
-			m_BGM = ptrXA->Start(L"GameClearbgm", XAUDIO2_LOOP_INFINITE, volume);
+			m_BGM = ptrXA->Start(L"GameClearbgm", XAUDIO2_LOOP_INFINITE, volumeBGM);
 
 
 		}
@@ -68,7 +89,12 @@ namespace basecross {
 	void goalStage::OnPushA()
 	{
 		auto scene = App::GetApp()->GetScene<Scene>();
-		PostEvent(1.3f, GetThis<ObjectInterface>(), scene, L"ToTitleStage");
+		auto volumeSE = scene->m_volumeSE;
+		auto ptrXA = App::GetApp()->GetXAudio2Manager();
+		m_SE = ptrXA->Start(L"button_SE", 0, volumeSE);
+
+		StartCatWalkAnimation();
+		PostEvent(3.0f, GetThis<ObjectInterface>(), scene, L"ToTitleStage");
 	}
 
 	void goalStage::LoadTextures()
@@ -86,13 +112,40 @@ namespace basecross {
 		app->RegisterTexture(L"TEX_GOALSTAGE", texPath + L"GoalStage.png");
 		app->RegisterTexture(L"TEX_BACKTITLE", texPath + L"Back Title.png");
 	}
+
 	void goalStage::OnDestroy()
 	{
 		//BGMのストップ
 		auto XAPtr = App::GetApp()->GetXAudio2Manager();
 		XAPtr->Stop(m_BGM);
+	}
+
+	void goalStage::StartCatWalkAnimation()
+	{
+		//スプライトの非表示
+		for (auto sprite : m_sprites)
+		{
+			RemoveGameObject<GameObject>(sprite);
+		}
+
+
+		if (auto spr = m_catSprite.lock())
+		{
+			spr->SetDrawActive(true);
+			spr->StartAnimation();
+		}
+		if (auto spr = m_loading.lock())
+		{
+			spr->SetDrawActive(true);
+		}
+		if (auto spr = m_rat.lock())
+		{
+			spr->SetDrawActive(true);
+			spr->SetMovementActive(true);
+		}
 
 
 	}
+
 }
 //end basecross

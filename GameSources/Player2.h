@@ -55,7 +55,7 @@ namespace basecross
 		shared_ptr<Transform> m_Transform;
 
 		// ©g‚Ìî•ñ
-		Vec2 m_Center;
+		Vec3 m_Center;
 		float m_Radius;
 
 		// Õ“Ë‘Šè‚Ìî•ñ
@@ -85,12 +85,12 @@ namespace basecross
 		}
 
 
-		void SetCenter(const Vec2& center)
+		void SetCenter(const Vec3& center)
 		{
 			m_Center = center;
 		}
 
-		Vec2 GetCenter() const
+		Vec3 GetCenter() const
 		{
 			return m_Center;
 		}
@@ -113,7 +113,7 @@ namespace basecross
 		}
 
 		// ‘½ŠpŒ`‚ğ•ª—£²‚É“Š‰e‚µ‚Ä”ÍˆÍ‚ğæ“¾
-		void ProjectOntoAxis(const vector<Vec2>& poly, const Vec2& axis, float& min, float& max)
+		void ProjectOntoAxis(const vector<Vec3>& poly, const Vec3& axis, float& min, float& max)
 		{
 			min = max = poly[0].dot(axis);
 			for (const auto& p : poly)
@@ -125,7 +125,7 @@ namespace basecross
 		}
 
 		// ‰~‚ğ•ª—£²‚É“Š‰e‚µ‚Ä”ÍˆÍ‚ğæ“¾
-		void ProjectCircleOntoAxis(const Vec2& center, float radius, const Vec2& axis, float& min, float& max)
+		void ProjectCircleOntoAxis(const Vec3& center, float radius, const Vec3& axis, float& min, float& max)
 		{
 			float centerProj = center.dot(axis);
 			min = centerProj - radius;
@@ -146,6 +146,8 @@ namespace basecross
 		virtual void OnUpdate() override;
 
 		//void OnCollisionEnter(shared_ptr<GameObject>& collision) override;
+
+
 
 
 	};

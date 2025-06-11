@@ -14,9 +14,12 @@ namespace basecross
 	void Box::OnCreate()
 	{
 		//ドローコンポーネントの追加と設定
-		m_drawComp = AddComponent<PNTStaticDraw>();
-		m_drawComp->SetMeshResource(L"DEFAULT_CUBE");
+		//m_drawComp = AddComponent<PNTStaticDraw>();
+		//m_drawComp->SetMeshResource(L"DEFAULT_CUBE");
 		//drawComp->SetTextureResource(L"TEX_BOX");
+
+		//3Dモデルの呼び出し
+		InitDrawComp();
 
 		//トランスフォームコンポーネント取得と設定
 		m_transComp = GetComponent<Transform>();
@@ -26,6 +29,9 @@ namespace basecross
 		/*m_transComp->SetScale(2.5f, 2.5f, 2.5f);
 		m_transComp->SetRotation(0,0,0);
 		m_transComp->SetPosition(0.0f, - 4.75f, -4.0f);*/
+
+		m_transComp->SetScale(2.5, 2.5f, 2.5f);
+		m_transComp->SetPosition(Vec3(10.0f, 16.25f, -20.0f));
 
 		//コリジョンつける
 		auto ptrColl = AddComponent<CollisionRect>();
@@ -39,7 +45,6 @@ namespace basecross
 		auto ptrString = AddComponent<StringSprite>();
 		ptrString->SetText(L"");
 		ptrString->SetTextRect(Rect2D<float>(16.0f, 125.0f, 640.0f, 480.0f));
-		
 	}
 
 	void Box::OnUpdate()
@@ -214,7 +219,7 @@ namespace basecross
 
 	std::vector<Vec3> Box::GetBoxVertices() const
 	{
-		std::vector<Vec3> boxVertices;
+		/*std::vector<Vec3> boxVertices;
 
 		auto transform = GetComponent<Transform>();
 		Vec3 position = transform->GetPosition();
@@ -231,7 +236,18 @@ namespace basecross
 			position + Vec3(scale.x / 2, scale.y / 2, scale.z / 2)
 		};
 
-		return boxVertices;
+		return boxVertices;*/
+
+		return {
+		Vec3(-0.5f, -0.5f, -0.5f),
+		Vec3(0.5f, -0.5f, -0.5f),
+		Vec3(-0.5f,  0.5f, -0.5f),
+		Vec3(0.5f,  0.5f, -0.5f),
+		Vec3(-0.5f, -0.5f,  0.5f),
+		Vec3(0.5f, -0.5f,  0.5f),
+		Vec3(-0.5f,  0.5f,  0.5f),
+		Vec3(0.5f,  0.5f,  0.5f)
+		};
 	}
 
 	void Box::DrawStrings()
@@ -252,6 +268,24 @@ namespace basecross
 
 	}
 
-}
 
+	void Box::InitDrawComp()
+	{
+		Mat4x4 span;
+		span.affineTransformation
+		(
+			Vec3(1.0f, 1.0f, 1.0f), 
+			Vec3(0.0f, 0.0f, 0.0f), 
+			Vec3(0.0f, 0.0f, 0.0f), 
+			Vec3(0.0f, -0.5f, 0.0f)
+		);
+
+		m_drawModelComp = AddComponent<PNTBoneModelDraw>();
+		m_drawModelComp->SetMeshResource(L"MODEL_TSUMIKI1");
+
+		m_drawModelComp->SetMeshToTransformMatrix(span);
+
+	}
+
+}
 //end basecross

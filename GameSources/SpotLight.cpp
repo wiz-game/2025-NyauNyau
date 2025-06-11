@@ -21,7 +21,7 @@ namespace basecross {
 		//トランスフォームコンポーネント取得と設定
 		auto transComp = GetComponent<Transform>();
 		transComp->SetScale(0.25f, 0.25f, 0.25f);
-		transComp->SetPosition(2.0f, -4.75f, -15.0f);
+		transComp->SetPosition(10.0f, 15.5f, -30.0f);
 
 		//コリジョンつける
 		//auto ptrColl = AddComponent<CollisionObb>();
@@ -38,7 +38,12 @@ namespace basecross {
 	void SpotLight::InitDrawComp()
 	{
 		Mat4x4 span;
-		span.affineTransformation(Vec3(0.5f), Vec3(), Vec3(), Vec3(0.0f,-2.1f,0.0f));
+		span.affineTransformation(
+			Vec3(1.0f, 1.0f, 1.0f),
+			Vec3(0.0f, 0.0f, 0.0f),
+			Vec3(0.0f, 0.0f, 0.0f),
+			Vec3(0.0f,-2.1f, 0.0f)
+		);
 
 
 		m_drawComp = AddComponent<PNTStaticModelDraw>();

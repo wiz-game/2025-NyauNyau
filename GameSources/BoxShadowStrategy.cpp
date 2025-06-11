@@ -18,10 +18,20 @@ namespace basecross
         auto box = std::dynamic_pointer_cast<Box>(obj);
         if (box)
         {
-            std::vector<Vec3> objectVertices = box->GetBoxVertices();
+
+            auto transform = box->GetComponent<Transform>();
+            Mat4x4 worldMatrix = transform->GetWorldMatrix();
+
+            std::vector<Vec3> localVertices = box->GetBoxVertices();
+            std::vector<Vec3> worldVertices;
+            worldVertices.reserve(localVertices.size());
+
+            for (const auto& v : localVertices) {
+                worldVertices.push_back(v * worldMatrix);
+            }
 
             // 影の交点を計算
-            std::vector<Vec3> shadowVertices = ComputeShadowIntersections(lightPos, objectVertices);
+            std::vector<Vec3> shadowVertices = ComputeShadowIntersections(lightPos, worldVertices);
 
             // 凸包を計算して影の形状を整理
             return ComputeConvexHull(shadowVertices);
@@ -51,47 +61,71 @@ namespace basecross
                 continue;
 
             float t = -(wallPlane.x * lightPos.x + wallPlane.y * lightPos.y + wallPlane.z * lightPos.z + wallPlane.w) / denominator;
-            if (t < 0)
+            if (t > 0)
                 continue;
 
             Vec3 intersection = lightPos + lightDir * t;
-            intersection.x = wallPoint.x;
+            intersection.z = wallPoint.z;
 
             intersections.push_back(intersection);
         }
         return intersections;
+
     }
+
 
     Vec4 BoxShadowStrategy::GeneratePlane(const Vec3& wallPoint, const Vec3& wallNormal)
     {
-        return Vec4(wallNormal.x, wallNormal.y, wallNormal.z, -wallNormal.dot(wallPoint));
+        return Vec4(wallNormal.x, wallNormal.y, wallNormal.z, wallNormal.dot(wallPoint));
     }
 
     std::vector<Vec3> BoxShadowStrategy::ComputeConvexHull(std::vector<Vec3> vertices)
     {
-        std::vector<Vec3> hull;
-        if (vertices.size() < 3) return hull;
-
-        BubbleSort(vertices);
-
-        for (const auto& v : vertices)
-        {
-            while (hull.size() >= 2 && Cross(hull[hull.size() - 2], hull.back(), v).z <= 0)
-            {
-                hull.pop_back();
-            }
-            hull.push_back(v);
+        if (vertices.size() < 3) {
+            return vertices; // 頂点が3未満なら、それがそのまま凸包
         }
 
-        for (int i = vertices.size() - 1; i >= 0; i--)
-        {
-            while (hull.size() >= 2 && Cross(hull[hull.size() - 2], hull.back(), vertices[i]).z <= 0)
-            {
-                hull.pop_back();
-            }
-            hull.push_back(vertices[i]);
+        // X-Y座標でソート
+        std::sort(vertices.begin(), vertices.end(), [](const Vec3& a, const Vec3& b) {
+            if (a.x != b.x) return a.x < b.x;
+            return a.y < b.y;
+            });
+
+        // 重複点を削除すると、より安定する
+        vertices.erase(std::unique(vertices.begin(), vertices.end(), [](const Vec3& a, const Vec3& b) {
+            return a.x == b.x && a.y == b.y; // XYが同じなら重複とみなす
+            }), vertices.end());
+
+        if (vertices.size() < 3) {
+            return vertices; // 重複削除後に3未満になった場合
         }
 
-        return hull;
+
+        // 上側と下側の凸包を計算
+        std::vector<Vec3> lower_hull;
+        std::vector<Vec3> upper_hull;
+
+        for (const auto& p : vertices) {
+            // 下側凸包
+            while (lower_hull.size() >= 2 && Cross(lower_hull[lower_hull.size() - 2], lower_hull.back(), p).z <= 0) {
+                lower_hull.pop_back();
+            }
+            lower_hull.push_back(p);
+
+            // 上側凸包
+            while (upper_hull.size() >= 2 && Cross(upper_hull[upper_hull.size() - 2], upper_hull.back(), p).z >= 0) {
+                upper_hull.pop_back();
+            }
+            upper_hull.push_back(p);
+        }
+
+        // 上側と下側を結合して、最終的な凸包を作成
+        std::vector<Vec3> convex_hull = lower_hull;
+        // 上側は逆順に追加する（最後の点と最初の点は重複するので除く）
+        for (size_t i = upper_hull.size() - 2; i > 0; --i) {
+            convex_hull.push_back(upper_hull[i]);
+        }
+
+        return convex_hull;
     }
 }

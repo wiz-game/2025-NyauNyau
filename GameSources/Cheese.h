@@ -11,6 +11,8 @@ namespace basecross {
 	class Cheese : public GameObject
 	{
 		std::shared_ptr<Transform> m_transComp;
+		shared_ptr<SoundItem> m_SE;
+
 		Vec3 m_Scale;
 		Vec3 m_Rotation;
 		Vec3 m_Position;

@@ -18,15 +18,15 @@ namespace basecross {
 
 		m_mainView = ObjectFactory::Create<SingleView>(GetThis<Stage>());
 		auto ptrmainCamera = ObjectFactory::Create<MainCamera>();
-		ptrmainCamera->SetEye(Vec3(0.0f, 0.0f, 10.0f));
+		ptrmainCamera->SetEye(Vec3(12.0f, 0.0f, 10.0f));
 		ptrmainCamera->SetAt(Vec3(0.0f, 0.0f, 0.0f));
 		m_mainView->SetCamera(ptrmainCamera);
 
 
 		m_phase1View = ObjectFactory::Create<SingleView>(GetThis<Stage>());
 		auto ptrphase1Camera = ObjectFactory::Create<Phase1Camera>();
-		ptrphase1Camera->SetEye(Vec3(5.0f, 10.0f, -60.0f));
-		ptrphase1Camera->SetAt(Vec3(5.0f, 0.0f, 0.0f));
+		ptrphase1Camera->SetEye(Vec3(10.0f, 30.0f, -60.0f));
+		ptrphase1Camera->SetAt(Vec3(10.0f, 20.0f, 0.0f));
 		m_phase1View->SetCamera(ptrphase1Camera);
 
 		SetView(m_phase1View);
@@ -51,7 +51,7 @@ namespace basecross {
 	{
 		vector<vector<Vec3>> vec = {
 			{
-				Vec3(200.0f, 60.0f, 1.0f), 
+				Vec3(200.0f, 200.0f, 1.0f), 
 				Vec3(0.0f, 0.0f, 0.0f),
 				Vec3(0.0f, 4.0f, 0.0f)
 			},
@@ -89,7 +89,7 @@ namespace basecross {
 	{
 		vector<vector<Vec3>> vec = {
 		{
-			Vec3(200.0f, 10.0f, 50.0f),  // 10,1,10
+			Vec3(200.0f, 10.0f, 200.0f),  // 10,1,10
 			Vec3(0.0f, 0.0f, 0.0f),
 			Vec3(0.0f, -10.5f, 0.0f)
 		},
@@ -99,9 +99,9 @@ namespace basecross {
 			//	Vec3(-8.0f, -1.0f, 6.0f)
 			//},
 			//{
-			//	Vec3(8.0f, 1.0f, 20.0f),
-			//	Vec3(0.0f,  0.0f, 0.0f),
-			//	Vec3(0.0f, -1.0f, 6.0f)
+			/*	Vec3(8.0f, 1.0f, 20.0f),
+				Vec3(0.0f,  0.0f, 0.0f),
+				Vec3(0.0f, -1.0f, 6.0f)*/
 
 			//}
 
@@ -139,18 +139,6 @@ namespace basecross {
 			Vec3(0.0f, 0.0f, 0.0f),
 			Vec3(0.0f, 4.0f, 0.0f)
 		},
-			//{
-			//	Vec3(20.0f, 1.0f, 8.0f),
-			//	Vec3(0.0f, 0.0f, 0.0f),
-			//	Vec3(-8.0f, -1.0f, 6.0f)
-			//},
-			//{
-			//	Vec3(8.0f, 1.0f, 20.0f),
-			//	Vec3(0.0f,  0.0f, 0.0f),
-			//	Vec3(0.0f, -1.0f, 6.0f)
-
-			//}
-
 		};
 
 		int index = 0; // ユニーク名用のインデックス
@@ -173,6 +161,18 @@ namespace basecross {
 			wstring uniqueName = L"Ground_1" + to_wstring(i);  // ユニーク名を生成
 			SetSharedGameObject(uniqueName, grounds[i]);      // ユニーク名で共有登録
 		}
+
+	}
+
+	void GameStage::CreateTable()
+	{
+		vector<vector<Vec3>> vec = {
+		{
+		Vec3(30.0f, 30.0f, 30.0f),  // 10,1,10
+		Vec3(0.0f, 0.0f, 0.0f),
+		Vec3(10.0f, 0.0f, -30.0f)
+		},
+		};
 
 	}
 
@@ -201,7 +201,8 @@ namespace basecross {
 			{
 				Vec3(1.25f, 1.0f, 1.0f),
 				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(-25.0f, 0.5f, -0.2f)
+				Vec3(-25.0f, 22.5f, -0.5f)
+				//Vec3(-25.0f, 0.5f, -0.2f)
 			},
 
 		};
@@ -245,7 +246,7 @@ namespace basecross {
 		{
 			Vec3(9.0f,9.0f,-0.001f),
 			Vec3(0.0f,0.0f,0.0f),
-			Vec3(-35.0f,4.0f,-0.5f)
+			Vec3(-35.0f,26.25f,-0.5f)
 		}
 		};
 		for (auto& v : vec) {
@@ -420,9 +421,9 @@ namespace basecross {
 				Vec3(-65.0f, -3.0f, 0.0f)
 			);
 			AddGameObject<ShadowFloor>(
-				Vec3(20.0f, 7.0f, 1.0f),
+				Vec3(100.0f, 50.0f, 1.0f),
 				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(30.0f, -3.0f, 0.0f)
+				Vec3(85.0f, -3.0f, 0.0f)
 			);
 			AddGameObject<ShadowFloor>(
 				Vec3(40.0f, 6.0f, 1.0),
@@ -461,6 +462,11 @@ namespace basecross {
 			//	Vec3(-5.0f, -9.5f, -5.0f)
 			//);
 
+			AddGameObject<Table>(
+				Vec3(3.0f, 6.0f, 1.0f),
+				Vec3(0.0f, XM_PIDIV2, 0.0f),
+				Vec3(10.0f, -6.0f, -25.0f)
+			);
 
 
 			//Boxの作成
@@ -486,7 +492,7 @@ namespace basecross {
 			AddGameObject<goalGate>(
 				Vec3(1.5f, 1.5f, 0.001f),
 				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(25.0f, 1.0f, -0.1f)
+				Vec3(45.0f, 22.75f, -0.1f)
 			);
 			//チーズの作成
 			CreateCheese();
@@ -508,7 +514,7 @@ namespace basecross {
 			m_gameStageUI.push_back(buttonUI);
 
 			auto scene = App::GetApp()->GetScene<Scene>();
-			auto volume = scene->m_volume;
+			auto volume = scene->m_volumeBGM;
 
 			auto ptrXA = App::GetApp()->GetXAudio2Manager();
 			m_BGM = ptrXA->Start(L"Gamebgm", XAUDIO2_LOOP_INFINITE, volume);
@@ -695,16 +701,27 @@ namespace basecross {
 	{
 		auto& app = App::GetApp();
 
-		if (app->CheckResource<MeshResource>(L"MODEL_LAMP")) return;
-
 		auto mediaPath = app->GetDataDirWString();
 
 		auto modelPath = mediaPath + L"Models\\";
 
-		auto meshLamp = MeshResource::CreateStaticModelMesh(modelPath + L"Lamp\\", L"NyauNyauLamp.bmf");
 
+		//ランプ
+		if (app->CheckResource<MeshResource>(L"MODEL_LAMP")) return;
+		auto meshLamp = MeshResource::CreateStaticModelMesh(modelPath + L"Lamp\\", L"NyauNyauLamp.bmf");
 		app->RegisterResource(L"MODEL_LAMP", meshLamp);
 
+
+		//テーブル
+		if (app->CheckResource<MultiMeshResource>(L"MODEL_TABLE")) return;
+		auto meshTable = MultiMeshResource::CreateStaticModelMultiMesh(modelPath + L"Table\\", L"Table.bmf");
+		app->RegisterResource(L"MODEL_TABLE", meshTable);
+
+
+		//つみき(青)
+		if (app->CheckResource<MeshResource>(L"MODEL_TSUMIKI1")) return;
+		auto meshTsumiki1 = MeshResource::CreateBoneModelMesh(modelPath + L"Block1\\", L"Block1.bmf");
+		app->RegisterResource(L"MODEL_TSUMIKI1", meshTsumiki1);
 
 	}
 
@@ -738,10 +755,6 @@ namespace basecross {
 					{
 						obj->SetUpdateActive(true);
 					}
-					if(obj)
-					{
-						obj->SetUpdateActive(false);
-					}
 				    if (dynamic_pointer_cast<Box>(obj))
 					{
 						obj->SetUpdateActive(true);
@@ -750,12 +763,26 @@ namespace basecross {
 					{
 						obj->SetUpdateActive(true);
 					}
+					else
+					{
+						obj->SetUpdateActive(false);
+					}
+
 
 
 				}
 
 
+
+			auto pause = m_pauseManager.lock();
+			if (!pause)
+			{
+				return;
+			}
+
 				// BボタンでPhase2(GameStart)へ
+				auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+
 				if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B)
 				{
 					SetView(m_mainView);

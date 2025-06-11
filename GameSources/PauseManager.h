@@ -18,6 +18,8 @@ namespace basecross {
 		std::vector<std::shared_ptr<PauseSprite>> m_pauseSprites;//ポーズスプライトの変数
 		std::shared_ptr<PauseSprite> catPointSprite;//左矢印
 		std::shared_ptr<PauseSprite> Pause;
+		shared_ptr<SoundItem> m_SE;
+
 
 		//ポーズフラグ
 		int m_SpriteNum;//今選択しているスプライト

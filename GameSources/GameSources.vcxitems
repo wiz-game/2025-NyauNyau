@@ -16,11 +16,12 @@
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)BackTitleButton.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BaseShadowStrategy.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)BackTitleButton2.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Box.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BoxShadowStrategy.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CatwalkSprite.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Character.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Enemy.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameSprite.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Phase1Camera.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FootprintSprite.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)gameClearSprite.h" />
@@ -54,6 +55,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SpotLight.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SelectStage.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Start.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Table.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TestShadowBox.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BackgroundTitleSprite.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TitleSprite.h" />
@@ -64,13 +66,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)BackTitleButton.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)BackTitleButton2.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)BaseShadowStrategy.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Box.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)BoxShadowStrategy.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CatWalkSprite.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Character.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Cheese.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Enemy.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)GameSprite.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Phase1Camera.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FootprintSprite.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)gameClearSprite.cpp" />
@@ -102,6 +105,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)SpotLight.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SelectStage.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Start.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Table.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TestShadowBox.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)BackgroundTitleSprite.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TitleSprite.cpp" />

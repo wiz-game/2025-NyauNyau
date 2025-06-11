@@ -173,9 +173,13 @@ namespace basecross {
 			if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A)
 			{
 				auto scene = App::GetApp()->GetScene<Scene>();
+				auto volumeSE = scene->m_volumeSE;
+				auto ptrXA = App::GetApp()->GetXAudio2Manager();
+				m_SE = ptrXA->Start(L"button_SE", 0, volumeSE);
 				switch (m_SpriteNum)
 				{
 				case 0://リスタート
+
 					PostEvent(0.0f, GetThis<PauseManager>(), scene, L"ToGameStage");
 					return;
 

@@ -18,8 +18,6 @@ namespace basecross {
 		float EnemySpeed;
 
 
-
-
 	public:
 		// \’z‚Æ”jŠü
 		Enemy(const shared_ptr<Stage>& stage,
@@ -30,6 +28,7 @@ namespace basecross {
 		);
 
 
+
 		virtual ~Enemy();
 
 		virtual void OnCreate() override; //‰Šú‰»
@@ -37,6 +36,8 @@ namespace basecross {
 
 
 		virtual void OnCollisionEnter(shared_ptr<GameObject>& Other) override;
+
+
 
 
 	};
