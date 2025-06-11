@@ -148,6 +148,8 @@ namespace basecross
 		//void OnCollisionEnter(shared_ptr<GameObject>& collision) override;
 
 
+
+
 	};
 }
 //end basecross

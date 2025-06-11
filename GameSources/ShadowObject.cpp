@@ -26,6 +26,9 @@ namespace basecross
         //auto ptrColl = AddComponent<CollisionObb>();
         //ptrColl->SetMakedSize(2.45f);
 
+        //traComp->SetPosition((const Vec3(0.0f, 0.0f, -0.5f)));
+        //auto ptrColl = AddComponent<CollisionObb>();
+        //AddTag(L"ShadowObject");
     }
 
     void ShadowObject::OnUpdate()

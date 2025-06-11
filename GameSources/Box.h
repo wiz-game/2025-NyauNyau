@@ -22,6 +22,7 @@ namespace basecross {
 
 		InputHandler<Box> m_InputHandler;
 
+		shared_ptr<PNTBoneModelDraw> m_drawModelComp;
 
 		float m_Speed;
 
@@ -64,6 +65,9 @@ namespace basecross {
 
 		virtual void OnCreate() override;
 		virtual void OnUpdate() override;
+
+		void InitDrawComp();
+
 	};
 
 }

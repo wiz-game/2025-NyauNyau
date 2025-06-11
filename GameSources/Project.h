@@ -40,7 +40,7 @@
 #include "ShadowComponent.h"
 #include "Phase1Camera.h"
 #include "FootprintSprite.h"
-
+#include "Table.h"
 #include "TestShadowBox.h"
 #include "Phase1.h"
 

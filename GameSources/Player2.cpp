@@ -109,7 +109,6 @@ namespace basecross
 
 		GetComponent<Transform>()->SetPosition(pos); // 更新後
 
-
 	}
 
 	void Player::Jump(shared_ptr<GameObject>& jump)
@@ -358,6 +357,10 @@ namespace basecross
 			m_velocity.y = 0;
 			m_isAir = false;
 			//m_collisionFlag = true;
+
+			auto scene = App::GetApp()->GetScene<Scene>();
+			PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"ToGameOverStage");
+
 		}
 	}
 

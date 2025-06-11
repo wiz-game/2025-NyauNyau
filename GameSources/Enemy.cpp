@@ -16,7 +16,7 @@ namespace basecross {
 		GameObject(StagePtr),
 		m_Scale(Scale),
 		m_Rotation(Rotation),
-		m_Position(Position), 
+		m_Position(Position),
 		isGameOver(false),
 		EnemySpeed(0.0f)
 	{
@@ -42,8 +42,8 @@ namespace basecross {
 		auto ptrColl = AddComponent<CollisionObb>();
 
 		AddTag(L"Enemy");
-
 	}
+
 
 
 	void Enemy::OnUpdate()
@@ -83,8 +83,6 @@ namespace basecross {
 		// 更新した位置をセット
 		ptrTransform->SetPosition(currentPosition);
 
-
-
 	}
 
 
@@ -101,8 +99,10 @@ namespace basecross {
 			//	//一定時間後にスプライトを削除する（タイトル画面からゲームステージに移るタイミング）
 			//	PostEvent(5.0f, GetThis<ObjectInterface>(), scene, L"RemoveSprite");
 
-			//}
-
+		}
+		if (otherObject->FindTag(L"ShadowObject")) {
+			auto grav = GetComponent<Gravity>();
+			grav->StartJump(Vec3(0, 10.0f, 0));
 		}
 	}
 }
