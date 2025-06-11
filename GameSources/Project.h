@@ -13,6 +13,7 @@
 #include "Wall.h"
 #include "Ground.h"
 #include "Box.h"
+#include "ShadowBall.h"
 #include "SpotLight.h"
 #include "ShadowObject.h"
 #include "GameStage.h"
