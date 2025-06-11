@@ -455,7 +455,9 @@ namespace basecross
 			if (overlap < minOverlap) {
 				minOverlap = overlap;
 				smallestAxis = axis;
+				break;
 			}
+
 		}
 
 		// === 最終的な押し出しベクトル(MTV)を計算 ===
