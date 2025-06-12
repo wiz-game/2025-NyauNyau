@@ -55,7 +55,7 @@ namespace basecross {
 			m_loading = AddGameObject<GameSprite>();
 			auto loading = m_loading.lock();
 			loading->SetTexture(L"TEX_Loading");
-			loading->SetPosition(270, -350, 0);
+			loading->SetPosition(230, -350, 0);
 			loading->SetScale(1.0f, 0.5f, 1.0f);
 			loading->SetDrawActive(false);
 

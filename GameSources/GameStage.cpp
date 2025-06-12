@@ -51,7 +51,7 @@ namespace basecross {
 	{
 		vector<vector<Vec3>> vec = {
 			{
-				Vec3(200.0f, 200.0f, 1.0f), 
+				Vec3(200.0f, 200.0f, 1.0f),
 				Vec3(0.0f, 0.0f, 0.0f),
 				Vec3(0.0f, 4.0f, 0.0f)
 			},
@@ -103,7 +103,7 @@ namespace basecross {
 				Vec3(0.0f,  0.0f, 0.0f),
 				Vec3(0.0f, -1.0f, 6.0f)*/
 
-			//}
+				//}
 
 		};
 
@@ -300,15 +300,15 @@ namespace basecross {
 	{
 		vector<vector<Vec3>> vec = {
 		{
-		    Vec3(2.5f, 2.5f, 2.5f),
-		    Vec3(0.0f, 0.0f, 0.0f),
-		    Vec3(0.0f ,-4.75f, -4.0f)
+			Vec3(2.5f, 2.5f, 2.5f),
+			Vec3(0.0f, 0.0f, 0.0f),
+			Vec3(0.0f ,-4.75f, -4.0f)
 		},
-		//{
-		//	Vec3(2.5f, 2.5f, 2.5f),
-		//	Vec3(0.0f, 0.0f, 0.0f),
-		//	Vec3(0.0f, -4.75f, -7.0f)
-        //}
+			//{
+			//	Vec3(2.5f, 2.5f, 2.5f),
+			//	Vec3(0.0f, 0.0f, 0.0f),
+			//	Vec3(0.0f, -4.75f, -7.0f)
+			//}
 
 
 		};
@@ -404,7 +404,7 @@ namespace basecross {
 
 			auto UI = AddGameObject<GameStageUI>();
 			UI->SetTexture(L"TEX_GameStageUI");
-			UI->SetPosition(0,290.0f, 0);
+			UI->SetPosition(0, 290.0f, 0);
 			UI->SetScale(1.5f, 1.0f, 1.0f);
 			m_gameStageUI.push_back(UI);
 
@@ -412,8 +412,16 @@ namespace basecross {
 			auto buttonUI = AddGameObject<GameStageUI>();
 			buttonUI->SetTexture(L"TEX_GameButtonUI");
 			buttonUI->SetPosition(520.0f, -320.0f, 0);
-			buttonUI->SetScale(0.5f, 0.6f, 0);
+			buttonUI->SetScale(0.5f, 0.6f, 1.0f);
 			m_gameStageUI.push_back(buttonUI);
+
+			auto stage = AddGameObject<GameStageUI>();
+			stage->SetTexture(L"TEX_STAGE1");
+			stage->SetPosition(0, 0, 0);
+			stage->SetScale(2.0f, 2.0f, 1.0f);
+			stage->SetColor(1.0f, 1.0f, 1.0f, 0.5f);
+			m_gameStageUI.push_back(stage);
+
 
 			auto scene = App::GetApp()->GetScene<Scene>();
 			auto volume = scene->m_volumeBGM;
@@ -438,6 +446,66 @@ namespace basecross {
 
 		auto device = app->GetInputDevice();
 		auto pad = device.GetControlerVec()[0];
+		auto delta = app->GetElapsedTime();
+
+		auto scene = app->GetScene<Scene>();
+		wstring log = scene->GetDebugString();
+		wstringstream wss(log);
+
+
+		m_Time += delta;
+
+		if (m_Time > 0.3f && !m_isStageFadingOut)
+		{
+			m_isStageFadingOut = true;
+		}
+
+		if (m_isStageFadingOut)
+		{
+			//スプライトが有効で、まだ表示されていたら
+			auto stageSpr = m_gameStageUI[2].lock();
+			if (stageSpr && stageSpr->IsDrawActive())
+			{
+				//アニメーションにかける時間
+				const float fadeOutDuration = 0.5f;
+				m_fadeTimer += delta;
+
+				if (m_fadeTimer < fadeOutDuration)
+				{
+					//アニメーションの進歩率(0.0から1,0)を計算
+					float progress = m_fadeTimer / fadeOutDuration;
+					if (progress > 1.0f)//progressが1.0を超えないように
+					{
+						progress = 1.0f;
+					}
+
+					float startScaleX = 2.0f;
+					float endScaleX = 2.2f;
+					float startScaleY = 2.0f;
+					float endScaleY = 2.2f;
+
+					float easedProgress = 1.0f - pow(1.0f - progress, 2.0f); // 2乗は緩やかなカーブ
+
+					float currentScaleX = startScaleX + (endScaleX - startScaleX) * easedProgress;
+					float currentScaleY = startScaleY + (endScaleY - startScaleY) * easedProgress;
+
+					stageSpr->SetScale(currentScaleX, currentScaleY, 1.0f);
+
+					float currentAlpha = 1.0f - progress;
+					stageSpr->SetColor(1.0f, 1.0f, 1.0f, currentAlpha);
+
+
+					wss << L"Delta: " << delta << L"\n";
+					wss << L"Timer: " << m_fadeTimer << L"\n";
+					wss << L"Progress: " << progress << L"\n";
+					wss << L"Alpha: " << currentAlpha << L"\n";
+				}
+				else
+				{
+					stageSpr->SetDrawActive(false);
+				}
+			}
+		}
 
 	}
 
@@ -483,6 +551,7 @@ namespace basecross {
 
 		app->RegisterTexture(L"TEX_GameStageUI", texPath + L"GameStageUI.png");
 		app->RegisterTexture(L"TEX_GameButtonUI", texPath + L"GameButtonUI.png");
+		app->RegisterTexture(L"TEX_Filter", texPath + L"Filter.png");
 
 
 	}
@@ -572,11 +641,11 @@ namespace basecross {
 
 
 
-			auto pause = m_pauseManager.lock();
-			if (!pause)
-			{
-				return;
-			}
+				auto pause = m_pauseManager.lock();
+				if (!pause)
+				{
+					return;
+				}
 
 				// BボタンでPhase2(GameStart)へ
 				auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
@@ -612,4 +681,5 @@ namespace basecross {
 		}
 	}
 }
+	
 //end basecross
