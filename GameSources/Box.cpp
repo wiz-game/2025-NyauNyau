@@ -252,14 +252,14 @@ namespace basecross
 		Mat4x4 span;
 		span.affineTransformation
 		(
-			Vec3(1.0f, 1.0f, 1.0f), 
+			Vec3(1.0f), 
 			Vec3(0.0f, 0.0f, 0.0f), 
 			Vec3(0.0f, 0.0f, 0.0f), 
-			Vec3(0.0f, -0.5f, 0.0f)
+			Vec3(0.0f, -0.0f, 0.0f)
 		);
 
-		m_drawModelComp = AddComponent<PNTBoneModelDraw>();
-		m_drawModelComp->SetMeshResource(L"MODEL_TSUMIKI1");
+		m_drawModelComp = AddComponent<PNTStaticModelDraw>();
+		m_drawModelComp->SetMeshResource(L"MODEL_TSUMIKI3");
 
 		m_drawModelComp->SetMeshToTransformMatrix(span);
 
