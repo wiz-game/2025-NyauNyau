@@ -2,6 +2,7 @@
 #include "Project.h"
 #include "BoxShadowStrategy.h"
 #include "BaseShadowStrategy.h"
+#include "RaycastLine.h"
 
 namespace basecross
 {
@@ -10,15 +11,15 @@ namespace basecross
         : BaseShadowStrategy(stagePtr) // 基底クラスのコンストラクタを呼び出し
     {
     }
-
-
+    
     std::vector<Vec3> BoxShadowStrategy::ComputeShadow(const Vec3& lightPos, const std::shared_ptr<GameObject>& obj)
     {
+
+
         // `GameObject` が `Box` なら、`GetBoxVertices()` を呼び出す
         auto box = std::dynamic_pointer_cast<Box>(obj);
         if (box)
         {
-
             auto transform = box->GetComponent<Transform>();
             Mat4x4 worldMatrix = transform->GetWorldMatrix();
 
@@ -54,21 +55,29 @@ namespace basecross
 
         for (const auto& vertex : objectVertices)
         {
-            Vec3 lightDir = Vec3(vertex - lightPos).normalize();
+            Vec3 lightDir = Vec3(vertex - lightPos); // .normalize()は付けない
 
-            float denominator = wallPlane.x * lightDir.x + wallPlane.y * lightDir.y + wallPlane.z * lightDir.z;
-            if (fabs(denominator) < 1e-6f)
+            float denominator = wallNormal.dot(lightDir); // 分母は法線と方向の内積
+            if (fabs(denominator) < 0.0f)
                 continue;
 
-            float t = -(wallPlane.x * lightPos.x + wallPlane.y * lightPos.y + wallPlane.z * lightPos.z + wallPlane.w) / denominator;
-            if (t > 0)
+            float numerator = wallNormal.dot(wallPoint - lightPos); // 分子は(壁の点 - 光源)と法線の内積
+
+            float t = numerator / denominator;
+
+            // ★★★ ここを修正 ★★★
+            // 光源より後ろにある交点は無視する
+            if (t < 0)
                 continue;
 
             Vec3 intersection = lightPos + lightDir * t;
+
+            // Z座標の固定は、最後の保険として残しても良い
             intersection.z = wallPoint.z;
 
             intersections.push_back(intersection);
         }
+
         return intersections;
 
     }
