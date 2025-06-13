@@ -303,11 +303,11 @@ namespace basecross {
 			Vec3(0.0f, 0.0f, 0.0f),
 			Vec3(0.0f ,-4.75f, -4.0f)
 		},
-		{
-			Vec3(2.5f, 2.5f, 2.5f),
-			Vec3(0.0f, 0.0f, 0.0f),
-			Vec3(4.0f, -4.75f, -4.0f)
-        },
+		//{
+		//	Vec3(2.5f, 2.5f, 2.5f),
+		//	Vec3(0.0f, 0.0f, 0.0f),
+		//	Vec3(4.0f, -4.75f, -4.0f)
+  //      },
 		{
 			Vec3(2.5f, 2.5f, 2.5f),
 			Vec3(0.0f, 0.0f, 0.0f),
@@ -804,10 +804,28 @@ namespace basecross {
 		app->RegisterResource(L"MODEL_TABLE", meshTable);
 
 
-		//‚Â‚Ý‚«(Â)
+		//‚Â‚Ý‚«(Â/—§•û‘Ì)
 		if (app->CheckResource<MeshResource>(L"MODEL_TSUMIKI1")) return;
 		auto meshTsumiki1 = MeshResource::CreateBoneModelMesh(modelPath + L"Block1\\", L"Block1.bmf");
 		app->RegisterResource(L"MODEL_TSUMIKI1", meshTsumiki1);
+
+
+		//‚Â‚Ý‚«(Ô/—§•û‘Ì)
+		if (app->CheckResource<MeshResource>(L"MODEL_TSUMIKI2")) return;
+		auto meshTsumiki2 = MeshResource::CreateBoneModelMesh(modelPath + L"Block2\\", L"Block2.bmf");
+		app->RegisterResource(L"MODEL_TSUMIKI2", meshTsumiki2);
+
+
+		//‚Â‚Ý‚«(‰©/ŽlŠp„)
+		if (app->CheckResource<MeshResource>(L"MODEL_TSUMIKI3")) return;
+		auto meshTsumiki3 = MeshResource::CreateBoneModelMesh(modelPath + L"Block3\\", L"Block3.bmf");
+		app->RegisterResource(L"MODEL_TSUMIKI3", meshTsumiki3);
+
+
+		//‚Â‚Ý‚«(—Î/ŽOŠp)
+		if (app->CheckResource<MeshResource>(L"MODEL_TSUMIKI4")) return;
+		auto meshTsumiki4 = MeshResource::CreateBoneModelMesh(modelPath + L"Block4\\", L"Block4.bmf");
+		app->RegisterResource(L"MODEL_TSUMIKI4", meshTsumiki4);
 
 	}
 
