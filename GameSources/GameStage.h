@@ -12,6 +12,7 @@
 #include "Phase1Camera.h"
 #include "SettingStage.h"
 #include "GameStageUI.h"
+//#include  "cmath"
 
 namespace basecross {
 
@@ -92,10 +93,24 @@ namespace basecross {
 		bool m_stickMovedLeftLastFrame;  // 前のフレームで左に倒されていたか
         bool m_stickMovedRightLastFrame; // 前のフレームで右に倒されていたか
 
+		//std::shared_ptr<Box> boxObject;
+		//std::vector<std::shared_ptr<GameObject>> gameObjects;
+		float m_Time;
+		bool m_isStageFadingOut;
+		float m_fadeTimer;
+		float m_filterFadeTimer;
+
+		
 
 	public:
 		//構築と破棄
-		GameStage() :Stage(){}
+		GameStage() :
+			Stage(),
+			m_Time(0.0f),
+			m_isStageFadingOut(false),
+			m_fadeTimer(0.0f),
+			m_filterFadeTimer(0.0f)
+		{}
 		virtual ~GameStage() {}
 
 

@@ -13,7 +13,7 @@ namespace basecross {
 	{
 		// 頂点(Vertex)データを設定
 		Col4 color(1, 1, 1, 1);
-		std::vector<VertexPositionColorTexture> vertices = {
+		m_vertices = {
 			{Vec3(-200, +130, 0), color, Vec2(0, 0)}, // ①
 			{Vec3(+200, +130, 0), color, Vec2(1, 0)}, // ②
 			{Vec3(-200, -130, 0), color, Vec2(0, 1)}, // ③
@@ -27,8 +27,9 @@ namespace basecross {
 		};
 
 		// スプライト用のドローコンポーネントを追加する
-		m_drawComp = AddComponent<PCTSpriteDraw>(vertices, indices); // 頂点データとインデックスデータを設定する
+		m_drawComp = AddComponent<PCTSpriteDraw>(m_vertices, indices); // 頂点データとインデックスデータを設定する
 		m_drawComp->SetSamplerState(SamplerState::LinearWrap);
+		m_drawComp->SetBlendState(BlendState::AlphaBlend);//ブレンドステート（色の混ぜ方）を「アルファブレンド」に設定
 		SetAlphaActive(true);
 
 		// 位置を設定する
@@ -36,11 +37,13 @@ namespace basecross {
 		m_ptrTrans->SetScale(1, 1, 1);
 		m_ptrTrans->SetRotation(0, 0, 0);
 		m_ptrTrans->SetPosition(0, 0, 0);// 画面の中心を原点としたピクセル単位（1280x800）
+
+
 	}
 
 	void GameStageUI::OnUpdate()
 	{
-
+		
 
 	}
 
@@ -60,6 +63,25 @@ namespace basecross {
 	void GameStageUI::SetScale(float x, float y, float z)
 	{
 		m_ptrTrans->SetScale(x, y, z);
+	}
+
+
+	void GameStageUI::SetColor(const Col4& color)
+	{
+		//保持している全頂点の色情報を更新
+		for (auto& vertex : m_vertices)
+		{
+			vertex.color = color;
+		}
+		if (m_drawComp)
+		{
+			m_drawComp->UpdateVertices(m_vertices);
+		}
+	}
+
+	void GameStageUI::SetColor(float r, float g, float b, float a)
+	{
+		SetColor(Col4(r, g, b, a));
 	}
 
 }
