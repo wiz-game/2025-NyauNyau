@@ -33,7 +33,7 @@ namespace basecross
         Vec3 lightBasePos = Vec3(lightWorldMatrix._41, lightWorldMatrix._42, lightWorldMatrix._43);
 
         // Y座標のオフセットを加える
-        Vec3 lightPos = lightBasePos + Vec3(0.0f, 0.8f, 0.0f);
+        Vec3 lightPos = lightBasePos + Vec3(0.0f, 1.0f, 0.0f);
 
         // 影を落とすオブジェクトを取得 (将来的にはもっと汎用的な方法で)
         auto box = GetStage()->GetSharedGameObject<Box>(L"Box");
