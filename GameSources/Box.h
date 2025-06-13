@@ -19,7 +19,6 @@ namespace basecross {
 		Vec3 GetMoveVector() const;
 
 
-
 		InputHandler<Box> m_InputHandler;
 
 		shared_ptr<PNTStaticModelDraw> m_drawModelComp;
@@ -29,6 +28,8 @@ namespace basecross {
 		bool m_isAir;
 
 		const float m_gravity;
+
+		bool m_isSelectedForControl; // このBoxが現在、プレイヤーによって直接操作される対象かを示すフラグ
 
 		Vec3 m_forward; // 前方向を示すベクトル
 		Vec3 m_velocity;
@@ -44,20 +45,32 @@ namespace basecross {
 	public:
 		//コンストラクタ
 		Box(const shared_ptr<Stage>& stage,
-			const Vec3& Scale,
-			const Vec3& Rotation,
-			const Vec3& Position
+			 Vec3& Scale,
+			 Vec3& Rotation,
+			 Vec3& Position
 		) :
 			GameObject(stage),
+
+			m_Scale(Scale),
+			m_Rotation(Rotation),
+			m_Position(Position),
 
 			m_Speed(5.0f),
 			m_isAir(false),
 			m_gravity(-9.0),
-			m_velocity(0.0f)
+			m_velocity(0.0f),
+			m_isSelectedForControl(false)
 
 
 		{
 		}
+
+
+		// このBoxが操作対象として選択された/解除された時に呼ばれる関数
+		void SetSelectedForControl(bool selected);
+		// このBoxが現在操作対象か確認する関数
+		bool IsSelectedForControl() const;
+
 
 		virtual ~Box(){}
 

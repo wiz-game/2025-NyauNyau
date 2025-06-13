@@ -111,7 +111,7 @@ namespace basecross {
 	{
 		//シーンの取得
 		auto PtrScene = App::GetApp()->GetScene<Scene>();
-		int StageNum = PtrScene->GetStageNum();
+		int m_StageNum = PtrScene->GetStageNum();
 
 
 
@@ -119,18 +119,6 @@ namespace basecross {
 		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
 		if (CntlVec[0].bConnected)
 		{
-			//ゲームステージへ
-			//Aボタンを押したときにゲームステージに移動する
-			if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A)
-			{
-				auto volumeSE = PtrScene->m_volumeSE;
-				auto ptrXA = App::GetApp()->GetXAudio2Manager();
-				m_SE = ptrXA->Start(L"button_SE", 0, volumeSE);
-
-				StartCatWalkAnimation();
-				PostEvent(3.0f, GetThis<SelectStage>(), PtrScene, L"ToGameStage");
-				//return;
-			}
 
 			//CntrolLock = falseの時
 			if (!m_CntrolLock)
@@ -138,16 +126,16 @@ namespace basecross {
 				//上向き
 				if (CntlVec[0].fThumbLY >= 0.8f)
 				{
-					StageNum--;
+					m_StageNum--;
 					//ステージ１より上にスティックを動かしたらステージ３に移動
-					if (StageNum < 0)
+					if (m_StageNum < 0)
 					{
-						StageNum = 2;
+						m_StageNum = 2;
 					}
 					m_CntrolLock = true;
-					PtrScene->SetStageNum(StageNum);
-					ChangeSelect(StageNum);
-					SetSelectYPosition(StageNum);
+					PtrScene->SetStageNum(m_StageNum);
+					ChangeSelect(m_StageNum);
+					SetSelectYPosition(m_StageNum);
 					//ポイントスプライトの座標変更
 
 					if (catPointSprite)
@@ -159,20 +147,44 @@ namespace basecross {
 				//下向き
 				else if (CntlVec[0].fThumbLY <= -0.8f)
 				{
-					StageNum++;
+					m_StageNum++;
 					//ステージ３に来たらステージ１に戻る
-					if (StageNum >= 3)
+					if (m_StageNum >= 3)
 					{
-						StageNum = 0;
+						m_StageNum = 0;
 					}
 					m_CntrolLock = true;
-					PtrScene->SetStageNum(StageNum);
-					ChangeSelect(StageNum);
-					SetSelectYPosition(StageNum);
+					PtrScene->SetStageNum(m_StageNum);
+					ChangeSelect(m_StageNum);
+					SetSelectYPosition(m_StageNum);
 					//ポイントスプライトの座標変更
 					if (catPointSprite)
 					{
 						catPointSprite->SetPosition(-250.0f, m_select, 0);
+					}
+				}
+			//ゲームステージへ
+			//Aボタンを押したときにゲームステージに移動する
+				if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A)
+				{
+					auto volumeSE = PtrScene->m_volumeSE;
+					auto ptrXA = App::GetApp()->GetXAudio2Manager();
+					m_SE = ptrXA->Start(L"button_SE", 0, volumeSE);
+
+					StartCatWalkAnimation();
+					//return;
+					switch (m_StageNum)
+					{
+					case 0:
+						PostEvent(3.0f, GetThis<SelectStage>(), PtrScene, L"ToGameStage");
+						break;
+					case 1:
+						break;
+					case 2:
+						break;
+
+					default:
+						break;
 					}
 				}
 
@@ -377,11 +389,6 @@ namespace basecross {
 		app->RegisterTexture(L"TEX_POINT2", texPath + L"point2.png");
 		app->RegisterTexture(L"TEX_FOOTPRINT", texPath + L"Footprint.png");
 
-		app->RegisterTexture(L"TEX_CAT WALK1", texPath + L"Cat Walk1.png");
-		app->RegisterTexture(L"TEX_CAT WALK2", texPath + L"Cat Walk2.png");
-		app->RegisterTexture(L"TEX_CAT WALK3", texPath + L"Cat Walk3.png");
-		app->RegisterTexture(L"TEX_CAT WALK4", texPath + L"Cat Walk4.png");
-		app->RegisterTexture(L"TEX_CAT WALK5", texPath + L"Cat Walk5.png");
 		app->RegisterTexture(L"TEX_CatWalk", texPath + L"Cat Walk.png");
 		app->RegisterTexture(L"TEX_Loading", texPath + L"Loading.png");
 		app->RegisterTexture(L"TEX_NEZUMI", texPath + L"nezumi3.png");

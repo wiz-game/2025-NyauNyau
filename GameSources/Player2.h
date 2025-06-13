@@ -71,7 +71,7 @@ namespace basecross
 			Vec3& m_Position
 		);
 
-		void SetPlayerMove(bool Player1);
+		//void SetPlayerMove(bool Player1);
 
 		//Aƒ{ƒ^ƒ“
 		void OnPushA();

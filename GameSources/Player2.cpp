@@ -15,7 +15,7 @@ namespace basecross
 		m_Rotation(Rotation),
 		m_Position(Position),
 		m_Speed(5.0f),
-		m_isAir(false),
+		m_isAir(true),
 		m_Player1(false),
 		m_cameraAngleY(0.0f),
 		m_forward(0.0f),
@@ -119,25 +119,6 @@ namespace basecross
 		//重力をつける
 		auto ptrGra = AddComponent<Gravity>();
 
-		//auto gameObjectVec = GetGameObjectVec();
-		//for (auto obj : gameObjectVec)
-		//{
-		//if (dynamic_pointer_cast<Box>())
-		//{
-		//	if (pos.y == 0.502f || pos.y == 0.501f)
-		//	{
-		//		pos.y = 0.50f; 
-		//	}
-
-
-		//	if (pos.y == 0.50f)
-		//	{
-		//		m_velocity.y = 8.0f;
-		//		//m_isAir = true;
-		//	}
-
-		//}
-	    //}
 	}
 
 
@@ -183,19 +164,6 @@ namespace basecross
 		auto ptrString = AddComponent<StringSprite>();
 		ptrString->SetText(L"");
 		ptrString->SetTextRect(Rect2D<float>(16.0f, 16.0f, 640.0f, 480.0f));
-
-
-        auto objects = GetStage()->GetGameObjectVec();
-		for (auto& obj : objects)
-		{
-			auto result = dynamic_pointer_cast<ShadowObject>(obj);
-			if (result)
-			{
-				m_OtherPolygon = result;
-				break;
-			}
-		}
-
 
 
 
@@ -293,7 +261,8 @@ namespace basecross
 	}
 
 
-	void Player::MoveXZ() {
+	void Player::MoveXZ() 
+	{
 		auto angle = GetInputState();
 		float elapsedTime = App::GetApp()->GetElapsedTime();
 		auto pos = GetComponent<Transform>()->GetPosition();
@@ -302,31 +271,20 @@ namespace basecross
 	}
 
 
-	void Player::MoveY() {
+	void Player::MoveY() 
+	{
 		auto ptrTransform = GetComponent<Transform>();
 		auto pos = GetComponent<Transform>()->GetPosition();
 
 
-		if (pos.y > -4.99f)
+		if (m_isAir == true)
 		{
 			// 重力の適用
 			float elapsedTime = App::GetApp()->GetElapsedTime();
 			m_velocity.y += m_gravity * elapsedTime;
-			//pos.y += m_velocity.y * elapsedTime;
 			auto ptrGra = AddComponent<Gravity>();
-			m_isAir = false;
 
-
-			// 地面との衝突時の処理
-			//if (pos.y <= -4.99f)
-			//{
-			//	m_velocity.y = 0.0f; // 速度をリセット
-			//	m_isAir = true; // 空中状態をリセット
-			//}
-
-
-
-				ptrTransform->SetPosition(pos);
+			ptrTransform->SetPosition(pos);
 
 		}
 	}
@@ -335,11 +293,6 @@ namespace basecross
 	void Player::OnPushA()
 	{
 		auto pos = GetComponent<Transform>()->GetPosition();
-
-		//if (pos.y == 0.502f || pos.y == 0.501f)
-		//{
-		//}
-
 
 		if (m_isAir == false)
 		{
@@ -351,29 +304,33 @@ namespace basecross
 
 	void Player::OnCollisionExcute(shared_ptr<GameObject>& Other)
 	{
-	if (dynamic_pointer_cast<Ground>(Other)) // 衝突対象が地面か確認
+	    if (dynamic_pointer_cast<Ground>(Other)) // 衝突対象が地面か確認
 		{
-
 			m_velocity.y = 0;
 			m_isAir = false;
 			//m_collisionFlag = true;
 
 			auto scene = App::GetApp()->GetScene<Scene>();
 			PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"ToGameOverStage");
+		}
+		else if (dynamic_pointer_cast<ShadowFloor>(Other))
+		{
+			m_velocity.y = 0;
+			m_isAir = false;
 
 		}
 	}
 
 	void Player::OnCollisionExit(shared_ptr<GameObject>& Other)
 	{
-		m_collisionFlag = false;
+		//m_collisionFlag = false;
 	}
 
 
-	void Player::SetPlayerMove(bool Player1)
-	{
-		m_Player1 = Player1;
-	}
+	//void Player::SetPlayerMove(bool Player1)
+	//{
+	//	m_Player1 = Player1;
+	//}
 
 	void Player::DrawStrings()
 	{
