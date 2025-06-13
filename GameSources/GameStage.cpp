@@ -184,7 +184,7 @@ namespace basecross {
 		{
 			Vec3(0.0f,0.7f,0.5f),
 			Vec3(0.0f,0.0f,0.0f),
-			Vec3(-40.0f,0.005f,-0.5f)
+			Vec3(-50.0f,0.005f,-0.5f)
 		}
 		};
 		//オブジェクトの作成
@@ -201,8 +201,7 @@ namespace basecross {
 			{
 				Vec3(1.25f, 1.0f, 1.0f),
 				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(-25.0f, 22.5f, -0.5f)
-				//Vec3(-25.0f, 0.5f, -0.2f)
+				Vec3(-25.0f, 21.0f, -0.5f)
 			},
 
 		};
@@ -225,7 +224,7 @@ namespace basecross {
 
 		}
 
-		players[0]->SetPlayerMove(false);
+		//players[0]->SetPlayerMove(false);
 		//players[1]->SetPlayerMove(true);
 
 
@@ -353,12 +352,12 @@ namespace basecross {
 		{
 			Vec3(3.0f, 3.0f, 0.0f),
 			Vec3(0.0f, 0.0f, 0.0f),
-			Vec3(18.0f , 18.0f, -0.01f)
+			Vec3(29.0f , 40.0f, -0.01f)
 		},
 		{
 			Vec3(3.0f, 3.0f, 0.0f),
 			Vec3(0.0f, 0.0f, 0.0f),
-			Vec3(-7.0f, 20.0f, -0.01f)
+			Vec3(-20.0f, 45.0f, -0.01f)
 		},
 		//{
 		//	Vec3(2.5f, 2.5f, 0.0f),
@@ -402,6 +401,7 @@ namespace basecross {
 			LoadTextures();
 			LoadModels();
 
+
 			//ビューとライトの作成
 			CreateViewLight();
 			//壁の作成
@@ -409,16 +409,16 @@ namespace basecross {
 			//ステージの作成
 			CreateGround();
 
-			////ステージの見た目(ガチ雑スクリプトのため後で消す)
+			//ステージの見た目(ガチ雑スクリプトのため後で消す)
 			AddGameObject<ShadowFloor>(
-				Vec3(40.0f, 8.0f, 1.0f),
+				Vec3(50.0f, 5.0f, 1.0f),
 				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(28.0f, 11.0f, 0.0f)
+				Vec3(40.0f, 30.0f, 0.0f)
 			);
 			AddGameObject<ShadowFloor>(
-				Vec3(100.0f, 5.0f, 2.0f),
+				Vec3(70.0f, 5.0f, 1.0f),
 				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(-65.0f, -3.0f, 0.0f)
+				Vec3(-50.0f, 40.0f, 0.0f)
 			);
 			AddGameObject<ShadowFloor>(
 				Vec3(100.0f, 50.0f, 1.0f),
@@ -426,9 +426,9 @@ namespace basecross {
 				Vec3(85.0f, -3.0f, 0.0f)
 			);
 			AddGameObject<ShadowFloor>(
-				Vec3(40.0f, 6.0f, 1.0),
+				Vec3(40.0f, 30.0f, 1.0),
 				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(-25.0f, 15.0f, 0.0f)
+				Vec3(-25.0f, 5.0f, 0.0f)
 			);
 			//AddGameObject<ShadowFloor>(
 			//	Vec3(1.0f, 15.0f, 5.0f),
@@ -524,12 +524,16 @@ namespace basecross {
 			// 操作モードの初期設定
 			m_currentControlMode = GameControlMode::SelectBox; // ゲーム開始時はまずBoxを選択するモードから
 			m_selectedBoxIndex = -1;                           // まだ何も選択候補になっていない状態を示す 
-
 			m_currentlyControlledBox = nullptr;                // まだ操作対象のBoxは決定されていない
 
-			// もし操作可能なBoxがステージに存在すれば、最初のBoxを選択候補としてハイライトする
-			if (!m_controllableBoxes.empty()) {
-				m_selectedBoxIndex = 0; // 最初のBox (インデックス0) を選択候補にする
+			m_stickMovedLeftLastFrame = false;   // 前のフレームで左に倒されていたか
+			m_stickMovedRightLastFrame = false;  // 前のフレームで右に倒されていたか
+
+
+			// もし操作可能なBoxがステージに存在すれば、最初のBoxを選択候補とする
+			if (!m_controllableBoxes.empty()) 
+			{
+				m_selectedBoxIndex = 0; // 最初のBox (Box_0) を選択候補にする
 			}
 
 		}
@@ -561,14 +565,39 @@ namespace basecross {
 			// 現在の操作モードによって処理を分岐
 			if (m_currentControlMode == GameControlMode::SelectBox) 
 			{
-				if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER) 
+
+				// 左スティックのX軸の値を取得
+				float stickX = cntlVec[0].fThumbLX;
+			
+				// スティック入力が反応する値（この値より大きく倒されたら反応）
+				const float stickThreshold = 0.8f;
+
+				// --- 右への選択切り替え ---
+				if (stickX > stickThreshold && !m_stickMovedRightLastFrame) 
 				{
 					SelectNextBox(); // 次のBoxを選択候補に
+					m_stickMovedRightLastFrame = true; // 右に倒されたことを記憶
 				}
-				if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_LEFT_SHOULDER) 
+				// スティックが右から中央に戻り始めたら、フラグをリセットする準備
+				else if (stickX <= stickThreshold && m_stickMovedRightLastFrame) 
+				{
+					// 値を下回ったらリセットする
+					m_stickMovedRightLastFrame = false;
+				}
+
+				// --- 左への選択切り替え ---
+			   // スティックが左に一定以上倒されていて、かつ「前フレームでは左に倒されていなかった」場合
+				if (stickX < -stickThreshold && !m_stickMovedLeftLastFrame) 
 				{
 					SelectPreviousBox(); // 前のBoxを選択候補に
+					m_stickMovedLeftLastFrame = true; // 左に倒されたことを記憶
 				}
+				// スティックが左から中央に戻り始めたら、フラグをリセットする準備
+				else if (stickX >= -stickThreshold && m_stickMovedLeftLastFrame) 
+				{
+					m_stickMovedLeftLastFrame = false;
+				}
+
 				// Aボタンが押されたら現在の選択候補を操作対象に決定しようとする
 				if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A) 
 				{

@@ -66,14 +66,12 @@ namespace basecross {
 
 		void CreateShadowBall();
 
-
 		std::weak_ptr<PauseManager> m_pauseManager;//ポーズマネージャーへの参照
 		std::weak_ptr<SettingStage> m_settingStage;//セッティングステージへの参照
 		std::vector<std::weak_ptr<GameStageUI>> m_gameStageUI;//UIスプライトへの参照
 
 		//入力ハンドラー
 		InputHandler<GameStage> m_InputHandler;
-
 
 		shared_ptr<SoundItem> m_BGM;
 
@@ -91,13 +89,17 @@ namespace basecross {
 		// ControlBoxモードの時に、現在実際に操作対象となっているBoxオブジェクトへのポインタ
 		std::shared_ptr<Box> m_currentlyControlledBox;
 		
+		bool m_stickMovedLeftLastFrame;  // 前のフレームで左に倒されていたか
+        bool m_stickMovedRightLastFrame; // 前のフレームで右に倒されていたか
+
 
 	public:
 		//構築と破棄
 		GameStage() :Stage(){}
 		virtual ~GameStage() {}
-		void OnPushA();	
 
+
+		void OnPushA();	
 
 		// 現在の操作モードを取得する関数
 		GameControlMode GetCurrentControlMode() const;

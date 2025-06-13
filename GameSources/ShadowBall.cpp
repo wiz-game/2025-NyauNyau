@@ -16,6 +16,10 @@ namespace basecross
 		m_transComp->SetRotation(m_Rotation);
 		m_transComp->SetPosition(m_Position);
 
+		//auto Stage = GetStage();
+		//auto Ball = Stage->GetSharedGameObject<ShadowBall>(L"Ball_0");
+		//auto Ball2 = Stage->GetSharedGameObject<ShadowBall>(L"Ball_1");
+
 
 		//ƒRƒŠƒWƒ‡ƒ“‚Â‚¯‚é
 		auto ptrColl = AddComponent<CollisionSphere>();
@@ -24,7 +28,16 @@ namespace basecross
 		//•¶Žš—ñ‚ð‚Â‚¯‚é
 		auto ptrString = AddComponent<StringSprite>();
 		ptrString->SetText(L"");
+		//if (Ball)
+		//{
+		//	ptrString->SetTextRect(Rect2D<float>(16.0f, 250.0f, 640.0f, 480.0f));
+		//}
+		//if (Ball2)
+		//{
+		//	ptrString->SetTextRect(Rect2D<float>(16.0f, 280.0f, 640.0f, 480.0f));
+		//}
 		ptrString->SetTextRect(Rect2D<float>(16.0f, 250.0f, 640.0f, 480.0f));
+
 
 
 	}
