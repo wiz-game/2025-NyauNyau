@@ -55,7 +55,7 @@ namespace basecross
 
         for (const auto& vertex : objectVertices)
         {
-            Vec3 lightDir = Vec3(vertex - lightPos); // .normalize()‚Í•t‚¯‚È‚¢
+            Vec3 lightDir = vertex - lightPos; // .normalize()‚Í•t‚¯‚È‚¢
 
             float denominator = wallNormal.dot(lightDir); // •ª•ê‚Í–@ü‚Æ•ûŒü‚Ì“àÏ
             if (fabs(denominator) < 0.0f)
@@ -85,7 +85,7 @@ namespace basecross
 
     Vec4 BoxShadowStrategy::GeneratePlane(const Vec3& wallPoint, const Vec3& wallNormal)
     {
-        return Vec4(wallNormal.x, wallNormal.y, wallNormal.z, wallNormal.dot(wallPoint));
+        return Vec4(wallNormal.x, wallNormal.y, wallNormal.z, -wallNormal.dot(wallPoint));
     }
 
     std::vector<Vec3> BoxShadowStrategy::ComputeConvexHull(std::vector<Vec3> vertices)
