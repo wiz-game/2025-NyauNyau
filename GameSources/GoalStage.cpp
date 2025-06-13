@@ -39,7 +39,7 @@ namespace basecross {
 			LoadTextures();
 
 			//スプライトオブジェクト
-			m_sprites.push_back(AddGameObject<GameOverSprite>());
+			m_sprites.push_back(AddGameObject<gameClearSprite>());
 			m_sprites.push_back(AddGameObject<BackTitleButton>());
 
 
