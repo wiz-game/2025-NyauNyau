@@ -58,11 +58,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Box.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BoxShadowStrategy.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CatwalkSprite.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)GameSprite.h">
-      <Filter>Sprite</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Table.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GameStage2.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameSprite.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Character.cpp">
