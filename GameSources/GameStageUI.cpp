@@ -43,8 +43,12 @@ namespace basecross {
 
 	void GameStageUI::OnUpdate()
 	{
-		
-
+		if (m_pointer)
+		{
+			auto box = GetStage()->GetSharedGameObject<Box>(L"Box_0");
+			Vec3 boxPositino = box->GetComponent<Transform>()->GetPosition();
+			m_ptrTrans->SetPosition(boxPositino.x, boxPositino.y + 50, boxPositino.z);
+		}
 	}
 
 	//テクスチャ

@@ -504,8 +504,20 @@ namespace basecross {
 			stage->SetTexture(L"TEX_STAGE1");
 			stage->SetPosition(0, 0, 0);
 			stage->SetScale(2.0f, 2.0f, 1.0f);
-			stage->SetColor(1.0f, 1.0f, 1.0f, 0.5f);
 			m_gameStageUI.push_back(stage);
+
+			auto stage1 = AddGameObject<GameStageUI>();
+			stage1->SetTexture(L"TEX_STAGE1");
+			stage1->SetPosition(0, 0, 0);
+			stage1->SetScale(2.0f, 2.0f, 1.0f);
+			m_gameStageUI.push_back(stage1);
+
+			auto pointer = AddGameObject<GameStageUI>();
+			pointer->SetTexture(L"TEX_BoxPointer");
+			//pointer->SetPosition(0, 0, 0);
+			pointer->SetScale(2.0f, 2.0f, 1.0f);
+			pointer->SetPointer(true);
+			m_gameStageUI.push_back(pointer);
 
 
 			auto scene = App::GetApp()->GetScene<Scene>();
@@ -628,6 +640,8 @@ namespace basecross {
 		{
 			//スプライトが有効で、まだ表示されていたら
 			auto stageSpr = m_gameStageUI[2].lock();
+			auto stageSpr2 = m_gameStageUI[3].lock();
+
 			if (stageSpr && stageSpr->IsDrawActive())
 			{
 				//アニメーションにかける時間
@@ -667,6 +681,8 @@ namespace basecross {
 				else
 				{
 					stageSpr->SetDrawActive(false);
+					stageSpr2->SetDrawActive(false);
+
 				}
 			}
 		}
@@ -780,6 +796,7 @@ namespace basecross {
 		app->RegisterTexture(L"TEX_GameStageUI", texPath + L"GameStageUI.png");
 		app->RegisterTexture(L"TEX_GameButtonUI", texPath + L"GameButtonUI.png");
 
+		app->RegisterTexture(L"TEX_BoxPointer", texPath + L"BoxPoint.png");
 
 	}
 

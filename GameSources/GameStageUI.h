@@ -18,6 +18,7 @@ namespace basecross {
 		std::shared_ptr<Transform> m_ptrTrans;
 		std::vector<VertexPositionColorTexture> m_vertices;
 
+		bool m_pointer = false;
 
 	public:
 		// \’z‚Æ”jŠü
@@ -41,7 +42,15 @@ namespace basecross {
 		void SetColor(const Col4& color);
 		void SetColor(float r, float g, float b, float a);
 
+		bool GetPointer()
+		{
+			return m_pointer;
+		}
 
+		void SetPointer(bool p)
+		{
+			m_pointer = p;
+		}
 	};
 
 
