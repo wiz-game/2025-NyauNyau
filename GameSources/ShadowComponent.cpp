@@ -19,16 +19,21 @@ namespace basecross
         m_drawComp = GetGameObject()->AddComponent<PCStaticDraw>();
         m_drawComp->SetOriginalMeshUse(true); // 動的メッシュを使う設定
         m_drawComp->SetRasterizerState(RasterizerState::CullNone);
-    }
 
+
+    }
     void ShadowComponent::OnUpdate()
     {
         // --- 計算処理 ---
 
         // 光源の位置を取得
-        auto light = GetStage()->GetSharedGameObject<SpotLight>(L"SpotLight");
-        if (!light) return;
-        Vec3 lightPos = light->GetComponent<Transform>()->GetPosition();
+        auto lightObj = GetStage()->GetSharedGameObject<SpotLight>(L"SpotLight");
+        Mat4x4 lightWorldMatrix = lightObj->GetComponent<Transform>()->GetWorldMatrix();
+        // x,y,zををワールド座標への変換行列
+        Vec3 lightBasePos = Vec3(lightWorldMatrix._41, lightWorldMatrix._42, lightWorldMatrix._43);
+
+        // Y座標のオフセットを加える
+        Vec3 lightPos = lightBasePos + Vec3(0.0f, 0.8f, 0.0f);
 
         // 影を落とすオブジェクトを取得 (将来的にはもっと汎用的な方法で)
         auto box = GetStage()->GetSharedGameObject<Box>(L"Box_0");
@@ -37,13 +42,12 @@ namespace basecross
         // ストラテジを使って、影の頂点リストを計算
         m_shadowVertices = m_ShadowStrategy->ComputeShadow(lightPos, box);
 
+
+        auto ownerObject = GetGameObject();
+        if (!ownerObject) return;
+
         // 計算結果を基に、描画用メッシュを更新
         UpdateMesh();
-    }
-
-    // OnDrawは描画コンポーネントに任せるので、空でOK
-    void ShadowComponent::OnDraw()
-    {
     }
 
     // メッシュを更新するヘルパー関数
@@ -79,6 +83,11 @@ namespace basecross
 
         // 描画コンポーネントに、新しいメッシュデータを渡す
         m_drawComp->CreateOriginalMesh(meshVertices, indices);
+
+    }
+    // オーバーライドしないとエラーが起きるので仮にも定義
+    void ShadowComponent::OnDraw()
+    {
     }
 }
     

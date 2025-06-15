@@ -9,17 +9,13 @@ namespace basecross
 	{
 	}
 
-	Vec3 BaseShadowStrategy::Cross(const Vec3& x, const Vec3& y, const Vec3& z)
+    Vec3 BaseShadowStrategy::Cross(const Vec3& v1, const Vec3& v2) const
 	{
-		Vec3 xy = y - x;
-		Vec3 xz = z - x;
-
 		return Vec3(
-			xy.z * xz.y - xy.y * xz.z,  // X¬•ªi¶èŒn‚É•ÏXj
-			xy.x * xz.z - xy.z * xz.x,  // Y¬•ª
-			xy.y * xz.x - xy.x * xz.y   // Z¬•ª
+			v1.y * v2.z - v1.z * v2.y,
+			v1.z * v2.x - v1.x * v2.z,
+			v1.x * v2.y - v1.y * v2.x
 		);
-
 	}
 
 	std::vector<Vec3> BaseShadowStrategy::Sort(std::vector<Vec3> vertices)

@@ -9,7 +9,6 @@ namespace basecross
     class ShadowComponent : public Component
     {
     private:
-        Vec3 m_lightPos;  // 光源の位置
         std::vector<Vec3> shadowVerticesCurrent;  // 現在フレームの影ポリゴン
         std::vector<Vec3> shadowVerticesPrevious; // 前フレームの影ポリゴン
         bool usePreviousBuffer = false; // ダブルバッファの切り替え
