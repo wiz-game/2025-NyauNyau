@@ -53,7 +53,7 @@ namespace basecross {
 			{
 				Vec3(200.0f, 30.0f, 1.0f), 
 				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(0.0f, 4.0f, 0.0f)
+				Vec3(0.0f, 4.0f, 1.0f)
 			},
 			//{
 			//	Vec3(100.0f, 50.0f, 1.0f),
@@ -384,7 +384,7 @@ namespace basecross {
 			auto spotLight = AddGameObject<SpotLight>();
 			SetSharedGameObject(L"SpotLight", spotLight);
 			//影の作成
-			//AddGameObject<ShadowObject>();
+			AddGameObject<ShadowObject>();
 			//プレイヤーの作成
 			CreatePlayer();
 			//エネミーの作成
