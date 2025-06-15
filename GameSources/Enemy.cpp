@@ -16,7 +16,7 @@ namespace basecross {
 		GameObject(StagePtr),
 		m_Scale(Scale),
 		m_Rotation(Rotation),
-		m_Position(Position), 
+		m_Position(Position),
 		isGameOver(false),
 		EnemySpeed(0.0f)
 	{
@@ -42,24 +42,24 @@ namespace basecross {
 		auto ptrColl = AddComponent<CollisionObb>();
 
 		AddTag(L"Enemy");
-
 	}
+
 
 
 	void Enemy::OnUpdate()
 	{
-		//// アプリケーションオブジェクトを取得する
-		//auto& app = App::GetApp();
+		// アプリケーションオブジェクトを取得する
+		auto& app = App::GetApp();
 
-		//// シーンを取得する
-		//auto scene = app->GetScene<Scene>();
+		// シーンを取得する
+		auto scene = app->GetScene<Scene>();
 
-		//// デバッグログを取得する
-		//wstring log = scene->GetDebugString();
-		//wstringstream wss(log);
-		//wss << L"\n\n\n\nGameOver:" << isGameOver;
+		// デバッグログを取得する
+		wstring log = scene->GetDebugString();
+		wstringstream wss(log);
+		wss << L"\n\n\n\nGameOver:" << isGameOver;
 
-		//scene->SetDebugString(wss.str());
+		scene->SetDebugString(wss.str());
 
 		auto ptrGra = AddComponent<Gravity>();
 
@@ -71,11 +71,17 @@ namespace basecross {
 		Vec3 currentPosition = ptrTransform->GetPosition();
 
 		// 右方向へ `EnemySpeed` だけ移動
-		currentPosition.x += EnemySpeed * elapsedTime;
+		//currentPosition.x += EnemySpeed * elapsedTime;
+
+		//auto objects = GetStage()->GetGameObjectVec();
+		//for (auto obj : objects)
+		//{
+		//	auto o = dynamic_pointer_cast<Player>(obj);
+		//	o->MovePlayer();
+		//}
 
 		// 更新した位置をセット
 		ptrTransform->SetPosition(currentPosition);
-
 
 	}
 
@@ -93,8 +99,10 @@ namespace basecross {
 			//	//一定時間後にスプライトを削除する（タイトル画面からゲームステージに移るタイミング）
 			//	PostEvent(5.0f, GetThis<ObjectInterface>(), scene, L"RemoveSprite");
 
-			//}
-
+		}
+		if (otherObject->FindTag(L"ShadowObject")) {
+			auto grav = GetComponent<Gravity>();
+			grav->StartJump(Vec3(0, 10.0f, 0));
 		}
 	}
 }

@@ -6,6 +6,8 @@
 #pragma once
 #include "stdafx.h"
 #include "TitleSprite.h"
+#include "CatwalkSprite.h"
+#include "GameSprite.h"
 
 namespace basecross {
 
@@ -20,7 +22,14 @@ namespace basecross {
 		//入力ハンドラー
 		InputHandler<GameOverStage> m_InputHandler;
 		shared_ptr<SoundItem> m_BGM;
-		//std::vector<std::shared_ptr<GameOverSprite>> m_GameOverSprite;
+		shared_ptr<SoundItem> m_SE;
+
+		std::weak_ptr<CatWalkSprite> m_catSprite;
+		std::weak_ptr<GameSprite> m_loading;
+		std::weak_ptr<GameSprite> m_rat;
+
+
+		std::vector<std::shared_ptr<GameObject>> m_sprites;
 
 	public:
 		//構築と破棄
@@ -32,7 +41,7 @@ namespace basecross {
 
 		//Aボタン
 		void OnPushA();
-
+		void StartCatWalkAnimation();
 	};
 }
 //end basecross

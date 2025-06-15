@@ -11,45 +11,54 @@
 
 namespace basecross
 {
-
 	void Box::OnCreate()
 	{
 		//ドローコンポーネントの追加と設定
-		m_drawComp = AddComponent<PNTStaticDraw>();
-		m_drawComp->SetMeshResource(L"DEFAULT_CUBE");
+		//m_drawComp = AddComponent<PNTStaticDraw>();
+		//m_drawComp->SetMeshResource(L"DEFAULT_CUBE");
 		//drawComp->SetTextureResource(L"TEX_BOX");
+
+		//3Dモデルの呼び出し
+		InitDrawComp();
 
 		//トランスフォームコンポーネント取得と設定
 		m_transComp = GetComponent<Transform>();
-		m_transComp->SetScale(2.5f, 2.5f, 2.5f);
-		m_transComp->SetPosition(Vec3(0.0f, -4.7f, -4.0f));
+		m_transComp->SetScale(m_Scale);
+		m_transComp->SetRotation(m_Rotation);
+		m_transComp->SetPosition(m_Position);
+		/*m_transComp->SetScale(2.5f, 2.5f, 2.5f);
+		m_transComp->SetRotation(0,0,0);
+		m_transComp->SetPosition(0.0f, - 4.75f, -4.0f);*/
+
+		m_transComp->SetScale(2.5, 2.5f, 2.5f);
+		m_transComp->SetPosition(Vec3(10.0f, 16.25f, -20.0f));
 
 		//コリジョンつける
 		auto ptrColl = AddComponent<CollisionRect>();
 		ptrColl->SetFixed(true);
 
-		auto stage = GetStage();
-		auto shadowStrategy = std::make_shared<basecross::BoxShadowStrategy>(stage);
-		AddComponent<ShadowComponent>(shadowStrategy);
+		/*auto stage = GetStage();
+		auto shadowStrategy = std::make_shared<basecross::BoxShadowStrategy>(stage);*/
+		//AddComponent<ShadowComponent>(shadowStrategy);
 
 		//文字列をつける
 		auto ptrString = AddComponent<StringSprite>();
 		ptrString->SetText(L"");
 		ptrString->SetTextRect(Rect2D<float>(16.0f, 125.0f, 640.0f, 480.0f));
-		
 	}
-
 
 	void Box::OnUpdate()
 	{
-		auto G = GetStage()->GetThis<GameStage>()->GetGameObjectVec();
+		auto cntlVec = GetStage()->GetThis<GameStage>()->GetGameObjectVec();
 		//コントローラチェックして入力があればコマンド呼び出し
 
 		MoveXZ();
 		BoxMove();
+		DrawStrings();
 	}
 
-	Vec2 Box::GetInputState() const {
+	Vec2 Box::GetInputState() const 
+	{
 		Vec2 ret;
 		//コントローラの取得
 		auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
@@ -57,12 +66,20 @@ namespace basecross
 		ret.y = 0.0f;
 		WORD wButtons = 0;
 
-		// 左スティックの状態を判定
-		if (cntlVec[0].bConnected) {
-			ret.x = cntlVec[0].fThumbLX;
-			ret.y = cntlVec[0].fThumbLY;
-		}
-		return ret;
+
+			// 左スティックの状態を判定
+			if (cntlVec[0].bConnected) {
+				ret.x = cntlVec[0].fThumbLX;
+				ret.y = cntlVec[0].fThumbLY;
+			}
+			return ret;
+
+			auto& app = App::GetApp();
+			auto scene = app->GetScene<Scene>();
+
+			wstring log = scene->GetDebugString();
+			wstringstream wss;
+			wss << log;
 	}
 
 	Vec3 Box::GetMoveVector() const
@@ -154,25 +171,26 @@ namespace basecross
 		}
 
 		m_transComp->SetPosition(pos);
-
-		wstring positionStr(L"Position:\t");
-		positionStr += L"X=" + Util::FloatToWStr(pos.x, 12, Util::FloatModify::Fixed) + L",\n";
-		positionStr += L"Y=" + Util::FloatToWStr(pos.y, 12, Util::FloatModify::Fixed) + L",\n";
-		positionStr += L"Z=" + Util::FloatToWStr(pos.z, 12, Util::FloatModify::Fixed) + L"\n";
-		positionStr += L"direction=" + Util::FloatToWStr(direction, 12, Util::FloatModify::Fixed) + L"\n";
-		positionStr += L"deltaZ=" + Util::FloatToWStr(deltaZ, 12, Util::FloatModify::Fixed) + L"\n";
-		positionStr += L"ElapssedTime=" + Util::FloatToWStr(elapsedTime, 12, Util::FloatModify::Fixed) + L"\n";
-
-		wstring str = positionStr;
-
-
-		//文字列コンポーネントの取得
-		auto ptrString = GetComponent<StringSprite>();
-		ptrString->SetText(str);
+		
 	}
 
+	void Box::SetSelectedForControl(bool selected) 
+	{
+		m_isSelectedForControl = selected;
+	}
 
-	void Box::MoveXZ() {
+	bool Box::IsSelectedForControl() const 
+	{
+		return m_isSelectedForControl;
+	}
+
+	void Box::MoveXZ() 
+	{
+		if (!IsSelectedForControl()) 
+		{
+			return;
+		}
+
 		auto angle = GetInputState();
 		float elapsedTime = App::GetApp()->GetElapsedTime();
 		auto pos = GetComponent<Transform>()->GetPosition();
@@ -181,7 +199,13 @@ namespace basecross
 	}
 
 	void Box::BoxMove()
-	{
+	{		
+		// 自分が操作対象として選択されていなければ、移動処理は行わない
+		if (!IsSelectedForControl()) 
+		{
+			return;
+		}
+
 		float elapsedTime = App::GetApp()->GetElapsedTime();
 		auto angle = GetMoveVector();
 		if (angle.length() > 0.0f)
@@ -189,8 +213,8 @@ namespace basecross
 			auto pos = GetComponent<Transform>()->GetPosition();
 			pos += angle * elapsedTime * 6.0f;
 			GetComponent<Transform>()->SetPosition(pos); // 更新後
-
 		}
+
 	}
 
 	std::vector<Vec3> Box::GetBoxVertices() const
@@ -225,6 +249,43 @@ namespace basecross
 		Vec3(0.5f,  0.5f,  0.5f)
 		};
 	}
-}
 
+	void Box::DrawStrings()
+	{
+		auto pos = GetComponent<Transform>()->GetPosition();
+		wstring positionStr(L"Position:\t");
+		positionStr += L"X=" + Util::FloatToWStr(pos.x, 6, Util::FloatModify::Fixed) + L",\n";
+		positionStr += L"Y=" + Util::FloatToWStr(pos.y, 6, Util::FloatModify::Fixed) + L",\n";
+		positionStr += L"Z=" + Util::FloatToWStr(pos.z, 6, Util::FloatModify::Fixed) + L"\n";
+
+		wstring str = positionStr;
+
+
+
+		//文字列コンポーネントの取得
+		auto ptrString = GetComponent<StringSprite>();
+		ptrString->SetText(str);
+
+	}
+
+
+	void Box::InitDrawComp()
+	{
+		Mat4x4 span;
+		span.affineTransformation
+		(
+			Vec3(1.0f), 
+			Vec3(0.0f, 0.0f, 0.0f), 
+			Vec3(0.0f, 0.0f, 0.0f), 
+			Vec3(0.0f, -0.0f, 0.0f)
+		);
+
+		m_drawModelComp = AddComponent<PNTBoneModelDraw>();
+		m_drawModelComp->SetMeshResource(L"MODEL_TSUMIKI1");
+
+		m_drawModelComp->SetMeshToTransformMatrix(span);
+
+	}
+
+}
 //end basecross
