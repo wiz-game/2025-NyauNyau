@@ -17,20 +17,21 @@ namespace basecross
 		Vec2 GetInputState() const;
 		// コントローラから方向ベクトルを得る
 		Vec3 GetMoveVector() const;
-		//プレイヤーの移動
-		void MovePlayer();
-
 		Vec3 m_Scale;
 		Vec3 m_Rotation;
 		Vec3 m_Position;
+		Col4 m_color;
+		std::vector<VertexPositionColorTexture> m_vertices;
+		std::vector<uint16_t> m_indices;
 
-
+		int m_number;
 		//入力ハンドラー
 		InputHandler<Player> m_InputHandler;
 		//スピード
 		float m_Speed;
 
 		bool m_Player1;
+
 		//空中にいるか
 		bool m_isAir;
 
@@ -70,11 +71,10 @@ namespace basecross
 			Vec3& m_Position
 		);
 
-		void SetPlayerMove(bool Player1);
+		//void SetPlayerMove(bool Player1);
 
 		//Aボタン
 		void OnPushA();
-		void OnPushB(){}
 
 
 
@@ -95,6 +95,8 @@ namespace basecross
 			return m_Center;
 		}
 
+		//プレイヤーの移動
+		void MovePlayer();
 
 		//Vec2 GetNormal(const Vec2& a, const Vec2& b)
 		//{
@@ -127,7 +129,7 @@ namespace basecross
 		{
 			float centerProj = center.dot(axis);
 			min = centerProj - radius;
-			max = centerProj + radius;
+			max = (centerProj + radius) * 10;
 		}
 
 
@@ -144,6 +146,8 @@ namespace basecross
 		virtual void OnUpdate() override;
 
 		//void OnCollisionEnter(shared_ptr<GameObject>& collision) override;
+
+
 
 
 	};

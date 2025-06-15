@@ -27,6 +27,9 @@ namespace basecross {
 
 		void OnCreate() override; // 初期設定用のイベントハンドラ
 		void OnUpdate() override;
+
+		virtual void OnCollisionEnter(shared_ptr<GameObject>& Other) override;
+
 	};
 }
 //end basecross

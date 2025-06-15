@@ -36,11 +36,15 @@ namespace basecross
         Vec3 lightPos = lightBasePos + Vec3(0.0f, 0.8f, 0.0f);
 
         // 影を落とすオブジェクトを取得 (将来的にはもっと汎用的な方法で)
-        auto box = GetStage()->GetSharedGameObject<Box>(L"Box");
+        auto box = GetStage()->GetSharedGameObject<Box>(L"Box_0");
         if (!box) return;
 
         // ストラテジを使って、影の頂点リストを計算
         m_shadowVertices = m_ShadowStrategy->ComputeShadow(lightPos, box);
+
+
+        auto ownerObject = GetGameObject();
+        if (!ownerObject) return;
 
         // 計算結果を基に、描画用メッシュを更新
         UpdateMesh();

@@ -26,6 +26,9 @@ namespace basecross
         //auto ptrColl = AddComponent<CollisionObb>();
         //ptrColl->SetMakedSize(2.45f);
 
+        //traComp->SetPosition((const Vec3(0.0f, 0.0f, -0.5f)));
+        //auto ptrColl = AddComponent<CollisionObb>();
+        //AddTag(L"ShadowObject");
     }
 
     void ShadowObject::OnUpdate()
@@ -162,7 +165,7 @@ namespace basecross
     {
         std::vector<Vec3> boxVertices;
 
-        auto box = GetStage()->GetSharedGameObject<Box>(L"Box");
+        auto box = GetStage()->GetSharedGameObject<Box>(L"Box_0");
         if (!box)
         {
             std::cerr << "Box object not found!" << std::endl;
@@ -193,7 +196,7 @@ namespace basecross
         Vec3 ac = c - a;
 
         return Vec3(
-            ab.z * ac.y - ab.y * ac.z,  // X¬•ªi¶ŽèŒn‚É•ÏXj
+            ab.z * ac.y - ab.y * ac.z,  // X¬•ª
             ab.x * ac.z - ab.z * ac.x,  // Y¬•ª
             ab.y * ac.x - ab.x * ac.y   // Z¬•ª
         );

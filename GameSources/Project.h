@@ -13,6 +13,7 @@
 #include "Wall.h"
 #include "Ground.h"
 #include "Box.h"
+#include "ShadowBall.h"
 #include "SpotLight.h"
 #include "ShadowObject.h"
 #include "GameStage.h"
@@ -32,7 +33,6 @@
 #include "TitleStratButton.h"
 #include "MainCamera.h"
 #include "BackTitleButton.h"
-#include "BackTitleButton2.h"
 #include "SelectStage.h"
 #include "SelectStageSprite.h"
 #include "ShadowFloor.h"
@@ -41,7 +41,7 @@
 #include "ShadowComponent.h"
 #include "Phase1Camera.h"
 #include "FootprintSprite.h"
-
+#include "Table.h"
 #include "TestShadowBox.h"
 #include "Phase1.h"
 
@@ -52,6 +52,9 @@
 #include "GameOverStage.h"
 
 #include "GameStageUI.h"
+#include "GameSprite.h"
+
+#include "GameStage2.h"
 
 
 

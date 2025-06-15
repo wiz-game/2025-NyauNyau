@@ -110,10 +110,10 @@ namespace basecross {
 			m_titleSprite.push_back(title11);
 
 			auto scene = App::GetApp()->GetScene<Scene>();
-			auto volume = scene->m_volume;
+			auto volumeBGM = scene->m_volumeBGM;
 
 			auto ptrXA = App::GetApp()->GetXAudio2Manager();
-			m_BGM = ptrXA->Start(L"Titlebgm", XAUDIO2_LOOP_INFINITE, volume);
+			m_BGM = ptrXA->Start(L"Titlebgm", XAUDIO2_LOOP_INFINITE, volumeBGM);
 
 
 			//MessageBox(0, L"ニャウニャウシルエット", L"タイトル", 0);
@@ -158,6 +158,10 @@ namespace basecross {
 	void TitleStage::OnPushA()
 	{
 		auto scene = App::GetApp()->GetScene<Scene>();
+		auto volumeSE = scene->m_volumeSE;
+		auto ptrXA = App::GetApp()->GetXAudio2Manager();
+		m_SE = ptrXA->Start(L"button_SE", 0, volumeSE);
+
 		PostEvent(1.3f, GetThis<ObjectInterface>(), scene, L"ToSelectStage");
 	}
 

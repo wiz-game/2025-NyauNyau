@@ -5,6 +5,8 @@
 
 #pragma once
 #include "stdafx.h"
+#include "CatwalkSprite.h"
+#include "GameSprite.h"
 
 namespace basecross {
 
@@ -19,6 +21,15 @@ namespace basecross {
 		//“ü—Íƒnƒ“ƒhƒ‰[
 		InputHandler<goalStage> m_InputHandler;
 		shared_ptr<SoundItem> m_BGM;
+		shared_ptr<SoundItem> m_SE;
+
+		std::weak_ptr<CatWalkSprite> m_catSprite;
+		std::weak_ptr<GameSprite> m_loading;
+		std::weak_ptr<GameSprite> m_rat;
+
+
+		std::vector<std::shared_ptr<GameObject>> m_sprites;
+
 
 
 	public:
@@ -33,6 +44,7 @@ namespace basecross {
 		void OnPushA();
 		void OnPushB(){}
 		void OnDestroy();
+		void StartCatWalkAnimation();
 
 	};
 }

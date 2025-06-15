@@ -1,11 +1,11 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "Project.h"
 
 
 
 namespace basecross
 {
-	//\’z‚Æ”jŠü
+	//æ§‹ç¯‰ã¨ç ´æ£„
 	Player::Player(const shared_ptr<Stage>& StagePtr,
 		Vec3& Scale,
 		Vec3& Rotation,
@@ -16,7 +16,7 @@ namespace basecross
 		m_Rotation(Rotation),
 		m_Position(Position),
 		m_Speed(5.0f),
-		m_isAir(false),
+		m_isAir(true),
 		m_Player1(false),
 		m_cameraAngleY(0.0f),
 		m_forward(0.0f),
@@ -34,13 +34,13 @@ namespace basecross
 
 	Vec2 Player::GetInputState() const {
 		Vec2 ret;
-		//ƒRƒ“ƒgƒ[ƒ‰‚Ìæ“¾
+		//ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ã®å–å¾—
 		auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
 		ret.x = 0.0f;
 		ret.y = 0.0f;
 		WORD wButtons = 0;
 
-		// ¶ƒXƒeƒBƒbƒN‚Ìó‘Ô‚ğ”»’è
+		// å·¦ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®çŠ¶æ…‹ã‚’åˆ¤å®š
 		if (cntlVec[0].bConnected) {
 			ret.x = cntlVec[0].fThumbLX;
 			ret.y = cntlVec[0].fThumbLY;
@@ -51,7 +51,7 @@ namespace basecross
 	Vec3 Player::GetMoveVector() const
 	{
 		Vec3 angle(0, 0, 0);
-		//“ü—Í‚Ìæ“¾
+		//å…¥åŠ›ã®å–å¾—
 		auto inPut = GetInputState();
 		float moveX = inPut.x;
 		float moveZ = inPut.y;
@@ -61,34 +61,34 @@ namespace basecross
 			auto ptrTransform = GetComponent<Transform>();
 			auto ptrCamera = OnGetDrawCamera();
 
-			// ƒJƒƒ‰•ûŒü‚©‚ç‚ÌŠp“x
+			// ã‚«ãƒ¡ãƒ©æ–¹å‘ã‹ã‚‰ã®è§’åº¦
 			auto front = ptrTransform->GetPosition() - ptrCamera->GetEye();
 			front.y = 0;
 			front.normalize();
 			float frontAngle = -atan2(front.z, front.x);
 
-			// ƒXƒeƒBƒbƒN“ü—Í‚ÌŠp“x
+			// ã‚¹ãƒ†ã‚£ãƒƒã‚¯å…¥åŠ›ã®è§’åº¦
 			Vec2 moveVec(moveX, moveZ);
 			float cntlAngle = atan2(-moveX, moveZ);
 
-			// ‡ŒvŠp“xŒvZiƒJƒƒ‰ + ƒXƒeƒBƒbƒN + ƒvƒŒƒCƒ„[‰ñ“]j
+			// åˆè¨ˆè§’åº¦è¨ˆç®—ï¼ˆã‚«ãƒ¡ãƒ© + ã‚¹ãƒ†ã‚£ãƒƒã‚¯ + ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼å›è»¢ï¼‰
 			float totalAngle = frontAngle + cntlAngle;
 
-			// Šp“x‚©‚çˆÚ“®ƒxƒNƒgƒ‹‚ğì¬
+			// è§’åº¦ã‹ã‚‰ç§»å‹•ãƒ™ã‚¯ãƒˆãƒ«ã‚’ä½œæˆ
 			angle = Vec3(cos(totalAngle), 0, sin(totalAngle));
 			angle.normalize();
 
-			// ˆÚ“®ƒTƒCƒY‚Ì“K—p
+			// ç§»å‹•ã‚µã‚¤ã‚ºã®é©ç”¨
 			angle *= moveVec.length();
 
 			//if (m_Player1)
 			//{
-				//z²‚ğŒÅ’è
+				//zè»¸ã‚’å›ºå®š
 				angle.z = 0;
 			//}
 			//else
 			//{
-			//	//x²‚ğŒÅ’è
+			//	//xè»¸ã‚’å›ºå®š
 			//	angle.x = 0;
 			//}
 
@@ -104,12 +104,11 @@ namespace basecross
 		auto angle = GetMoveVector();
 		auto pos = GetComponent<Transform>()->GetPosition();
 
-		// x•ûŒü‚É©“®ˆÚ“®
+		// xæ–¹å‘ã«è‡ªå‹•ç§»å‹•
 		pos.x += elapsedTime * m_Speed;
 
 
-		GetComponent<Transform>()->SetPosition(pos); // XVŒã
-
+		GetComponent<Transform>()->SetPosition(pos); // æ›´æ–°å¾Œ
 
 	}
 
@@ -118,64 +117,43 @@ namespace basecross
 		float elapsedTime = App::GetApp()->GetElapsedTime();
 		auto angle = GetMoveVector();
 		auto pos = GetComponent<Transform>()->GetPosition();
-		//d—Í‚ğ‚Â‚¯‚é
+		//é‡åŠ›ã‚’ã¤ã‘ã‚‹
 		auto ptrGra = AddComponent<Gravity>();
 
-		//auto gameObjectVec = GetGameObjectVec();
-		//for (auto obj : gameObjectVec)
-		//{
-		//if (dynamic_pointer_cast<Box>())
-		//{
-		//	if (pos.y == 0.502f || pos.y == 0.501f)
-		//	{
-		//		pos.y = 0.50f; 
-		//	}
-
-
-		//	if (pos.y == 0.50f)
-		//	{
-		//		m_velocity.y = 8.0f;
-		//		//m_isAir = true;
-		//	}
-
-		//}
-	    //}
 	}
 
 
 	void Player::OnCreate()
 	{
-		//‰ŠúˆÊ’u‚È‚Ç‚Ìİ’è
+		//åˆæœŸä½ç½®ãªã©ã®è¨­å®š
 		auto ptr = AddComponent<Transform>();
-		ptr->SetScale(m_Scale);	//’¼Œa25ƒZƒ“ƒ`‚Ì‹…‘Ì
+		ptr->SetScale(m_Scale);	//ç›´å¾„25ã‚»ãƒ³ãƒã®çƒä½“
 		ptr->SetRotation(m_Rotation);
 		ptr->SetPosition(m_Position);
-		//ptr->SetScale(0.0f, 0.25f, 0.25f);	//’¼Œa25ƒZƒ“ƒ`‚Ì‹…‘Ì
+		//ptr->SetScale(0.0f, 0.25f, 0.25f);	//ç›´å¾„25ã‚»ãƒ³ãƒã®çƒä½“
 		//ptr->SetRotation(0.0f, 0.0f, 0.0f);
 		//ptr->SetPosition(Vec3(-4.75f, 0.125f, -5.0f));
 
 
 
-		//CollisionÕ“Ë”»’è‚ğ•t‚¯‚é
+		//Collisionè¡çªåˆ¤å®šã‚’ä»˜ã‘ã‚‹
 		auto ptrColl = AddComponent<CollisionObb>();
-
 		//ptrColl->SetMakedSize(2.5f);
 
 		m_Center = Vec3(1.2f, 0.6f, 0.3f);
 		Vec3 position = Vec3(m_Center.x, m_Center.y, 0.0f);
 
-		//“–‚½‚è”»’è‚ÌƒTƒCƒY
-		m_Radius = m_Scale.y/2;
+		
 
-		//ŠeƒpƒtƒH[ƒ}ƒ“ƒX‚ğ“¾‚é
+		//å„ãƒ‘ãƒ•ã‚©ãƒ¼ãƒãƒ³ã‚¹ã‚’å¾—ã‚‹
 		GetStage()->SetCollisionPerformanceActive(true);
 		GetStage()->SetUpdatePerformanceActive(true);
 		GetStage()->SetDrawPerformanceActive(true);
 
 
-		//•`‰æƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìİ’è
+		//æç”»ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®è¨­å®š
 		auto ptrDraw = AddComponent<PNTStaticDraw>();
-		//•`‰æ‚·‚éƒƒbƒVƒ…‚ğİ’è
+		//æç”»ã™ã‚‹ãƒ¡ãƒƒã‚·ãƒ¥ã‚’è¨­å®š
 		ptrDraw->SetMeshResource(L"DEFAULT_SQUARE");
 		ptrDraw->SetTextureResource(L"TEX_NEZUMI2");
 		//ptrDraw->SetTextureResource(L"TEX_NEZUMI");
@@ -184,23 +162,10 @@ namespace basecross
 		SetAlphaActive(true);
 
 
-		//•¶š—ñ‚ğ‚Â‚¯‚é
+		//æ–‡å­—åˆ—ã‚’ã¤ã‘ã‚‹
 		auto ptrString = AddComponent<StringSprite>();
 		ptrString->SetText(L"");
 		ptrString->SetTextRect(Rect2D<float>(16.0f, 16.0f, 640.0f, 480.0f));
-
-
-        auto objects = GetStage()->GetGameObjectVec();
-		for (auto& obj : objects)
-		{
-			auto result = dynamic_pointer_cast<ShadowObject>(obj);
-			if (result)
-			{
-				m_OtherPolygon = result;
-				break;
-			}
-		}
-
 
 
 
@@ -210,7 +175,16 @@ namespace basecross
 
 		pos.z = wallPoint.z;
 
+		auto objects = GetStage()->GetGameObjectVec();
 
+		for (auto& obj : objects) {
+			auto result = dynamic_pointer_cast<ShadowObject>(obj);
+
+			if (result) {
+				m_OtherPolygon = result;
+				break;
+			}
+		}
 	}
 
 
@@ -218,35 +192,35 @@ namespace basecross
 	{
 		float elapsedTime = App::GetApp()->GetElapsedTime();
 
-		//“ü—Í‚Æd—Í‚ÉŠî‚Ã‚¢‚ÄA‚±‚ÌƒtƒŒ[ƒ€‚Ì‘¬“x(m_velocity)‚ğŒˆ’è‚·‚é
-		m_InputHandler.PushHandle(GetThis<Player>()); // ƒWƒƒƒ“ƒv“ü—Í(OnPushA)‚Ìó•t
+		//å…¥åŠ›ã¨é‡åŠ›ã«åŸºã¥ã„ã¦ã€ã“ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã®é€Ÿåº¦(m_velocity)ã‚’æ±ºå®šã™ã‚‹
+		m_InputHandler.PushHandle(GetThis<Player>()); // ã‚¸ãƒ£ãƒ³ãƒ—å…¥åŠ›(OnPushA)ã®å—ä»˜
 
-		// X•ûŒü‚ÌˆÚ“®‘¬“xi©“®‚Å‰E‚Éi‚Şj
+		// Xæ–¹å‘ã®ç§»å‹•é€Ÿåº¦ï¼ˆè‡ªå‹•ã§å³ã«é€²ã‚€ï¼‰
 		m_velocity.x = m_Speed;
 
-		// Y•ûŒü‚ÌˆÚ“®‘¬“xií‚Éd—Í‚ğ“K—p‚·‚éj
-		// ’n–Ê‚É‚¢‚é‚©‚Ç‚¤‚©‚ÍA‚±‚ÌŒã‚ÌÕ“Ë”»’è‚Å”»’f‚·‚é
+		// Yæ–¹å‘ã®ç§»å‹•é€Ÿåº¦ï¼ˆå¸¸ã«é‡åŠ›ã‚’é©ç”¨ã™ã‚‹ï¼‰
+		// åœ°é¢ã«ã„ã‚‹ã‹ã©ã†ã‹ã¯ã€ã“ã®å¾Œã®è¡çªåˆ¤å®šã§åˆ¤æ–­ã™ã‚‹
 		m_velocity.y += m_gravity * elapsedTime;
-		m_isAir = true; // Šî–{“I‚É‹ó’†‚É‚¢‚é‚Æ‰¼’è‚µA’n–Ê‚É‚¢‚½‚çŒã‚Åfalse‚É‚·‚é
+		m_isAir = true; // åŸºæœ¬çš„ã«ç©ºä¸­ã«ã„ã‚‹ã¨ä»®å®šã—ã€åœ°é¢ã«ã„ãŸã‚‰å¾Œã§falseã«ã™ã‚‹
 		MoveY();
 
-		//‘¬“x‚ÉŠî‚Ã‚¢‚ÄAƒvƒŒƒCƒ„[‚ğu‰¼‚ÉvˆÚ“®‚³‚¹‚é
+		//é€Ÿåº¦ã«åŸºã¥ã„ã¦ã€ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’ã€Œä»®ã«ã€ç§»å‹•ã•ã›ã‚‹
 		auto ptrTransform = GetComponent<Transform>();
 		Vec3 currentPosition = ptrTransform->GetPosition();
 		currentPosition += m_velocity * elapsedTime;
 
 
-		//Õ“Ë”»’è‚Æ‰“š
+		//è¡çªåˆ¤å®šã¨å¿œç­”
 
-		// ”»’è‚Ég‚¤‰~‚Ì’†S‚ÍAˆÚ“®Œã‚ÌƒvƒŒƒCƒ„[‚ÌˆÊ’u‚»‚Ì‚à‚Ì
+		// åˆ¤å®šã«ä½¿ã†å††ã®ä¸­å¿ƒã¯ã€ç§»å‹•å¾Œã®ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ä½ç½®ãã®ã‚‚ã®
 		m_Center = currentPosition;
-		// ”¼Œa‚ÍƒXƒP[ƒ‹‚Ì”¼•ª
-		m_Radius = m_Scale.x / 2.0f;
 
+		// åŠå¾„ã¯ã‚¹ã‚±ãƒ¼ãƒ«ã®åŠåˆ†(å°‘ã—å¤§ãã‚ã«ã™ã‚‹)
+		m_Radius = m_Scale.x / 2.0f * 2.15;
 
 		if (m_OtherPolygon)
 		{
-			// 1. ‰e‚Ì’¸“_‚ğƒ[ƒ‹ƒhÀ•W‚É•ÏŠ·
+			//å½±ã®é ‚ç‚¹ã‚’ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ã«å¤‰æ›
 			auto shadowTransform = m_OtherPolygon->GetComponent<Transform>();
 			Mat4x4 shadowWorldMatrix = shadowTransform->GetWorldMatrix();
 			std::vector<Vec3> localVertices = m_OtherPolygon->GetVertices();
@@ -258,49 +232,56 @@ namespace basecross
 				worldVertices.push_back(worldPos);
 			}
 
-			//Õ“Ë”»’è‚ğÀs
+			//è¡çªåˆ¤å®šã‚’å®Ÿè¡Œ
 			Vec3 mtv;
 			if (ComputeMTV(worldVertices, mtv))
 			{
-				// --- Õ“Ë‚µ‚½ê‡‚Ì•â³ˆ— ---
+				// --- è¡çªã—ãŸå ´åˆã®è£œæ­£å‡¦ç† ---
 
-				//ˆÊ’u‚ğ•â³‚·‚éi1%‘½‚ß‚É‰Ÿ‚µo‚·j
+				//ä½ç½®ã‚’è£œæ­£ã™ã‚‹ï¼ˆ1%å¤šã‚ã«æŠ¼ã—å‡ºã™ï¼‰
 				currentPosition += mtv * 1.01f;
 
-				//‘¬“x‚ğ•â³‚·‚é
+				// 3b. é€Ÿåº¦ã‚’è£œæ­£ã™ã‚‹ï¼ˆâ˜…ã“ã“ã‚’ã‚ˆã‚Šå¼·åŠ›ãªãƒ­ã‚¸ãƒƒã‚¯ã«ä¿®æ­£â˜…ï¼‰
 				Vec3 collisionNormal = mtv;
 				collisionNormal.normalize();
 
-				//ãŒü‚«‚Ì”½”­i’n–Êj‚ğó‚¯‚½‚ç
+				// ç¾åœ¨ã®é€Ÿåº¦ã¨ã€è¡çªé¢ã®æ³•ç·šã®å†…ç©ã‚’è¨ˆç®—
+				float dot_vel_norm = m_velocity.dot(collisionNormal);
+
+				// ã‚‚ã—ã€é€Ÿåº¦ãŒè¡çªé¢ã«ã‚ã‚Šè¾¼ã‚€æ–¹å‘ï¼ˆå†…ç©ãŒè² ï¼‰ã‚’å‘ã„ã¦ã„ã‚‹ãªã‚‰...
+				if (dot_vel_norm < 0)
+				{
+					// æ³•ç·šæ–¹å‘ã®é€Ÿåº¦æˆåˆ†ã‚’ã€å®Œå…¨ã«æ‰“ã¡æ¶ˆã™ãƒ™ã‚¯ãƒˆãƒ«ã‚’è¨ˆç®—
+					Vec3 reflectionVector = collisionNormal * -dot_vel_norm;
+
+					// ç¾åœ¨ã®é€Ÿåº¦ã«ã€ãã®æ‰“ã¡æ¶ˆã—ãƒ™ã‚¯ãƒˆãƒ«ã‚’åŠ ç®—ã™ã‚‹
+					// ã“ã‚Œã«ã‚ˆã‚Šã€å£ã«ã‚ã‚Šè¾¼ã‚€æ–¹å‘ã®é€Ÿåº¦ãŒã‚¼ãƒ­ã«ãªã‚‹
+					m_velocity += reflectionVector;
+				}
+
+				// åœ°é¢ã¨ã®æ¥è§¦åˆ¤å®šï¼ˆã“ã‚Œã¯é‡è¦ãªã®ã§æ®‹ã™ï¼‰
 				if (collisionNormal.y > 0.7f)
 				{
-					m_velocity.y = 0; // Y‘¬“x‚ğƒŠƒZƒbƒg
-					m_isAir = false;  // ’nã‚É‚¢‚é
-				}
-				// ‰¡Œü‚«‚Ì”½”­i•Çj‚ğó‚¯‚½‚ç
-				if (abs(collisionNormal.x) > 0.7f)
-				{
-					m_velocity.x = 0; // X‘¬“x‚ğƒŠƒZƒbƒg
+					m_isAir = false;
 				}
 			}
 		}
 
-		// â‘ÎÀ•W‚Å‚Ì’n–Êˆ—i•ÛŒ¯j
+		//æœ€çµ‚çš„ãªä½ç½®ã‚’Transformã«è¨­å®š 
+		ptrTransform->SetPosition(currentPosition);
+
+		// çµ¶å¯¾åº§æ¨™ã§ã®åœ°é¢å‡¦ç†ï¼ˆä¿é™ºï¼‰
 		if (currentPosition.y < -4.99f) {
 			currentPosition.y = -4.99f;
 			m_velocity.y = 0;
 			m_isAir = false;
 		}
-
-
-		//ÅI“I‚ÈˆÊ’u‚ğTransform‚Éİ’è 
-		ptrTransform->SetPosition(currentPosition);
-
 		DrawStrings();
 	}
 
 
-	void Player::MoveXZ() {
+	void Player::MoveXZ() 
+	{
 		auto angle = GetInputState();
 		float elapsedTime = App::GetApp()->GetElapsedTime();
 		auto pos = GetComponent<Transform>()->GetPosition();
@@ -309,74 +290,66 @@ namespace basecross
 	}
 
 
-	void Player::MoveY() {
+	void Player::MoveY() 
+	{
 		auto ptrTransform = GetComponent<Transform>();
 		auto pos = GetComponent<Transform>()->GetPosition();
 
 
-		if (pos.y > -4.99f)
+		if (m_isAir == true)
 		{
-			// d—Í‚Ì“K—p
+			// é‡åŠ›ã®é©ç”¨
 			float elapsedTime = App::GetApp()->GetElapsedTime();
 			m_velocity.y += m_gravity * elapsedTime;
-			//pos.y += m_velocity.y * elapsedTime;
 			auto ptrGra = AddComponent<Gravity>();
-			m_isAir = false;
-
-
-			// ’n–Ê‚Æ‚ÌÕ“Ë‚Ìˆ—
-			//if (pos.y <= -4.99f)
-			//{
-			//	m_velocity.y = 0.0f; // ‘¬“x‚ğƒŠƒZƒbƒg
-			//	m_isAir = true; // ‹ó’†ó‘Ô‚ğƒŠƒZƒbƒg
-			//}
-
-
 
 			ptrTransform->SetPosition(pos);
 
 		}
 	}
 
-	//Aƒ{ƒ^ƒ“
+	//Aãƒœã‚¿ãƒ³
 	void Player::OnPushA()
 	{
 		auto pos = GetComponent<Transform>()->GetPosition();
 
-		//if (pos.y == 0.502f || pos.y == 0.501f)
-		//{
-		//}
-
-
 		if (m_isAir == false)
 		{
-			m_velocity.y = 8.0f; // ƒWƒƒƒ“ƒv‚Ì‰‘¬‚ğ—^‚¦‚é
-			m_isAir = true; // ƒWƒƒƒ“ƒv‚µ‚½‚Ì‚Å‹ó’†ó‘Ô‚É‚·‚é
+			m_velocity.y = 8.0f; // ã‚¸ãƒ£ãƒ³ãƒ—ã®åˆé€Ÿã‚’ä¸ãˆã‚‹
+			m_isAir = true; // ã‚¸ãƒ£ãƒ³ãƒ—ã—ãŸã®ã§ç©ºä¸­çŠ¶æ…‹ã«ã™ã‚‹
 		}
 
 	}
 
 	void Player::OnCollisionExcute(shared_ptr<GameObject>& Other)
 	{
-	if (dynamic_pointer_cast<Ground>(Other)) // Õ“Ë‘ÎÛ‚ª’n–Ê‚©Šm”F
+	    if (dynamic_pointer_cast<Ground>(Other)) // è¡çªå¯¾è±¡ãŒåœ°é¢ã‹ç¢ºèª
 		{
-
 			m_velocity.y = 0;
 			m_isAir = false;
 			//m_collisionFlag = true;
+
+			auto scene = App::GetApp()->GetScene<Scene>();
+			PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"ToGameOverStage");
+		}
+		else if (dynamic_pointer_cast<ShadowFloor>(Other))
+		{
+			m_velocity.y = 0;
+			m_isAir = false;
+
 		}
 	}
 
 	void Player::OnCollisionExit(shared_ptr<GameObject>& Other)
 	{
-		m_collisionFlag = false;
+		//m_collisionFlag = false;
 	}
 
 
-	void Player::SetPlayerMove(bool Player1)
-	{
-		m_Player1 = Player1;
-	}
+	//void Player::SetPlayerMove(bool Player1)
+	//{
+	//	m_Player1 = Player1;
+	//}
 
 	void Player::DrawStrings()
 	{
@@ -390,45 +363,46 @@ namespace basecross
 		
 
 
-		//•¶š—ñƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìæ“¾
+		//æ–‡å­—åˆ—ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®å–å¾—
 		auto ptrString = GetComponent<StringSprite>();
 		ptrString->SetText(str);
 
 	}
 
+	//mtvâ‡æŠ¼ã—å‡ºã—ã®ãƒ™ã‚¯ãƒˆãƒ«
 	bool Player::ComputeMTV(const std::vector<Vec3>& polygonVertices, Vec3& mtv)
 	{
-		// ƒ|ƒŠƒSƒ“‚É•Ó‚ª‚È‚¯‚ê‚Îi’¸“_‚ª2‚Â–¢–‚È‚çj”»’è•s”\
+		// ãƒãƒªã‚´ãƒ³ã«è¾ºãŒãªã‘ã‚Œã°ï¼ˆé ‚ç‚¹ãŒ2ã¤æœªæº€ãªã‚‰ï¼‰åˆ¤å®šä¸èƒ½
 		if (polygonVertices.size() < 2) {
 			return false;
 		}
 
-		// === ƒXƒeƒbƒv1: ƒ|ƒŠƒSƒ“‚ÌŠOüã‚ÅA‰~‚Ì’†S‚ÉÅ‚à‹ß‚¢“_(closestPointOnPolygon)‚ğ’T‚· ===
+		// === ã‚¹ãƒ†ãƒƒãƒ—1: ãƒãƒªã‚´ãƒ³ã®å¤–å‘¨ä¸Šã§ã€å††ã®ä¸­å¿ƒã«æœ€ã‚‚è¿‘ã„ç‚¹(closestPointOnPolygon)ã‚’æ¢ã™ ===
 		Vec3 closestPointOnPolygon;
-		float minDistanceSq = FLT_MAX; // Å¬‹——£‚Ìu2æv‚ğ‹L˜^‚·‚é•Ï”
+		float minDistanceSq = FLT_MAX; // æœ€å°è·é›¢ã®ã€Œ2ä¹—ã€ã‚’è¨˜éŒ²ã™ã‚‹å¤‰æ•°
 
 		for (size_t i = 0; i < polygonVertices.size(); ++i)
 		{
 			Vec3 p1 = polygonVertices[i];
-			Vec3 p2 = polygonVertices[(i + 1) % polygonVertices.size()]; // Ÿ‚Ì’¸“_iƒŠƒXƒg‚ÌÅŒã‚ÍÅ‰‚É–ß‚éj
+			Vec3 p2 = polygonVertices[(i + 1) % polygonVertices.size()]; // æ¬¡ã®é ‚ç‚¹ï¼ˆãƒªã‚¹ãƒˆã®æœ€å¾Œã¯æœ€åˆã«æˆ»ã‚‹ï¼‰
 
-			// Œ»İ’²‚×‚Ä‚¢‚é•Ó‚ÌƒxƒNƒgƒ‹
+			// ç¾åœ¨èª¿ã¹ã¦ã„ã‚‹è¾ºã®ãƒ™ã‚¯ãƒˆãƒ«
 			Vec3 edge = p2 - p1;
 
-			// •Ó‚Ìn“_p1‚©‚ç‰~‚Ì’†Sm_Center‚Ö‚ÌƒxƒNƒgƒ‹
+			// è¾ºã®å§‹ç‚¹p1ã‹ã‚‰å††ã®ä¸­å¿ƒm_Centerã¸ã®ãƒ™ã‚¯ãƒˆãƒ«
 			Vec3 vecToCenter = m_Center - p1;
 
-			// •ÓƒxƒNƒgƒ‹‚ªƒ[ƒƒxƒNƒgƒ‹‚Å‚È‚¢‚±‚Æ‚ğŠm”F
+			// è¾ºãƒ™ã‚¯ãƒˆãƒ«ãŒã‚¼ãƒ­ãƒ™ã‚¯ãƒˆãƒ«ã§ãªã„ã“ã¨ã‚’ç¢ºèª
 			float edgeLengthSq = edge.dot(edge);
 			if (edgeLengthSq < 1e-9f) {
-				continue; // ‚±‚Ì•Ó‚Í’·‚³‚ª‚È‚¢‚Ì‚ÅƒXƒLƒbƒv
+				continue; // ã“ã®è¾ºã¯é•·ã•ãŒãªã„ã®ã§ã‚¹ã‚­ãƒƒãƒ—
 			}
 
-			// ‰~‚Ì’†S‚ªA•Óp1-p2‚Ì‚Ç‚ÌˆÊ’u‚ÉË‰e‚³‚ê‚é‚©‚ğŒvZ (0.0`1.0‚Ì”ä—¦t)
+			// å††ã®ä¸­å¿ƒãŒã€è¾ºp1-p2ã®ã©ã®ä½ç½®ã«å°„å½±ã•ã‚Œã‚‹ã‹ã‚’è¨ˆç®— (0.0ï½1.0ã®æ¯”ç‡t)
 			float t = vecToCenter.dot(edge) / edgeLengthSq;
 
-			// t‚ğ0.0‚©‚ç1.0‚Ì”ÍˆÍ‚ÉƒNƒ‰ƒ“ƒvi§ŒÀj‚·‚é
-			// ‚±‚ê‚É‚æ‚èAÅ‹ß–T“_‚ª•K‚¸•Ó‚Ìãi—¼’[‚Ì’¸“_‚ğŠÜ‚Şj‚ÉŒÀ’è‚³‚ê‚é
+			// tã‚’0.0ã‹ã‚‰1.0ã®ç¯„å›²ã«ã‚¯ãƒ©ãƒ³ãƒ—ï¼ˆåˆ¶é™ï¼‰ã™ã‚‹
+			// ã“ã‚Œã«ã‚ˆã‚Šã€æœ€è¿‘å‚ç‚¹ãŒå¿…ãšè¾ºã®ä¸Šï¼ˆä¸¡ç«¯ã®é ‚ç‚¹ã‚’å«ã‚€ï¼‰ã«é™å®šã•ã‚Œã‚‹
 			if (t > 1.0f) {
 				t = 1.0f;
 			}
@@ -436,13 +410,13 @@ namespace basecross
 				t = 0.0f;
 			};
 
-			// •Óã‚Å‚ÌÅ‚à‹ß‚¢“_‚ğŒvZ
+			// è¾ºä¸Šã§ã®æœ€ã‚‚è¿‘ã„ç‚¹ã‚’è¨ˆç®—
 			Vec3 closestPointOnEdge = p1 + edge * t;
 
-			// ‚»‚Ì“_‚Æ‰~‚Ì’†S‚Æ‚Ì‹——£i‚Ì2æj‚ğŒvZ
+			// ãã®ç‚¹ã¨å††ã®ä¸­å¿ƒã¨ã®è·é›¢ï¼ˆã®2ä¹—ï¼‰ã‚’è¨ˆç®—
 			float distSq = (m_Center - closestPointOnEdge).dot(m_Center - closestPointOnEdge);
 
-			// ¡‚Ü‚Å‚ÌÅ’Z‹L˜^‚æ‚è‚à‹ß‚¯‚ê‚ÎA‹L˜^‚ğXV
+			// ä»Šã¾ã§ã®æœ€çŸ­è¨˜éŒ²ã‚ˆã‚Šã‚‚è¿‘ã‘ã‚Œã°ã€è¨˜éŒ²ã‚’æ›´æ–°
 			if (distSq < minDistanceSq)
 			{
 				minDistanceSq = distSq;
@@ -450,23 +424,23 @@ namespace basecross
 			}
 		}
 
-		// === ƒXƒeƒbƒv2: Õ“Ë‚µ‚Ä‚¢‚é‚©”»’è ===
-		// ‰~‚Ì’†S‚Æƒ|ƒŠƒSƒ“ã‚ÌÅ‹ß–T“_‚Æ‚Ì‹——£‚ªA‰~‚Ì”¼Œa‚æ‚è‘å‚«‚¢‚©H
+		// ===  è¡çªã—ã¦ã„ã‚‹ã‹åˆ¤å®š ===
+		// å††ã®ä¸­å¿ƒã¨ãƒãƒªã‚´ãƒ³ä¸Šã®æœ€è¿‘å‚ç‚¹ã¨ã®è·é›¢ãŒã€å††ã®åŠå¾„ã‚ˆã‚Šå¤§ãã„ã‹ï¼Ÿ
 		if (minDistanceSq >= m_Radius * m_Radius)
 		{
-			// —£‚ê‚Ä‚¢‚éA‚Ü‚½‚Í‚¿‚å‚¤‚ÇÚ‚µ‚Ä‚¢‚é -> Õ“Ë‚µ‚Ä‚¢‚È‚¢
+			// é›¢ã‚Œã¦ã„ã‚‹ã€ã¾ãŸã¯ã¡ã‚‡ã†ã©æ¥ã—ã¦ã„ã‚‹ -> è¡çªã—ã¦ã„ãªã„
 			mtv = Vec3(0.0f, 0.0f, 0.0f);
 			return false;
 		}
 
-		// --- ‚±‚±‚©‚ç‚ÍÕ“Ë‚µ‚Ä‚¢‚é‚±‚Æ‚ªŠm’è ---
+		// --- ã“ã“ã‹ã‚‰ã¯è¡çªã—ã¦ã„ã‚‹ã“ã¨ãŒç¢ºå®š ---
 
-		// === ƒXƒeƒbƒv3: ‰Ÿ‚µo‚µƒxƒNƒgƒ‹(MTV)‚ğŒvZ ===
+		// ===  æŠ¼ã—å‡ºã—ãƒ™ã‚¯ãƒˆãƒ«(MTV)ã‚’è¨ˆç®— ===
 
-		// ‰Ÿ‚µo‚·•ûŒü‚ÍAƒ|ƒŠƒSƒ“ã‚ÌÅ‹ß–T“_‚©‚ç‰~‚Ì’†S‚ÖŒü‚©‚¤•ûŒü
+		// æŠ¼ã—å‡ºã™æ–¹å‘ã¯ã€ãƒãƒªã‚´ãƒ³ä¸Šã®æœ€è¿‘å‚ç‚¹ã‹ã‚‰å††ã®ä¸­å¿ƒã¸å‘ã‹ã†æ–¹å‘
 		Vec3 pushDirection = m_Center - closestPointOnPolygon;
 
-		// ‚à‚µ’†S“_‚ªŠ®‘S‚Éd‚È‚Á‚Ä‚¢‚é‚È‚ÇAƒ[ƒƒxƒNƒgƒ‹‚É‚È‚Á‚½‚çA‰¼‚Ì‰Ÿ‚µo‚µ•ûŒüiãŒü‚«‚È‚Çj‚ğg‚¤
+		// ã‚‚ã—ä¸­å¿ƒç‚¹ãŒå®Œå…¨ã«é‡ãªã£ã¦ã„ã‚‹ãªã©ã€ã‚¼ãƒ­ãƒ™ã‚¯ãƒˆãƒ«ã«ãªã£ãŸã‚‰ã€ä»®ã®æŠ¼ã—å‡ºã—æ–¹å‘ï¼ˆä¸Šå‘ããªã©ï¼‰ã‚’ä½¿ã†
 		if (pushDirection.dot(pushDirection) < 1e-9f) {
 			pushDirection = Vec3(0.0f, 1.0f, 0.0f);
 		}
@@ -474,12 +448,12 @@ namespace basecross
 			pushDirection.normalize();
 		}
 
-		// ‰Ÿ‚µo‚·—Ê‚ÍA”¼Œa‚ÆÀÛ‚Ì‹——£‚Ì·
+		// æŠ¼ã—å‡ºã™é‡ã¯ã€åŠå¾„ã¨å®Ÿéš›ã®è·é›¢ã®å·®
 		float overlap = m_Radius - sqrt(minDistanceSq);
 
-		// ÅI“I‚ÈMTV‚ğŒvZ
-		mtv = pushDirection * overlap;
+		// æœ€çµ‚çš„ãªMTVã‚’è¨ˆç®—
+		mtv = pushDirection * overlap*-1.0f;
 
-		return true; // Õ“Ë‚µ‚½‚±‚Æ‚ğ“`‚¦‚é
+		return true; // è¡çªã—ãŸã“ã¨ã‚’ä¼ãˆã‚‹
 	}
 }
