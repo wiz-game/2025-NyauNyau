@@ -239,7 +239,7 @@ namespace basecross
 				// --- 衝突した場合の補正処理 ---
 
 				//位置を補正する（1%多めに押し出す）
-				currentPosition += mtv * 1.01f;
+				currentPosition += mtv * 1.21f;
 
 				// 3b. 速度を補正する（★ここをより強力なロジックに修正★）
 				Vec3 collisionNormal = mtv;
@@ -252,7 +252,7 @@ namespace basecross
 				if (dot_vel_norm < 0)
 				{
 					// 法線方向の速度成分を、完全に打ち消すベクトルを計算
-					Vec3 reflectionVector = collisionNormal * -dot_vel_norm;
+					Vec3 reflectionVector = collisionNormal * dot_vel_norm;
 
 					// 現在の速度に、その打ち消しベクトルを加算する
 					// これにより、壁にめり込む方向の速度がゼロになる
