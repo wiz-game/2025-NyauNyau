@@ -216,7 +216,7 @@ namespace basecross
 		m_Center = currentPosition;
 
 		// 半径はスケールの半分(少し大きめにする)
-		m_Radius = m_Scale.x / 2.0f * 2.15;
+		m_Radius = m_Scale.x / 2.0f;
 
 		if (m_OtherPolygon)
 		{
@@ -239,7 +239,7 @@ namespace basecross
 				// --- 衝突した場合の補正処理 ---
 
 				//位置を補正する（1%多めに押し出す）
-				currentPosition += mtv * 1.21f;
+				currentPosition += mtv * 1.01f;
 
 				// 3b. 速度を補正する（★ここをより強力なロジックに修正★）
 				Vec3 collisionNormal = mtv;
@@ -258,6 +258,9 @@ namespace basecross
 					// これにより、壁にめり込む方向の速度がゼロになる
 					m_velocity += reflectionVector;
 				}
+
+				m_velocity.y = 0;
+				m_isAir = false;
 
 				// 地面との接触判定（これは重要なので残す）
 				if (collisionNormal.y > 0.7f)
@@ -315,7 +318,7 @@ namespace basecross
 
 		if (m_isAir == false)
 		{
-			m_velocity.y = 8.0f; // ジャンプの初速を与える
+			m_velocity.y = 10.0f; // ジャンプの初速を与える
 			m_isAir = true; // ジャンプしたので空中状態にする
 		}
 
@@ -372,88 +375,77 @@ namespace basecross
 	//mtv⇐押し出しのベクトル
 	bool Player::ComputeMTV(const std::vector<Vec3>& polygonVertices, Vec3& mtv)
 	{
-		// ポリゴンに辺がなければ（頂点が2つ未満なら）判定不能
 		if (polygonVertices.size() < 2) {
 			return false;
 		}
 
-		// === ステップ1: ポリゴンの外周上で、円の中心に最も近い点(closestPointOnPolygon)を探す ===
-		Vec3 closestPointOnPolygon;
-		float minDistanceSq = FLT_MAX; // 最小距離の「2乗」を記録する変数
+		// ★★★ 判定に使う円の中心を2Dに変換 ★★★
+		Vec2 center2D(m_Center.x, m_Center.y);
+		float radiusSq = m_Radius * m_Radius;
+
+		// === ステップ1: ポリゴン上の最近傍点を2Dで探す ===
+		Vec2 closestPointOnPolygon2D;
+		float minDistanceSq = FLT_MAX;
 
 		for (size_t i = 0; i < polygonVertices.size(); ++i)
 		{
-			Vec3 p1 = polygonVertices[i];
-			Vec3 p2 = polygonVertices[(i + 1) % polygonVertices.size()]; // 次の頂点（リストの最後は最初に戻る）
+			// ★★★ 頂点も2Dに変換 ★★★
+			Vec2 p1(polygonVertices[i].x, polygonVertices[i].y);
+			Vec2 p2(polygonVertices[(i + 1) % polygonVertices.size()].x, polygonVertices[(i + 1) % polygonVertices.size()].y);
 
-			// 現在調べている辺のベクトル
-			Vec3 edge = p2 - p1;
+			Vec2 edge = p2 - p1;
+			Vec2 vecToCenter = center2D - p1;
 
-			// 辺の始点p1から円の中心m_Centerへのベクトル
-			Vec3 vecToCenter = m_Center - p1;
-
-			// 辺ベクトルがゼロベクトルでないことを確認
 			float edgeLengthSq = edge.dot(edge);
 			if (edgeLengthSq < 1e-9f) {
-				continue; // この辺は長さがないのでスキップ
+				continue;
 			}
 
-			// 円の中心が、辺p1-p2のどの位置に射影されるかを計算 (0.0～1.0の比率t)
 			float t = vecToCenter.dot(edge) / edgeLengthSq;
-
-			// tを0.0から1.0の範囲にクランプ（制限）する
-			// これにより、最近傍点が必ず辺の上（両端の頂点を含む）に限定される
+			// もしtが1.0を超えていたら、1.0に制限する
 			if (t > 1.0f) {
 				t = 1.0f;
 			}
-			if (t < 0.0f) {
+			// もしtが0.0未満だったら、0.0に制限する
+			else if (t < 0.0f) {
 				t = 0.0f;
-			};
+			}
 
-			// 辺上での最も近い点を計算
-			Vec3 closestPointOnEdge = p1 + edge * t;
+			Vec2 closestPointOnEdge = p1 + edge * t;
+			float distSq = (center2D - closestPointOnEdge).dot(center2D - closestPointOnEdge);
 
-			// その点と円の中心との距離（の2乗）を計算
-			float distSq = (m_Center - closestPointOnEdge).dot(m_Center - closestPointOnEdge);
-
-			// 今までの最短記録よりも近ければ、記録を更新
 			if (distSq < minDistanceSq)
 			{
 				minDistanceSq = distSq;
-				closestPointOnPolygon = closestPointOnEdge;
+				closestPointOnPolygon2D = closestPointOnEdge;
 			}
 		}
 
-		// ===  衝突しているか判定 ===
-		// 円の中心とポリゴン上の最近傍点との距離が、円の半径より大きいか？
-		if (minDistanceSq >= m_Radius * m_Radius)
+		// === ステップ2: 2Dで衝突判定 ===
+		if (minDistanceSq >= radiusSq)
 		{
-			// 離れている、またはちょうど接している -> 衝突していない
 			mtv = Vec3(0.0f, 0.0f, 0.0f);
 			return false;
 		}
 
-		// --- ここからは衝突していることが確定 ---
-
-		// ===  押し出しベクトル(MTV)を計算 ===
-
-		// 押し出す方向は、ポリゴン上の最近傍点から円の中心へ向かう方向
-		Vec3 pushDirection = m_Center - closestPointOnPolygon;
-
-		// もし中心点が完全に重なっているなど、ゼロベクトルになったら、仮の押し出し方向（上向きなど）を使う
-		if (pushDirection.dot(pushDirection) < 1e-9f) {
-			pushDirection = Vec3(0.0f, 1.0f, 0.0f);
+		// === ステップ3: MTVを2Dで計算し、3Dベクトルに戻す ===
+		Vec2 pushDirection2D = center2D - closestPointOnPolygon2D;
+		if (pushDirection2D.dot(pushDirection2D) < 1e-9f) {
+			// もし中心が重なったら、仮に上向きに押し出す
+			pushDirection2D = Vec2(0.0f, 1.0f);
 		}
 		else {
-			pushDirection.normalize();
+			pushDirection2D.normalize();
 		}
 
-		// 押し出す量は、半径と実際の距離の差
 		float overlap = m_Radius - sqrt(minDistanceSq);
 
-		// 最終的なMTVを計算
-		mtv = pushDirection * overlap*-1.0f;
+		// ★★★ 2Dの押し出しベクトルを計算 ★★★
+		Vec2 mtv2D = pushDirection2D * overlap;
 
-		return true; // 衝突したことを伝える
+		// ★★★ 3Dベクトルに戻す（Z成分は必ず0） ★★★
+		mtv = Vec3(mtv2D.x, mtv2D.y, 0.0f);
+
+		return true;
 	}
 }
