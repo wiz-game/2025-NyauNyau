@@ -16,6 +16,7 @@
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)BackTitleButton.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BaseShadowStrategy.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)BookShelf.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Box.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BoxShadowStrategy.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CatwalkSprite.h" />
@@ -68,6 +69,7 @@
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)BackTitleButton.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)BaseShadowStrategy.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)BookShelf.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Box.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)BoxShadowStrategy.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CatWalkSprite.cpp" />

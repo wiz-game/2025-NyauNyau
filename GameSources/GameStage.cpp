@@ -25,8 +25,9 @@ namespace basecross {
 
 		m_phase1View = ObjectFactory::Create<SingleView>(GetThis<Stage>());
 		auto ptrphase1Camera = ObjectFactory::Create<Phase1Camera>();
-		ptrphase1Camera->SetEye(Vec3(10.0f, 30.0f, -60.0f));
+		ptrphase1Camera->SetEye(Vec3(10.0f, 30.0f, -70.0f));
 		ptrphase1Camera->SetAt(Vec3(10.0f, 20.0f, 0.0f));
+
 		m_phase1View->SetCamera(ptrphase1Camera);
 
 		SetView(m_phase1View);
@@ -188,7 +189,7 @@ namespace basecross {
 			{
 				Vec3(1.25f, 1.0f, 1.0f),
 				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(-25.0f, 21.0f, -0.5f)
+				Vec3(-25.0f, 22.0f, -0.5f)
 			},
 
 		};
@@ -386,7 +387,7 @@ namespace basecross {
 		{
 			Vec3(3.0f, 6.0f, 1.0f),
 			Vec3(0.0f, XM_PIDIV2, 0.0f),
-			Vec3(10.0f, -6.0f, -25.0f)
+			Vec3(10.0f, -10.0f, -25.0f)
 		}
 		};
 
@@ -431,16 +432,21 @@ namespace basecross {
 				Vec3(0.0f, 0.0f, 0.0f),
 				Vec3(-50.0f, 40.0f, 0.0f)
 			);
-			AddGameObject<ShadowFloor>(
+			AddGameObject<BookShelf>(
 				Vec3(100.0f, 50.0f, 1.0f),
-				Vec3(0.0f, 0.0f, 0.0f),
+				Vec3(0.0f, XM_PIDIV2*2, 0.0f),
 				Vec3(85.0f, -3.0f, 0.0f)
 			);
-			AddGameObject<ShadowFloor>(
+			AddGameObject<BookShelf>(
 				Vec3(40.0f, 30.0f, 1.0),
-				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(-25.0f, 5.0f, 0.0f)
+				Vec3(0.0f, XM_PIDIV2*2, 0.0f),
+				Vec3(-25.0f, 5.0f, -0.0f)
 			);
+			//AddGameObject<ShadowFloor>(
+			//	Vec3(40.0f, 30.0f, 1.0f),
+			//	Vec3(0.0f, 0.0f, 0.0f),
+			//	Vec3(-25.0f, 5.0f, 0.0f)
+			//);
 			//AddGameObject<ShadowFloor>(
 			//	Vec3(1.0f, 15.0f, 5.0f),
 			//	Vec3(0.0f, 0.0f, 0.0f),
@@ -461,6 +467,19 @@ namespace basecross {
 
 
 			CreateTable();
+
+			//AddGameObject<ShadowFloor>(
+			//	Vec3(1.0f, 20.0f, 10.0f),  // 10,1,10
+			//	Vec3(0.0f, 0.0f, 0.0f),
+			//	Vec3(-5.0f, -9.5f, -5.0f)
+			//);
+
+			//AddGameObject<Table>(
+			//	Vec3(3.0f, 6.0f, 1.0f),
+			//	Vec3(0.0f, XM_PIDIV2, 0.0f),
+			//	Vec3(10.0f, -6.0f, -25.0f)
+			//);
+
 
 			//BoxÇÃçÏê¨
 			CreateBox();
@@ -817,6 +836,12 @@ namespace basecross {
 		if (app->CheckResource<MultiMeshResource>(L"MODEL_TABLE")) return;
 		auto meshTable = MultiMeshResource::CreateStaticModelMultiMesh(modelPath + L"Table\\", L"Table.bmf");
 		app->RegisterResource(L"MODEL_TABLE", meshTable);
+
+
+		//ñ{íI
+		if (app->CheckResource<MeshResource>(L"MODEL_BOOKSHELF")) return;
+		auto meshBookShelf = MeshResource::CreateStaticModelMesh(modelPath + L"BookShelf\\", L"BookShelf.bmf");
+		app->RegisterResource(L"MODEL_BOOKSHELF", meshBookShelf);
 
 
 		//Ç¬Ç›Ç´(ê¬/óßï˚ëÃ)

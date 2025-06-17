@@ -336,7 +336,7 @@ namespace basecross
 			auto scene = App::GetApp()->GetScene<Scene>();
 			PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"ToGameOverStage");
 		}
-		else if (dynamic_pointer_cast<ShadowFloor>(Other))
+		else if (dynamic_pointer_cast<ShadowFloor>(Other)||dynamic_pointer_cast<BookShelf>(Other))
 		{
 			m_velocity.y = 0;
 			m_isAir = false;
