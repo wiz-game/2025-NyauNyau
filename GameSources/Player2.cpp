@@ -213,7 +213,7 @@ namespace basecross
 		MoveY();
 
 		//速度に基づいて、プレイヤーを「仮に」移動させる
-		auto ptrTransform = GetComponent<Transform>();
+		//auto ptrTransform = GetComponent<Transform>();
 		Vec3 currentPosition = ptrTransform->GetPosition();
 		currentPosition += m_velocity * elapsedTime;
 

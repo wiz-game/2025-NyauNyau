@@ -244,7 +244,7 @@ namespace basecross
 					float tableMaxX = tablePos.x + actualTableScale.x / 2.0f; //テーブルの右端限界
 					// テーブルのZ方向の範囲を計算
 					float tableMinZ = tablePos.z - actualTableScale.z / 2.0f; //テーブルの手前限界
-					float tableMaxZ = tablePos.z + actualTableScale.z / 2.0f; //テーブルの奥行限界
+					float tableMaxZ = tablePos.z + (actualTableScale.z + 4.0 )/ 2.0f; //テーブルの奥行限界
 
 					// --- Boxの新しいX座標をテーブルの範囲内に制限 ---
 				    // Boxの左端がテーブルの左端より内側の場合
