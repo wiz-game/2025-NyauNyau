@@ -187,40 +187,42 @@ namespace basecross
 		}
 	}
 
-
 	void Player::OnUpdate()
 	{
 		float elapsedTime = App::GetApp()->GetElapsedTime();
 
-		//入力と重力に基づいて、このフレームの速度(m_velocity)を決定する
-		m_InputHandler.PushHandle(GetThis<Player>()); // ジャンプ入力(OnPushA)の受付
+		// === ステップ1: 入力と重力で、このフレームの「目標速度」を決める ===
+		m_InputHandler.PushHandle(GetThis<Player>()); // ジャンプ入力の受付
 
-		// X方向の移動速度（自動で右に進む）
-		m_velocity.x = m_Speed;
+		m_velocity.x = m_Speed; // X方向の速度
 
-		// Y方向の移動速度（常に重力を適用する）
-		// 地面にいるかどうかは、この後の衝突判定で判断する
-		m_velocity.y += m_gravity * elapsedTime;
-		m_isAir = true; // 基本的に空中にいると仮定し、地面にいたら後でfalseにする
+		// 地面にいるならY速度は0、空中なら重力を加える、という状態管理
+		if (m_isAir) {
+			m_velocity.y += m_gravity * elapsedTime;
+		}
+		else {
+			if (m_velocity.y < 0) {
+				m_velocity.y = 0;
+			}
+		}
 		MoveY();
 
-		//速度に基づいて、プレイヤーを「仮に」移動させる
+		// === ステップ2: 速度を使って、1フレーム分の「移動量」を計算 ===
 		auto ptrTransform = GetComponent<Transform>();
 		Vec3 currentPosition = ptrTransform->GetPosition();
-		currentPosition += m_velocity * elapsedTime;
+		Vec3 deltaPosition = m_velocity * elapsedTime; // このフレームで動くべき量
 
 
-		//衝突判定と応答
+		// === ステップ3: 衝突判定と、移動量の「補正」 ===
+		// これから動く先の予測位置で判定する
+		m_Center = currentPosition + deltaPosition;
+		m_Radius = m_Scale.x/ 2.0f;
 
-		// 判定に使う円の中心は、移動後のプレイヤーの位置そのもの
-		m_Center = currentPosition;
+		bool groundedThisFrame = false; // このフレームで接地したかのローカルフラグ
 
-		// 半径はスケールの半分(少し大きめにする)
-		m_Radius = m_Scale.x / 2.0f*1.01;
-
-		if (m_OtherPolygon)
+		if (m_OtherPolygon) // OnCreateで設定済みのShadowObject
 		{
-			//影の頂点をワールド座標に変換
+			// 影の頂点をワールド座標に変換 (あなたの既存のロジックをそのまま使用)
 			auto shadowTransform = m_OtherPolygon->GetComponent<Transform>();
 			Mat4x4 shadowWorldMatrix = shadowTransform->GetWorldMatrix();
 			std::vector<Vec3> localVertices = m_OtherPolygon->GetVertices();
@@ -232,53 +234,43 @@ namespace basecross
 				worldVertices.push_back(worldPos);
 			}
 
-			//衝突判定を実行
-			Vec3 mtv;
-			if (ComputeMTV(worldVertices, mtv))
+			if (!worldVertices.empty())
 			{
-				// --- 衝突した場合の補正処理 ---
-
-				//位置を補正する（1%多めに押し出す）
-				currentPosition += mtv * 1.01f;
-
-				// 3b. 速度を補正する（★ここをより強力なロジックに修正★）
-				Vec3 collisionNormal = mtv;
-				collisionNormal.normalize();
-
-				// 現在の速度と、衝突面の法線の内積を計算
-				float dot_vel_norm = m_velocity.dot(collisionNormal);
-
-				// もし、速度が衝突面にめり込む方向（内積が負）を向いているなら...
-				if (dot_vel_norm < 0)
+				Vec3 mtv;
+				if (ComputeMTV(worldVertices, mtv))
 				{
-					// 法線方向の速度成分を、完全に打ち消すベクトルを計算
-					Vec3 reflectionVector = collisionNormal * dot_vel_norm;
+					// ★★★ 衝突した場合、移動量(deltaPosition)そのものを補正する ★★★
+					deltaPosition += mtv * 1.01f;
 
-					// 現在の速度に、その打ち消しベクトルを加算する
-					// これにより、壁にめり込む方向の速度がゼロになる
-					m_velocity += reflectionVector;
-				}
+					// ★★★ さらに、速度も補正する ★★★
+					Vec3 collisionNormal = mtv.normalize();
 
-				m_velocity.y = 0;
-				m_isAir = false;
+					// 地面との接触か判定
+					if (collisionNormal.y > 0.7f) {
+						groundedThisFrame = true;
+					}
 
-				// 地面との接触判定（これは重要なので残す）
-				if (collisionNormal.y > 0.7f)
-				{
-					m_isAir = false;
+					// 速度が衝突面にめり込む方向を向いているなら、その成分を打ち消す
+					float dot_vel_norm = m_velocity.dot(collisionNormal);
+					if (dot_vel_norm < 0) {
+						m_velocity -= collisionNormal * dot_vel_norm;
+					}
 				}
 			}
 		}
 
-		//最終的な位置をTransformに設定 
-		ptrTransform->SetPosition(currentPosition);
-
-		// 絶対座標での地面処理（保険）
-		if (currentPosition.y < -4.99f) {
-			currentPosition.y = -4.99f;
+		// 最下層の床との接触も考慮
+		if ((currentPosition.y + deltaPosition.y) < -4.99f) {
+			deltaPosition.y = -4.99f - currentPosition.y;
+			groundedThisFrame = true;
 			m_velocity.y = 0;
-			m_isAir = false;
 		}
+
+		// ===このフレームの状態を最終決定し、位置を適用する ===
+
+		m_isAir = !groundedThisFrame;
+		ptrTransform->SetPosition(currentPosition + deltaPosition);
+
 		DrawStrings();
 	}
 
