@@ -44,7 +44,7 @@
 #include "Table.h"
 #include "TestShadowBox.h"
 #include "Phase1.h"
-
+#include "BookShelf.h"
 #include "SoundSprite.h"
 #include "SettingStage.h"
 #include "PauseManager.h"
