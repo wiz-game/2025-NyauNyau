@@ -216,7 +216,7 @@ namespace basecross
 		m_Center = currentPosition;
 
 		// 半径はスケールの半分(少し大きめにする)
-		m_Radius = m_Scale.x / 2.0f;
+		m_Radius = m_Scale.x / 2.0f*1.01;
 
 		if (m_OtherPolygon)
 		{

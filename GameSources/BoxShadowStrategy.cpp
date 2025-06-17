@@ -45,41 +45,52 @@ namespace basecross
     {
         std::vector<Vec3> intersections;
 
-        auto wall = GetStage()->GetSharedGameObject<Wall>(L"Wall_0");
-        if (!wall)
-            return intersections;
+        // === 1. 壁の「表面」の平面を、ワールド行列から正確に計算 ===
+        auto wallObj = GetStage()->GetSharedGameObject<Wall>(L"Wall_0");
+        if (!wallObj) return intersections;
 
-        Vec3 wallNormal = wall->GetWallNormal();
-        Vec3 wallPoint = wall->GetWallPosition();
-        Vec4 wallPlane = GeneratePlane(wallPoint, wallNormal);
+        auto wallTransform = wallObj->GetComponent<Transform>();
+        Mat4x4 wallWorldMatrix = wallTransform->GetWorldMatrix();
 
+        Vec3 wallCenterPos = Vec3(wallWorldMatrix._41, wallWorldMatrix._42, wallWorldMatrix._43);
+        Vec3 wallScale = wallTransform->GetScale();
+        Vec3 wallNormal = -Vec3(wallWorldMatrix._31, wallWorldMatrix._32, wallWorldMatrix._33);
+        wallNormal.normalize();
+
+        // 壁の「表面」上の一点を計算
+        Vec3 wallSurfacePoint = wallCenterPos - wallNormal * wallScale.z ;
+
+        // この表面の位置と法線から、正しい平面の方程式を生成
+        Vec4 wallPlane = GeneratePlane(wallSurfacePoint, wallNormal); // GeneratePlaneは D = -n・p を使う
+
+
+        // === 2. 交点計算ループ ===
         for (const auto& vertex : objectVertices)
         {
-            Vec3 lightDir = Vec3(vertex - lightPos); // .normalize()は付けない
+            Vec3 rayDirection = vertex - lightPos;
+            float denominator = wallNormal.dot(rayDirection);
 
-            float denominator = wallNormal.dot(lightDir); // 分母は法線と方向の内積
-            if (fabs(denominator) < 0.0f)
+            if (fabs(denominator) < 1e-6f) {
                 continue;
+            }
 
-            float numerator = wallNormal.dot(wallPoint - lightPos); // 分子は(壁の点 - 光源)と法線の内積
-
+            float numerator = -(wallNormal.dot(lightPos) + wallPlane.w);
             float t = numerator / denominator;
 
-            // ★★★ ここを修正 ★★★
-            // 光源より後ろにある交点は無視する
-            if (t < 0)
+            if (t < 1.0f) {
                 continue;
+            }
 
-            Vec3 intersection = lightPos + lightDir * t;
+            // 計算された交点は、すでに正しい壁の表面上にある
+            Vec3 intersection = lightPos + rayDirection * t;
 
-            // Z座標の固定は、最後の保険として残しても良い
-            intersection.z = wallPoint.z;
+            // ★★★ Z座標の強制的な上書きは、もはや不要！ ★★★
+            // intersection.z = wallPoint.z; // ← この行は削除する
 
             intersections.push_back(intersection);
         }
 
         return intersections;
-
     }
 
 
