@@ -421,9 +421,9 @@ namespace basecross {
 				Vec3(0.0f, 0.0f, 0.0f),
 				Vec3(-50.0f, 40.0f, 0.0f)
 			);
-			AddGameObject<ShadowFloor>(
+			AddGameObject<BookShelf>(
 				Vec3(100.0f, 50.0f, 1.0f),
-				Vec3(0.0f, 0.0f, 0.0f),
+				Vec3(0.0f, XM_PIDIV2*2, 0.0f),
 				Vec3(85.0f, -3.0f, 0.0f)
 			);
 			AddGameObject<BookShelf>(
