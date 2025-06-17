@@ -237,7 +237,7 @@ namespace basecross
 
 					// スケール補正係数 (例: 見た目が10倍なら10.0f)
 					float scaleCorrectionFactor = 10.0f;
-					Vec3 actualTableScale = tableScale * scaleCorrectionFactor;
+					Vec3 actualTableScale = tableScale * scaleCorrectionFactor; //テーブルのスケールが小さいため、スケールに値をかけて大きく設定する
 
 					// テーブルのX方向の範囲を計算
 					float tableMinX = tablePos.x - actualTableScale.x / 2.0f; //テーブルの左端限界
@@ -252,19 +252,19 @@ namespace basecross
 					{
 						nextPos.x = tableMinX + boxScaleHalved.x; //Boxの位置をテーブルの左端限界にBoxのサイズの半分の値を足した値の場所にする(押し出し)
 					}
-					// Boxの右端がテーブルの右端より内側になるように
+					// Boxの右端がテーブルの右端より内側の場合
 					else if (nextPos.x + boxScaleHalved.x > tableMaxX) 
 					{
 						nextPos.x = tableMaxX - boxScaleHalved.x; //Boxの位置をテーブルの右端限界にBoxのサイズの半分の値を足した値の場所にする(押し出し)
 
 					}
 					// --- Boxの新しいZ座標をテーブルの範囲内に制限 ---
-					// Boxの手前側がテーブルの手前側より内側になるように
+					// Boxの手前側がテーブルの手前側より内側の場合
 					if (nextPos.z - boxScaleHalved.z < tableMinZ) 
 					{
 						nextPos.z = tableMinZ + boxScaleHalved.z; //Boxの位置をテーブルの手前限界にBoxのサイズの半分の値を足した値の場所にする(押し出し)
 					}
-					// Boxの奥側がテーブルの奥側より内側になるように
+					// Boxの奥側がテーブルの奥側より内側の場合
 					else if (nextPos.z + boxScaleHalved.z > tableMaxZ) 
 					{
 						nextPos.z = tableMaxZ - boxScaleHalved.z; //Boxの位置をテーブルの奥行限界にBoxのサイズの半分の値を足した値の場所にする(押し出し)
