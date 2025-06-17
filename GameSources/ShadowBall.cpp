@@ -22,7 +22,7 @@ namespace basecross
 
 
 		//ƒRƒŠƒWƒ‡ƒ“‚Â‚¯‚é
-		auto ptrColl = AddComponent<CollisionSphere>();
+		auto ptrColl = AddComponent<CollisionObb>();
 		auto ptrGra = AddComponent<Gravity>();
 
 		//•¶Žš—ñ‚ð‚Â‚¯‚é

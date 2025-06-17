@@ -164,19 +164,6 @@ namespace basecross {
 
 	}
 
-	void GameStage::CreateTable()
-	{
-		vector<vector<Vec3>> vec = {
-		{
-		Vec3(30.0f, 30.0f, 30.0f),  // 10,1,10
-		Vec3(0.0f, 0.0f, 0.0f),
-		Vec3(10.0f, 0.0f, -30.0f)
-		},
-		};
-
-	}
-
-
 	//スタート
 	void GameStage::CreatestartGate()
 	{
@@ -301,17 +288,17 @@ namespace basecross {
 		{
 		    Vec3(2.5f, 2.5f, 2.5f),
 		    Vec3(0.0f, 0.0f, 0.0f),
-		    Vec3(0.0f ,-4.75f, -4.0f)
+		    Vec3(10.0f ,16.25f, -20.0f)
 		},
 		{
 			Vec3(2.5f, 2.5f, 2.5f),
 			Vec3(0.0f, 0.0f, 0.0f),
-			Vec3(4.0f, -4.75f, -4.0f)
+			Vec3(10.0f ,16.25f, -20.0f)
         },
 		{
 			Vec3(2.5f, 2.5f, 2.5f),
 			Vec3(0.0f, 0.0f, 0.0f),
-			Vec3(-4.0f, -4.75f, -4.0f)
+			Vec3(10.0f ,16.25f, -20.0f)
         },
 
 
@@ -393,6 +380,30 @@ namespace basecross {
 
 	}
 
+	void GameStage::CreateTable()
+	{
+		vector<vector<Vec3>> vec = {
+		{
+			Vec3(3.0f, 6.0f, 1.0f),
+			Vec3(0.0f, XM_PIDIV2, 0.0f),
+			Vec3(10.0f, -6.0f, -25.0f)
+		}
+		};
+
+		vector<shared_ptr<Table>> table; // 生成した `Table` を管理するリスト
+
+		for (auto& v : vec)
+		{
+			auto ptrTable = AddGameObject<Table>(v[0], v[1], v[2]);
+			ptrTable->AddTag(L"Table");
+			table.push_back(ptrTable);
+		}
+
+		SetSharedGameObject(L"Table", table[0]);      // ユニーク名で共有登録
+
+
+	}
+
 
 
 	void GameStage::OnCreate() {
@@ -446,15 +457,11 @@ namespace basecross {
 			//	Vec3(-5.0f, -8.5f, 25.0f)
 			//);
 
-
-
-
 			//AddGameObject<ShadowFloor>(
 			//	Vec3(1.0f, 20.0f, 40.0f),  
 			//	Vec3(0.0f, 0.0f, 0.0f),
 			//	Vec3(-5.0f, -8.5f, 20.0f)
 			//);
-
 
 			//AddGameObject<ShadowFloor>(
 			//	Vec3(1.0f, 20.0f, 10.0f),  // 10,1,10
@@ -462,16 +469,12 @@ namespace basecross {
 			//	Vec3(-5.0f, -9.5f, -5.0f)
 			//);
 
-			AddGameObject<Table>(
-				Vec3(3.0f, 6.0f, 1.0f),
-				Vec3(0.0f, XM_PIDIV2, 0.0f),
-				Vec3(10.0f, -6.0f, -25.0f)
-			);
-
+			CreateTable();
 
 			//Boxの作成
 			CreateBox();
 
+			//ShadowBall(ギミック)の作成
 			CreateShadowBall();
 
 			//CreateTestShadowBox();
@@ -614,6 +617,7 @@ namespace basecross {
 			}
 		}
 
+
 	}
 
 	void GameStage::OnPushA()
@@ -634,7 +638,8 @@ namespace basecross {
 		m_selectedBoxIndex++;
 
 		// インデックスがリストの末尾を超えたら、先頭に戻す (ループ選択)
-		if (m_selectedBoxIndex >= m_controllableBoxes.size()) {
+		if (m_selectedBoxIndex >= m_controllableBoxes.size()) 
+		{
 			m_selectedBoxIndex = 0;
 		}
 	}
@@ -643,7 +648,8 @@ namespace basecross {
 	void GameStage::SelectPreviousBox() 
 	{
 		// 現在がSelectBoxモードで、かつ操作可能なBoxが存在する場合のみ処理を行う
-		if (m_currentControlMode != GameControlMode::SelectBox || m_controllableBoxes.empty()) {
+		if (m_currentControlMode != GameControlMode::SelectBox || m_controllableBoxes.empty()) 
+		{
 			return;
 		}
 		// 選択候補のインデックスを前に戻す
@@ -686,6 +692,12 @@ namespace basecross {
 		m_currentControlMode = GameControlMode::SelectBox;
 	}
 
+	std::shared_ptr<Table> GameStage::GetTableObject() const
+	{
+		return GetSharedGameObject<Table>(L"Table"); 
+	}
+
+
 	// テクスチャの読込
 	void GameStage::LoadTextures()
 	{
@@ -722,7 +734,6 @@ namespace basecross {
 
 		app->RegisterTexture(L"TEX_GameStageUI", texPath + L"GameStageUI.png");
 		app->RegisterTexture(L"TEX_GameButtonUI", texPath + L"GameButtonUI.png");
-
 
 	}
 
@@ -796,8 +807,6 @@ namespace basecross {
 					{
 						obj->SetUpdateActive(false);
 					}
-
-
 
 				}
 

@@ -16,6 +16,7 @@ namespace basecross {
 		Vec3 m_Position;
 
 		shared_ptr<PNTStaticModelDraw> m_drawComp;
+		vector<shared_ptr<Table>> table; // ¶¬‚µ‚½ `Ball` ‚ğŠÇ—‚·‚éƒŠƒXƒg
 
 
 	public:

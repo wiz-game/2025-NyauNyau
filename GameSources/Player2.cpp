@@ -188,7 +188,7 @@ namespace basecross
 		MoveXZ();
 
 		auto& app = App::GetApp();
-		auto ptrTransform = GetComponent<Transform>(); // OnCreateでキャッシュしたm_Transformを使ってもOK
+		auto ptrTransform = GetComponent<Transform>();
 		Vec3 currentPlayerPosition = ptrTransform->GetPosition();
 		float elapsed = app->GetElapsedTime();
 		float gravity = 0.0f;
@@ -256,10 +256,7 @@ namespace basecross
 
 		}
 
-
-
 	}
-
 
 	void Player::MoveXZ() 
 	{
@@ -269,7 +266,6 @@ namespace basecross
 		pos += elapsedTime * m_velocity;
 		GetComponent<Transform>()->SetPosition(pos);
 	}
-
 
 	void Player::MoveY() 
 	{
@@ -292,7 +288,6 @@ namespace basecross
 	//Aボタン
 	void Player::OnPushA()
 	{
-		auto pos = GetComponent<Transform>()->GetPosition();
 
 		if (m_isAir == false)
 		{
@@ -306,10 +301,6 @@ namespace basecross
 	{
 	    if (dynamic_pointer_cast<Ground>(Other)) // 衝突対象が地面か確認
 		{
-			m_velocity.y = 0;
-			m_isAir = false;
-			//m_collisionFlag = true;
-
 			auto scene = App::GetApp()->GetScene<Scene>();
 			PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"ToGameOverStage");
 		}
