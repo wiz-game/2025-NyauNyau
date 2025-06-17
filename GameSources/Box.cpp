@@ -30,9 +30,6 @@ namespace basecross
 		m_transComp->SetRotation(0,0,0);
 		m_transComp->SetPosition(0.0f, - 4.75f, -4.0f);*/
 
-		m_transComp->SetScale(2.5, 2.5f, 2.5f);
-		m_transComp->SetPosition(Vec3(10.0f, 16.25f, -20.0f));
-
 		//コリジョンつける
 		auto ptrColl = AddComponent<CollisionRect>();
 		ptrColl->SetFixed(true);
@@ -44,7 +41,7 @@ namespace basecross
 		//文字列をつける
 		auto ptrString = AddComponent<StringSprite>();
 		ptrString->SetText(L"");
-		ptrString->SetTextRect(Rect2D<float>(16.0f, 125.0f, 640.0f, 480.0f));
+		//ptrString->SetTextRect(Rect2D<float>(16.0f, 240.0f, 640.0f, 480.0f));
 	}
 
 	void Box::OnUpdate()
@@ -128,11 +125,11 @@ namespace basecross
 			//	angle.z += 0.0f;
 			//}
 
-			//if (angle.x >= 1.0f)
+			//if (pos.x >= 1.0f)
 			//{
 			//	angle.z = 0.0f;
 			//}
-			//else if (angle.z >= 1.0f)
+			//else if (pos.z >= 1.0f)
 			//{
 			//	angle.x = 0.0f;
 			//}
@@ -207,14 +204,76 @@ namespace basecross
 		}
 
 		float elapsedTime = App::GetApp()->GetElapsedTime();
-		auto angle = GetMoveVector();
-		if (angle.length() > 0.0f)
-		{
-			auto pos = GetComponent<Transform>()->GetPosition();
-			pos += angle * elapsedTime * 6.0f;
-			GetComponent<Transform>()->SetPosition(pos); // 更新後
-		}
+		//auto angle = GetMoveVector();
+		//if (angle.length() > 0.0f)
+		//{
+		//	auto pos = GetComponent<Transform>()->GetPosition();
+		//	pos += angle * elapsedTime * 6.0f;
+		//	GetComponent<Transform>()->SetPosition(pos); // 更新後
+		//}
 
+		Vec3 moveDirection = GetMoveVector(); // スティック入力から移動方向を取得
+
+		if (moveDirection.length() > 0.0f)
+		{
+			auto currentTransform = GetComponent<Transform>();
+			Vec3 currentPos = currentTransform->GetPosition(); // Boxのポジション
+			Vec3 boxScaleHalved = currentTransform->GetScale() / 2.0f; // Box自身のサイズの半分
+
+			// 移動量を計算
+			Vec3 deltaMove = moveDirection * elapsedTime * 6.0f; // 6.0f は移動スピード
+			Vec3 nextPos = currentPos + deltaMove; //Boxのポジションに移動の値を足す
+
+			// --- テーブルの範囲情報を取得 ---
+			auto stage = GetStage()->GetThis<GameStage>();
+			if (stage) 
+			{
+				auto table = stage->GetTableObject(); // GameStageからTableオブジェクトを取得
+				if (table) 
+				{
+					auto tableTransform = table->GetComponent<Transform>();
+					Vec3 tablePos = tableTransform->GetPosition();   // テーブルの位置
+					Vec3 tableScale = tableTransform->GetScale();    // テーブルのスケール
+
+					// スケール補正係数 (例: 見た目が10倍なら10.0f)
+					float scaleCorrectionFactor = 10.0f;
+					Vec3 actualTableScale = tableScale * scaleCorrectionFactor;
+
+					// テーブルのX方向の範囲を計算
+					float tableMinX = tablePos.x - actualTableScale.x / 2.0f; //テーブルの左端限界
+					float tableMaxX = tablePos.x + actualTableScale.x / 2.0f; //テーブルの右端限界
+					// テーブルのZ方向の範囲を計算
+					float tableMinZ = tablePos.z - actualTableScale.z / 2.0f; //テーブルの手前限界
+					float tableMaxZ = tablePos.z + actualTableScale.z / 2.0f; //テーブルの奥行限界
+
+					// --- Boxの新しいX座標をテーブルの範囲内に制限 ---
+				    // Boxの左端がテーブルの左端より内側の場合
+					if (nextPos.x - boxScaleHalved.x < tableMinX) 
+					{
+						nextPos.x = tableMinX + boxScaleHalved.x; //Boxの位置をテーブルの左端限界にBoxのサイズの半分の値を足した値の場所にする(押し出し)
+					}
+					// Boxの右端がテーブルの右端より内側になるように
+					else if (nextPos.x + boxScaleHalved.x > tableMaxX) 
+					{
+						nextPos.x = tableMaxX - boxScaleHalved.x; //Boxの位置をテーブルの右端限界にBoxのサイズの半分の値を足した値の場所にする(押し出し)
+
+					}
+					// --- Boxの新しいZ座標をテーブルの範囲内に制限 ---
+					// Boxの手前側がテーブルの手前側より内側になるように
+					if (nextPos.z - boxScaleHalved.z < tableMinZ) 
+					{
+						nextPos.z = tableMinZ + boxScaleHalved.z; //Boxの位置をテーブルの手前限界にBoxのサイズの半分の値を足した値の場所にする(押し出し)
+					}
+					// Boxの奥側がテーブルの奥側より内側になるように
+					else if (nextPos.z + boxScaleHalved.z > tableMaxZ) 
+					{
+						nextPos.z = tableMaxZ - boxScaleHalved.z; //Boxの位置をテーブルの奥行限界にBoxのサイズの半分の値を足した値の場所にする(押し出し)
+					}
+				}
+				// --- 制限された新しい位置を適用 ---
+				currentTransform->SetPosition(nextPos);
+			}
+		}
 	}
 
 	std::vector<Vec3> Box::GetBoxVertices() const
@@ -238,7 +297,8 @@ namespace basecross
 
 		return boxVertices;*/
 
-		return {
+		return 
+		{
 		Vec3(-0.5f, -0.5f, -0.5f),
 		Vec3(0.5f, -0.5f, -0.5f),
 		Vec3(-0.5f,  0.5f, -0.5f),
@@ -260,14 +320,11 @@ namespace basecross
 
 		wstring str = positionStr;
 
-
-
 		//文字列コンポーネントの取得
 		auto ptrString = GetComponent<StringSprite>();
 		ptrString->SetText(str);
 
 	}
-
 
 	void Box::InitDrawComp()
 	{

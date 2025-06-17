@@ -12,6 +12,8 @@
 #include "Phase1Camera.h"
 #include "SettingStage.h"
 #include "GameStageUI.h"
+#include "Table.h"
+
 //#include  "cmath"
 
 namespace basecross {
@@ -128,6 +130,7 @@ namespace basecross {
 		// SelectBoxモードで、前のBoxを選択候補としてハイライトするための関数
 		void SelectPreviousBox();
 
+		std::shared_ptr<Table> GetTableObject() const; // Tableオブジェクトを取得する関数
 
 		//初期化		
 		virtual void OnCreate()override;

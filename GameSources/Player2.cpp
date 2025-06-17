@@ -192,6 +192,14 @@ namespace basecross
 	{
 		float elapsedTime = App::GetApp()->GetElapsedTime();
 
+		auto& app = App::GetApp();
+		auto ptrTransform = GetComponent<Transform>();
+		Vec3 currentPlayerPosition = ptrTransform->GetPosition();
+		float elapsed = app->GetElapsedTime();
+		float gravity = 0.0f;
+		Vec3 acceleration = Vec3(0.0f, -gravity, 0.0f) * elapsed;
+		static Vec3 velocity = Vec3();
+		velocity += acceleration * elapsed;
 		//入力と重力に基づいて、このフレームの速度(m_velocity)を決定する
 		m_InputHandler.PushHandle(GetThis<Player>()); // ジャンプ入力(OnPushA)の受付
 
@@ -282,7 +290,6 @@ namespace basecross
 		DrawStrings();
 	}
 
-
 	void Player::MoveXZ() 
 	{
 		auto angle = GetInputState();
@@ -291,7 +298,6 @@ namespace basecross
 		pos += elapsedTime * m_velocity;
 		GetComponent<Transform>()->SetPosition(pos);
 	}
-
 
 	void Player::MoveY() 
 	{
@@ -314,7 +320,6 @@ namespace basecross
 	//Aボタン
 	void Player::OnPushA()
 	{
-		auto pos = GetComponent<Transform>()->GetPosition();
 
 		if (m_isAir == false)
 		{
@@ -328,10 +333,6 @@ namespace basecross
 	{
 	    if (dynamic_pointer_cast<Ground>(Other)) // 衝突対象が地面か確認
 		{
-			m_velocity.y = 0;
-			m_isAir = false;
-			//m_collisionFlag = true;
-
 			auto scene = App::GetApp()->GetScene<Scene>();
 			PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"ToGameOverStage");
 		}
