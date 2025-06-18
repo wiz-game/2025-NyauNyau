@@ -323,9 +323,17 @@ namespace basecross
 
 		if (m_isAir == false)
 		{
-			m_velocity.y = 10.0f; // ジャンプの初速を与える
+			auto scene = App::GetApp()->GetScene<Scene>();
+			auto volume = scene->m_volumeBGM;
+
+			auto ptrXA = App::GetApp()->GetXAudio2Manager();
+
+			m_velocity.y = 14.0f; // ジャンプの初速を与える
 			m_isAir = true; // ジャンプしたので空中状態にする
+			ptrXA->Start(L"Jump", 0, 0.5f);
+
 		}
+
 
 	}
 
