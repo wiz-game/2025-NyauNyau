@@ -340,7 +340,9 @@ namespace basecross {
 			ptrBox->AddTag(uniqueTag);  // ユニークなタグを適用
 			m_controllableBoxes.push_back(ptrBox);    // 生成したBoxをリストに追加
 			box.push_back(ptrBox);    // `Box` をリストに保存
+			//wstring uniqueName = L"MODEL_TSUMIKI" + (index + 1);
 
+			//box[index]->GetComponent<PNTBoneModelDraw>()->SetMeshResource(uniqueName);
 			index++; // 次のオブジェクトのためにインデックスを増加
 		}
 
@@ -349,9 +351,6 @@ namespace basecross {
 			wstring uniqueName = L"Box_" + to_wstring(i);  // ユニーク名を生成
 			SetSharedGameObject(uniqueName, box[i]);      // ユニーク名で共有登録
 		}
-
-		//auto ptrBox = AddGameObject<Box>();
-		//SetSharedGameObject(L"Box", ptrBox);
 
 	}
 
@@ -836,6 +835,10 @@ namespace basecross {
 	void GameStage::OnUpdate2()
 	{
 		auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+		auto scene = App::GetApp()->GetScene<Scene>();
+		auto volume = scene->m_volumeBGM;
+		auto ptrXA = App::GetApp()->GetXAudio2Manager();
+
 
 		if (currentPhase == GamePhase::Phase1)
 		{
@@ -866,10 +869,7 @@ namespace basecross {
 					{
 						obj->SetUpdateActive(false);
 					}
-
 				}
-
-
 
 				auto pause = m_pauseManager.lock();
 				if (!pause)
@@ -878,10 +878,10 @@ namespace basecross {
 				}
 
 				// BボタンでPhase2(GameStart)へ
-				auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
-
 				if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B)
 				{
+					ptrXA->Start(L"Bbutton", 0, 1.0f);
+
 					SetView(m_mainView);
 
 					currentPhase = GamePhase::Phase2;

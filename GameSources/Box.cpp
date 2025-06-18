@@ -13,11 +13,6 @@ namespace basecross
 {
 	void Box::OnCreate()
 	{
-		//ドローコンポーネントの追加と設定
-		//m_drawComp = AddComponent<PNTStaticDraw>();
-		//m_drawComp->SetMeshResource(L"DEFAULT_CUBE");
-		//drawComp->SetTextureResource(L"TEX_BOX");
-
 		//3Dモデルの呼び出し
 		InitDrawComp();
 
@@ -337,10 +332,11 @@ namespace basecross
 			Vec3(0.0f, -0.0f, 0.0f)
 		);
 
-		m_drawModelComp = AddComponent<PNTBoneModelDraw>();
-		m_drawModelComp->SetMeshResource(L"MODEL_TSUMIKI1");
+     		m_drawModelComp = AddComponent<PNTBoneModelDraw>();
+			m_drawModelComp->SetMeshResource(L"MODEL_TSUMIKI1");
 
-		m_drawModelComp->SetMeshToTransformMatrix(span);
+			m_drawModelComp->SetMeshToTransformMatrix(span);
+
 
 	}
 

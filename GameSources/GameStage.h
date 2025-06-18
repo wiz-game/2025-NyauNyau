@@ -105,7 +105,8 @@ namespace basecross {
 		float m_fadeTimer;
 		float m_filterFadeTimer;
 
-		
+		shared_ptr<PNTBoneModelDraw> m_drawModelComp;
+
 
 	public:
 		//\’z‚Æ”jŠü
