@@ -48,6 +48,9 @@ namespace basecross {
 
 		m_drawComp = AddComponent<PNTStaticModelDraw>();
 		m_drawComp->SetMeshResource(L"MODEL_LAMP");
+		m_drawComp->SetEmissive(Col4(1, 1, 1, 1));
+		//m_drawComp->SetBlendState(BlendState::Additive);
+
 
 		m_drawComp->SetMeshToTransformMatrix(span);
 	}

@@ -41,11 +41,12 @@ namespace basecross
 		//shadowPtr->SetMeshResource(L"DEFAULT_CUBE");
 
 		auto ptrDraw = AddComponent<BcPNTStaticDraw>();
-		ptrDraw->SetMeshResource(L"DEFAULT_CUBE");
+		ptrDraw->SetMeshResource(L"DEFAULT_SQUARE");
 		ptrDraw->SetTextureResource(L"TEX_GOAL");
+		ptrDraw->SetEmissive(Col4(1, 1, 1, 1));
 
 		//ptrDraw->SetFogEnabled(true);
-		ptrDraw->SetOwnShadowActive(true);
+		//ptrDraw->SetOwnShadowActive(true);
 
 
 	}
