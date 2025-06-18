@@ -433,9 +433,9 @@ namespace basecross {
 				Vec3(-50.0f, 40.0f, 0.0f)
 			);
 			AddGameObject<BookShelf>(
-				Vec3(100.0f, 50.0f, 1.0f),
+				Vec3(40.0f, 30.0f, 1.0f),
 				Vec3(0.0f, XM_PIDIV2*2, 0.0f),
-				Vec3(85.0f, -3.0f, 0.0f)
+				Vec3(50.0f, 5.0f, 0.0f)
 			);
 			AddGameObject<BookShelf>(
 				Vec3(40.0f, 30.0f, 1.0),
@@ -505,7 +505,7 @@ namespace basecross {
 			AddGameObject<goalGate>(
 				Vec3(2.5f, 3.5f, 0.001f),
 				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(45.0f, 22.75f, -0.1f)
+				Vec3(45.0f, 20.75f, -0.1f)
 			);
 			//チーズの作成
 			CreateCheese();
@@ -839,8 +839,8 @@ namespace basecross {
 
 
 		//本棚
-		if (app->CheckResource<MeshResource>(L"MODEL_BOOKSHELF")) return;
-		auto meshBookShelf = MeshResource::CreateStaticModelMesh(modelPath + L"BookShelf\\", L"BookShelf.bmf");
+		if (app->CheckResource<MultiMeshResource>(L"MODEL_BOOKSHELF")) return;
+		auto meshBookShelf = MultiMeshResource::CreateStaticModelMultiMesh(modelPath + L"BookShelf\\", L"BookShelf.bmf");
 		app->RegisterResource(L"MODEL_BOOKSHELF", meshBookShelf);
 
 

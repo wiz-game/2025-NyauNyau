@@ -52,14 +52,15 @@ namespace basecross {
 	{
 		Mat4x4 span;
 		span.affineTransformation(
-			Vec3(0.0494f, 0.0494f, 1.0f),
+			Vec3(0.0515f, 0.0515f, 1.0f),
 			Vec3(0.0f, 0.0f, 0.0f),
 			Vec3(0.0f, 0.0f, 0.0f),
 			Vec3(0.0f, -0.35f, 1.5f)
 		);
 
 		m_drawComp = AddComponent<PNTStaticModelDraw>();
-		m_drawComp->SetMeshResource(L"MODEL_BOOKSHELF");
+		m_drawComp->SetMultiMeshResource(L"MODEL_BOOKSHELF");
+		//m_drawComp->SetMeshResource(L"MODEL_BOOKSHELF");
 
 		m_drawComp->SetMeshToTransformMatrix(span);
 
