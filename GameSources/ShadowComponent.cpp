@@ -2,10 +2,8 @@
 #include "Project.h"
 #include "Components.h"
 #include "ShadowComponent.h"
-
 namespace basecross
 {
-
     ShadowComponent::ShadowComponent(const std::shared_ptr<GameObject>& owner, const std::shared_ptr<BoxShadowStrategy>& strategy)
         : Component(owner),
         m_ShadowStrategy(strategy), // ストラテジを保持
@@ -99,6 +97,3 @@ namespace basecross
     {
     }
 }
-    
-
-//end basecross

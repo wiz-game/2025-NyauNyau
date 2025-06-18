@@ -15,6 +15,7 @@ namespace basecross
 
         std::shared_ptr<BoxShadowStrategy> boxShadowStrategy;
         std::shared_ptr<PCStaticDraw> m_drawComp; // 描画コンポーネント
+       
 
     public:
         // ストラテジ（影の計算方法を定義）
