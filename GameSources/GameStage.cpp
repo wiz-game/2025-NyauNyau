@@ -135,32 +135,55 @@ namespace basecross {
 	void GameStage::CreateShadowFloor()
 	{
 		vector<vector<Vec3>> vec = {
-		{
-			Vec3(20.0f, 20.0f, 1.0f),  // 10,1,10
+		//{
+		//	Vec3(20.0f, 20.0f, 1.0f), 
+		//	Vec3(0.0f, 0.0f, 0.0f),
+		//	Vec3(0.0f, 4.0f, 0.0f)
+		//},
+		{   Vec3(50.0f, 5.0f, 1.0f),
 			Vec3(0.0f, 0.0f, 0.0f),
-			Vec3(0.0f, 4.0f, 0.0f)
+			Vec3(40.0f, 30.0f, 0.0f)
 		},
+		{
+			Vec3(70.0f, 5.0f, 1.0f),
+			Vec3(0.0f, 0.0f, 0.0f),
+			Vec3(-50.0f, 40.0f, 0.0f)
+
+        },
+		{
+			Vec3(100.0f, 50.0f, 1.0f),
+			Vec3(0.0f, 0.0f, 0.0f),
+			Vec3(55.0f, -3.0f, 0.0f)
+
+        },
+		{
+			Vec3(40.0f, 30.0f, 1.0),
+			Vec3(0.0f, 0.0f, 0.0f),
+			Vec3(-25.0f, 5.0f, 0.0f)
+
+		},
+
 		};
 
 		int index = 0; // ユニーク名用のインデックス
-		vector<shared_ptr<ShadowFloor>> grounds; // 生成した `Ground` を管理するリスト
+		vector<shared_ptr<ShadowFloor>> shadowfloors; // 生成した `ShadowFloor` を管理するリスト
 
 		for (auto& v : vec) {
-			auto ptrGround = AddGameObject<ShadowFloor>(v[0], v[1], v[2]);
+			auto ptrShadowFloor = AddGameObject<ShadowFloor>(v[0], v[1], v[2]);
 
 			// ユニーク名を生成
-			wstring uniqueTag = L"Ground_1" + to_wstring(index);
+			wstring uniqueTag = L"ShadowFloor_" + to_wstring(index);
 
-			ptrGround->AddTag(uniqueTag);  // ユニークなタグを適用
-			grounds.push_back(ptrGround);    // `Ground` をリストに保存
+			ptrShadowFloor->AddTag(uniqueTag);  // ユニークなタグを適用
+			shadowfloors.push_back(ptrShadowFloor);    // `ShadowFloor` をリストに保存
 
 			index++; // 次のオブジェクトのためにインデックスを増加
 		}
 
-		// すべての `Ground` を共有ゲームオブジェクトとして登録
-		for (size_t i = 0; i < grounds.size(); ++i) {
-			wstring uniqueName = L"Ground_1" + to_wstring(i);  // ユニーク名を生成
-			SetSharedGameObject(uniqueName, grounds[i]);      // ユニーク名で共有登録
+		// すべての `ShadowFloor` を共有ゲームオブジェクトとして登録
+		for (size_t i = 0; i < shadowfloors.size(); ++i) {
+			wstring uniqueName = L"ShadowFloor_" + to_wstring(i);  // ユニーク名を生成
+			SetSharedGameObject(uniqueName, shadowfloors[i]);      // ユニーク名で共有登録
 		}
 
 	}
@@ -294,12 +317,12 @@ namespace basecross {
 		{
 			Vec3(2.5f, 2.5f, 2.5f),
 			Vec3(0.0f, 0.0f, 0.0f),
-			Vec3(10.0f ,16.25f, -20.0f)
+			Vec3(5.0f ,16.25f, -20.0f)
         },
 		{
 			Vec3(2.5f, 2.5f, 2.5f),
 			Vec3(0.0f, 0.0f, 0.0f),
-			Vec3(10.0f ,16.25f, -20.0f)
+			Vec3(15.0f ,16.25f, -20.0f)
         },
 
 
@@ -318,7 +341,9 @@ namespace basecross {
 			ptrBox->AddTag(uniqueTag);  // ユニークなタグを適用
 			m_controllableBoxes.push_back(ptrBox);    // 生成したBoxをリストに追加
 			box.push_back(ptrBox);    // `Box` をリストに保存
+			//wstring uniqueName = L"MODEL_TSUMIKI" + (index + 1);
 
+			//box[index]->GetComponent<PNTBoneModelDraw>()->SetMeshResource(uniqueName);
 			index++; // 次のオブジェクトのためにインデックスを増加
 		}
 
@@ -327,9 +352,6 @@ namespace basecross {
 			wstring uniqueName = L"Box_" + to_wstring(i);  // ユニーク名を生成
 			SetSharedGameObject(uniqueName, box[i]);      // ユニーク名で共有登録
 		}
-
-		//auto ptrBox = AddGameObject<Box>();
-		//SetSharedGameObject(L"Box", ptrBox);
 
 	}
 
@@ -420,75 +442,14 @@ namespace basecross {
 			CreateWall();
 			//ステージの作成
 			CreateGround();
-
-			//ステージの見た目(ガチ雑スクリプトのため後で消す)
-			AddGameObject<ShadowFloor>(
-				Vec3(50.0f, 5.0f, 1.0f),
-				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(40.0f, 30.0f, 0.0f)
-			);
-			AddGameObject<ShadowFloor>(
-				Vec3(70.0f, 5.0f, 1.0f),
-				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(-50.0f, 40.0f, 0.0f)
-			);
-			AddGameObject<BookShelf>(
-				Vec3(40.0f, 30.0f, 1.0f),
-				Vec3(0.0f, XM_PIDIV2*2, 0.0f),
-				Vec3(50.0f, 5.0f, 0.0f)
-			);
-			AddGameObject<BookShelf>(
-				Vec3(40.0f, 30.0f, 1.0),
-				Vec3(0.0f, XM_PIDIV2*2, 0.0f),
-				Vec3(-25.0f, 5.0f, -0.0f)
-			);
-			//AddGameObject<ShadowFloor>(
-			//	Vec3(40.0f, 30.0f, 1.0f),
-			//	Vec3(0.0f, 0.0f, 0.0f),
-			//	Vec3(-25.0f, 5.0f, 0.0f)
-			//);
-			//AddGameObject<ShadowFloor>(
-			//	Vec3(1.0f, 15.0f, 5.0f),
-			//	Vec3(0.0f, 0.0f, 0.0f),
-			//	Vec3(-5.0f, -8.5f, 5.0f)
-			//);
-			//AddGameObject<ShadowFloor>(
-			//	Vec3(1.0f, 17.0f, 5.0f),
-			//	Vec3(0.0f, 0.0f, 0.0f),
-			//	Vec3(-5.0f, -8.5f, 15.0f)
-			//);
-			//AddGameObject<ShadowFloor>(
-			//	Vec3(1.0f, 20.0f, 20.0f),
-			//	Vec3(0.0f, 0.0f, 0.0f),
-			//	Vec3(-5.0f, -8.5f, 25.0f)
-			//);
-
-
-
-
+			//シャドウフロアの作成
+			CreateShadowFloor();
+			//テーブルの作成
 			CreateTable();
-
-			//AddGameObject<ShadowFloor>(
-			//	Vec3(1.0f, 20.0f, 10.0f),  // 10,1,10
-			//	Vec3(0.0f, 0.0f, 0.0f),
-			//	Vec3(-5.0f, -9.5f, -5.0f)
-			//);
-
-			//AddGameObject<Table>(
-			//	Vec3(3.0f, 6.0f, 1.0f),
-			//	Vec3(0.0f, XM_PIDIV2, 0.0f),
-			//	Vec3(10.0f, -6.0f, -25.0f)
-			//);
-
-
 			//Boxの作成
 			CreateBox();
-
 			//ShadowBall(ギミック)の作成
 			CreateShadowBall();
-
-			//CreateTestShadowBox();
-
 			//SpotLightの作成
 			auto spotLight = AddGameObject<SpotLight>();
 			SetSharedGameObject(L"SpotLight", spotLight);
@@ -881,6 +842,10 @@ namespace basecross {
 	void GameStage::OnUpdate2()
 	{
 		auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+		auto scene = App::GetApp()->GetScene<Scene>();
+		auto volume = scene->m_volumeBGM;
+		auto ptrXA = App::GetApp()->GetXAudio2Manager();
+
 
 		if (currentPhase == GamePhase::Phase1)
 		{
@@ -911,10 +876,7 @@ namespace basecross {
 					{
 						obj->SetUpdateActive(false);
 					}
-
 				}
-
-
 
 				auto pause = m_pauseManager.lock();
 				if (!pause)
@@ -923,10 +885,10 @@ namespace basecross {
 				}
 
 				// BボタンでPhase2(GameStart)へ
-				auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
-
 				if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B)
 				{
+					ptrXA->Start(L"Bbutton", 0, 1.0f);
+
 					SetView(m_mainView);
 
 					currentPhase = GamePhase::Phase2;

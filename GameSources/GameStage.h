@@ -24,8 +24,8 @@ namespace basecross {
 
 	enum class GamePhase
 	{
-		Phase1,  //Box のみ操作可能
- 	    Phase2,   //全オブジェクトが動作開始
+		Phase1,   //Box のみ操作可能なフェーズ
+ 	    Phase2,   //全オブジェクトが動作開始するフェーズ
 
 	};
 
@@ -83,12 +83,15 @@ namespace basecross {
 
 		GamePhase currentPhase = GamePhase::Phase1; // 最初に設定されているPhase
 
+		// ステージ上に存在する、プレイヤーが操作できるBoxオブジェクトのリスト
 		std::vector<std::shared_ptr<Box>> m_controllableBoxes;
+
 		// SelectBoxモードの時に、ハイライトされているBox
 		int m_selectedBoxIndex;
 
 		// 現在のゲームの操作モード（SelectBox か ControlBox か）を保持する
 		GameControlMode m_currentControlMode;
+
 		// ControlBoxモードの時に、現在実際に操作対象となっているBoxオブジェクトへのポインタ
 		std::shared_ptr<Box> m_currentlyControlledBox;
 		
@@ -102,7 +105,8 @@ namespace basecross {
 		float m_fadeTimer;
 		float m_filterFadeTimer;
 
-		
+		shared_ptr<PNTBoneModelDraw> m_drawModelComp;
+
 
 	public:
 		//構築と破棄

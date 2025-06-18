@@ -10,7 +10,7 @@ LRESULT CALLBACK	WndProc(HWND, UINT, WPARAM, LPARAM);
 
 //定数
 const wchar_t* pClassName = L"BaseCrossFullClass";
-const wchar_t* pWndTitle = L"BaseCrossFullSample";
+const wchar_t* pWndTitle = L"ニャウニャウシルエット"; // ゲーム実行時の表示タイトル
 
 
 //--------------------------------------------------------------------------------------
@@ -239,6 +239,8 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	if (wstrcmd == L"/f" || wstrcmd == L"/F") {
 		isFullScreen = true;     // フラグをtrueに設定
 	}
+
+	ShowCursor(FALSE); // ゲーム実行中にカーソルを消す
 
 	MyRegisterClass(hInstance);
 	// アプリケーションの初期化を実行します:

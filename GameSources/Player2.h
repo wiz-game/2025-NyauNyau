@@ -61,6 +61,7 @@ namespace basecross
 		// Õ“Ë‘Šè‚Ìî•ñ
 		shared_ptr<ShadowObject> m_OtherPolygon;
 
+		shared_ptr<SoundItem> m_BGM;
 	
 
 	public:

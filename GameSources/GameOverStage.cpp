@@ -71,7 +71,7 @@ namespace basecross {
 			auto scene = App::GetApp()->GetScene<Scene>();
 			auto volumeBGM = scene->m_volumeBGM;
 			auto ptrXA = App::GetApp()->GetXAudio2Manager();
-			m_BGM = ptrXA->Start(L"Titlebgm", XAUDIO2_LOOP_INFINITE, volumeBGM);
+			m_BGM = ptrXA->Start(L"GameOverbgm", 0, volumeBGM);
 
 		}
 		catch (...) {
