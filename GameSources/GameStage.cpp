@@ -512,12 +512,12 @@ namespace basecross {
 			stage1->SetScale(2.0f, 2.0f, 1.0f);
 			m_gameStageUI.push_back(stage1);
 
-			m_selectionPointerUI = AddGameObject<GameStageUI>();
-			m_selectionPointerUI->SetTexture(L"TEX_BoxPointer");
-			m_selectionPointerUI->SetPosition(0, -100.0f, 0);
-			m_selectionPointerUI->SetScale(0.1f, 0.2f, 1.0f);
-			m_selectionPointerUI->SetPointer(true);
-			m_selectionPointerUI->SetDrawActive(true);
+			m_selectionPointerUI = AddGameObject<GameStagePointerUI>();
+			auto pointer = m_selectionPointerUI.lock();
+			pointer->SetTexture(L"TEX_BoxPointer");
+			pointer->SetPosition(0, +3.0f, 0);
+			pointer->SetScale(0.1f, 0.2f, 1.0f);
+			pointer->SetDrawActive(true);
 
 
 			auto scene = App::GetApp()->GetScene<Scene>();
@@ -620,25 +620,8 @@ namespace basecross {
 				}
 			}
 		}
-
-		if (m_selectionPointerUI)
-		{
-			if (m_currentControlMode == GameControlMode::ControlBox)
-			{
-				m_selectionPointerUI->SetTargetBox(m_currentlyControlledBox);
-			}
-			else if (m_currentControlMode == GameControlMode::SelectBox)
-			{
-				if (m_selectedBoxIndex >= 0 && m_selectedBoxIndex < m_controllableBoxes.size())
-				{
-					m_selectionPointerUI->SetTargetBox(m_controllableBoxes[m_selectedBoxIndex]);
-				}
-				else
-				{
-					m_selectionPointerUI->SetTargetBox(nullptr);
-				}
-			}
-		}
+		
+		UpdateSelectionUI();
 
 		auto device = app->GetInputDevice();
 		auto pad = device.GetControlerVec()[0];
@@ -772,6 +755,28 @@ namespace basecross {
 		}
 		// ゲームの操作モードをSelectBoxモードに戻す
 		m_currentControlMode = GameControlMode::SelectBox;
+	}
+
+	void GameStage::UpdateSelectionUI()
+	{
+		if (auto pointer = m_selectionPointerUI.lock())
+		{
+			if (m_currentControlMode == GameControlMode::ControlBox)
+			{
+				pointer->SetTargetBox(m_currentlyControlledBox);
+			}
+			else if (m_currentControlMode == GameControlMode::SelectBox)
+			{
+				if (m_selectedBoxIndex >= 0 && m_selectedBoxIndex < m_controllableBoxes.size())
+				{
+					pointer->SetTargetBox(m_controllableBoxes[m_selectedBoxIndex]);
+				}
+				else
+				{
+					pointer->SetTargetBox(nullptr);
+				}
+			}
+		}
 	}
 
 	// テクスチャの読込

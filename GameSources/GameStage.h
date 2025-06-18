@@ -12,6 +12,8 @@
 #include "Phase1Camera.h"
 #include "SettingStage.h"
 #include "GameStageUI.h"
+#include "GameStagePointerUI.h"
+
 //#include  "cmath"
 
 namespace basecross {
@@ -90,7 +92,7 @@ namespace basecross {
 		// ControlBoxモードの時に、現在実際に操作対象となっているBoxオブジェクトへのポインタ
 		std::shared_ptr<Box> m_currentlyControlledBox;
 		
-		std::shared_ptr<GameStageUI> m_selectionPointerUI;//選択ポインターUIへのポインタ
+		std::weak_ptr<GameStagePointerUI> m_selectionPointerUI;//選択ポインターUIへのポインタ
 
 		bool m_stickMovedLeftLastFrame;  // 前のフレームで左に倒されていたか
         bool m_stickMovedRightLastFrame; // 前のフレームで右に倒されていたか
@@ -129,6 +131,9 @@ namespace basecross {
 		void SelectNextBox();
 		// SelectBoxモードで、前のBoxを選択候補としてハイライトするための関数
 		void SelectPreviousBox();
+
+		//GameStageUIのポインター
+		void UpdateSelectionUI();
 
 
 		//初期化		

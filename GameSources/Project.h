@@ -52,6 +52,8 @@
 #include "GameOverStage.h"
 
 #include "GameStageUI.h"
+#include "GameStagePointerUI.h"
+
 #include "GameSprite.h"
 
 #include "GameStage2.h"
