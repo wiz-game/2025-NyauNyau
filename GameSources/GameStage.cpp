@@ -7,6 +7,7 @@
 #include "stdafx.h"
 #include "Project.h"
 
+#include "ShadowDrawer.h"
 #include "ShadowObject.h"
 #include "RaycastLine.h"
 namespace basecross {
@@ -25,7 +26,7 @@ namespace basecross {
 
 		m_phase1View = ObjectFactory::Create<SingleView>(GetThis<Stage>());
 		auto ptrphase1Camera = ObjectFactory::Create<Phase1Camera>();
-		ptrphase1Camera->SetEye(Vec3(10.0f, 30.0f, -60.0f));
+		ptrphase1Camera->SetEye(Vec3(10.0f, 30.0f, -70.0f));
 		ptrphase1Camera->SetAt(Vec3(10.0f, 20.0f, 0.0f));
 		m_phase1View->SetCamera(ptrphase1Camera);
 
@@ -467,7 +468,8 @@ namespace basecross {
 			auto spotLight = AddGameObject<SpotLight>();
 			SetSharedGameObject(L"SpotLight", spotLight);
 			//影の作成
-			AddGameObject<ShadowObject>();
+			//AddGameObject<ShadowObject>();
+			AddGameObject<ShadowDrawer>();
 			//プレイヤーの作成
 			CreatePlayer();
 			//エネミーの作成
@@ -864,6 +866,10 @@ namespace basecross {
 						obj->SetUpdateActive(true);
 					}
 					else if (dynamic_pointer_cast<ShadowObject>(obj))
+					{
+						obj->SetUpdateActive(true);
+					}
+					else if (dynamic_pointer_cast<ShadowDrawer>(obj))
 					{
 						obj->SetUpdateActive(true);
 					}

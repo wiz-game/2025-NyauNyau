@@ -22,6 +22,7 @@ namespace basecross
 
         // 計算された影の頂点リスト（ワールド座標）
         std::vector<Vec3> m_shadowVertices;
+        void SetStrategy(const std::shared_ptr<BoxShadowStrategy>& strategy);
 
         // --- プライベートなヘルパー関数 ---
 

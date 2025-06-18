@@ -85,6 +85,15 @@ namespace basecross
         m_drawComp->CreateOriginalMesh(meshVertices, indices);
 
     }
+
+    void ShadowComponent::SetStrategy(const std::shared_ptr<BoxShadowStrategy>& strategy)
+    {
+        // 引数で受け取ったストラテジのポインタを、
+        // 自分自身のメンバー変数 m_boxShadowStrategy に保存する
+        this->m_ShadowStrategy = strategy;
+    }
+
+
     // オーバーライドしないとエラーが起きるので仮にも定義
     void ShadowComponent::OnDraw()
     {
