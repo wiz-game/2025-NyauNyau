@@ -5,6 +5,7 @@
 
 #pragma once
 #include "stdafx.h"
+#include "Box.h"
 
 namespace basecross {
 
@@ -18,7 +19,12 @@ namespace basecross {
 		std::shared_ptr<Transform> m_ptrTrans;
 		std::vector<VertexPositionColorTexture> m_vertices;
 
-		bool m_pointer = false;
+		std::weak_ptr<Box> m_targetBox;
+
+		bool m_isTracking = false;
+
+		Vec3 m_worldOffset = Vec3(0.0f, 2.0f, 0.0f); // ブロックの頭上をターゲットに
+
 
 	public:
 		// 構築と破棄
@@ -44,16 +50,21 @@ namespace basecross {
 
 		bool GetPointer()
 		{
-			return m_pointer;
+			return m_isTracking;
 		}
 
 		void SetPointer(bool p)
 		{
-			m_pointer = p;
+			m_isTracking = p;
 		}
+
+		void SetTargetBox(const shared_ptr<Box>& target);
+
+
+		bool GameStageUI::ProjectWorldToScreen(const Vec3& worldPos,
+			const shared_ptr<Camera>& camera,
+			const basecross::Viewport& viewport,
+			Vec2& outScreenPos);// 結果を引数で受け取る
 	};
-
-
-
 }
 //end basecross

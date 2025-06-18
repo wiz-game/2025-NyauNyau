@@ -90,6 +90,8 @@ namespace basecross {
 		// ControlBoxモードの時に、現在実際に操作対象となっているBoxオブジェクトへのポインタ
 		std::shared_ptr<Box> m_currentlyControlledBox;
 		
+		std::shared_ptr<GameStageUI> m_selectionPointerUI;//選択ポインターUIへのポインタ
+
 		bool m_stickMovedLeftLastFrame;  // 前のフレームで左に倒されていたか
         bool m_stickMovedRightLastFrame; // 前のフレームで右に倒されていたか
 
