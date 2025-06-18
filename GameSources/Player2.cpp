@@ -320,20 +320,18 @@ namespace basecross
 	//Aボタン
 	void Player::OnPushA()
 	{
+		auto scene = App::GetApp()->GetScene<Scene>();
+		auto volume = scene->m_volumeBGM;
+		auto ptrXA = App::GetApp()->GetXAudio2Manager();
+
 
 		if (m_isAir == false)
 		{
-			auto scene = App::GetApp()->GetScene<Scene>();
-			auto volume = scene->m_volumeBGM;
-
-			auto ptrXA = App::GetApp()->GetXAudio2Manager();
-
 			m_velocity.y = 14.0f; // ジャンプの初速を与える
 			m_isAir = true; // ジャンプしたので空中状態にする
 			ptrXA->Start(L"Jump", 0, 0.5f);
 
 		}
-
 
 	}
 
@@ -342,7 +340,16 @@ namespace basecross
 	    if (dynamic_pointer_cast<Ground>(Other)) // 衝突対象が地面か確認
 		{
 			auto scene = App::GetApp()->GetScene<Scene>();
+
+			auto volume = scene->m_volumeBGM;
+
+			auto ptrXA = App::GetApp()->GetXAudio2Manager();
+
+			ptrXA->Start(L"Fall", 0, 0.5f);
+
 			PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"ToGameOverStage");
+
+
 		}
 		else if (dynamic_pointer_cast<ShadowFloor>(Other))
 		{
