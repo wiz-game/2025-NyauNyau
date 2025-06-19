@@ -5,13 +5,13 @@
 namespace basecross
 {
     // コンストラクタ
-    BoxShadowStrategy::BoxShadowStrategy(const std::shared_ptr<Stage>& stagePtr)
+    PyramidShadowStrategy::PyramidShadowStrategy(const std::shared_ptr<Stage>& stagePtr)
         : BaseShadowStrategy(stagePtr)
     {
     }
 
     // 影の頂点を計算するメインの処理
-    std::vector<Vec3> BoxShadowStrategy::ComputeShadow(const Vec3& lightPos, const std::shared_ptr<GameObject>& obj)
+    std::vector<Vec3> PyramidShadowStrategy::ComputeShadow(const Vec3& lightPos, const std::shared_ptr<GameObject>& obj)
     {
         // GameObject が Box 型にキャスト可能か確認
         auto box = std::dynamic_pointer_cast<Box>(obj);
@@ -43,7 +43,7 @@ namespace basecross
     }
 
     // 光源とオブジェクトの各頂点の直線を壁の面と交差させ、交点を計算する
-    std::vector<Vec3> BoxShadowStrategy::ComputeShadowIntersections(const Vec3& lightPos, const std::vector<Vec3>& objectVertices)
+    std::vector<Vec3> PyramidShadowStrategy::ComputeShadowIntersections(const Vec3& lightPos, const std::vector<Vec3>& objectVertices)
     {
         std::vector<Vec3> intersections;
 
@@ -66,7 +66,7 @@ namespace basecross
         // 壁の表面上にある一点を法線方向から計算
         Vec3 wallSurfacePoint = wallCenterPos - wallNormal * wallScale.z;
 
-        // 壁の表面を定義する平面を生成（Ax + By + Cz + D = 0 形式）
+        // 壁の表面を定義する平面を生成
         Vec4 wallPlane = GeneratePlane(wallSurfacePoint, wallNormal);
 
         // 各頂点に対して光源との直線を壁面と交差させる
@@ -97,14 +97,14 @@ namespace basecross
     }
 
     // 指定された点と法線から、平面方程式 (A,B,C,D) を生成する
-    Vec4 BoxShadowStrategy::GeneratePlane(const Vec3& wallPoint, const Vec3& wallNormal) const
+    Vec4 PyramidShadowStrategy::GeneratePlane(const Vec3& wallPoint, const Vec3& wallNormal) const
     {
         // D = -n・p を使って Vec4 に格納
         return Vec4(wallNormal.x, wallNormal.y, wallNormal.z, wallNormal.dot(wallPoint));
     }
 
     // 入力された頂点群から凸包（影の輪郭）を計算する
-    std::vector<Vec3> BoxShadowStrategy::ComputeConvexHull(std::vector<Vec3> vertices)
+    std::vector<Vec3> PyramidShadowStrategy::ComputeConvexHull(std::vector<Vec3> vertices)
     {
         if (vertices.size() < 3) {
             return vertices; // 凸包を構成できない場合はそのまま返す

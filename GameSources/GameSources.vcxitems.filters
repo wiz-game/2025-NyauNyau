@@ -52,6 +52,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage2.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ShadowDrawer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)BookShelf.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)PyramidShadowStrategy.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)BackTitleButton.h" />
@@ -73,6 +74,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Table.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GameStage2.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ShadowDrawer.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)PyramidShadowStrategy.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Character.cpp">
