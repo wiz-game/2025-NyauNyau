@@ -28,11 +28,7 @@ namespace basecross
         auto lightObj = GetStage()->GetSharedGameObject<SpotLight>(L"SpotLight");
         Mat4x4 lightWorldMatrix = lightObj->GetComponent<Transform>()->GetWorldMatrix();
         // x,y,zををワールド座標への変換行列
-        Vec3 lightBasePos = Vec3(lightWorldMatrix._41, lightWorldMatrix._42, lightWorldMatrix._43);
-
-        // Y座標のオフセットを加える
-        Vec3 lightPos = lightBasePos + Vec3(0.0f, 0.8f, 0.0f);
-
+        Vec3 lightPos = Vec3(lightWorldMatrix._41, lightWorldMatrix._42, lightWorldMatrix._43);
 
         m_allShadowsVertices.clear();
 
