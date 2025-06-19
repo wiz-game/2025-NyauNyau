@@ -9,7 +9,7 @@
 namespace basecross {
 
 	//初期化
-	void GameStageUI::OnCreate()
+	void GameStagePointerUI::OnCreate()
 	{
 		// 頂点(Vertex)データを設定
 		Col4 color(1, 1, 1, 1);
@@ -40,31 +40,48 @@ namespace basecross {
 
 	}
 
-	void GameStageUI::OnUpdate()
+	void GameStagePointerUI::OnUpdate()
 	{
+		auto targetBox = m_targetBox.lock();
+		if (targetBox)
+		{
+			SetDrawActive(true);
+			m_ptrTrans->SetParent(targetBox);
+		}
 
+		//SetDrawActive(false);
 	}
 
+
+
+	void GameStagePointerUI::SetTargetBox(const shared_ptr<Box>& target)
+	{
+		m_targetBox = target;//渡されたBoxを追従対象として設定
+		int a = 0;
+	}
+
+
+
 	//テクスチャ
-	void GameStageUI::SetTexture(const std::wstring& Key)
+	void GameStagePointerUI::SetTexture(const std::wstring& Key)
 	{
 		m_drawComp->SetTextureResource(Key);
 	}
 
 	//position
-	void GameStageUI::SetPosition(float x, float y, float z)
+	void GameStagePointerUI::SetPosition(float x, float y, float z)
 	{
 		m_ptrTrans->SetPosition(x, y, z);
 	}
 
 	//scale
-	void GameStageUI::SetScale(float x, float y, float z)
+	void GameStagePointerUI::SetScale(float x, float y, float z)
 	{
 		m_ptrTrans->SetScale(x, y, z);
 	}
 
 
-	void GameStageUI::SetColor(const Col4& color)
+	void GameStagePointerUI::SetColor(const Col4& color)
 	{
 		//保持している全頂点の色情報を更新
 		for (auto& vertex : m_vertices)
@@ -77,7 +94,7 @@ namespace basecross {
 		}
 	}
 
-	void GameStageUI::SetColor(float r, float g, float b, float a)
+	void GameStagePointerUI::SetColor(float r, float g, float b, float a)
 	{
 		SetColor(Col4(r, g, b, a));
 	}

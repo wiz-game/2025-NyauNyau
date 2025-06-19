@@ -520,23 +520,47 @@ namespace basecross {
 
 			auto UI = AddGameObject<GameStageUI>();
 			UI->SetTexture(L"TEX_GameStageUI");
-			UI->SetPosition(0, 290.0f, 0);
-			UI->SetScale(1.5f, 1.0f, 1.0f);
+			UI->SetPosition(0, 300.0f, 0);
+			UI->SetScale(2.0f, 1.0f, 1.0f);
 			m_gameStageUI.push_back(UI);
 
+			auto phase1UI_A = AddGameObject<GameStageUI>();
+			phase1UI_A->SetTexture(L"TEX_phase1UI_A");
+			phase1UI_A->SetPosition(535.0f, -280.0f, 0);
+			phase1UI_A->SetScale(0.4f, 0.4f, 1.0f);
+			m_gameStageUI.push_back(phase1UI_A);
 
-			auto buttonUI = AddGameObject<GameStageUI>();
-			buttonUI->SetTexture(L"TEX_GameButtonUI");
-			buttonUI->SetPosition(520.0f, -320.0f, 0);
-			buttonUI->SetScale(0.5f, 0.6f, 1.0f);
-			m_gameStageUI.push_back(buttonUI);
+			auto phase1UI_B = AddGameObject<GameStageUI>();
+			phase1UI_B->SetTexture(L"TEX_phase1UI_B");
+			phase1UI_B->SetPosition(530.0f, -200.0f, 0);
+			phase1UI_B->SetScale(0.4f, 0.4f, 1.0f);
+			m_gameStageUI.push_back(phase1UI_B);
+
+			auto phase1UI_light = AddGameObject<GameStageUI>();
+			phase1UI_light->SetTexture(L"TEX_phase1UI_light");
+			phase1UI_light->SetPosition(540.0f, -360.0f, 0);
+			phase1UI_light->SetScale(0.4f, 0.4f, 1.0f);
+			m_gameStageUI.push_back(phase1UI_light);
+
+			auto phase2UI_A = AddGameObject<GameStageUI>();
+			phase2UI_A->SetTexture(L"TEX_phase2UI_A");
+			phase2UI_A->SetPosition(535.0f, -280.0f, 0);
+			phase2UI_A->SetScale(0.4f, 0.4f, 1.0f);
+			phase2UI_A->SetDrawActive(false);
+			m_gameStageUI.push_back(phase2UI_A);
 
 			auto stage = AddGameObject<GameStageUI>();
 			stage->SetTexture(L"TEX_STAGE1");
 			stage->SetPosition(0, 0, 0);
 			stage->SetScale(2.0f, 2.0f, 1.0f);
-			stage->SetColor(1.0f, 1.0f, 1.0f, 0.5f);
 			m_gameStageUI.push_back(stage);
+
+			m_selectionPointerUI = AddGameObject<GameStagePointerUI>();
+			auto pointer = m_selectionPointerUI.lock();
+			pointer->SetTexture(L"TEX_BoxPointer");
+			pointer->SetPosition(0, +3.0f, 0);
+			pointer->SetScale(0.1f, 0.2f, 1.0f);
+			pointer->SetDrawActive(true);
 
 
 			auto scene = App::GetApp()->GetScene<Scene>();
@@ -549,7 +573,7 @@ namespace basecross {
 
 			// 操作モードの初期設定
 			m_currentControlMode = GameControlMode::SelectBox; // ゲーム開始時はまずBoxを選択するモードから
-			m_selectedBoxIndex = -1;                           // まだ何も選択候補になっていない状態を示す 
+			m_selectedBoxIndex = 0;                           // まだ何も選択候補になっていない状態を示す 
 			m_currentlyControlledBox = nullptr;                // まだ操作対象のBoxは決定されていない
 
 			m_stickMovedLeftLastFrame = false;   // 前のフレームで左に倒されていたか
@@ -639,6 +663,9 @@ namespace basecross {
 				}
 			}
 		}
+		
+		UpdateSelectionUI();
+
 		auto device = app->GetInputDevice();
 		auto pad = device.GetControlerVec()[0];
 		auto delta = app->GetElapsedTime();
@@ -658,7 +685,8 @@ namespace basecross {
 		if (m_isStageFadingOut)
 		{
 			//スプライトが有効で、まだ表示されていたら
-			auto stageSpr = m_gameStageUI[2].lock();
+			auto stageSpr = m_gameStageUI[5].lock();
+
 			if (stageSpr && stageSpr->IsDrawActive())
 			{
 				//アニメーションにかける時間
@@ -689,15 +717,11 @@ namespace basecross {
 					float currentAlpha = 1.0f - progress;
 					stageSpr->SetColor(1.0f, 1.0f, 1.0f, currentAlpha);
 
-
-					wss << L"Delta: " << delta << L"\n";
-					wss << L"Timer: " << m_fadeTimer << L"\n";
-					wss << L"Progress: " << progress << L"\n";
-					wss << L"Alpha: " << currentAlpha << L"\n";
 				}
 				else
 				{
 					stageSpr->SetDrawActive(false);
+
 				}
 			}
 		}
@@ -782,6 +806,27 @@ namespace basecross {
 		return GetSharedGameObject<Table>(L"Table"); 
 	}
 
+	void GameStage::UpdateSelectionUI()
+	{
+		if (auto pointer = m_selectionPointerUI.lock())
+		{
+			if (m_currentControlMode == GameControlMode::ControlBox)
+			{
+				pointer->SetTargetBox(m_currentlyControlledBox);
+			}
+			else if (m_currentControlMode == GameControlMode::SelectBox)
+			{
+				if (m_selectedBoxIndex >= 0 && m_selectedBoxIndex < m_controllableBoxes.size())
+				{
+					pointer->SetTargetBox(m_currentlyControlledBox);
+				}
+				else
+				{
+					pointer->SetTargetBox(nullptr);
+				}
+			}
+		}
+	}
 
 	// テクスチャの読込
 	void GameStage::LoadTextures()
@@ -818,7 +863,14 @@ namespace basecross {
 		app->RegisterTexture(L"TEX_END2", texPath + L"PauseStage Back.png");
 
 		app->RegisterTexture(L"TEX_GameStageUI", texPath + L"GameStageUI.png");
-		app->RegisterTexture(L"TEX_GameButtonUI", texPath + L"GameButtonUI.png");
+
+		app->RegisterTexture(L"TEX_phase1UI_A", texPath + L"phase1UI_A.png");
+		app->RegisterTexture(L"TEX_phase1UI_B", texPath + L"phase1UI_B.png");
+		app->RegisterTexture(L"TEX_phase1UI_light", texPath + L"phase1.2UI_light.png");
+		app->RegisterTexture(L"TEX_phase2UI_A", texPath + L"phase2UI_A.png");
+
+
+		app->RegisterTexture(L"TEX_BoxPointer", texPath + L"BoxPoint.png");
 
 	}
 
@@ -942,7 +994,14 @@ namespace basecross {
 					currentPhase = GamePhase::Phase2;
 
 					auto UI = m_gameStageUI[0].lock();
+					auto UI_A = m_gameStageUI[1].lock();
+					auto UI_B = m_gameStageUI[2].lock();
+					auto phase2UI = m_gameStageUI[4].lock();
+
 					UI->SetDrawActive(false);
+					UI_A->SetDrawActive(false);
+					UI_B->SetDrawActive(false);
+					phase2UI->SetDrawActive(true);
 
 					auto gameObjectVec = GetGameObjectVec();
 					for (auto obj : gameObjectVec)

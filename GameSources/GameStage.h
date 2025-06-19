@@ -14,6 +14,8 @@
 #include "GameStageUI.h"
 #include "Table.h"
 
+#include "GameStagePointerUI.h"
+
 //#include  "cmath"
 
 namespace basecross {
@@ -98,6 +100,8 @@ namespace basecross {
 		// ControlBoxモードの時に、現在実際に操作対象となっているBoxオブジェクトへのポインタ
 		std::shared_ptr<Box> m_currentlyControlledBox;
 		
+		std::weak_ptr<GameStagePointerUI> m_selectionPointerUI;//選択ポインターUIへのポインタ
+
 		bool m_stickMovedLeftLastFrame;  // 前のフレームで左に倒されていたか
         bool m_stickMovedRightLastFrame; // 前のフレームで右に倒されていたか
 
@@ -138,6 +142,9 @@ namespace basecross {
 		void SelectPreviousBox();
 
 		std::shared_ptr<Table> GetTableObject() const; // Tableオブジェクトを取得する関数
+		//GameStageUIのポインター
+		void UpdateSelectionUI();
+
 
 		//初期化		
 		virtual void OnCreate()override;
