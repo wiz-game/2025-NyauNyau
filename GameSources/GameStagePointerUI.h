@@ -44,8 +44,11 @@ namespace basecross {
 		void SetColor(const Col4& color);
 		void SetColor(float r, float g, float b, float a);
 
-
+		//操作可能Boxのポインター
 		void SetTargetBox(const shared_ptr<Box>& target);
+		//選択中Boxのポインター
+		void SetBlingBox(const shared_ptr<Box>& target);
+
 	};
 }
 //end basecross
