@@ -41,6 +41,8 @@ namespace basecross {
 		float m_select;//–îˆó‚ÌˆÊ’u
 		bool footprintsStart;
 
+		float m_time;
+
 		//–îˆó‚ÌY²‚ğ•ÏX‚³‚¹‚éŠÖ”
 		void SetSelectYPosition(int StageNum);
 
@@ -54,7 +56,8 @@ namespace basecross {
 			Stage(),
 			m_CntrolLock(false),
 			footprintsStart(false),
-			m_catNum(0)
+			m_catNum(0),
+			m_time(0.0f)
 		{
 		}
 		virtual ~SelectStage() {}

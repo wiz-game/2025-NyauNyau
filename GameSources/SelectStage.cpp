@@ -176,7 +176,7 @@ namespace basecross {
 					switch (m_StageNum)
 					{
 					case 0:
-						PostEvent(3.0f, GetThis<SelectStage>(), PtrScene, L"ToGameStage");
+						PostEvent(5.0f, GetThis<SelectStage>(), PtrScene, L"ToGameStage");
 						break;
 					case 1:
 						PostEvent(3.0f, GetThis<SelectStage>(), PtrScene, L"ToGameStage2");
@@ -405,23 +405,28 @@ namespace basecross {
 
 	void SelectStage::StartCatWalkAnimation()
 	{
-		//スプライトの非表示
-		for (int i = 0; i < m_stageSprites.size(); i++)
-		{
-			auto stagesr = m_stageSprites[i].lock();
-			stagesr->SetDrawActive(false);
-		}
-
-		catPointSprite->SetDrawActive(false);
-
-		for (auto& sprite : m_footprints)
-		{
-			if (auto spr = sprite.lock())
+		//auto delta = App::GetApp()->GetElapsedTime();
+		//m_time += delta;
+		//if (m_time > 0.5f)
+		//{
+			//スプライトの非表示
+			for (int i = 0; i < m_stageSprites.size(); i++)
 			{
-				spr->SetDrawActive(false);
+				auto stagesr = m_stageSprites[i].lock();
+				stagesr->SetDrawActive(false);
 			}
 
-		}
+			catPointSprite->SetDrawActive(false);
+
+			for (auto& sprite : m_footprints)
+			{
+				if (auto spr = sprite.lock())
+				{
+					spr->SetDrawActive(false);
+				}
+
+			}
+		//}
 
 		if (auto spr = m_catWalk.lock())
 		{
