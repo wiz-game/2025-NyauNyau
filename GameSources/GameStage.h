@@ -143,7 +143,7 @@ namespace basecross {
 
 		std::shared_ptr<Table> GetTableObject() const; // Tableオブジェクトを取得する関数
 		//GameStageUIのポインター
-		void UpdateSelectionUI();
+		//void UpdateSelectionUI();
 
 
 		//初期化		

@@ -664,7 +664,7 @@ namespace basecross {
 			}
 		}
 		
-		UpdateSelectionUI();
+		//UpdateSelectionUI();
 
 		auto device = app->GetInputDevice();
 		auto pad = device.GetControlerVec()[0];
@@ -806,27 +806,27 @@ namespace basecross {
 		return GetSharedGameObject<Table>(L"Table"); 
 	}
 
-	void GameStage::UpdateSelectionUI()
-	{
-		if (auto pointer = m_selectionPointerUI.lock())
-		{
-			if (m_currentControlMode == GameControlMode::ControlBox)
-			{
-				pointer->SetTargetBox(m_currentlyControlledBox);
-			}
-			else if (m_currentControlMode == GameControlMode::SelectBox)
-			{
-				if (m_selectedBoxIndex >= 0 && m_selectedBoxIndex < m_controllableBoxes.size())
-				{
-					pointer->SetTargetBox(m_currentlyControlledBox);
-				}
-				else
-				{
-					pointer->SetTargetBox(nullptr);
-				}
-			}
-		}
-	}
+	//void GameStage::UpdateSelectionUI()
+	//{
+	//	if (auto pointer = m_selectionPointerUI.lock())
+	//	{
+	//		if (m_currentControlMode == GameControlMode::ControlBox)
+	//		{
+	//			pointer->SetTargetBox(m_currentlyControlledBox);
+	//		}
+	//		else if (m_currentControlMode == GameControlMode::SelectBox)
+	//		{
+	//			if (m_selectedBoxIndex >= 0 && m_selectedBoxIndex < m_controllableBoxes.size())
+	//			{
+	//				pointer->SetTargetBox(m_currentlyControlledBox);
+	//			}
+	//			else
+	//			{
+	//				pointer->SetTargetBox(nullptr);
+	//			}
+	//		}
+	//	}
+	//}
 
 	// テクスチャの読込
 	void GameStage::LoadTextures()
