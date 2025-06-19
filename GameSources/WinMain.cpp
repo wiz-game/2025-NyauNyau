@@ -240,7 +240,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 		isFullScreen = true;     // フラグをtrueに設定
 	}
 
-	ShowCursor(FALSE); // ゲーム実行中にカーソルを消す
+	ShowCursor(TRUE); // ゲーム実行中にカーソルを消す
 
 	MyRegisterClass(hInstance);
 	// アプリケーションの初期化を実行します:

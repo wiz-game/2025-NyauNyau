@@ -341,9 +341,9 @@ namespace basecross {
 			ptrBox->AddTag(uniqueTag);  // ユニークなタグを適用
 			m_controllableBoxes.push_back(ptrBox);    // 生成したBoxをリストに追加
 			box.push_back(ptrBox);    // `Box` をリストに保存
-			//wstring uniqueName = L"MODEL_TSUMIKI" + (index + 1);
+			wstring uniqueName = L"MODEL_TSUMIKI" + to_wstring(index + 1);
 
-			//box[index]->GetComponent<PNTBoneModelDraw>()->SetMeshResource(uniqueName);
+			box[index]->GetComponent<PNTBoneModelDraw>()->SetMeshResource(uniqueName);
 			index++; // 次のオブジェクトのためにインデックスを増加
 		}
 
