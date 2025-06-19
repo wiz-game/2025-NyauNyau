@@ -92,11 +92,6 @@ namespace basecross
                 continue;
             }
 
-            // 壁表面との交点を計算
-            Vec3 intersection = lightPos + rayDirection * t;
-
-            // Z座標の補正は不要になったので削除済み
-
             Vec3 intersection = lightPos + rayDirection * t;
             intersections.push_back(intersection);
         }
@@ -105,7 +100,7 @@ namespace basecross
     }
 
     // 指定された点と法線から、平面方程式 (A,B,C,D) を生成する
-    Vec4 BoxShadowStrategy::GeneratePlane(const Vec3& wallPoint, const Vec3& wallNormal)
+    Vec4 BoxShadowStrategy::GeneratePlane(const Vec3& wallPoint, const Vec3& wallNormal) const
     {
         // D = -n・p を使って Vec4 に格納
         return Vec4(wallNormal.x, wallNormal.y, wallNormal.z, wallNormal.dot(wallPoint));
@@ -139,14 +134,18 @@ namespace basecross
 
         for (const auto& p : vertices) {
             // 下側凸包構築
-            while (lower_hull.size() >= 2 && Cross(lower_hull[lower_hull.size() - 2], lower_hull.back(), p).z <= 0) {
-                lower_hull.pop_back();
+            while (lower_hull.size() >= 2) {
+                Vec3 v1 = lower_hull.back() - lower_hull[lower_hull.size() - 2];
+                Vec3 v2 = p - lower_hull[lower_hull.size() - 2];
+                if (this->Cross(v1, v2).z <= 0) lower_hull.pop_back(); else break;
             }
             lower_hull.push_back(p);
 
             // 上側凸包構築
-            while (upper_hull.size() >= 2 && Cross(upper_hull[upper_hull.size() - 2], upper_hull.back(), p).z >= 0) {
-                upper_hull.pop_back();
+            while (upper_hull.size() >= 2) {
+                Vec3 v1 = upper_hull.back() - upper_hull[upper_hull.size() - 2];
+                Vec3 v2 = p - upper_hull[upper_hull.size() - 2];
+                if (this->Cross(v1, v2).z >= 0) upper_hull.pop_back(); else break;
             }
             upper_hull.push_back(p);
         }
