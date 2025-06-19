@@ -133,7 +133,7 @@ namespace basecross {
 		void SelectPreviousBox();
 
 		//GameStageUIのポインター
-		void UpdateSelectionUI();
+		//void UpdateSelectionUI();
 
 
 		//初期化		

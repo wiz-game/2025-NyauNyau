@@ -15,7 +15,7 @@ namespace basecross {
 	//--------------------------------------------------------------------------------------
 	class GameStagePointerUI : public GameObject
 	{
-		std::shared_ptr<PCTSpriteDraw> m_drawComp;
+		std::shared_ptr<PCTStaticDraw> m_drawComp;
 		std::shared_ptr<Transform> m_ptrTrans;
 		std::vector<VertexPositionColorTexture> m_vertices;
 
