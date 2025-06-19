@@ -7,6 +7,7 @@
 #include "stdafx.h"
 #include "Project.h"
 
+#include "ShadowDrawer.h"
 #include "ShadowObject.h"
 #include "RaycastLine.h"
 namespace basecross {
@@ -494,7 +495,8 @@ namespace basecross {
 			auto spotLight = AddGameObject<SpotLight>();
 			SetSharedGameObject(L"SpotLight", spotLight);
 			//影の作成
-			AddGameObject<ShadowObject>();
+			//AddGameObject<ShadowObject>();
+			AddGameObject<ShadowDrawer>();
 			//プレイヤーの作成
 			CreatePlayer();
 			//エネミーの作成
@@ -911,6 +913,10 @@ namespace basecross {
 						obj->SetUpdateActive(true);
 					}
 					else if (dynamic_pointer_cast<ShadowObject>(obj))
+					{
+						obj->SetUpdateActive(true);
+					}
+					else if (dynamic_pointer_cast<ShadowDrawer>(obj))
 					{
 						obj->SetUpdateActive(true);
 					}

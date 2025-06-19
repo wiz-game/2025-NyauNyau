@@ -49,10 +49,10 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ShadowBall.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ShadowComponent.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SettingStage.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ShadowDrawer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ShadowObject.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SelectStageSprite.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ShadowFloor.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)ShadowProjectionManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SoundSprite.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SpotLight.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SelectStage.h" />
@@ -101,10 +101,10 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)ShadowBall.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ShadowComponent.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SettingStage.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ShadowDrawer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ShadowObject.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SelectStageSprite.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ShadowFloor.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)ShadowProjectionManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SoundSprite.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SpotLight.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SelectStage.cpp" />
