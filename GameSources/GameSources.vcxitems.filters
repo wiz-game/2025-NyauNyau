@@ -51,6 +51,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Wall.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)WinMain.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage2.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)GameStagePointerUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)BackTitleButton.h" />
@@ -61,6 +62,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Table.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GameStage2.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GameSprite.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameStagePointerUI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Character.cpp">
