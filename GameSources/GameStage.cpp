@@ -140,28 +140,28 @@ namespace basecross {
 		//	Vec3(0.0f, 0.0f, 0.0f),
 		//	Vec3(0.0f, 4.0f, 0.0f)
 		//},
-		{   Vec3(50.0f, 5.0f, 1.0f),
-			Vec3(0.0f, 0.0f, 0.0f),
-			Vec3(40.0f, 30.0f, 0.0f)
-		},
-		{
-			Vec3(70.0f, 5.0f, 1.0f),
-			Vec3(0.0f, 0.0f, 0.0f),
-			Vec3(-50.0f, 40.0f, 0.0f)
+		//{   Vec3(50.0f, 5.0f, 1.0f),
+		//	Vec3(0.0f, 0.0f, 0.0f),
+		//	Vec3(40.0f, 30.0f, 0.0f)
+		//},
+		//{
+		//	Vec3(70.0f, 5.0f, 1.0f),
+		//	Vec3(0.0f, 0.0f, 0.0f),
+		//	Vec3(-50.0f, 40.0f, 0.0f)
 
-        },
-		{
-			Vec3(100.0f, 50.0f, 1.0f),
-			Vec3(0.0f, 0.0f, 0.0f),
-			Vec3(55.0f, -3.0f, 0.0f)
+  //      },
+		//{
+		//	Vec3(100.0f, 50.0f, 1.0f),
+		//	Vec3(0.0f, 0.0f, 0.0f),
+		//	Vec3(55.0f, -3.0f, 0.0f)
 
-        },
-		{
-			Vec3(40.0f, 30.0f, 1.0),
-			Vec3(0.0f, 0.0f, 0.0f),
-			Vec3(-25.0f, 5.0f, 0.0f)
+  //      },
+		//{
+		//	Vec3(40.0f, 30.0f, 1.0),
+		//	Vec3(0.0f, 0.0f, 0.0f),
+		//	Vec3(-25.0f, 5.0f, 0.0f)
 
-		},
+		//},
 
 		};
 
@@ -427,6 +427,46 @@ namespace basecross {
 
 	}
 
+	void GameStage::CreateBookShelf()
+	{
+		vector<vector<Vec3>> vec = {
+			{   Vec3(40.0f, 30.0f, 1.0f),
+				Vec3(0.0f, XMConvertToRadians(180), 0.0f),
+				Vec3(50.0f, 5.0f, 0.0f)
+			},
+			{
+				Vec3(40.0f, 30.0f, 1.0f),
+				Vec3(0.0f, XMConvertToRadians(180), 0.0f),
+				Vec3(-25.0f, 5.0f, 0.0f)
+
+			},
+
+		};
+
+		int index = 0; // ユニーク名用のインデックス
+		vector<shared_ptr<BookShelf>> bookshelfs; // 生成した `BookShelf` を管理するリスト
+
+		for (auto& v : vec) {
+			auto ptrBookShelf = AddGameObject<BookShelf>(v[0], v[1], v[2]);
+
+			// ユニーク名を生成
+			wstring uniqueTag = L"BookShelf_" + to_wstring(index);
+
+			ptrBookShelf->AddTag(uniqueTag);  // ユニークなタグを適用
+			bookshelfs.push_back(ptrBookShelf);    // `BookShelf` をリストに保存
+
+			index++; // 次のオブジェクトのためにインデックスを増加
+		}
+
+		// すべての `BookShelf` を共有ゲームオブジェクトとして登録
+		for (size_t i = 0; i < bookshelfs.size(); ++i) {
+			wstring uniqueName = L"BookShelf_" + to_wstring(i);  // ユニーク名を生成
+			SetSharedGameObject(uniqueName, bookshelfs[i]);      // ユニーク名で共有登録
+		}
+
+	}
+
+
 
 
 	void GameStage::OnCreate() {
@@ -470,6 +510,8 @@ namespace basecross {
 			);
 			//チーズの作成
 			CreateCheese();
+			//本棚の作成
+			CreateBookShelf();
 
 			//スプライトオブジェクト
 			AddGameObject<Phase1>();

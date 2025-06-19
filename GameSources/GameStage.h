@@ -52,10 +52,13 @@ namespace basecross {
 		void CreateShadowFloor();
 		//テーブルの作成
 		void CreateTable();
+		//本棚
+		void CreateBookShelf();
 		//テクスチャの読込
 		void LoadTextures();
 		//モデルの読込
 		void LoadModels();
+
 
 
 		void CreateBox();
