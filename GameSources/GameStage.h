@@ -142,8 +142,6 @@ namespace basecross {
 		void SelectPreviousBox();
 
 		std::shared_ptr<Table> GetTableObject() const; // Tableオブジェクトを取得する関数
-		//GameStageUIのポインター
-		//void UpdateSelectionUI();
 
 
 		//初期化		

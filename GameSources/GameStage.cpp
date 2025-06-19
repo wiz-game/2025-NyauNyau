@@ -558,9 +558,10 @@ namespace basecross {
 			m_selectionPointerUI = AddGameObject<GameStagePointerUI>();
 			auto pointer = m_selectionPointerUI.lock();
 			pointer->SetTexture(L"TEX_BoxPointer");
-			pointer->SetPosition(0, +3.0f, 0);
-			pointer->SetScale(0.1f, 0.2f, 1.0f);
+			pointer->SetScale(1.0f, 1.0f, 1.0f);
 			pointer->SetDrawActive(true);
+			pointer->SetTargetBox(m_controllableBoxes[0]);
+
 
 
 			auto scene = App::GetApp()->GetScene<Scene>();
@@ -573,7 +574,7 @@ namespace basecross {
 
 			// 操作モードの初期設定
 			m_currentControlMode = GameControlMode::SelectBox; // ゲーム開始時はまずBoxを選択するモードから
-			m_selectedBoxIndex = 0;                           // まだ何も選択候補になっていない状態を示す 
+			m_selectedBoxIndex = -1;                           // まだ何も選択候補になっていない状態を示す 
 			m_currentlyControlledBox = nullptr;                // まだ操作対象のBoxは決定されていない
 
 			m_stickMovedLeftLastFrame = false;   // 前のフレームで左に倒されていたか
@@ -780,6 +781,13 @@ namespace basecross {
 				m_currentlyControlledBox->SetSelectedForControl(true);
 				// ゲームの操作モードをControlBoxモードに切り替える
 				m_currentControlMode = GameControlMode::ControlBox;
+
+				//操作可能のボックスとポインターを親子関係にする
+				if (auto point = m_selectionPointerUI.lock())
+				{
+					point->SetTargetBox(m_controllableBoxes[m_selectedBoxIndex]);
+				}
+
 			}
 		}
 	}
@@ -805,28 +813,6 @@ namespace basecross {
 	{
 		return GetSharedGameObject<Table>(L"Table"); 
 	}
-
-	//void GameStage::UpdateSelectionUI()
-	//{
-	//	if (auto pointer = m_selectionPointerUI.lock())
-	//	{
-	//		if (m_currentControlMode == GameControlMode::ControlBox)
-	//		{
-	//			pointer->SetTargetBox(m_currentlyControlledBox);
-	//		}
-	//		else if (m_currentControlMode == GameControlMode::SelectBox)
-	//		{
-	//			if (m_selectedBoxIndex >= 0 && m_selectedBoxIndex < m_controllableBoxes.size())
-	//			{
-	//				pointer->SetTargetBox(m_currentlyControlledBox);
-	//			}
-	//			else
-	//			{
-	//				pointer->SetTargetBox(nullptr);
-	//			}
-	//		}
-	//	}
-	//}
 
 	// テクスチャの読込
 	void GameStage::LoadTextures()
@@ -997,11 +983,13 @@ namespace basecross {
 					auto UI_A = m_gameStageUI[1].lock();
 					auto UI_B = m_gameStageUI[2].lock();
 					auto phase2UI = m_gameStageUI[4].lock();
+					auto boxPointer = m_selectionPointerUI.lock();
 
 					UI->SetDrawActive(false);
 					UI_A->SetDrawActive(false);
 					UI_B->SetDrawActive(false);
 					phase2UI->SetDrawActive(true);
+					boxPointer->SetDrawActive(false);
 
 					auto gameObjectVec = GetGameObjectVec();
 					for (auto obj : gameObjectVec)
