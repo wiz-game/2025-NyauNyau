@@ -116,7 +116,8 @@ namespace basecross {
 			m_BGM = ptrXA->Start(L"Titlebgm", XAUDIO2_LOOP_INFINITE, volumeBGM);
 
 
-			//MessageBox(0, L"ニャウニャウシルエット", L"タイトル", 0);
+			m_once = false;
+
 		}
 		catch (...) {
 			throw;
@@ -162,7 +163,12 @@ namespace basecross {
 		auto ptrXA = App::GetApp()->GetXAudio2Manager();
 		m_SE = ptrXA->Start(L"button_SE", 0, volumeSE);
 
-		PostEvent(1.3f, GetThis<ObjectInterface>(), scene, L"ToSelectStage");
+		if (m_once == false)
+		{
+			PostEvent(1.3f, GetThis<ObjectInterface>(), scene, L"ToSelectStage");
+
+			m_once = true;
+		}
 	}
 
 	void TitleStage::LoadTextures()

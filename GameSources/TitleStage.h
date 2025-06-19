@@ -29,7 +29,7 @@ namespace basecross {
 		const int spriteCount = 11;
 		float phaseIncrement = 0.5f;
 		float m_totalTime;
-
+		bool m_once; //ˆê“x‚¾‚¯”»’è‚·‚é
 
 	public:
 		//\’z‚Æ”jŠü

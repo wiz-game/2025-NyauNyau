@@ -97,6 +97,7 @@ namespace basecross {
 			rat->SetDrawActive(false);
 			rat->SetMovementActive(false);
 
+			m_once = false;
 
 
 		}
@@ -167,25 +168,30 @@ namespace basecross {
 			//Aボタンを押したときにゲームステージに移動する
 				if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A)
 				{
-					auto volumeSE = PtrScene->m_volumeSE;
-					auto ptrXA = App::GetApp()->GetXAudio2Manager();
-					m_SE = ptrXA->Start(L"button_SE", 0, volumeSE);
-
-					StartCatWalkAnimation();
-					//return;
-					switch (m_StageNum)
+					if (m_once == false)
 					{
-					case 0:
-						PostEvent(3.0f, GetThis<SelectStage>(), PtrScene, L"ToGameStage");
-						break;
-					case 1:
-						PostEvent(3.0f, GetThis<SelectStage>(), PtrScene, L"ToGameStage2");
-						break;
-					case 2:
-						break;
+						auto volumeSE = PtrScene->m_volumeSE;
+						auto ptrXA = App::GetApp()->GetXAudio2Manager();
+						m_SE = ptrXA->Start(L"button_SE", 0, volumeSE);
 
-					default:
-						break;
+						StartCatWalkAnimation();
+						//return;
+						switch (m_StageNum)
+						{
+						case 0:
+							PostEvent(3.0f, GetThis<SelectStage>(), PtrScene, L"ToGameStage");
+							m_once = true;
+							break;
+						case 1:
+							PostEvent(3.0f, GetThis<SelectStage>(), PtrScene, L"ToGameStage2");
+							m_once = true;
+							break;
+						case 2:
+							break;
+
+						default:
+							break;
+						}
 					}
 				}
 

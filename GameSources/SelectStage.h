@@ -40,6 +40,7 @@ namespace basecross {
 		bool m_CntrolLock;
 		float m_select;//–îˆó‚ÌˆÊ’u
 		bool footprintsStart;
+		bool m_once; //ˆê“x‚¾‚¯”»’è‚·‚é
 
 		//–îˆó‚ÌY²‚ğ•ÏX‚³‚¹‚éŠÖ”
 		void SetSelectYPosition(int StageNum);
