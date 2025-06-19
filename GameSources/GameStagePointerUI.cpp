@@ -14,10 +14,10 @@ namespace basecross {
 		// ’¸“_(Vertex)ƒf[ƒ^‚ðÝ’è
 		Col4 color(1, 1, 1, 1);
 		m_vertices = {
-			{Vec3(-0.5, +0.5, 0), color, Vec2(0, 0)}, // ‡@
-			{Vec3(+0.5, +0.5, 0), color, Vec2(1, 0)}, // ‡A
-			{Vec3(-0.5, -0.5, 0), color, Vec2(0, 1)}, // ‡B
-			{Vec3(+0.5, -0.5, 0), color, Vec2(1, 1)}, // ‡C
+			{Vec3(-0.6, +0.6, 0), color, Vec2(0, 0)}, // ‡@
+			{Vec3(+0.6, +0.6, 0), color, Vec2(1, 0)}, // ‡A
+			{Vec3(-0.6, -0.6, 0), color, Vec2(0, 1)}, // ‡B
+			{Vec3(+0.6, -0.6, 0), color, Vec2(1, 1)}, // ‡C
 		};
 
 		// ƒCƒ“ƒfƒbƒNƒXƒf[ƒ^‚ðÝ’èi’¸“_‚ð‚Â‚È‚°‚é‡”ÔE3‚Â‚Ì”’l‚ð‘g‚É‚µ‚ÄŽOŠpŒ`‚ðì‚éj
@@ -64,7 +64,7 @@ namespace basecross {
 		SetDrawActive(true);
 		m_ptrTrans->SetParent(target);//“n‚³‚ê‚½Box‚ð’Ç]‘ÎÛ‚Æ‚µ‚ÄÝ’è
 
-		float offset = +2.5f;//‚Ç‚Ì‚­‚ç‚¢ã‚Éo‚·‚©
+		float offset = +3.5f;//‚Ç‚Ì‚­‚ç‚¢ã‚Éo‚·‚©
 		m_ptrTrans->SetPosition(0.0f, offset, 0.0f);
 
 	}
