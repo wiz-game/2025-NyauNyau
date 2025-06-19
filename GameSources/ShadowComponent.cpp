@@ -45,7 +45,7 @@ namespace basecross
                 m_allShadowsVertices.push_back(singleShadow);
             }
         }
-        //// 影を落とすオブジェクトを取得 (将来的にはもっと汎用的な方法で)
+        // 影を落とすオブジェクトを取得 (将来的にはもっと汎用的な方法で)
         //auto box = GetStage()->GetSharedGameObject<Box>(L"Box_0");
         //if (!box) return;
 
