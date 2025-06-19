@@ -904,11 +904,11 @@ namespace basecross {
 				auto gameObjectVec = GetGameObjectVec();
 				for (auto obj : gameObjectVec)
 				{
-					if (dynamic_pointer_cast<PauseManager>(obj))
+				    if (dynamic_pointer_cast<Box>(obj))
 					{
 						obj->SetUpdateActive(true);
 					}
-				    if (dynamic_pointer_cast<Box>(obj))
+					else if (dynamic_pointer_cast<PauseManager>(obj))
 					{
 						obj->SetUpdateActive(true);
 					}
