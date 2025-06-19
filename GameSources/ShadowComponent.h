@@ -15,15 +15,17 @@ namespace basecross
 
         std::shared_ptr<BoxShadowStrategy> boxShadowStrategy;
         std::shared_ptr<PCStaticDraw> m_drawComp; // 描画コンポーネント
+       
 
     public:
         // ストラテジ（影の計算方法を定義）
         std::shared_ptr<BoxShadowStrategy> m_ShadowStrategy;
 
         // 計算された影の頂点リスト（ワールド座標）
-        std::vector<Vec3> m_shadowVertices;
+        //std::vector<Vec3> m_shadowVertices;
+        void SetStrategy(const std::shared_ptr<BoxShadowStrategy>& strategy);
 
-        // --- プライベートなヘルパー関数 ---
+        std::vector<std::vector<Vec3>> m_allShadowsVertices; // ★新しい★
 
         // 影のメッシュデータを更新する
         void UpdateMesh();

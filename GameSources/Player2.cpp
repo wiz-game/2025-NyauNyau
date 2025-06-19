@@ -187,7 +187,6 @@ namespace basecross
 		}
 	}
 
-
 	void Player::OnUpdate()
 	{
 		float elapsedTime = App::GetApp()->GetElapsedTime();
@@ -219,12 +218,11 @@ namespace basecross
 
 
 		//衝突判定と応答
-
 		// 判定に使う円の中心は、移動後のプレイヤーの位置そのもの
 		m_Center = currentPosition;
 
 		// 半径はスケールの半分(少し大きめにする)
-		m_Radius = m_Scale.x / 2.0f;
+		m_Radius = m_Scale.x / 2.0f*1.01;
 
 		if (m_OtherPolygon)
 		{
@@ -265,14 +263,17 @@ namespace basecross
 					// 現在の速度に、その打ち消しベクトルを加算する
 					// これにより、壁にめり込む方向の速度がゼロになる
 					m_velocity += reflectionVector;
+
+					m_velocity.y = 0;
+					m_isAir = false;
 				}
 
-				m_velocity.y = 0;
-				m_isAir = false;
+				
 
 				// 地面との接触判定（これは重要なので残す）
 				if (collisionNormal.y > 0.7f)
 				{
+					m_velocity.y = 0;
 					m_isAir = false;
 				}
 			}
@@ -395,17 +396,17 @@ namespace basecross
 			return false;
 		}
 
-		// ★★★ 判定に使う円の中心を2Dに変換 ★★★
+		//判定に使う円の中心を2Dに変換
 		Vec2 center2D(m_Center.x, m_Center.y);
 		float radiusSq = m_Radius * m_Radius;
 
-		// === ステップ1: ポリゴン上の最近傍点を2Dで探す ===
+		// === ポリゴン上の最近傍点を2Dで探す ===
 		Vec2 closestPointOnPolygon2D;
 		float minDistanceSq = FLT_MAX;
 
 		for (size_t i = 0; i < polygonVertices.size(); ++i)
 		{
-			// ★★★ 頂点も2Dに変換 ★★★
+			//頂点も2Dに変換
 			Vec2 p1(polygonVertices[i].x, polygonVertices[i].y);
 			Vec2 p2(polygonVertices[(i + 1) % polygonVertices.size()].x, polygonVertices[(i + 1) % polygonVertices.size()].y);
 
@@ -437,14 +438,14 @@ namespace basecross
 			}
 		}
 
-		// === ステップ2: 2Dで衝突判定 ===
+		// === 2Dで衝突判定 ===
 		if (minDistanceSq >= radiusSq)
 		{
 			mtv = Vec3(0.0f, 0.0f, 0.0f);
 			return false;
 		}
 
-		// === ステップ3: MTVを2Dで計算し、3Dベクトルに戻す ===
+		// ===  MTVを2Dで計算し、3Dベクトルに戻す ===
 		Vec2 pushDirection2D = center2D - closestPointOnPolygon2D;
 		if (pushDirection2D.dot(pushDirection2D) < 1e-9f) {
 			// もし中心が重なったら、仮に上向きに押し出す
@@ -456,11 +457,11 @@ namespace basecross
 
 		float overlap = m_Radius - sqrt(minDistanceSq);
 
-		// ★★★ 2Dの押し出しベクトルを計算 ★★★
+		// 2Dの押し出しベクトルを計算
 		Vec2 mtv2D = pushDirection2D * overlap;
 
-		// ★★★ 3Dベクトルに戻す（Z成分は必ず0） ★★★
-		mtv = Vec3(mtv2D.x, mtv2D.y, 0.0f);
+		//3Dベクトルに戻す（Z成分は必ず0
+		mtv = Vec3(mtv2D.x, mtv2D.y+0.05f, 0.0f);
 
 		return true;
 	}

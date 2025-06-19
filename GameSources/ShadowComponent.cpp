@@ -2,10 +2,8 @@
 #include "Project.h"
 #include "Components.h"
 #include "ShadowComponent.h"
-
 namespace basecross
 {
-
     ShadowComponent::ShadowComponent(const std::shared_ptr<GameObject>& owner, const std::shared_ptr<BoxShadowStrategy>& strategy)
         : Component(owner),
         m_ShadowStrategy(strategy), // ストラテジを保持
@@ -30,21 +28,33 @@ namespace basecross
         auto lightObj = GetStage()->GetSharedGameObject<SpotLight>(L"SpotLight");
         Mat4x4 lightWorldMatrix = lightObj->GetComponent<Transform>()->GetWorldMatrix();
         // x,y,zををワールド座標への変換行列
-        Vec3 lightBasePos = Vec3(lightWorldMatrix._41, lightWorldMatrix._42, lightWorldMatrix._43);
+        Vec3 lightPos = Vec3(lightWorldMatrix._41, lightWorldMatrix._42, lightWorldMatrix._43);
 
-        // Y座標のオフセットを加える
-        Vec3 lightPos = lightBasePos + Vec3(0.0f, 0.8f, 0.0f);
+        m_allShadowsVertices.clear();
 
-        // 影を落とすオブジェクトを取得 (将来的にはもっと汎用的な方法で)
-        auto box = GetStage()->GetSharedGameObject<Box>(L"Box_0");
-        if (!box) return;
+        auto& allGameObjects = GetStage()->GetGameObjectVec();
+        for (auto& gameObj : allGameObjects)
+        {
+            // それがBoxクラスのオブジェクトか？
+            auto box = std::dynamic_pointer_cast<Box>(gameObj);
+            if (box) // Boxだったら...
+            {
+                // そのBoxの影を計算
+                std::vector<Vec3> singleShadow = m_ShadowStrategy->ComputeShadow(lightPos, box);
+                // 計算結果を、このフレームの影リストに追加
+                m_allShadowsVertices.push_back(singleShadow);
+            }
+        }
+        //// 影を落とすオブジェクトを取得 (将来的にはもっと汎用的な方法で)
+        //auto box = GetStage()->GetSharedGameObject<Box>(L"Box_0");
+        //if (!box) return;
 
-        // ストラテジを使って、影の頂点リストを計算
-        m_shadowVertices = m_ShadowStrategy->ComputeShadow(lightPos, box);
+        //// ストラテジを使って、影の頂点リストを計算
+        //m_shadowVertices = m_ShadowStrategy->ComputeShadow(lightPos, box);
 
 
-        auto ownerObject = GetGameObject();
-        if (!ownerObject) return;
+        //auto ownerObject = GetGameObject();
+        //if (!ownerObject) return;
 
         // 計算結果を基に、描画用メッシュを更新
         UpdateMesh();
@@ -55,41 +65,51 @@ namespace basecross
     {
         if (!m_drawComp) return;
 
-        // 描画できる頂点がなければ、メッシュを空にする
-        if (m_shadowVertices.size() < 3)
-        {
-            m_drawComp->SetOriginalMeshUse(false);
-            return;
-        }
+        // --- 複数の影ポリゴンを、一つの巨大なメッシュにまとめる ---
+        std::vector<VertexPositionColor> finalMeshVertices;
+        std::vector<uint16_t> finalMeshIndices;
+        Col4 shadowColor(0.0f, 0.0f, 0.0f, 0.5f);
 
-        m_drawComp->SetOriginalMeshUse(true);
-
-        // 頂点データ(VertexPositionColor)のリストを作成
-        std::vector<VertexPositionColor> meshVertices;
-        Col4 shadowColor(0.0f, 0.0f, 0.0f, 0.5f); // 半透明の黒
-        for (const auto& vertex : m_shadowVertices)
+        // すべての影ポリゴン（m_allShadowsVertices）をループ
+        for (const auto& singleShadowVertices : m_allShadowsVertices)
         {
-            meshVertices.push_back(VertexPositionColor(vertex, shadowColor));
-        }
+            if (singleShadowVertices.size() < 3) {
+                continue; // この影は描画できないのでスキップ
+            }
 
-        // インデックスデータのリストを作成 (トライアングルファン形式)
-        std::vector<uint16_t> indices;
-        for (size_t i = 1; i < m_shadowVertices.size() - 1; ++i)
-        {
-            indices.push_back(0);
-            indices.push_back(i);
-            indices.push_back(i + 1);
+            // 現在のメッシュの頂点数を、インデックスの「開始番号」として記録
+            uint16_t indexOffset = static_cast<uint16_t>(finalMeshVertices.size());
+
+            // 頂点を、最終的なメッシュリストに追加
+            for (const auto& vertex : singleShadowVertices)
+            {
+                finalMeshVertices.push_back(VertexPositionColor(vertex, shadowColor));
+            }
+
+            // インデックスを、オフセットを考慮して追加
+            for (size_t i = 1; i < singleShadowVertices.size() - 1; ++i)
+            {
+                finalMeshIndices.push_back(indexOffset + 0);
+                finalMeshIndices.push_back(indexOffset + i);
+                finalMeshIndices.push_back(indexOffset + i + 1);
+            }
         }
 
         // 描画コンポーネントに、新しいメッシュデータを渡す
-        m_drawComp->CreateOriginalMesh(meshVertices, indices);
+        m_drawComp->CreateOriginalMesh(finalMeshVertices, finalMeshIndices);
 
     }
+
+    void ShadowComponent::SetStrategy(const std::shared_ptr<BoxShadowStrategy>& strategy)
+    {
+        // 引数で受け取ったストラテジのポインタを、
+        // 自分自身のメンバー変数 m_boxShadowStrategy に保存する
+        this->m_ShadowStrategy = strategy;
+    }
+
+
     // オーバーライドしないとエラーが起きるので仮にも定義
     void ShadowComponent::OnDraw()
     {
     }
 }
-    
-
-//end basecross
