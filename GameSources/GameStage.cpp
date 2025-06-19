@@ -530,7 +530,7 @@ namespace basecross {
 
 			// 操作モードの初期設定
 			m_currentControlMode = GameControlMode::SelectBox; // ゲーム開始時はまずBoxを選択するモードから
-			m_selectedBoxIndex = -1;                           // まだ何も選択候補になっていない状態を示す 
+			m_selectedBoxIndex = 0;                           // まだ何も選択候補になっていない状態を示す 
 			m_currentlyControlledBox = nullptr;                // まだ操作対象のBoxは決定されていない
 
 			m_stickMovedLeftLastFrame = false;   // 前のフレームで左に倒されていたか
@@ -769,7 +769,7 @@ namespace basecross {
 			{
 				if (m_selectedBoxIndex >= 0 && m_selectedBoxIndex < m_controllableBoxes.size())
 				{
-					pointer->SetTargetBox(m_controllableBoxes[m_selectedBoxIndex]);
+					pointer->SetTargetBox(m_currentlyControlledBox);
 				}
 				else
 				{

@@ -43,16 +43,13 @@ namespace basecross {
 	void GameStagePointerUI::OnUpdate()
 	{
 		auto targetBox = m_targetBox.lock();
-		if (!targetBox)
-		{
-			SetDrawActive(false);
-			return;
-		}
-		else
+		if (targetBox)
 		{
 			SetDrawActive(true);
 			m_ptrTrans->SetParent(targetBox);
 		}
+
+		//SetDrawActive(false);
 	}
 
 
@@ -60,6 +57,7 @@ namespace basecross {
 	void GameStagePointerUI::SetTargetBox(const shared_ptr<Box>& target)
 	{
 		m_targetBox = target;//“n‚³‚ê‚½Box‚ğ’Ç]‘ÎÛ‚Æ‚µ‚Äİ’è
+		int a = 0;
 	}
 
 
