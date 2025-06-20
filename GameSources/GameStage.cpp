@@ -846,7 +846,7 @@ namespace basecross {
 		// ƒeƒNƒXƒ`ƒƒ‚Ì“Çž‚Æ“o˜^
 		//app->RegisterTexture(L"TEX_BOX", texPath + L"brick.jpg");
 		app->RegisterTexture(L"TEX_CHEESE", texPath + L"cheese.png");
-		app->RegisterTexture(L"TEX_KABE", texPath + L"kabe.jpg");
+		app->RegisterTexture(L"TEX_KABE", texPath + L"kabe.png");
 		app->RegisterTexture(L"TEX_YUKA", texPath + L"floor.png");
 		app->RegisterTexture(L"TEX_PAUSE", texPath + L"PauseSprite.png");
 		app->RegisterTexture(L"TEX_NEZUMI", texPath + L"nezumi.png");
