@@ -44,6 +44,37 @@ namespace basecross {
 
 	void GameStagePointerUI::OnUpdate()
 	{
+		if (m_isAnimating)
+		{
+			// 前フレームからの経過時間を取得
+			float deltaTime = App::GetApp()->GetElapsedTime();
+
+			// 現在のローカルY座標を取得
+			float currentY = m_ptrTrans->GetPosition().y;
+
+			// 新しいY座標を計算（現在の位置 ＋ 速度 × 方向 × 時間）
+			float newY = currentY + m_speed * m_moveDirection * deltaTime;
+
+			// --- 境界チェック ---
+			float upperBound = m_baseOffsetY + m_moveRange; // 上の限界
+			float lowerBound = m_baseOffsetY - m_moveRange; // 下の限界
+
+			// 上の限界を超えた場合
+			if (newY > upperBound)
+			{
+				newY = upperBound;      // 境界に位置を補正
+				m_moveDirection = -1.0f; // 方向を下向きに反転
+			}
+			// 下の限界を超えた場合
+			else if (newY < lowerBound)
+			{
+				newY = lowerBound;      // 境界に位置を補正
+				m_moveDirection = 1.0f;  // 方向を上向きに反転
+			}
+
+			// 計算した新しいローカル座標を設定
+			m_ptrTrans->SetPosition(0.0f, newY, 0.0f);
+		}
 		// 常にカメラの方向を向く（ビルボード処理）
 		//auto view = GetStage()->GetView();
 		//if (view) {
@@ -59,39 +90,26 @@ namespace basecross {
 
 
 
-	void GameStagePointerUI::SetTargetBox(const shared_ptr<Box>& target)
+	void GameStagePointerUI::SetTargetBox(const shared_ptr<Box>& target, bool isAnimate)
 	{
-		SetDrawActive(true);
-		m_ptrTrans->SetParent(target);//渡されたBoxを追従対象として設定
+		if (target)
+		{
+			SetDrawActive(true);
+			m_ptrTrans->SetParent(target);//渡されたBoxを追従対象として設定
 
-		float offset = +3.5f;//どのくらい上に出すか
-		m_ptrTrans->SetPosition(0.0f, offset, 0.0f);
+			m_isAnimating = isAnimate;
 
+			m_ptrTrans->SetPosition(0.0f, m_baseOffsetY, 0.0f);
+			m_moveDirection = -1.0f;
+		}
+		else
+		{
+			// ターゲットがnullptrの場合
+			SetDrawActive(false);
+			m_ptrTrans->SetParent(nullptr);
+			m_isAnimating = false;
+		}
 	}
-
-	void SetBlingBox(const shared_ptr<Box>& target)
-	{
-		////経過時間を取得
-		//float elapsedTiem = App::GetApp()->GetElapsedTime();
-
-		////時間経過
-		//m_totalTime += elapsedTiem * blinkSpeed;
-		//auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
-
-		//if (m_totalTime >= XM_PI)
-		//{
-		//	m_totalTime = 0.0f;
-		//}
-
-		//m_drawComp = GetComponent<PCTStaticDraw>();
-		////明滅の変化
-		//float s = sin(m_totalTime) * 0.75f + 0.25f;
-		////ライトの当たり具合
-		//m_drawComp->SetDiffuse(Col4(1, 1, 1, s));
-
-	}
-
-
 
 	//テクスチャ
 	void GameStagePointerUI::SetTexture(const std::wstring& Key)
