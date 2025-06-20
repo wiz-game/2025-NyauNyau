@@ -560,7 +560,7 @@ namespace basecross {
 			pointer->SetTexture(L"TEX_BoxPointer");
 			pointer->SetScale(1.0f, 1.0f, 1.0f);
 			pointer->SetDrawActive(true);
-			pointer->SetTargetBox(m_controllableBoxes[0]);
+			pointer->SetTargetBox(m_controllableBoxes[0],true);
 
 
 
@@ -653,6 +653,23 @@ namespace basecross {
 				if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A) 
 				{
 					AttemptToControlSelectedBox();
+				}
+				if (m_selectedBoxIndex != m_lastNotifiedIndex)
+				{
+					//操作対象のBoxをポインターで表示
+					if (auto pointer = m_selectionPointerUI.lock())
+					{
+						if (m_selectedBoxIndex >= 0 && m_selectedBoxIndex < m_controllableBoxes.size())
+						{
+							pointer->SetTargetBox(m_controllableBoxes[m_selectedBoxIndex], true);
+						}
+						else 
+						{
+							pointer->SetTargetBox(nullptr, false);
+						}
+					}
+					// 最後に通知したインデックスを更新
+					m_lastNotifiedIndex = m_selectedBoxIndex;
 				}
 			}
 			else if (m_currentControlMode == GameControlMode::ControlBox)
@@ -785,7 +802,7 @@ namespace basecross {
 				//操作可能のボックスとポインターを親子関係にする
 				if (auto point = m_selectionPointerUI.lock())
 				{
-					point->SetTargetBox(m_controllableBoxes[m_selectedBoxIndex]);
+					point->SetTargetBox(m_controllableBoxes[m_selectedBoxIndex],false);
 				}
 
 			}

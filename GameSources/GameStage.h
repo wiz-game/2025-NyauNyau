@@ -93,6 +93,7 @@ namespace basecross {
 
 		// SelectBoxモードの時に、ハイライトされているBox
 		int m_selectedBoxIndex;
+		int m_lastNotifiedIndex = -1;//UIに最後に通知したインデックス
 
 		// 現在のゲームの操作モード（SelectBox か ControlBox か）を保持する
 		GameControlMode m_currentControlMode;
