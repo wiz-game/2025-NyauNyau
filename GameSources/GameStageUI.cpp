@@ -38,12 +38,10 @@ namespace basecross {
 		m_ptrTrans->SetRotation(0, 0, 0);
 		m_ptrTrans->SetPosition(0, 0, 0);// 画面の中心を原点としたピクセル単位（1280x800）
 
-
 	}
 
 	void GameStageUI::OnUpdate()
 	{
-		
 
 	}
 
