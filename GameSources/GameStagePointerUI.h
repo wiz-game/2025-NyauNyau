@@ -21,11 +21,14 @@ namespace basecross {
 
 		std::weak_ptr<Box> m_targetBox;
 
+		float m_totalTime;
+
 
 	public:
 		// \’z‚Æ”jŠü
 		GameStagePointerUI(const shared_ptr<Stage>& stage) :
-			GameObject(stage)
+			GameObject(stage),
+			m_totalTime(0.0f)
 		{
 		}
 		virtual ~GameStagePointerUI()

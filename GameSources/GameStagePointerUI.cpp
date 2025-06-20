@@ -14,10 +14,10 @@ namespace basecross {
 		// 頂点(Vertex)データを設定
 		Col4 color(1, 1, 1, 1);
 		m_vertices = {
-			{Vec3(-0.5, +0.5, 0), color, Vec2(0, 0)}, // ①
-			{Vec3(+0.5, +0.5, 0), color, Vec2(1, 0)}, // ②
-			{Vec3(-0.5, -0.5, 0), color, Vec2(0, 1)}, // ③
-			{Vec3(+0.5, -0.5, 0), color, Vec2(1, 1)}, // ④
+			{Vec3(-0.6, +0.6, 0), color, Vec2(0, 0)}, // ①
+			{Vec3(+0.6, +0.6, 0), color, Vec2(1, 0)}, // ②
+			{Vec3(-0.6, -0.6, 0), color, Vec2(0, 1)}, // ③
+			{Vec3(+0.6, -0.6, 0), color, Vec2(1, 1)}, // ④
 		};
 
 		// インデックスデータを設定（頂点をつなげる順番・3つの数値を組にして三角形を作る）
@@ -64,8 +64,30 @@ namespace basecross {
 		SetDrawActive(true);
 		m_ptrTrans->SetParent(target);//渡されたBoxを追従対象として設定
 
-		float offset = +2.5f;//どのくらい上に出すか
+		float offset = +3.5f;//どのくらい上に出すか
 		m_ptrTrans->SetPosition(0.0f, offset, 0.0f);
+
+	}
+
+	void SetBlingBox(const shared_ptr<Box>& target)
+	{
+		////経過時間を取得
+		//float elapsedTiem = App::GetApp()->GetElapsedTime();
+
+		////時間経過
+		//m_totalTime += elapsedTiem * blinkSpeed;
+		//auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+
+		//if (m_totalTime >= XM_PI)
+		//{
+		//	m_totalTime = 0.0f;
+		//}
+
+		//m_drawComp = GetComponent<PCTStaticDraw>();
+		////明滅の変化
+		//float s = sin(m_totalTime) * 0.75f + 0.25f;
+		////ライトの当たり具合
+		//m_drawComp->SetDiffuse(Col4(1, 1, 1, s));
 
 	}
 
