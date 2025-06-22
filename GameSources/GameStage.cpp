@@ -506,7 +506,7 @@ namespace basecross {
 			//ƒS[ƒ‹‚Ìì¬
 			//CreategoalGate();
 			AddGameObject<goalGate>(
-				Vec3(2.5f, 3.5f, 0.001f),
+				Vec3(2.5f, 3.5f, 0.0f),
 				Vec3(0.0f, 0.0f, 0.0f),
 				Vec3(45.0f, 20.75f, -0.1f)
 			);
