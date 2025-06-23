@@ -528,25 +528,25 @@ namespace basecross {
 			auto phase1UI_A = AddGameObject<GameStageUI>();
 			phase1UI_A->SetTexture(L"TEX_phase1UI_A");
 			phase1UI_A->SetPosition(535.0f, -280.0f, 0);
-			phase1UI_A->SetScale(0.4f, 0.4f, 1.0f);
+			phase1UI_A->SetScale(0.45f, 0.4f, 1.0f);
 			m_gameStageUI.push_back(phase1UI_A);
 
 			auto phase1UI_B = AddGameObject<GameStageUI>();
 			phase1UI_B->SetTexture(L"TEX_phase1UI_B");
 			phase1UI_B->SetPosition(530.0f, -200.0f, 0);
-			phase1UI_B->SetScale(0.4f, 0.4f, 1.0f);
+			phase1UI_B->SetScale(0.45f, 0.4f, 1.0f);
 			m_gameStageUI.push_back(phase1UI_B);
 
 			auto phase1UI_light = AddGameObject<GameStageUI>();
 			phase1UI_light->SetTexture(L"TEX_phase1UI_light");
 			phase1UI_light->SetPosition(540.0f, -360.0f, 0);
-			phase1UI_light->SetScale(0.4f, 0.4f, 1.0f);
+			phase1UI_light->SetScale(0.45f, 0.4f, 1.0f);
 			m_gameStageUI.push_back(phase1UI_light);
 
 			auto phase2UI_A = AddGameObject<GameStageUI>();
 			phase2UI_A->SetTexture(L"TEX_phase2UI_A");
 			phase2UI_A->SetPosition(535.0f, -280.0f, 0);
-			phase2UI_A->SetScale(0.4f, 0.4f, 1.0f);
+			phase2UI_A->SetScale(0.45f, 0.4f, 1.0f);
 			phase2UI_A->SetDrawActive(false);
 			m_gameStageUI.push_back(phase2UI_A);
 
