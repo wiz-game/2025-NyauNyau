@@ -580,7 +580,7 @@ namespace basecross {
 
 			m_stickMovedLeftLastFrame = false;   // 前のフレームで左に倒されていたか
 			m_stickMovedRightLastFrame = false;  // 前のフレームで右に倒されていたか
-
+			m_lastNotifiedIndex = -2;//UIはまだ通知されていない
 
 			// もし操作可能なBoxがステージに存在すれば、最初のBoxを選択候補とする
 			if (!m_controllableBoxes.empty()) 
@@ -655,23 +655,23 @@ namespace basecross {
 				{
 					AttemptToControlSelectedBox();
 				}
-				if (m_selectedBoxIndex != m_lastNotifiedIndex)
-				{
-					//操作対象のBoxをポインターで表示
-					if (auto pointer = m_selectionPointerUI.lock())
-					{
-						if (m_selectedBoxIndex >= 0 && m_selectedBoxIndex < m_controllableBoxes.size())
-						{
-							pointer->SetTargetBox(m_controllableBoxes[m_selectedBoxIndex], true);
-						}
-						else 
-						{
-							pointer->SetTargetBox(nullptr, false);
-						}
-					}
+				//if (m_selectedBoxIndex != m_lastNotifiedIndex)
+				//{
+				//	//操作対象のBoxをポインターで表示
+				//	if (auto pointer = m_selectionPointerUI.lock())
+				//	{
+				//		if (m_selectedBoxIndex >= 0 && m_selectedBoxIndex < m_controllableBoxes.size())
+				//		{
+				//			pointer->SetTargetBox(m_controllableBoxes[m_selectedBoxIndex], true);
+				//		}
+				//		else 
+				//		{
+				//			pointer->SetTargetBox(nullptr, false);
+				//		}
+				//	}
 					// 最後に通知したインデックスを更新
-					m_lastNotifiedIndex = m_selectedBoxIndex;
-				}
+					//m_lastNotifiedIndex = m_selectedBoxIndex;
+				//}
 			}
 			else if (m_currentControlMode == GameControlMode::ControlBox)
 			{
@@ -683,7 +683,7 @@ namespace basecross {
 			}
 		}
 		
-		//UpdateSelectionUI();
+		UpdateSelectionUI();
 
 		auto device = app->GetInputDevice();
 		auto pad = device.GetControlerVec()[0];
@@ -830,6 +830,44 @@ namespace basecross {
 	std::shared_ptr<Table> GameStage::GetTableObject() const
 	{
 		return GetSharedGameObject<Table>(L"Table"); 
+	}
+
+
+	void GameStage::UpdateSelectionUI()
+	{
+		int currentTargetIndex = -1;
+
+		// 現在のモードからターゲットにすべきBoxのインデックスを決定
+		if (m_currentControlMode == GameControlMode::SelectBox) {
+			currentTargetIndex = m_selectedBoxIndex;
+		}
+		else if (m_currentControlMode == GameControlMode::ControlBox) {
+			if (m_currentlyControlledBox) {
+				for (int i = 0; i < m_controllableBoxes.size(); ++i) {
+					if (m_controllableBoxes[i] == m_currentlyControlledBox) {
+						currentTargetIndex = i;
+						break;
+					}
+				}
+			}
+		}
+
+		// ターゲットが前回から変更された場合のみ、UIに通知する
+		if (currentTargetIndex != m_lastNotifiedIndex)
+		{
+			if (auto pointer = m_selectionPointerUI.lock())
+			{
+				bool shouldAnimate = (m_currentControlMode == GameControlMode::SelectBox);
+
+				if (currentTargetIndex >= 0 && currentTargetIndex < m_controllableBoxes.size()) {
+					pointer->SetTargetBox(m_controllableBoxes[currentTargetIndex], shouldAnimate);
+				}
+				else {
+					pointer->SetTargetBox(nullptr, false);
+				}
+			}
+			m_lastNotifiedIndex = currentTargetIndex;
+		}
 	}
 
 	// テクスチャの読込
