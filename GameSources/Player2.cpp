@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
 #include "Project.h"
-
+#include "ShadowDrawer.h"
 
 
 namespace basecross
@@ -181,114 +181,97 @@ namespace basecross
 	{
 		float elapsedTime = App::GetApp()->GetElapsedTime();
 
-		auto& app = App::GetApp();
-		auto ptrTransform = GetComponent<Transform>();
-		Vec3 currentPlayerPosition = ptrTransform->GetPosition();
-		float elapsed = app->GetElapsedTime();
-		float gravity = 0.0f;
-		Vec3 acceleration = Vec3(0.0f, -gravity, 0.0f) * elapsed;
-		static Vec3 velocity = Vec3();
-		velocity += acceleration * elapsed;
-		//入力と重力に基づいて、このフレームの速度(m_velocity)を決定する
-		m_InputHandler.PushHandle(GetThis<Player>()); // ジャンプ入力(OnPushA)の受付
+		// === 入力と速度の更新 ===
+		m_InputHandler.PushHandle(GetThis<Player>()); // ジャンプ入力の受付
 
-		//全ての頂点データを取ってくる
-		auto objects = GetStage()->GetGameObjectVec();
-
-		for (auto& obj : objects) {
-			auto shadowComp = obj->GetComponent<ShadowComponent>();
-			if (shadowComp)
-			{
-				m_shadowVertices = shadowComp->GetAllShadowsVertices();
-			}
-		}
-
-		// X方向の移動速度（自動で右に進む）
+		// X方向の速度を設定
 		m_velocity.x = m_Speed;
 
-		// Y方向の移動速度（常に重力を適用する）
-		// 地面にいるかどうかは、この後の衝突判定で判断する
-		m_velocity.y += m_gravity * elapsedTime;
-		m_isAir = true; // 基本的に空中にいると仮定し、地面にいたら後でfalseにする
 		MoveY();
-
-		//速度に基づいて、プレイヤーを「仮に」移動させる
-		//auto ptrTransform = GetComponent<Transform>();
+		//移動量の計算 ===
+		auto ptrTransform = GetComponent<Transform>();
 		Vec3 currentPosition = ptrTransform->GetPosition();
-		currentPosition += m_velocity * elapsedTime;
+		Vec3 deltaPosition = m_velocity * elapsedTime; // このフレームで動くべき量
 
+		// === 衝突判定と応答 ===
 
-		//衝突判定と応答
-		// 判定に使う円の中心は、移動後のプレイヤーの位置そのもの
-		m_Center = currentPosition;
+		// 判定に使う円の中心と半径を、移動後の予測位置で設定
+		m_Center = currentPosition + deltaPosition;
+		m_Radius = ((m_Scale.x < m_Scale.y) ? m_Scale.x : m_Scale.y) / 2.0f;
 
-		// 半径はスケールの半分(少し大きめにする)
-		m_Radius = m_Scale.x / 2.0f*1.01;
+		// このフレームで最も重要だった押し出しベクトル
+		Vec3 best_mtv(0.0f, 0.0f, 0.0f);
+		float max_overlap_sq = 0.0f;
+		bool hasCollidedThisFrame = false;
 
-		if (m_OtherPolygon)
+		// ステージから「影の担当者(ShadowDrawer)」を名指しで探す
+		auto shadowDrawer = GetStage()->GetSharedGameObject<ShadowDrawer>(L"ShadowDrawer");
+		if (shadowDrawer)
 		{
-			//影の頂点をワールド座標に変換
-			auto shadowTransform = m_OtherPolygon->GetComponent<Transform>();
-			Mat4x4 shadowWorldMatrix = shadowTransform->GetWorldMatrix();
-			std::vector<Vec3> localVertices = m_OtherPolygon->GetVertices();
-			std::vector<Vec3> worldVertices;
-			worldVertices.reserve(localVertices.size());
-			for (const Vec3& localPos : localVertices)
+			// ShadowComponentを取得する
+			auto shadowComp = shadowDrawer->GetComponent<ShadowComponent>();
+			if (shadowComp)
 			{
-				Vec3 worldPos = localPos * shadowWorldMatrix;
-				worldVertices.push_back(worldPos);
-			}
+				// 「すべての影のリスト」をもらう
+				const auto& allShadows = shadowComp->GetAllShadowsVertices();
 
-			//衝突判定を実行
-			Vec3 mtv;
-			if (ComputeMTV(worldVertices, mtv))
-			{
-				// --- 衝突した場合の補正処理 ---
-
-				//位置を補正する（1%多めに押し出す）
-				currentPosition += mtv * 1.01f;
-
-				// 3b. 速度を補正する（★ここをより強力なロジックに修正★）
-				Vec3 collisionNormal = mtv;
-				collisionNormal.normalize();
-
-				// 現在の速度と、衝突面の法線の内積を計算
-				float dot_vel_norm = m_velocity.dot(collisionNormal);
-
-				// もし、速度が衝突面にめり込む方向（内積が負）を向いているなら...
-				if (dot_vel_norm < 0)
+				// もらったリストをループして、一つ一つの影と当たり判定を行う
+				for (const auto& singleShadowVertices : allShadows)
 				{
-					// 法線方向の速度成分を、完全に打ち消すベクトルを計算
-					Vec3 reflectionVector = collisionNormal * dot_vel_norm;
+					if (singleShadowVertices.size() < 3) continue;
 
-					// 現在の速度に、その打ち消しベクトルを加算する
-					// これにより、壁にめり込む方向の速度がゼロになる
-					m_velocity += reflectionVector;
-
-					m_velocity.y = 0;
-					m_isAir = false;
-				}
-
-				
-
-				// 地面との接触判定（これは重要なので残す）
-				if (collisionNormal.y > 0.7f)
-				{
-					m_velocity.y = 0;
-					m_isAir = false;
+					Vec3 mtv;
+					if (ComputeMTV(singleShadowVertices, mtv))
+					{
+						hasCollidedThisFrame = true;
+						float current_overlap_sq = mtv.dot(mtv);
+						// 今回のめり込みが、今までの最大記録よりも大きいなら、記録を更新
+						if (current_overlap_sq > max_overlap_sq)
+						{
+							max_overlap_sq = current_overlap_sq;
+							best_mtv = mtv;
+						}
+					}
 				}
 			}
 		}
 
-		//最終的な位置をTransformに設定 
-		ptrTransform->SetPosition(currentPosition);
+		// --- 最終的な応答処理 ---
+		if (hasCollidedThisFrame)
+		{
+			// 衝突(best_mtv)に基づいて、移動量を補正
+			deltaPosition += best_mtv * 1.01f;
 
-		// 絶対座標での地面処理（保険）
-		if (currentPosition.y < -4.99f) {
-			currentPosition.y = -4.99f;
+			// 速度補正
+			Vec3 collisionNormal = best_mtv.normalize();
+			if (collisionNormal.y > 0.7f) {
+				m_velocity.y = 0;
+			}
+			if (abs(collisionNormal.x) > 0.7f) {
+				m_velocity.x = 0;
+			}
+		}
+
+		// === 状態の最終決定と位置の適用 ===
+
+		// 地面との接触があったかどうかに基づいて、isAirフラグを最終決定
+		if (best_mtv.dot(best_mtv) > 1e-9f && best_mtv.normalize().y > 0.7f) {
+			m_isAir = false;
+		}
+		else {
+			m_isAir = true;
+		}
+
+		// 最下層の床との接触
+		if ((currentPosition.y + deltaPosition.y) < -4.99f) {
+			deltaPosition.y = -4.99f - currentPosition.y;
 			m_velocity.y = 0;
 			m_isAir = false;
 		}
+
+		// 最終的に補正された移動量だけを、現在位置に加える
+		ptrTransform->SetPosition(currentPosition + deltaPosition);
+
 		DrawStrings();
 	}
 
@@ -329,7 +312,7 @@ namespace basecross
 
 		if (m_isAir == false)
 		{
-			m_velocity.y = 14.0f; // ジャンプの初速を与える
+			m_velocity.y = 12.0f; // ジャンプの初速を与える
 			m_isAir = true; // ジャンプしたので空中状態にする
 			ptrXA->Start(L"Jump", 0, 0.5f);
 
