@@ -107,6 +107,10 @@ namespace basecross
         this->m_ShadowStrategy = strategy;
     }
 
+    const std::vector<std::vector<Vec3>>& ShadowComponent::GetAllShadowsVertices() const
+    {
+        return m_allShadowsVertices;
+    }
 
     // オーバーライドしないとエラーが起きるので仮にも定義
     void ShadowComponent::OnDraw()

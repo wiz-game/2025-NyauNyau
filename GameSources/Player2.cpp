@@ -175,16 +175,6 @@ namespace basecross
 
 		pos.z = wallPoint.z;
 
-		auto objects = GetStage()->GetGameObjectVec();
-
-		for (auto& obj : objects) {
-			auto result = dynamic_pointer_cast<ShadowObject>(obj);
-
-			if (result) {
-				m_OtherPolygon = result;
-				break;
-			}
-		}
 	}
 
 	void Player::OnUpdate()
@@ -201,6 +191,17 @@ namespace basecross
 		velocity += acceleration * elapsed;
 		//入力と重力に基づいて、このフレームの速度(m_velocity)を決定する
 		m_InputHandler.PushHandle(GetThis<Player>()); // ジャンプ入力(OnPushA)の受付
+
+		//全ての頂点データを取ってくる
+		auto objects = GetStage()->GetGameObjectVec();
+
+		for (auto& obj : objects) {
+			auto shadowComp = obj->GetComponent<ShadowComponent>();
+			if (shadowComp)
+			{
+				m_shadowVertices = shadowComp->GetAllShadowsVertices();
+			}
+		}
 
 		// X方向の移動速度（自動で右に進む）
 		m_velocity.x = m_Speed;
