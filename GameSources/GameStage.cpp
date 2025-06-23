@@ -496,7 +496,8 @@ namespace basecross {
 			SetSharedGameObject(L"SpotLight", spotLight);
 			//影の作成
 			//AddGameObject<ShadowObject>();
-			AddGameObject<ShadowDrawer>();
+			auto shadowDrawer = AddGameObject<ShadowDrawer>();
+			SetSharedGameObject(L"ShadowDrawer", shadowDrawer);
 			//プレイヤーの作成
 			CreatePlayer();
 			//エネミーの作成

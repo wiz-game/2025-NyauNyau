@@ -45,7 +45,7 @@ namespace basecross
                 m_allShadowsVertices.push_back(singleShadow);
             }
         }
-        //// 影を落とすオブジェクトを取得 (将来的にはもっと汎用的な方法で)
+        // 影を落とすオブジェクトを取得 (将来的にはもっと汎用的な方法で)
         //auto box = GetStage()->GetSharedGameObject<Box>(L"Box_0");
         //if (!box) return;
 
@@ -107,6 +107,10 @@ namespace basecross
         this->m_ShadowStrategy = strategy;
     }
 
+    const std::vector<std::vector<Vec3>>& ShadowComponent::GetAllShadowsVertices() const
+    {
+        return m_allShadowsVertices;
+    }
 
     // オーバーライドしないとエラーが起きるので仮にも定義
     void ShadowComponent::OnDraw()

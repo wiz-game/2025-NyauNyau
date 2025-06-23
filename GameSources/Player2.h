@@ -61,6 +61,8 @@ namespace basecross
 		// Õ“Ë‘Šè‚Ìî•ñ
 		shared_ptr<ShadowObject> m_OtherPolygon;
 
+		std::vector<std::vector<Vec3>> m_shadowVertices;
+
 		shared_ptr<SoundItem> m_BGM;
 	
 
