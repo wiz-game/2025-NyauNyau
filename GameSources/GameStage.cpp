@@ -256,7 +256,7 @@ namespace basecross {
 		{
 			Vec3(9.0f,9.0f,-0.001f),
 			Vec3(0.0f,0.0f,0.0f),
-			Vec3(-35.0f,26.25f,-0.5f)
+			Vec3(-70.0f,26.25f,-0.5f)
 		}
 		};
 		for (auto& v : vec) {
@@ -510,6 +510,14 @@ namespace basecross {
 				Vec3(0.0f, 0.0f, 0.0f),
 				Vec3(45.0f, 20.75f, -0.1f)
 			);
+
+			//ねこの助走用の足場
+			AddGameObject<ShadowFloor>(
+				Vec3(100.0f, 30.0f, 1.0f),
+				Vec3(0.0f, 0.0f, 0.0f),
+				Vec3(-75.0f, 5.0f, 0.0f)
+			);
+
 			//チーズの作成
 			CreateCheese();
 			//本棚の作成
@@ -964,6 +972,12 @@ namespace basecross {
 		if (app->CheckResource<MeshResource>(L"MODEL_TSUMIKI4")) return;
 		auto meshTsumiki4 = MeshResource::CreateBoneModelMesh(modelPath + L"Block4\\", L"Block4.bmf");
 		app->RegisterResource(L"MODEL_TSUMIKI4", meshTsumiki4);
+
+
+		//ねこ
+		if (app->CheckResource<MeshResource>(L"MODEL_NEKO")) return;
+		auto meshNeko = MeshResource::CreateBoneModelMesh(modelPath + L"Neko\\", L"Neko.bmf");
+		app->RegisterResource(L"MODEL_NEKO", meshNeko);
 
 	}
 

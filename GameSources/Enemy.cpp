@@ -18,7 +18,7 @@ namespace basecross {
 		m_Rotation(Rotation),
 		m_Position(Position),
 		isGameOver(false),
-		EnemySpeed(0.0f)
+		EnemySpeed(9.0f)
 	{
 	}
 
@@ -28,10 +28,12 @@ namespace basecross {
 	void Enemy::OnCreate()
 	{
 		// ドローコンポーネントの追加と設定
-		auto drawComp = AddComponent<PNTStaticDraw>();
-		drawComp->SetMeshResource(L"DEFAULT_CUBE"); // キューブ型のメッシュを設定する
-		drawComp->SetTextureResource(L"TEX_ENEMY");
-		SetAlphaActive(true);
+		//auto drawComp = AddComponent<PNTStaticDraw>();
+		//drawComp->SetMeshResource(L"DEFAULT_CUBE"); // キューブ型のメッシュを設定する
+		//drawComp->SetTextureResource(L"TEX_ENEMY");
+		//SetAlphaActive(true);
+
+		InitDrawComp();
 
 		auto ptrTransform = GetComponent<Transform>();
 		ptrTransform->SetScale(m_Scale);
@@ -71,7 +73,7 @@ namespace basecross {
 		Vec3 currentPosition = ptrTransform->GetPosition();
 
 		// 右方向へ `EnemySpeed` だけ移動
-		//currentPosition.x += EnemySpeed * elapsedTime;
+		currentPosition.x += EnemySpeed * elapsedTime;
 
 		//auto objects = GetStage()->GetGameObjectVec();
 		//for (auto obj : objects)
@@ -82,6 +84,27 @@ namespace basecross {
 
 		// 更新した位置をセット
 		ptrTransform->SetPosition(currentPosition);
+
+		m_drawComp->UpdateAnimation(elapsedTime);
+
+	}
+
+	void Enemy::InitDrawComp()
+	{
+		Mat4x4 span;
+		span.affineTransformation
+		(
+			Vec3(0.1f, 0.1f, 0.01f),
+			Vec3(0.0f, 0.0f, 0.0f),
+			Vec3(0.0f, 0.0f, 0.0f),
+			Vec3(0.0f, -0.55f, 1.0f)
+		);
+
+		m_drawComp = AddComponent<PNTBoneModelDraw>();
+		m_drawComp->SetMeshResource(L"MODEL_NEKO");
+		m_drawComp->AddAnimation(L"ANM_RUN", 0, 24, true);
+		m_drawComp->SetMeshToTransformMatrix(span);
+
 
 	}
 

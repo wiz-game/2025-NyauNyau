@@ -14,6 +14,7 @@ namespace basecross {
 		Vec3 m_Scale;
 		Vec3 m_Rotation;
 		Vec3 m_Position;
+		shared_ptr<PNTBoneModelDraw> m_drawComp;
 		bool isGameOver;//ゲームオーバーを管理
 		float EnemySpeed;
 
@@ -37,6 +38,7 @@ namespace basecross {
 
 		virtual void OnCollisionEnter(shared_ptr<GameObject>& Other) override;
 
+		void InitDrawComp();
 
 
 
