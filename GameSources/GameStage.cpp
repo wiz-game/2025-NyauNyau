@@ -519,11 +519,11 @@ namespace basecross {
 			//スプライトオブジェクト
 			AddGameObject<Phase1>();
 
-			auto UI = AddGameObject<GameStageUI>();
-			UI->SetTexture(L"TEX_GameStageUI");
-			UI->SetPosition(0, 300.0f, 0);
-			UI->SetScale(2.0f, 1.0f, 1.0f);
-			m_gameStageUI.push_back(UI);
+			//auto UI = AddGameObject<GameStageUI>();
+			//UI->SetTexture(L"TEX_GameStageUI");
+			//UI->SetPosition(0, 300.0f, 0);
+			//UI->SetScale(2.0f, 1.0f, 1.0f);
+			//m_gameStageUI.push_back(UI);
 
 			auto phase1UI_A = AddGameObject<GameStageUI>();
 			phase1UI_A->SetTexture(L"TEX_phase1UI_A");
@@ -704,7 +704,7 @@ namespace basecross {
 		if (m_isStageFadingOut)
 		{
 			//スプライトが有効で、まだ表示されていたら
-			auto stageSpr = m_gameStageUI[5].lock();
+			auto stageSpr = m_gameStageUI[4].lock();
 
 			if (stageSpr && stageSpr->IsDrawActive())
 			{
@@ -1036,13 +1036,13 @@ namespace basecross {
 
 					currentPhase = GamePhase::Phase2;
 
-					auto UI = m_gameStageUI[0].lock();
-					auto UI_A = m_gameStageUI[1].lock();
-					auto UI_B = m_gameStageUI[2].lock();
-					auto phase2UI = m_gameStageUI[4].lock();
+					//auto UI = m_gameStageUI[0].lock();
+					auto UI_A = m_gameStageUI[0].lock();
+					auto UI_B = m_gameStageUI[1].lock();
+					auto phase2UI = m_gameStageUI[3].lock();
 					auto boxPointer = m_selectionPointerUI.lock();
 
-					UI->SetDrawActive(false);
+					//UI->SetDrawActive(false);
 					UI_A->SetDrawActive(false);
 					UI_B->SetDrawActive(false);
 					phase2UI->SetDrawActive(true);
