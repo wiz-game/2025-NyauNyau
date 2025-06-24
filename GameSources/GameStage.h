@@ -40,7 +40,7 @@ namespace basecross {
 	enum class CameraSelect 
 	{
 		openingCamera,
-		mainCamera,
+		phase1Camera,
 	};
 
 
@@ -162,7 +162,7 @@ namespace basecross {
 			return m_CameraSelect;
 		}
 
-		void ToMainCamera();
+		void ToPhase1Camera();
 
 		//‰Šú‰»		
 		virtual void OnCreate()override;

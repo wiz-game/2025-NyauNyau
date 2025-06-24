@@ -15,7 +15,8 @@ namespace basecross {
 	//--------------------------------------------------------------------------------------
 	//	ゲームステージクラス実体
 	//--------------------------------------------------------------------------------------
-	void GameStage::CreateViewLight() {
+	void GameStage::CreateViewLight() 
+	{
 
 		m_mainView = ObjectFactory::Create<SingleView>(GetThis<Stage>());
 		auto ptrmainCamera = ObjectFactory::Create<MainCamera>();
@@ -28,7 +29,6 @@ namespace basecross {
 		auto ptrphase1Camera = ObjectFactory::Create<Phase1Camera>();
 		ptrphase1Camera->SetEye(Vec3(10.0f, 30.0f, -70.0f));
 		ptrphase1Camera->SetAt(Vec3(10.0f, 20.0f, 0.0f));
-
 		m_phase1View->SetCamera(ptrphase1Camera);
 
 		SetView(m_phase1View);
@@ -38,12 +38,8 @@ namespace basecross {
 		m_OpeningCameraView = ObjectFactory::Create<SingleView>(GetThis<Stage>());
 		auto ptrOpeningCamera = ObjectFactory::Create<OpeningCamera>();
 		m_OpeningCameraView->SetCamera(ptrOpeningCamera);
-		//MainCamera用のビュー
-		m_mainView = ObjectFactory::Create<SingleView>(GetThis<Stage>());
-		auto ptrMyCamera = ObjectFactory::Create<MainCamera>();
-		//ptrMyCamera->SetEye(Vec3(0.0f, 5.0f, -5.0f));
-		//ptrMyCamera->SetAt(Vec3(0.0f, 0.0f, 0.0f));
-		m_mainView->SetCamera(ptrMyCamera);
+		m_mainView->SetCamera(ptrOpeningCamera);
+
 
 		//初期状態ではm_OpeningCameraViewを使う
 		SetView(m_OpeningCameraView);
@@ -751,18 +747,16 @@ namespace basecross {
 			}
 		}
 
-
 	}
 
-	void GameStage::ToMainCamera()
+	void GameStage::ToPhase1Camera()
 	{
-		auto ptrPlayer = GetSharedGameObject<Player>(L"Player");
-		//MainCameraに変更
-		auto ptrMainCamera = dynamic_pointer_cast<MainCamera>(m_mainView->GetCamera());
-		if (ptrMainCamera) {
-			ptrMainCamera->SetTargetObject(ptrPlayer);
-			SetView(m_mainView);
-			m_CameraSelect = CameraSelect::mainCamera;
+		//Phase1Cameraに変更
+		auto ptrPhase1Camera = dynamic_pointer_cast<Phase1Camera>(m_phase1View->GetCamera());
+		if (ptrPhase1Camera)
+		{
+			SetView(m_phase1View);
+			m_CameraSelect = CameraSelect::phase1Camera;
 		}
 	}
 

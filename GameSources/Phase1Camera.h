@@ -17,6 +17,10 @@ namespace basecross {
 		float m_distance; // 注視点空の距離
 		float m_angleY; // Y軸中心のカメラの回り込み
 
+		// 注視対象オブジェクト
+		std::weak_ptr<GameObject> m_targetObj;
+
+
 	public:
 		// 構築と破棄
 		Phase1Camera() :
@@ -25,6 +29,14 @@ namespace basecross {
 			m_angleY(90.0f) // 「π/2」ラジアン→「90°」
 		{
 		}
+
+
+		// 注視対象を設定する関数
+		void SetTargetObject(const shared_ptr<GameObject>& object)
+		{
+			m_targetObj = object;
+		}
+
 
 		virtual ~Phase1Camera()
 		{

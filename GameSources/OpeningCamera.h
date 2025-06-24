@@ -20,6 +20,9 @@ namespace basecross
 		float m_TotalTime;
 		//ステートマシーン
 		unique_ptr< StateMachine<OpeningCameraman> >  m_StateMachine;
+		std::shared_ptr<Player> m_player;
+		std::shared_ptr<goalGate> m_goalGate;
+
 	public:
 		//構築と破棄
 		OpeningCameraman(const shared_ptr<Stage>& StagePtr);
