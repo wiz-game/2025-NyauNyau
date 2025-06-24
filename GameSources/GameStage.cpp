@@ -8,7 +8,6 @@
 #include "Project.h"
 
 #include "ShadowDrawer.h"
-#include "ShadowObject.h"
 #include "RaycastLine.h"
 namespace basecross {
 
@@ -1004,10 +1003,6 @@ namespace basecross {
 						obj->SetUpdateActive(true);
 					}
 				    if (dynamic_pointer_cast<Box>(obj))
-					{
-						obj->SetUpdateActive(true);
-					}
-					else if (dynamic_pointer_cast<ShadowObject>(obj))
 					{
 						obj->SetUpdateActive(true);
 					}
