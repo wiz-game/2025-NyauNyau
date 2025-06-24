@@ -8,7 +8,6 @@
 #include "Project.h"
 
 #include "ShadowDrawer.h"
-#include "ShadowObject.h"
 #include "RaycastLine.h"
 namespace basecross {
 
@@ -519,34 +518,34 @@ namespace basecross {
 			//スプライトオブジェクト
 			AddGameObject<Phase1>();
 
-			auto UI = AddGameObject<GameStageUI>();
-			UI->SetTexture(L"TEX_GameStageUI");
-			UI->SetPosition(0, 300.0f, 0);
-			UI->SetScale(2.0f, 1.0f, 1.0f);
-			m_gameStageUI.push_back(UI);
+			//auto UI = AddGameObject<GameStageUI>();
+			//UI->SetTexture(L"TEX_GameStageUI");
+			//UI->SetPosition(0, 300.0f, 0);
+			//UI->SetScale(2.0f, 1.0f, 1.0f);
+			//m_gameStageUI.push_back(UI);
 
 			auto phase1UI_A = AddGameObject<GameStageUI>();
 			phase1UI_A->SetTexture(L"TEX_phase1UI_A");
 			phase1UI_A->SetPosition(535.0f, -280.0f, 0);
-			phase1UI_A->SetScale(0.4f, 0.4f, 1.0f);
+			phase1UI_A->SetScale(0.5f, 0.4f, 1.0f);
 			m_gameStageUI.push_back(phase1UI_A);
 
 			auto phase1UI_B = AddGameObject<GameStageUI>();
 			phase1UI_B->SetTexture(L"TEX_phase1UI_B");
 			phase1UI_B->SetPosition(530.0f, -200.0f, 0);
-			phase1UI_B->SetScale(0.4f, 0.4f, 1.0f);
+			phase1UI_B->SetScale(0.5f, 0.4f, 1.0f);
 			m_gameStageUI.push_back(phase1UI_B);
 
 			auto phase1UI_light = AddGameObject<GameStageUI>();
 			phase1UI_light->SetTexture(L"TEX_phase1UI_light");
 			phase1UI_light->SetPosition(540.0f, -360.0f, 0);
-			phase1UI_light->SetScale(0.4f, 0.4f, 1.0f);
+			phase1UI_light->SetScale(0.5f, 0.4f, 1.0f);
 			m_gameStageUI.push_back(phase1UI_light);
 
 			auto phase2UI_A = AddGameObject<GameStageUI>();
 			phase2UI_A->SetTexture(L"TEX_phase2UI_A");
 			phase2UI_A->SetPosition(535.0f, -280.0f, 0);
-			phase2UI_A->SetScale(0.4f, 0.4f, 1.0f);
+			phase2UI_A->SetScale(0.5f, 0.4f, 1.0f);
 			phase2UI_A->SetDrawActive(false);
 			m_gameStageUI.push_back(phase2UI_A);
 
@@ -580,7 +579,7 @@ namespace basecross {
 
 			m_stickMovedLeftLastFrame = false;   // 前のフレームで左に倒されていたか
 			m_stickMovedRightLastFrame = false;  // 前のフレームで右に倒されていたか
-
+			m_lastNotifiedIndex = -2;//UIはまだ通知されていない
 
 			// もし操作可能なBoxがステージに存在すれば、最初のBoxを選択候補とする
 			if (!m_controllableBoxes.empty()) 
@@ -655,23 +654,23 @@ namespace basecross {
 				{
 					AttemptToControlSelectedBox();
 				}
-				if (m_selectedBoxIndex != m_lastNotifiedIndex)
-				{
-					//操作対象のBoxをポインターで表示
-					if (auto pointer = m_selectionPointerUI.lock())
-					{
-						if (m_selectedBoxIndex >= 0 && m_selectedBoxIndex < m_controllableBoxes.size())
-						{
-							pointer->SetTargetBox(m_controllableBoxes[m_selectedBoxIndex], true);
-						}
-						else 
-						{
-							pointer->SetTargetBox(nullptr, false);
-						}
-					}
+				//if (m_selectedBoxIndex != m_lastNotifiedIndex)
+				//{
+				//	//操作対象のBoxをポインターで表示
+				//	if (auto pointer = m_selectionPointerUI.lock())
+				//	{
+				//		if (m_selectedBoxIndex >= 0 && m_selectedBoxIndex < m_controllableBoxes.size())
+				//		{
+				//			pointer->SetTargetBox(m_controllableBoxes[m_selectedBoxIndex], true);
+				//		}
+				//		else 
+				//		{
+				//			pointer->SetTargetBox(nullptr, false);
+				//		}
+				//	}
 					// 最後に通知したインデックスを更新
-					m_lastNotifiedIndex = m_selectedBoxIndex;
-				}
+					//m_lastNotifiedIndex = m_selectedBoxIndex;
+				//}
 			}
 			else if (m_currentControlMode == GameControlMode::ControlBox)
 			{
@@ -683,7 +682,7 @@ namespace basecross {
 			}
 		}
 		
-		//UpdateSelectionUI();
+		UpdateSelectionUI();
 
 		auto device = app->GetInputDevice();
 		auto pad = device.GetControlerVec()[0];
@@ -704,7 +703,7 @@ namespace basecross {
 		if (m_isStageFadingOut)
 		{
 			//スプライトが有効で、まだ表示されていたら
-			auto stageSpr = m_gameStageUI[5].lock();
+			auto stageSpr = m_gameStageUI[4].lock();
 
 			if (stageSpr && stageSpr->IsDrawActive())
 			{
@@ -832,6 +831,44 @@ namespace basecross {
 		return GetSharedGameObject<Table>(L"Table"); 
 	}
 
+
+	void GameStage::UpdateSelectionUI()
+	{
+		int currentTargetIndex = -1;
+
+		// 現在のモードからターゲットにすべきBoxのインデックスを決定
+		if (m_currentControlMode == GameControlMode::SelectBox) {
+			currentTargetIndex = m_selectedBoxIndex;
+		}
+		else if (m_currentControlMode == GameControlMode::ControlBox) {
+			if (m_currentlyControlledBox) {
+				for (int i = 0; i < m_controllableBoxes.size(); ++i) {
+					if (m_controllableBoxes[i] == m_currentlyControlledBox) {
+						currentTargetIndex = i;
+						break;
+					}
+				}
+			}
+		}
+
+		// ターゲットが前回から変更された場合のみ、UIに通知する
+		if (currentTargetIndex != m_lastNotifiedIndex)
+		{
+			if (auto pointer = m_selectionPointerUI.lock())
+			{
+				bool shouldAnimate = (m_currentControlMode == GameControlMode::SelectBox);
+
+				if (currentTargetIndex >= 0 && currentTargetIndex < m_controllableBoxes.size()) {
+					pointer->SetTargetBox(m_controllableBoxes[currentTargetIndex], shouldAnimate);
+				}
+				else {
+					pointer->SetTargetBox(nullptr, false);
+				}
+			}
+			m_lastNotifiedIndex = currentTargetIndex;
+		}
+	}
+
 	// テクスチャの読込
 	void GameStage::LoadTextures()
 	{
@@ -944,6 +981,7 @@ namespace basecross {
 		auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
 		auto scene = App::GetApp()->GetScene<Scene>();
 		auto volume = scene->m_volumeBGM;
+		auto volumeSE = scene->m_volumeSE;
 		auto ptrXA = App::GetApp()->GetXAudio2Manager();
 
 
@@ -968,10 +1006,6 @@ namespace basecross {
 					{
 						obj->SetUpdateActive(true);
 					}
-					else if (dynamic_pointer_cast<ShadowObject>(obj))
-					{
-						obj->SetUpdateActive(true);
-					}
 					else if (dynamic_pointer_cast<ShadowDrawer>(obj))
 					{
 						obj->SetUpdateActive(true);
@@ -991,19 +1025,19 @@ namespace basecross {
 				// BボタンでPhase2(GameStart)へ
 				if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B)
 				{
-					ptrXA->Start(L"Bbutton", 0, 1.0f);
+					ptrXA->Start(L"Bbutton", 0, volumeSE);
 
 					SetView(m_mainView);
 
 					currentPhase = GamePhase::Phase2;
 
-					auto UI = m_gameStageUI[0].lock();
-					auto UI_A = m_gameStageUI[1].lock();
-					auto UI_B = m_gameStageUI[2].lock();
-					auto phase2UI = m_gameStageUI[4].lock();
+					//auto UI = m_gameStageUI[0].lock();
+					auto UI_A = m_gameStageUI[0].lock();
+					auto UI_B = m_gameStageUI[1].lock();
+					auto phase2UI = m_gameStageUI[3].lock();
 					auto boxPointer = m_selectionPointerUI.lock();
 
-					UI->SetDrawActive(false);
+					//UI->SetDrawActive(false);
 					UI_A->SetDrawActive(false);
 					UI_B->SetDrawActive(false);
 					phase2UI->SetDrawActive(true);

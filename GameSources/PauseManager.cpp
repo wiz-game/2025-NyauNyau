@@ -85,6 +85,10 @@ namespace basecross {
 	{
 		//コントローラの取得
 		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+		auto scene = App::GetApp()->GetScene<Scene>();
+		auto volumeSE = scene->m_volumeSE;
+		auto ptrXA = App::GetApp()->GetXAudio2Manager();
+
 		//スタートボタンを押したときにボーズする
 		if (CntlVec[0].bConnected)
 		{
@@ -132,6 +136,8 @@ namespace basecross {
 							catPointSprite->SetPosition(-250.0f, m_selectY, 0);
 						}
 
+						m_SE = ptrXA->Start(L"SelectButtonSE", 0, volumeSE);
+
 					}
 					//下向き
 					else if (CntlVec[0].fThumbLY <= -0.8f)
@@ -151,9 +157,8 @@ namespace basecross {
 						{
 							catPointSprite->SetPosition(-250.0f, m_selectY, 0);
 						}
+						m_SE = ptrXA->Start(L"SelectButtonSE", 0, volumeSE);
 					}
-
-
 				}
 				//動かしていない時
 				else
@@ -180,15 +185,16 @@ namespace basecross {
 				{
 				case 0://リスタート
 
-					PostEvent(0.0f, GetThis<PauseManager>(), scene, L"ToGameStage");
+					PostEvent(0.5f, GetThis<PauseManager>(), scene, L"ToGameStage");
 					return;
 
 				case 1://タイトル
-					PostEvent(0.0f, GetThis<PauseManager>(), scene, L"ToTitleStage");
+					PostEvent(0.5f, GetThis<PauseManager>(), scene, L"ToTitleStage");
 					return;
 
 				case 2://設定
-					PostEvent(0.0f, GetThis<PauseManager>(), scene, L"ToSettingStage");
+					//m_SE = ptrXA->Start(L"GamennsenniSE", 0, volumeSE);
+					PostEvent(0.5f, GetThis<PauseManager>(), scene, L"ToSettingStage");
 					return;
 
 				case 3://終了

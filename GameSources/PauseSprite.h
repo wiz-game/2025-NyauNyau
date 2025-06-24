@@ -17,7 +17,7 @@ namespace basecross {
 	public:
 		float m_totalTime;//トータル時間
 		bool m_Selected;//選択しているかどうか
-
+		float m_blinkSpeed;
 
 		std::shared_ptr<PCTSpriteDraw> m_drawComp;
 		std::shared_ptr<Transform> m_ptrTrans;
@@ -26,7 +26,8 @@ namespace basecross {
 		PauseSprite(const shared_ptr<Stage>& stage) :
 			GameObject(stage),
 			m_totalTime(0.0f),
-			m_Selected(true)
+			m_Selected(true),
+			m_blinkSpeed(3.0f)
 		{
 		}
 		virtual ~PauseSprite()
