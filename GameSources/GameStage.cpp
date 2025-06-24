@@ -982,6 +982,7 @@ namespace basecross {
 		auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
 		auto scene = App::GetApp()->GetScene<Scene>();
 		auto volume = scene->m_volumeBGM;
+		auto volumeSE = scene->m_volumeSE;
 		auto ptrXA = App::GetApp()->GetXAudio2Manager();
 
 
@@ -1029,7 +1030,7 @@ namespace basecross {
 				// Bƒ{ƒ^ƒ“‚ÅPhase2(GameStart)‚Ö
 				if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B)
 				{
-					ptrXA->Start(L"Bbutton", 0, 1.0f);
+					ptrXA->Start(L"Bbutton", 0, volumeSE);
 
 					SetView(m_mainView);
 

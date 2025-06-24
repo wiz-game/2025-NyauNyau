@@ -113,8 +113,8 @@ namespace basecross {
 		//シーンの取得
 		auto PtrScene = App::GetApp()->GetScene<Scene>();
 		int m_StageNum = PtrScene->GetStageNum();
-
-
+		auto volumeSE = PtrScene->m_volumeSE;
+		auto ptrXA = App::GetApp()->GetXAudio2Manager();
 
 		//コントローラの取得
 		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
@@ -143,6 +143,7 @@ namespace basecross {
 					{
 						catPointSprite->SetPosition(-250.0f, m_select, 0);
 					}
+					m_SE = ptrXA->Start(L"SelectButtonSE", 0, volumeSE);
 
 				}
 				//下向き
@@ -163,6 +164,7 @@ namespace basecross {
 					{
 						catPointSprite->SetPosition(-250.0f, m_select, 0);
 					}
+					m_SE = ptrXA->Start(L"SelectButtonSE", 0, volumeSE);
 				}
 			//ゲームステージへ
 			//Aボタンを押したときにゲームステージに移動する
