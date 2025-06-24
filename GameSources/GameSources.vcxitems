@@ -52,7 +52,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ShadowComponent.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SettingStage.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ShadowDrawer.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)ShadowObject.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SelectStageSprite.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ShadowFloor.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SoundSprite.h" />
@@ -106,7 +105,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)ShadowComponent.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SettingStage.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ShadowDrawer.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)ShadowObject.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SelectStageSprite.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ShadowFloor.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SoundSprite.cpp" />

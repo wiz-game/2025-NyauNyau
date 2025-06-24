@@ -59,7 +59,7 @@ namespace basecross
 		float m_Radius;
 
 		// Õ“Ë‘Šè‚Ìî•ñ
-		shared_ptr<ShadowObject> m_OtherPolygon;
+		//shared_ptr<ShadowObject> m_OtherPolygon;
 
 		std::vector<std::vector<Vec3>> m_shadowVertices;
 
