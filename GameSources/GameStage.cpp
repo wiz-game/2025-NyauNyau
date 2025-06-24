@@ -34,19 +34,25 @@ namespace basecross {
 		SetView(m_phase1View);
 
 
+		//OpeningCameraView用のビュー
+		m_OpeningCameraView = ObjectFactory::Create<SingleView>(GetThis<Stage>());
+		auto ptrOpeningCamera = ObjectFactory::Create<OpeningCamera>();
+		m_OpeningCameraView->SetCamera(ptrOpeningCamera);
+		//MainCamera用のビュー
+		m_mainView = ObjectFactory::Create<SingleView>(GetThis<Stage>());
+		auto ptrMyCamera = ObjectFactory::Create<MainCamera>();
+		//ptrMyCamera->SetEye(Vec3(0.0f, 5.0f, -5.0f));
+		//ptrMyCamera->SetAt(Vec3(0.0f, 0.0f, 0.0f));
+		m_mainView->SetCamera(ptrMyCamera);
 
-
+		//初期状態ではm_OpeningCameraViewを使う
+		SetView(m_OpeningCameraView);
+		m_CameraSelect = CameraSelect::openingCamera;
 
 		//マルチライトの作成
 		auto light = CreateLight<MultiLight>();
 		light->SetDefaultLighting(); //デフォルトのライティングを指定
 
-
-
-		//マルチライトの作成
-		auto PtrMultiLight = CreateLight<MultiLight>();
-		//デフォルトのライティングを指定
-		PtrMultiLight->SetDefaultLighting();
 	}
 
 	void GameStage::CreateWall()
@@ -356,7 +362,6 @@ namespace basecross {
 
 	}
 
-
 	void GameStage::CreateShadowBall()
 	{
 		vector<vector<Vec3>> vec = {
@@ -467,6 +472,21 @@ namespace basecross {
 
 	}
 
+	//カメラマンの作成
+	void GameStage::CreateCameraman() 
+	{
+		auto ptrOpeningCameraman = AddGameObject<OpeningCameraman>();
+		//シェア配列にOpeningCameramanを追加
+		SetSharedGameObject(L"OpeningCameraman", ptrOpeningCameraman);
+
+		auto ptrOpeningCamera = dynamic_pointer_cast<OpeningCamera>(m_OpeningCameraView->GetCamera());
+		if (ptrOpeningCamera) {
+			ptrOpeningCamera->SetCameraObject(ptrOpeningCameraman);
+			SetView(m_OpeningCameraView);
+			m_CameraSelect = CameraSelect::openingCamera;
+		}
+
+	}
 
 
 
@@ -514,6 +534,10 @@ namespace basecross {
 			CreateCheese();
 			//本棚の作成
 			CreateBookShelf();
+			//カメラマンの作成
+			CreateCameraman();
+
+
 
 			//スプライトオブジェクト
 			AddGameObject<Phase1>();
@@ -729,6 +753,19 @@ namespace basecross {
 
 
 	}
+
+	void GameStage::ToMainCamera()
+	{
+		auto ptrPlayer = GetSharedGameObject<Player>(L"Player");
+		//MainCameraに変更
+		auto ptrMainCamera = dynamic_pointer_cast<MainCamera>(m_mainView->GetCamera());
+		if (ptrMainCamera) {
+			ptrMainCamera->SetTargetObject(ptrPlayer);
+			SetView(m_mainView);
+			m_CameraSelect = CameraSelect::mainCamera;
+		}
+	}
+
 
 	void GameStage::OnPushA()
 	{

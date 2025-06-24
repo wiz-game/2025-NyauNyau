@@ -37,6 +37,13 @@ namespace basecross {
 		ControlBox  // 特定のBoxを選択し、そのBoxを操作している最中であることを示すモード
 	};
 
+	enum class CameraSelect 
+	{
+		openingCamera,
+		mainCamera,
+	};
+
+
 	class GameStage : public Stage {
 		//ビューの作成
 		void CreateViewLight();
@@ -61,18 +68,20 @@ namespace basecross {
 		//モデルの読込
 		void LoadModels();
 
-
-
 		void CreateBox();
 		//void CreateTestShadowBox();
 
-		//プレイヤーの生成
+		//プレイヤーの作成
 		void CreatePlayer();
 
-		//エネミーの生成
+		//エネミーの作成
 		void CreateEnemy();
 
+		//ギミック（仮）の作成
 		void CreateShadowBall();
+
+		//カメラマンの作成
+		void CreateCameraman();
 
 		std::weak_ptr<PauseManager> m_pauseManager;//ポーズマネージャーへの参照
 		std::weak_ptr<SettingStage> m_settingStage;//セッティングステージへの参照
@@ -105,14 +114,18 @@ namespace basecross {
 		bool m_stickMovedLeftLastFrame;  // 前のフレームで左に倒されていたか
         bool m_stickMovedRightLastFrame; // 前のフレームで右に倒されていたか
 
-		//std::shared_ptr<Box> boxObject;
-		//std::vector<std::shared_ptr<GameObject>> gameObjects;
 		float m_Time;
 		bool m_isStageFadingOut;
 		float m_fadeTimer;
 		float m_filterFadeTimer;
 
 		shared_ptr<PNTBoneModelDraw> m_drawModelComp;
+
+
+		//OpeningCamera用のビュー
+		shared_ptr<SingleView> m_OpeningCameraView;
+
+		CameraSelect m_CameraSelect;
 
 
 	public:
@@ -143,6 +156,13 @@ namespace basecross {
 
 		std::shared_ptr<Table> GetTableObject() const; // Tableオブジェクトを取得する関数
 
+
+		CameraSelect GetCameraSelect() const
+		{
+			return m_CameraSelect;
+		}
+
+		void ToMainCamera();
 
 		//初期化		
 		virtual void OnCreate()override;
