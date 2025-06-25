@@ -276,25 +276,7 @@ namespace basecross
 
 	std::vector<Vec3> Box::GetBoxVertices() const
 	{
-		/*std::vector<Vec3> boxVertices;
-
-		auto transform = GetComponent<Transform>();
-		Vec3 position = transform->GetPosition();
-		Vec3 scale = transform->GetScale();
-
-		boxVertices = {
-			position + Vec3(-scale.x / 2, -scale.y / 2, -scale.z / 2),
-			position + Vec3(scale.x / 2, -scale.y / 2, -scale.z / 2),
-			position + Vec3(-scale.x / 2, scale.y / 2, -scale.z / 2),
-			position + Vec3(scale.x / 2, scale.y / 2, -scale.z / 2),
-			position + Vec3(-scale.x / 2, -scale.y / 2, scale.z / 2),
-			position + Vec3(scale.x / 2, -scale.y / 2, scale.z / 2),
-			position + Vec3(-scale.x / 2, scale.y / 2, scale.z / 2),
-			position + Vec3(scale.x / 2, scale.y / 2, scale.z / 2)
-		};
-
-		return boxVertices;*/
-
+		//’¸“_‚ð•Ô‚·
 		return 
 		{
 		Vec3(-0.5f, -0.5f, -0.5f),
