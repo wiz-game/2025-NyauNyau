@@ -312,18 +312,18 @@ namespace basecross {
 		{
 		    Vec3(2.5f, 2.5f, 2.5f),
 		    Vec3(0.0f, 0.0f, 0.0f),
-		    Vec3(10.0f ,16.25f, -20.0f)
+		    Vec3(7.0f ,11.5f, -20.0f)
 		},
 		{
-			Vec3(2.5f, 2.5f, 2.5f),
+			Vec3(5.0f, 2.5f, 2.5f),
 			Vec3(0.0f, 0.0f, 0.0f),
-			Vec3(5.0f ,16.25f, -20.0f)
+			Vec3(14.0f ,11.5f, -20.0f)
         },
-		{
-			Vec3(2.5f, 2.5f, 2.5f),
-			Vec3(0.0f, 0.0f, 0.0f),
-			Vec3(15.0f ,16.25f, -20.0f)
-        },
+		//{
+		//	Vec3(2.5f, 2.5f, 2.5f),
+		//	Vec3(0.0f, 0.0f, 0.0f),
+		//	Vec3(15.0f ,11.5f, -20.0f)
+  //      },
 
 
 		};
@@ -489,7 +489,7 @@ namespace basecross {
 			//BoxÇÃçÏê¨
 			CreateBox();
 			//ShadowBall(ÉMÉ~ÉbÉN)ÇÃçÏê¨
-			CreateShadowBall();
+			//CreateShadowBall();
 			//SpotLightÇÃçÏê¨
 			auto spotLight = AddGameObject<SpotLight>();
 			SetSharedGameObject(L"SpotLight", spotLight);
