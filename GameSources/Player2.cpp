@@ -115,17 +115,6 @@ namespace basecross
 
 	}
 
-	void Player::Jump(shared_ptr<GameObject>& jump)
-	{
-		float elapsedTime = App::GetApp()->GetElapsedTime();
-		auto angle = GetMoveVector();
-		auto pos = GetComponent<Transform>()->GetPosition();
-		//重力をつける
-		auto ptrGra = AddComponent<Gravity>();
-
-	}
-
-
 	void Player::OnCreate()
 	{
 		//初期位置などの設定
@@ -161,14 +150,13 @@ namespace basecross
 		ptrDraw->SetTextureResource(L"TEX_NEZUMI2");
 		//ptrDraw->SetTextureResource(L"TEX_NEZUMI");
 
-
 		SetAlphaActive(true);
 
 
 		//文字列をつける
 		auto ptrString = AddComponent<StringSprite>();
 		ptrString->SetText(L"");
-		ptrString->SetTextRect(Rect2D<float>(16.0f, 16.0f, 640.0f, 480.0f));
+		ptrString->SetTextRect(Rect2D<float>(16.0f, 150.0f, 640.0f, 480.0f));
 
 
 
@@ -177,60 +165,48 @@ namespace basecross
 		Vec3 wallPoint = wall->GetWallPosition();
 
 		pos.z = wallPoint.z;
-
 	}
 
 	void Player::OnUpdate()
 	{
 		float elapsedTime = App::GetApp()->GetElapsedTime();
 
-		// === 入力と速度の更新 ===
-		m_InputHandler.PushHandle(GetThis<Player>()); // ジャンプ入力の受付
+		// === ステップ1: 入力と速度更新 ===
+		m_InputHandler.PushHandle(GetThis<Player>());
 
-		// X方向の速度を設定
 		m_velocity.x = m_Speed;
+		if (m_isAir) {
+			m_velocity.y += m_gravity * elapsedTime;
+		}
+		else {
+			if (m_velocity.y < 0) {
+				m_velocity.y = 0;
+			}
+		}
 
-		MoveY();
-		//移動量の計算 ===
+		// === ステップ2: 移動量計算と衝突判定の準備 ===
 		auto ptrTransform = GetComponent<Transform>();
 		Vec3 currentPosition = ptrTransform->GetPosition();
-		Vec3 deltaPosition = m_velocity * elapsedTime; // このフレームで動くべき量
+		Vec3 deltaPosition = m_velocity * elapsedTime;
 
-		// === 衝突判定と応答 ===
-
-		// 判定に使う円の中心と半径を、移動後の予測位置で設定
+		// --- 複数当たり判定ループ ---
 		m_Center = currentPosition + deltaPosition;
 		m_Radius = ((m_Scale.x < m_Scale.y) ? m_Scale.x : m_Scale.y) / 2.0f;
 
-		// このフレームで最も重要だった押し出しベクトル
 		Vec3 best_mtv(0.0f, 0.0f, 0.0f);
 		float max_overlap_sq = 0.0f;
-		bool hasCollidedThisFrame = false;
 
-		// ステージから「影の担当者(ShadowDrawer)」を名指しで探す
 		auto shadowDrawer = GetStage()->GetSharedGameObject<ShadowDrawer>(L"ShadowDrawer");
-		if (shadowDrawer)
-		{
-			// ShadowComponentを取得する
+		if (shadowDrawer) {
 			auto shadowComp = shadowDrawer->GetComponent<ShadowComponent>();
-			if (shadowComp)
-			{
-				// 「すべての影のリスト」をもらう
+			if (shadowComp) {
 				const auto& allShadows = shadowComp->GetAllShadowsVertices();
-
-				// もらったリストをループして、一つ一つの影と当たり判定を行う
-				for (const auto& singleShadowVertices : allShadows)
-				{
+				for (const auto& singleShadowVertices : allShadows) {
 					if (singleShadowVertices.size() < 3) continue;
-
 					Vec3 mtv;
-					if (ComputeMTV(singleShadowVertices, mtv))
-					{
-						hasCollidedThisFrame = true;
+					if (ComputeMTV(singleShadowVertices, mtv)) {
 						float current_overlap_sq = mtv.dot(mtv);
-						// 今回のめり込みが、今までの最大記録よりも大きいなら、記録を更新
-						if (current_overlap_sq > max_overlap_sq)
-						{
+						if (current_overlap_sq > max_overlap_sq) {
 							max_overlap_sq = current_overlap_sq;
 							best_mtv = mtv;
 						}
@@ -239,83 +215,86 @@ namespace basecross
 			}
 		}
 
-		// --- 最終的な応答処理 ---
-		if (hasCollidedThisFrame)
-		{
-			// 衝突(best_mtv)に基づいて、移動量を補正
-			deltaPosition += best_mtv * 1.01f;
+		// === ステップ3: 衝突応答 - 速度と位置の厳格な補正 ===
 
-			// 速度補正
+		if (best_mtv.dot(best_mtv) > 1e-9f)
+		{
+			// --- 3a. 位置を、まずMTVで補正する ---
+			// これで、過去のフレームからのわずかなめり込みが解消される
+			currentPosition += best_mtv;
+
+			// --- 3b. 次に、速度を補正して、未来のめり込みを防ぐ ---
 			Vec3 collisionNormal = best_mtv.normalize();
-			if (collisionNormal.y > 0.7f) {
+			float dot_vel_norm = m_velocity.dot(collisionNormal);
+
+			// 速度が衝突面にめり込む方向を向いているなら...
+			if (dot_vel_norm < 0) {
+				// そのめり込む速度成分を、完全に除去する
+				m_velocity -= collisionNormal * dot_vel_norm;
+			}
+
+			// --- 3c. 衝突後の状態を決定 ---
+			// 接地判定
+			if (collisionNormal.y > 0.7f && m_velocity.y <= 0.0f) {
+				m_isAir = false;
+				// Y速度は、上の速度除去でほぼゼロになっているはずだが、念のため再設定
 				m_velocity.y = 0;
 			}
+			else {
+				m_isAir = true;
+			}
+			// 横壁判定
 			if (abs(collisionNormal.x) > 0.7f) {
-				m_velocity.x = 0;
+				// X速度も、上の速度除去でゼロになっているはず
 			}
 		}
+		else // どの影とも衝突しなかった場合
+		{
+			m_isAir = true;
+		}
 
-		// === 状態の最終決定と位置の適用 ===
+		// === ステップ4: 最終的な位置を適用 ===
 
-		// 地面との接触があったかどうかに基づいて、isAirフラグを最終決定
-		//if (best_mtv.dot(best_mtv) > 1e-9f && best_mtv.normalize().y > 0.7f) {
-		//	m_isAir = false;
-		//}
-		//else {
-		//	m_isAir = true;
-		//}
+		// ★★★ 最終的な移動は、補正された「後」の速度でのみ行う ★★★
+		deltaPosition = m_velocity * elapsedTime;
 
-		// 最下層の床との接触
+		// 最下層の床との接触（保険）
 		if ((currentPosition.y + deltaPosition.y) < -4.99f) {
 			deltaPosition.y = -4.99f - currentPosition.y;
 			m_velocity.y = 0;
 			m_isAir = false;
 		}
 
-		// 最終的に補正された移動量だけを、現在位置に加える
 		ptrTransform->SetPosition(currentPosition + deltaPosition);
-
-		DrawStrings();
-
-
-		//10.0f以下なら死亡フラグを立てる
-		auto transform = GetComponent<Transform>()->GetPosition();
-		if (transform.y < 15.0f && !m_isFallSE)
-		{
-			m_isFallSE = true;
-			auto scene = App::GetApp()->GetScene<Scene>();
-			auto volume = scene->m_volumeSE;
-			auto ptrXA = App::GetApp()->GetXAudio2Manager();
-			m_fallSound = ptrXA->Start(L"Fall2_SE", 0, volume);
-		}
-
+		DrawStrings();;
 	}
+
 
 	void Player::MoveXZ() 
 	{
-		auto angle = GetInputState();
+		/*auto angle = GetInputState();
 		float elapsedTime = App::GetApp()->GetElapsedTime();
 		auto pos = GetComponent<Transform>()->GetPosition();
 		pos += elapsedTime * m_velocity;
-		GetComponent<Transform>()->SetPosition(pos);
+		GetComponent<Transform>()->SetPosition(pos);*/
 	}
 
 	void Player::MoveY() 
 	{
-		auto ptrTransform = GetComponent<Transform>();
-		auto pos = GetComponent<Transform>()->GetPosition();
+		//auto ptrTransform = GetComponent<Transform>();
+		//auto pos = GetComponent<Transform>()->GetPosition();
 
 
-		if (m_isAir == true)
-		{
-			// 重力の適用
-			float elapsedTime = App::GetApp()->GetElapsedTime();
-			m_velocity.y += m_gravity * elapsedTime;
-			auto ptrGra = AddComponent<Gravity>();
+		//if (m_isAir == true)
+		//{
+		//	// 重力の適用
+		//	float elapsedTime = App::GetApp()->GetElapsedTime();
+		//	//m_velocity.y += m_gravity * elapsedTime;
+		//	auto ptrGra = AddComponent<Gravity>();
 
-			ptrTransform->SetPosition(pos);
+		//	ptrTransform->SetPosition(pos);
 
-		}
+		//}
 	}
 
 	//Aボタン
@@ -326,14 +305,24 @@ namespace basecross
 		auto ptrXA = App::GetApp()->GetXAudio2Manager();
 		auto volumeSE = scene->m_volumeSE;
 
-
 		if (m_isAir == false)
 		{
-
-			m_velocity.y = 12.0f; // ジャンプの初速を与える
+			m_velocity.y = 4.0f; // ジャンプの初速を与える
 			m_isAir = true; // ジャンプしたので空中状態にする
 			ptrXA->Start(L"Jump", 0, volumeSE);
 
+		}
+		else
+		{
+			auto ptrTransform = GetComponent<Transform>();
+			auto pos = GetComponent<Transform>()->GetPosition();
+
+			//重力の適用
+			float elapsedTime = App::GetApp()->GetElapsedTime();
+			m_velocity.y += elapsedTime;
+			auto ptrGra = AddComponent<Gravity>();
+
+			ptrTransform->SetPosition(pos);
 		}
 
 	}
@@ -371,7 +360,7 @@ namespace basecross
 
 		else if (dynamic_pointer_cast<ShadowFloor>(Other) || dynamic_pointer_cast<BookShelf>(Other))
 		{
-			m_velocity.y = 0;
+			m_velocity.y *= 0;
 			m_isAir = false;
 
 		}
@@ -390,15 +379,16 @@ namespace basecross
 
 	void Player::DrawStrings()
 	{
-		auto pos = GetComponent<Transform>()->GetPosition();
+		//auto pos = GetComponent<Transform>()->GetPosition();
+		Mat4x4 worldPos = GetComponent<Transform>()->GetWorldMatrix();
+		Vec3 pos = Vec3(worldPos._41, worldPos._42, worldPos._43);
 		wstring positionStr(L"Position:\t");
-		positionStr += L"X=" + Util::FloatToWStr(pos.x, 6, Util::FloatModify::Fixed) + L",\n";
-		positionStr += L"Y=" + Util::FloatToWStr(pos.y, 6, Util::FloatModify::Fixed) + L",\n";
-		positionStr += L"Z=" + Util::FloatToWStr(pos.z, 6, Util::FloatModify::Fixed) + L"\n";
+		positionStr += L"X=" + Util::FloatToWStr(pos.x, 12, Util::FloatModify::Fixed) + L",\n";
+		positionStr += L"Y=" + Util::FloatToWStr(pos.y, 12, Util::FloatModify::Fixed) + L",\n";
+		positionStr += L"Z=" + Util::FloatToWStr(pos.z, 12, Util::FloatModify::Fixed) + L"\n";
+		positionStr += L"m_isAir" + Util::FloatToWStr(m_isAir, 12, Util::FloatModify::Fixed) + L"\n";
 
 		wstring str = positionStr;
-		
-
 
 		//文字列コンポーネントの取得
 		auto ptrString = GetComponent<StringSprite>();
@@ -478,7 +468,7 @@ namespace basecross
 		Vec2 mtv2D = pushDirection2D * overlap;
 
 		//3Dベクトルに戻す（Z成分は必ず0
-		mtv = Vec3(mtv2D.x, mtv2D.y+0.05f, 0.0f);
+		mtv = Vec3(mtv2D.x, mtv2D.y+0.025, 0.0f);
 
 		return true;
 	}
