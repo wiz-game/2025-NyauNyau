@@ -65,7 +65,16 @@ namespace basecross {
 
 	void OpeningCamera::OnUpdate() 
 	{
+		auto cameraControllerObject = GetCameraObject(); // 親クラスの機能で関連オブジェクトを取得
 		auto ptrOpeningCameraman = dynamic_pointer_cast<OpeningCameraman>(GetCameraObject());
+
+		//auto CameramanTransform = ptrOpeningCameraman->GetComponent<Transform>();
+
+		//if (CameramanTransform)
+		//{
+		//	SetEye(CameramanTransform->GetPosition());
+		//}
+
 		if (ptrOpeningCameraman)
 		{
 			auto pos = ptrOpeningCameraman->GetAtPos();

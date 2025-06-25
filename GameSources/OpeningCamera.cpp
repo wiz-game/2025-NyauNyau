@@ -31,6 +31,7 @@ namespace basecross
 		//初期位置などの設定
 		auto ptr = GetComponent<Transform>();
 		ptr->SetPosition(0,0,0);
+		ptr->SetRotation(0.0f, 0.0f, 0.0f);
 		//ステートマシンの構築
 		m_StateMachine.reset(new StateMachine<OpeningCameraman>(GetThis<OpeningCameraman>()));
 		//最初のステートをOpeningCameramanToGoalStateに設定

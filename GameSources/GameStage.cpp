@@ -31,14 +31,11 @@ namespace basecross {
 		ptrphase1Camera->SetAt(Vec3(10.0f, 20.0f, 0.0f));
 		m_phase1View->SetCamera(ptrphase1Camera);
 
-		SetView(m_phase1View);
-
-
 		//OpeningCameraView用のビュー
 		m_OpeningCameraView = ObjectFactory::Create<SingleView>(GetThis<Stage>());
 		auto ptrOpeningCamera = ObjectFactory::Create<OpeningCamera>();
+		ptrOpeningCamera->SetEye(200.0f, 180.0f, 200.0f);
 		m_OpeningCameraView->SetCamera(ptrOpeningCamera);
-
 
 		//初期状態ではm_OpeningCameraViewを使う
 		SetView(m_OpeningCameraView);
@@ -475,7 +472,8 @@ namespace basecross {
 		SetSharedGameObject(L"OpeningCameraman", ptrOpeningCameraman);
 
 		auto ptrOpeningCamera = dynamic_pointer_cast<OpeningCamera>(m_OpeningCameraView->GetCamera());
-		if (ptrOpeningCamera) {
+		if (ptrOpeningCamera) 
+		{
 			ptrOpeningCamera->SetCameraObject(ptrOpeningCameraman);
 			SetView(m_OpeningCameraView);
 			m_CameraSelect = CameraSelect::openingCamera;
@@ -989,6 +987,10 @@ namespace basecross {
 						obj->SetUpdateActive(true);
 					}
 					else if(dynamic_pointer_cast<OpeningCamera>(obj))
+					{
+						obj->SetUpdateActive(true);
+					}
+					else if(dynamic_pointer_cast<OpeningCameraman>(obj))
 					{
 						obj->SetUpdateActive(true);
 					}
