@@ -569,8 +569,10 @@ namespace basecross {
 			pointer->SetScale(1.0f, 1.0f, 1.0f);
 			pointer->SetDrawActive(true);
 			pointer->SetTargetBox(m_controllableBoxes[0],true);
-
-
+			
+			//フェードスクリーンを生成して保持する
+			auto fadeScreen = AddGameObject<FadeScreen>();
+			m_fadeScreen = fadeScreen;
 
 			auto scene = App::GetApp()->GetScene<Scene>();
 			auto volume = scene->m_volumeBGM;
@@ -876,6 +878,55 @@ namespace basecross {
 			m_lastNotifiedIndex = currentTargetIndex;
 		}
 	}
+
+
+	void GameStage::OnPlayerCollision(shared_ptr<GameObject> player, shared_ptr<GameObject> other)
+	{
+		////すでにゲームオーバーが始まっていたら何もしない
+		//if (m_isGameOver)
+		//{
+		//	return;
+		//}
+		//// 衝突相手が地面または敵か確認
+		//if (dynamic_pointer_cast<Ground>(other) || dynamic_pointer_cast<Enemy>(other))
+		//{
+		//	// プレイヤーの isDead フラグを立てて、多重衝突を防ぐ
+		//	if (auto castedPlayer = dynamic_pointer_cast<Player>(player)) {
+		//		if (castedPlayer->IsDead()) {
+		//			return; // 既に死亡処理中なら抜ける
+		//		}
+		//		castedPlayer->SetIsDead(true); // 死亡状態にする
+		//	}
+
+		//	// ゲームオーバー処理を開始する
+		//	StartGameOver();
+		//}
+
+	}
+
+	// ゲームオーバー処理（フェードとシーン遷移）に特化した関数
+	void GameStage::StartGameOver()
+	{
+		//if (m_isGameOver) {
+		//	return;
+		//}
+		//m_isGameOver = true;
+
+		//// サウンド再生
+		//auto ptrXA = App::GetApp()->GetXAudio2Manager();
+		//ptrXA->Start(L"Fall", 0, 0.5f);
+
+		//// フェードアウトを開始
+		//if (auto fade = m_fadeScreen.lock()) {
+		//	float fadeDuration = 1.5f;
+
+		//	fade->StartFadeOut(fadeDuration, [this]() {
+		//		auto scene = App::GetApp()->GetScene<Scene>();
+		//		PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"ToGameOverStage");
+		//		});
+		//}
+	}
+
 
 	// テクスチャの読込
 	void GameStage::LoadTextures()

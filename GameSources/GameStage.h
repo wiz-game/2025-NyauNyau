@@ -15,6 +15,7 @@
 #include "Table.h"
 
 #include "GameStagePointerUI.h"
+#include "FadeScreen.h"
 
 //#include  "cmath"
 
@@ -115,6 +116,11 @@ namespace basecross {
 
 		shared_ptr<PNTBoneModelDraw> m_drawModelComp;
 
+
+		weak_ptr<FadeScreen> m_fadeScreen;
+		//ゲームオーバーフラグ
+		bool m_isGameOver = false;
+
 	public:
 		//構築と破棄
 		GameStage() :
@@ -152,6 +158,10 @@ namespace basecross {
 		virtual void OnDestroy()override;
 
 		void UpdateSelectionUI();
+
+		void OnPlayerCollision(shared_ptr<GameObject> player, shared_ptr<GameObject> other);
+		void StartGameOver();
+
 	};
 }
 //end basecross

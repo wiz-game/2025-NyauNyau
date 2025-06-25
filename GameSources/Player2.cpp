@@ -17,6 +17,9 @@ namespace basecross
 		m_Position(Position),
 		m_Speed(5.0f),
 		m_isAir(true),
+		m_isDead(false),
+		m_isFallSE(false),
+		m_fallSound(nullptr),
 		m_Player1(false),
 		m_cameraAngleY(0.0f),
 		m_forward(0.0f),
@@ -255,12 +258,12 @@ namespace basecross
 		// === 状態の最終決定と位置の適用 ===
 
 		// 地面との接触があったかどうかに基づいて、isAirフラグを最終決定
-		if (best_mtv.dot(best_mtv) > 1e-9f && best_mtv.normalize().y > 0.7f) {
-			m_isAir = false;
-		}
-		else {
-			m_isAir = true;
-		}
+		//if (best_mtv.dot(best_mtv) > 1e-9f && best_mtv.normalize().y > 0.7f) {
+		//	m_isAir = false;
+		//}
+		//else {
+		//	m_isAir = true;
+		//}
 
 		// 最下層の床との接触
 		if ((currentPosition.y + deltaPosition.y) < -4.99f) {
@@ -273,6 +276,19 @@ namespace basecross
 		ptrTransform->SetPosition(currentPosition + deltaPosition);
 
 		DrawStrings();
+
+
+		//10.0f以下なら死亡フラグを立てる
+		auto transform = GetComponent<Transform>()->GetPosition();
+		if (transform.y < 15.0f && !m_isFallSE)
+		{
+			m_isFallSE = true;
+			auto scene = App::GetApp()->GetScene<Scene>();
+			auto volume = scene->m_volumeSE;
+			auto ptrXA = App::GetApp()->GetXAudio2Manager();
+			m_fallSound = ptrXA->Start(L"Fall2_SE", 0, volume);
+		}
+
 	}
 
 	void Player::MoveXZ() 
@@ -308,35 +324,52 @@ namespace basecross
 		auto scene = App::GetApp()->GetScene<Scene>();
 		auto volume = scene->m_volumeBGM;
 		auto ptrXA = App::GetApp()->GetXAudio2Manager();
+		auto volumeSE = scene->m_volumeSE;
 
 
 		if (m_isAir == false)
 		{
+
 			m_velocity.y = 12.0f; // ジャンプの初速を与える
 			m_isAir = true; // ジャンプしたので空中状態にする
-			ptrXA->Start(L"Jump", 0, 0.5f);
+			ptrXA->Start(L"Jump", 0, volumeSE);
 
 		}
 
 	}
 
-	void Player::OnCollisionExcute(shared_ptr<GameObject>& Other)
+	void Player::OnCollisionEnter(shared_ptr<GameObject>& Other)
 	{
-	    if (dynamic_pointer_cast<Ground>(Other)) // 衝突対象が地面か確認
+		//すでに死亡中なら何もしない
+		if (m_isDead)
+		{
+			return;
+		}
+
+		// 衝突対象が地面または敵か確認
+		if (dynamic_pointer_cast<Ground>(Other) || dynamic_pointer_cast<Enemy>(Other))
 		{
 			auto scene = App::GetApp()->GetScene<Scene>();
-
-			auto volume = scene->m_volumeBGM;
+			auto volumeBGM = scene->m_volumeBGM;
+			auto volumeSE = scene->m_volumeSE;
 
 			auto ptrXA = App::GetApp()->GetXAudio2Manager();
+			ptrXA->Stop(m_fallSound);
+			m_fallSound = nullptr;
 
-			ptrXA->Start(L"Fall", 0, 0.5f);
+			ptrXA->Start(L"Fall", 0, volumeSE);
+			m_isDead = true;
 
 			PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"ToGameOverStage");
-
-
+			// 自分が所属しているステージ（GameStage）のポインタを取得
+		//	auto stage = std::dynamic_pointer_cast<GameStage>(GetStage());
+		//	if (stage) {
+		//		// GameStageにゲームオーバー処理の開始を依頼する
+		//		stage->StartGameOver();
+		//	}
 		}
-		else if (dynamic_pointer_cast<ShadowFloor>(Other)||dynamic_pointer_cast<BookShelf>(Other))
+
+		else if (dynamic_pointer_cast<ShadowFloor>(Other) || dynamic_pointer_cast<BookShelf>(Other))
 		{
 			m_velocity.y = 0;
 			m_isAir = false;
