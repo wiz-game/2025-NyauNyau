@@ -165,7 +165,7 @@ namespace basecross {
 
 		if (m_once == false)
 		{
-			PostEvent(1.3f, GetThis<ObjectInterface>(), scene, L"ToSelectStage");
+			PostEvent(1.3f, GetThis<ObjectInterface>(), scene, L"ToOpelation");
 
 			m_once = true;
 		}

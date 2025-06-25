@@ -15,7 +15,6 @@
 #include "Box.h"
 #include "ShadowBall.h"
 #include "SpotLight.h"
-#include "ShadowObject.h"
 #include "GameStage.h"
 #include "Character.h"
 #include "Player.h"
@@ -55,7 +54,8 @@
 #include "GameStagePointerUI.h"
 
 #include "GameSprite.h"
-
+#include "Opelation.h"
+#include "OpelationSprite.h"
 #include "GameStage2.h"
 
 

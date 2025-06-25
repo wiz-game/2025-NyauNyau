@@ -99,6 +99,9 @@ namespace basecross{
 		if (event->m_MsgStr == L"ToGameOverStage") {
 			ResetActiveStage<GameOverStage>();
 		}
+		if (event->m_MsgStr == L"ToOpelation") {
+			ResetActiveStage<Opelation>();
+		}
 
 
 	}
