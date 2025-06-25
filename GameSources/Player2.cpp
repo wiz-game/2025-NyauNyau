@@ -17,6 +17,7 @@ namespace basecross
 		m_Position(Position),
 		m_Speed(5.0f),
 		m_isAir(true),
+		m_isDead(false),
 		m_Player1(false),
 		m_cameraAngleY(0.0f),
 		m_forward(0.0f),
@@ -322,21 +323,30 @@ namespace basecross
 
 	void Player::OnCollisionExcute(shared_ptr<GameObject>& Other)
 	{
-	    if (dynamic_pointer_cast<Ground>(Other)) // 衝突対象が地面か確認
+		//すでに死亡中なら何もしない
+		if (m_isDead)
+		{
+			return;
+		}
+
+		// 衝突対象が地面または敵か確認
+		if (dynamic_pointer_cast<Ground>(Other) || dynamic_pointer_cast<Enemy>(Other)) 
 		{
 			auto scene = App::GetApp()->GetScene<Scene>();
-
 			auto volume = scene->m_volumeBGM;
-
 			auto ptrXA = App::GetApp()->GetXAudio2Manager();
-
 			ptrXA->Start(L"Fall", 0, 0.5f);
 
-			PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"ToGameOverStage");
+			m_isDead = true;
 
-
+			// 自分が所属しているステージ（GameStage）のポインタを取得
+			auto stage = std::dynamic_pointer_cast<GameStage>(GetStage());
+			if (stage) {
+				// GameStageにゲームオーバー処理の開始を依頼する
+				stage->StartGameOver();
+			}
 		}
-		else if (dynamic_pointer_cast<ShadowFloor>(Other)||dynamic_pointer_cast<BookShelf>(Other))
+		else if (dynamic_pointer_cast<ShadowFloor>(Other) || dynamic_pointer_cast<BookShelf>(Other))
 		{
 			m_velocity.y = 0;
 			m_isAir = false;

@@ -562,8 +562,10 @@ namespace basecross {
 			pointer->SetScale(1.0f, 1.0f, 1.0f);
 			pointer->SetDrawActive(true);
 			pointer->SetTargetBox(m_controllableBoxes[0],true);
-
-
+			
+			//フェードスクリーンを生成して保持する
+			auto fadeScreen = AddGameObject<FadeScreen>();
+			m_fadeScreen = fadeScreen;
 
 			auto scene = App::GetApp()->GetScene<Scene>();
 			auto volume = scene->m_volumeBGM;
@@ -869,6 +871,31 @@ namespace basecross {
 			m_lastNotifiedIndex = currentTargetIndex;
 		}
 	}
+
+
+
+	void GameStage::StartGameOver()
+	{
+		if (m_isGameOver)
+		{
+			return;
+		}
+		m_isGameOver = true;
+
+		// フェードスクリーンを取得して、フェードアウトを開始させる
+		if (auto fade = m_fadeScreen.lock()) {
+			float fadeDuration = 1.5f; // 1.5秒かけてフェードアウト
+
+			// フェードアウト完了後に実行する処理を「ラムダ式」で渡す
+			fade->StartFadeOut(fadeDuration, [this]() {
+				// この中身は、フェードアウトが100%完了した瞬間に実行される
+
+				auto scene = App::GetApp()->GetScene<Scene>();
+				PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"ToGameOverStage");
+				});
+		}
+	}
+
 
 	// テクスチャの読込
 	void GameStage::LoadTextures()

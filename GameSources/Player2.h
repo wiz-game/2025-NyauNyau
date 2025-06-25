@@ -35,6 +35,9 @@ namespace basecross
 		//空中にいるか
 		bool m_isAir;
 
+		//死亡フラグ
+		bool m_isDead;
+
 		float m_cameraAngleY; // カメラの回り込み
 		float m_velocityY;
 		Vec3 m_forward; // 前方向を示すベクトル
