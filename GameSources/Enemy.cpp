@@ -114,7 +114,7 @@ namespace basecross {
 					m_hasMeowed = true;
 
 					auto ptrXA = App::GetApp()->GetXAudio2Manager();
-					m_CatSound = ptrXA->Start(L"CatVoice", 0, volumeSE);
+					m_CatSound = ptrXA->Start(L"CatVoice", 0, 1.0f);
 				}
 			}
 			// 距離がサウンドを鳴らす範囲外に出た場合
