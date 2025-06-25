@@ -269,7 +269,6 @@ namespace basecross
 		DrawStrings();;
 	}
 
-	}
 
 	void Player::MoveXZ() 
 	{
@@ -308,7 +307,7 @@ namespace basecross
 
 		if (m_isAir == false)
 		{
-			m_velocity.y = 5.0f; // ジャンプの初速を与える
+			m_velocity.y = 4.0f; // ジャンプの初速を与える
 			m_isAir = true; // ジャンプしたので空中状態にする
 			ptrXA->Start(L"Jump", 0, volumeSE);
 
