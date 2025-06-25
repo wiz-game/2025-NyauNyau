@@ -18,7 +18,9 @@ namespace basecross {
 		m_Rotation(Rotation),
 		m_Position(Position),
 		isGameOver(false),
-		EnemySpeed(0.0f)
+		EnemySpeed(0.0f),
+		m_soundDistance(5.0f), // 5メートル以内に入ったら鳴く
+		m_hasMeowed(false)     // 最初はまだ鳴いていない
 	{
 	}
 
@@ -42,6 +44,8 @@ namespace basecross {
 		auto ptrColl = AddComponent<CollisionObb>();
 
 		AddTag(L"Enemy");
+
+		m_targetPlayer = GetStage()->GetSharedGameObject<GameObject>(L"Player_0");
 	}
 
 
@@ -83,6 +87,36 @@ namespace basecross {
 		// 更新した位置をセット
 		ptrTransform->SetPosition(currentPosition);
 
+
+		// weak_ptrからshared_ptrを取得
+		if (auto player = m_targetPlayer.lock()) 
+		{
+			// 自分とプレイヤーのTransformを取得
+			auto myPos = GetComponent<Transform>()->GetPosition();
+			auto playerPos = player->GetComponent<Transform>()->GetPosition();
+
+			// 2点間の距離を計算
+			float distance = (myPos - playerPos).length();
+
+			// 距離がサウンドを鳴らす範囲内に入った場合
+			if (distance <= m_soundDistance)
+			{
+				// まだ鳴いていなければ、鳴らす
+				if (!m_hasMeowed)
+				{
+					m_hasMeowed = true;
+
+					auto ptrXA = App::GetApp()->GetXAudio2Manager();
+					ptrXA->Start(L"Cat_Voice", 0, 0.5f);
+				}
+			}
+			// 距離がサウンドを鳴らす範囲外に出た場合
+			else
+			{
+				// フラグをリセットして、次に近づいた時にまた鳴らせるようにする
+				m_hasMeowed = false;
+			}
+		}
 	}
 
 

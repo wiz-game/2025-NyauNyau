@@ -17,6 +17,9 @@ namespace basecross {
 		bool isGameOver;//ゲームオーバーを管理
 		float EnemySpeed;
 
+		weak_ptr<GameObject> m_targetPlayer; // 追跡対象のプレイヤーを保持
+		float m_soundDistance;               // 音を鳴らし始める距離
+		bool m_hasMeowed;                    // すでに鳴いたかどうかを記録するフラグ
 
 	public:
 		// 構築と破棄
