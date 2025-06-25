@@ -159,7 +159,9 @@ namespace basecross {
 
 		void UpdateSelectionUI();
 
+		void OnPlayerCollision(shared_ptr<GameObject> player, shared_ptr<GameObject> other);
 		void StartGameOver();
+
 	};
 }
 //end basecross
