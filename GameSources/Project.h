@@ -54,7 +54,8 @@
 #include "GameStagePointerUI.h"
 
 #include "GameSprite.h"
-
+#include "Opelation.h"
+#include "OpelationSprite.h"
 #include "GameStage2.h"
 
 

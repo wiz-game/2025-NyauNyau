@@ -54,6 +54,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStagePointerUI.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PyramidShadowStrategy.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FadeScreen.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Opelation.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)OpelationSprite.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)BackTitleButton.h" />
@@ -79,6 +81,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)GameStagePointerUI.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PyramidShadowStrategy.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FadeScreen.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Opelation.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)OpelationSprite.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Character.cpp">
