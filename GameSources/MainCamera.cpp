@@ -63,7 +63,8 @@ namespace basecross {
 	{}
 	OpeningCamera::~OpeningCamera() {}
 
-	void OpeningCamera::OnUpdate() {
+	void OpeningCamera::OnUpdate() 
+	{
 		auto ptrOpeningCameraman = dynamic_pointer_cast<OpeningCameraman>(GetCameraObject());
 		if (ptrOpeningCameraman)
 		{

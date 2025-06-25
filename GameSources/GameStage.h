@@ -94,6 +94,7 @@ namespace basecross {
 
 		shared_ptr<SingleView> m_mainView; // メインカメラへの参照
 		shared_ptr<SingleView> m_phase1View;
+		shared_ptr<SingleView> m_OpeningCameraView;
 
 		GamePhase currentPhase = GamePhase::Phase1; // 最初に設定されているPhase
 
@@ -120,10 +121,6 @@ namespace basecross {
 		float m_filterFadeTimer;
 
 		shared_ptr<PNTBoneModelDraw> m_drawModelComp;
-
-
-		//OpeningCamera用のビュー
-		shared_ptr<SingleView> m_OpeningCameraView;
 
 		CameraSelect m_CameraSelect;
 

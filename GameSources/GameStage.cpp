@@ -38,7 +38,6 @@ namespace basecross {
 		m_OpeningCameraView = ObjectFactory::Create<SingleView>(GetThis<Stage>());
 		auto ptrOpeningCamera = ObjectFactory::Create<OpeningCamera>();
 		m_OpeningCameraView->SetCamera(ptrOpeningCamera);
-		m_mainView->SetCamera(ptrOpeningCamera);
 
 
 		//‰Šúó‘Ô‚Å‚Ím_OpeningCameraView‚ðŽg‚¤
@@ -986,6 +985,10 @@ namespace basecross {
 						obj->SetUpdateActive(true);
 					}
 					else if (dynamic_pointer_cast<ShadowDrawer>(obj))
+					{
+						obj->SetUpdateActive(true);
+					}
+					else if(dynamic_pointer_cast<OpeningCamera>(obj))
 					{
 						obj->SetUpdateActive(true);
 					}
