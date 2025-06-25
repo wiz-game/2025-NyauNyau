@@ -1092,7 +1092,7 @@ namespace basecross {
 				{
 					ptrXA->Start(L"Bbutton", 0, volumeSE);
 
-					//ptrXA->Start(L"Cat_Voice", 0, volumeSE);
+					//ptrXA->Start(L"CatVoice", 0, volumeSE);
 
 					SetView(m_mainView);
 

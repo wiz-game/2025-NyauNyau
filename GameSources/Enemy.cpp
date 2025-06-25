@@ -18,10 +18,10 @@ namespace basecross {
 		m_Rotation(Rotation),
 		m_Position(Position),
 		isGameOver(false),
-		EnemySpeed(0.0f),
-		m_soundDistance(5.0f), // 5メートル以内に入ったら鳴く
-		m_hasMeowed(false)     // 最初はまだ鳴いていない
-		EnemySpeed(9.0f)
+		m_soundDistance(20.0f), // 5メートル以内に入ったら鳴く
+		m_hasMeowed(false),     // 最初はまだ鳴いていない
+		EnemySpeed(9.0f),
+		m_CatSound(nullptr)
 	{
 	}
 
@@ -89,6 +89,7 @@ namespace basecross {
 
 		// 更新した位置をセット
 		ptrTransform->SetPosition(currentPosition);
+		m_drawComp->UpdateAnimation(elapsedTime);
 
 
 		// weak_ptrからshared_ptrを取得
@@ -104,13 +105,16 @@ namespace basecross {
 			// 距離がサウンドを鳴らす範囲内に入った場合
 			if (distance <= m_soundDistance)
 			{
+				auto scene = App::GetApp()->GetScene<Scene>();
+				auto volumeSE = scene->m_volumeSE;
+
 				// まだ鳴いていなければ、鳴らす
 				if (!m_hasMeowed)
 				{
 					m_hasMeowed = true;
 
 					auto ptrXA = App::GetApp()->GetXAudio2Manager();
-					ptrXA->Start(L"Cat_Voice", 0, 0.5f);
+					m_CatSound = ptrXA->Start(L"CatVoice2", 0, volumeSE);
 				}
 			}
 			// 距離がサウンドを鳴らす範囲外に出た場合
@@ -120,7 +124,6 @@ namespace basecross {
 				m_hasMeowed = false;
 			}
 		}
-		m_drawComp->UpdateAnimation(elapsedTime);
 
 	}
 
@@ -149,6 +152,9 @@ namespace basecross {
 		if (otherObject->FindTag(L"Player_0")) // "Player" タグを持つオブジェクトと衝突
 		{
 			isGameOver = true; // ゲームオーバーフラグを設定
+			//auto ptrXA = App::GetApp()->GetXAudio2Manager();
+			//ptrXA->Stop(m_CatSound);
+			//m_CatSound = nullptr;
 
 
 			auto scene = App::GetApp()->GetScene<Scene>();
