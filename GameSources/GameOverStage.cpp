@@ -37,6 +37,8 @@ namespace basecross {
 			//テクスチャの読込
 			LoadTextures();
 
+			m_once = false;
+
 			//スプライトオブジェクト
 			auto Rat = AddGameObject<GameSprite>();
 			Rat->SetTexture(L"TEX_Rat");
@@ -95,8 +97,13 @@ namespace basecross {
 		auto ptrXA = App::GetApp()->GetXAudio2Manager();
 		m_SE = ptrXA->Start(L"button_SE", 0, volumeSE);
 
-		StartCatWalkAnimation();
-		PostEvent(3.0f, GetThis<ObjectInterface>(), scene, L"ToTitleStage");
+		if (m_once == false)
+		{		
+			StartCatWalkAnimation();
+			PostEvent(3.0f, GetThis<ObjectInterface>(), scene, L"ToTitleStage");
+
+			m_once = true;
+		}
 	}
 
 	void GameOverStage::LoadTextures()

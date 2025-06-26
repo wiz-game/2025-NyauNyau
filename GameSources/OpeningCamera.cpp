@@ -30,8 +30,8 @@ namespace basecross
 	{
 		//初期位置などの設定
 		auto ptr = GetComponent<Transform>();
-		ptr->SetPosition(0,0,0);
-		ptr->SetRotation(0.0f, 0.0f, 0.0f);
+		ptr->SetPosition(m_StartPos);
+		ptr->SetRotation(0.0f, 180.0f, 0.0f);
 		//ステートマシンの構築
 		m_StateMachine.reset(new StateMachine<OpeningCameraman>(GetThis<OpeningCameraman>()));
 		//最初のステートをOpeningCameramanToGoalStateに設定
@@ -50,9 +50,9 @@ namespace basecross
 	// ゴールへ向かうステートに入る時の初期化処理
 	void OpeningCameraman::ToGoalEnterBehavior()
 	{
-		m_StartPos = Vec3( - 25.0f, 22.0f, -0.5f);
-		m_EndPos = Vec3(40.0f, 20.75f, -1.0f); //ゴールオブジェクト付近
-		m_AtStartPos = Vec3(-10.0f, 0.0f, -10.0f);
+		m_StartPos = Vec3(-25.0f, 22.0f, 0.0f);
+		m_EndPos = Vec3(40.0f, 20.75f, 0.0f); //ゴールオブジェクト付近
+		m_AtStartPos = Vec3(0.0f, 0.0f, 0.0f);
 		m_AtEndPos = Vec3(40.0f,20.0f,-10.0f);  //ゴールオブジェクト付近
 		m_AtPos = m_AtStartPos; //現在の注視点をリセット
 		m_TotalTime = 0.0f;     //経過時間をリセット
@@ -61,9 +61,9 @@ namespace basecross
 	// スタート地点（プレイヤーを見る位置）へ向かうステートに入る時の初期化処理
 	void OpeningCameraman::ToStartEnterBehavior()
 	{
-		m_StartPos = Vec3(40.0f, 20.75f, -1.0f);  // 前のステートの終点が始点 
+		m_StartPos = Vec3(40.0f, 20.75f, 0.0f);  // 前のステートの終点が始点 
 		m_EndPos = Vec3(0.0f, 3.0f, -5.0f);
-		m_AtStartPos = Vec3(40.0f, 20.0f, -10.0f); // 前のステートの注視点終点が始点
+		m_AtStartPos = Vec3(40.0f, 20.0f, 0.0f); // 前のステートの注視点終点が始点
 		m_AtEndPos = Vec3(-25.0f, 22.0f, -0.5f);     // プレイヤーの初期位置を見る
 		m_AtPos = m_AtStartPos;                  // 現在の注視点をリセット
 		m_TotalTime = 0.0f;                      // 経過時間をリセット
