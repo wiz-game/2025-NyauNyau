@@ -64,37 +64,37 @@ namespace basecross {
 			BGM_soundVol->SetPosition(0, -78.0f, 0);
 			m_BGMsoundSprites.push_back(BGM_soundVol);
 
-			//無音
-			auto BGM_notSound = AddGameObject<SoundSprite>(/*0,200.0f,300.0f,400.0*/);
-			BGM_notSound->SetTexture(L"TEX_NotSound");
-			BGM_notSound->SetPosition(-370, 50.0f, 0);
-			BGM_notSound->SetScale(0.4f, 0.4f, 0.4f);
-			BGM_notSound->SetDrawActive(true);
-			m_BGMsoundSprites.push_back(BGM_notSound);
+			////無音
+			//auto BGM_notSound = AddGameObject<SoundSprite>(/*0,200.0f,300.0f,400.0*/);
+			//BGM_notSound->SetTexture(L"TEX_NotSound");
+			//BGM_notSound->SetPosition(-370, 50.0f, 0);
+			//BGM_notSound->SetScale(0.4f, 0.4f, 0.4f);
+			//BGM_notSound->SetDrawActive(true);
+			//m_BGMsoundSprites.push_back(BGM_notSound);
 
-			//小音
-			auto BGM_littleSound = AddGameObject<SoundSprite>(/*0,400.0f,300.0f,600.0f*/);
-			BGM_littleSound->SetTexture(L"TEX_LittleSound");
-			BGM_littleSound->SetPosition(-370, 50.0f, 0);
-			BGM_littleSound->SetScale(0.4f, 0.4f, 0.4f);
-			BGM_littleSound->SetDrawActive(false);
-			m_BGMsoundSprites.push_back(BGM_littleSound);
+			////小音
+			//auto BGM_littleSound = AddGameObject<SoundSprite>(/*0,400.0f,300.0f,600.0f*/);
+			//BGM_littleSound->SetTexture(L"TEX_LittleSound");
+			//BGM_littleSound->SetPosition(-370, 50.0f, 0);
+			//BGM_littleSound->SetScale(0.4f, 0.4f, 0.4f);
+			//BGM_littleSound->SetDrawActive(false);
+			//m_BGMsoundSprites.push_back(BGM_littleSound);
 
-			//中音
-			auto BGM_normalSound = AddGameObject<SoundSprite>(/*0,600.0f,300.0f,800.0f*/);
-			BGM_normalSound->SetTexture(L"TEX_NormalSound");
-			BGM_normalSound->SetPosition(-370, 50.0f, 0);
-			BGM_normalSound->SetScale(0.4f, 0.4f, 0.4f);
-			BGM_normalSound->SetDrawActive(false);
-			m_BGMsoundSprites.push_back(BGM_normalSound);
+			////中音
+			//auto BGM_normalSound = AddGameObject<SoundSprite>(/*0,600.0f,300.0f,800.0f*/);
+			//BGM_normalSound->SetTexture(L"TEX_NormalSound");
+			//BGM_normalSound->SetPosition(-370, 50.0f, 0);
+			//BGM_normalSound->SetScale(0.4f, 0.4f, 0.4f);
+			//BGM_normalSound->SetDrawActive(false);
+			//m_BGMsoundSprites.push_back(BGM_normalSound);
 
-			//大音
-			auto BGM_bigSound = AddGameObject<SoundSprite>(/*0,800.0f,300.0f,1000.0f*/);
-			BGM_bigSound->SetTexture(L"TEX_BigSound");
-			BGM_bigSound->SetPosition(-370, 50.0f, 0);
-			BGM_bigSound->SetScale(0.4f, 0.4f, 0.4f);
-			BGM_bigSound->SetDrawActive(false);
-			m_BGMsoundSprites.push_back(BGM_bigSound);
+			////大音
+			//auto BGM_bigSound = AddGameObject<SoundSprite>(/*0,800.0f,300.0f,1000.0f*/);
+			//BGM_bigSound->SetTexture(L"TEX_BigSound");
+			//BGM_bigSound->SetPosition(-370, 50.0f, 0);
+			//BGM_bigSound->SetScale(0.4f, 0.4f, 0.4f);
+			//BGM_bigSound->SetDrawActive(false);
+			//m_BGMsoundSprites.push_back(BGM_bigSound);
 
 			//ブロック
 			auto BGM_soundVolBox = AddGameObject<SoundSprite>(/*0,0,200.0f,200.0f*/);
@@ -121,36 +121,36 @@ namespace basecross {
 			m_SEsoundSprites.push_back(SE_soundVol);
 
 			//無音
-			auto SE_notSound = AddGameObject<SoundSprite>(/*0,200.0f,300.0f,400.0*/);
-			SE_notSound->SetTexture(L"TEX_NotSound");
-			SE_notSound->SetPosition(-370, -163.0f, 0);
-			SE_notSound->SetScale(0.4f, 0.4f, 0.4f);
-			SE_notSound->SetDrawActive(false);
-			m_SEsoundSprites.push_back(SE_notSound);
+			//auto SE_notSound = AddGameObject<SoundSprite>(/*0,200.0f,300.0f,400.0*/);
+			//SE_notSound->SetTexture(L"TEX_NotSound");
+			//SE_notSound->SetPosition(-370, -163.0f, 0);
+			//SE_notSound->SetScale(0.4f, 0.4f, 0.4f);
+			//SE_notSound->SetDrawActive(false);
+			//m_SEsoundSprites.push_back(SE_notSound);
 
-			//小音
-			auto SE_littleSound = AddGameObject<SoundSprite>(/*0,400.0f,300.0f,600.0f*/);
-			SE_littleSound->SetTexture(L"TEX_LittleSound");
-			SE_littleSound->SetPosition(-370, -163.0f, 0);
-			SE_littleSound->SetScale(0.4f, 0.4f, 0.4f);
-			SE_littleSound->SetDrawActive(false);
-			m_SEsoundSprites.push_back(SE_littleSound);
+			////小音
+			//auto SE_littleSound = AddGameObject<SoundSprite>(/*0,400.0f,300.0f,600.0f*/);
+			//SE_littleSound->SetTexture(L"TEX_LittleSound");
+			//SE_littleSound->SetPosition(-370, -163.0f, 0);
+			//SE_littleSound->SetScale(0.4f, 0.4f, 0.4f);
+			//SE_littleSound->SetDrawActive(false);
+			//m_SEsoundSprites.push_back(SE_littleSound);
 
-			//中音
-			auto SE_normalSound = AddGameObject<SoundSprite>(/*0,600.0f,300.0f,800.0f*/);
-			SE_normalSound->SetTexture(L"TEX_NormalSound");
-			SE_normalSound->SetPosition(-370, -163.0f, 0);
-			SE_normalSound->SetScale(0.4f, 0.4f, 0.4f);
-			SE_normalSound->SetDrawActive(true);
-			m_SEsoundSprites.push_back(SE_normalSound);
+			////中音
+			//auto SE_normalSound = AddGameObject<SoundSprite>(/*0,600.0f,300.0f,800.0f*/);
+			//SE_normalSound->SetTexture(L"TEX_NormalSound");
+			//SE_normalSound->SetPosition(-370, -163.0f, 0);
+			//SE_normalSound->SetScale(0.4f, 0.4f, 0.4f);
+			//SE_normalSound->SetDrawActive(true);
+			//m_SEsoundSprites.push_back(SE_normalSound);
 
-			//大音
-			auto SE_bigSound = AddGameObject<SoundSprite>(/*0,800.0f,300.0f,1000.0f*/);
-			SE_bigSound->SetTexture(L"TEX_BigSound");
-			SE_bigSound->SetPosition(-370, -163.0f, 0);
-			SE_bigSound->SetScale(0.4f, 0.4f, 0.4f);
-			SE_bigSound->SetDrawActive(false);
-			m_SEsoundSprites.push_back(SE_bigSound);
+			////大音
+			//auto SE_bigSound = AddGameObject<SoundSprite>(/*0,800.0f,300.0f,1000.0f*/);
+			//SE_bigSound->SetTexture(L"TEX_BigSound");
+			//SE_bigSound->SetPosition(-370, -163.0f, 0);
+			//SE_bigSound->SetScale(0.4f, 0.4f, 0.4f);
+			//SE_bigSound->SetDrawActive(false);
+			//m_SEsoundSprites.push_back(SE_bigSound);
 
 			//ブロック
 			auto SE_soundVolBox = AddGameObject<SoundSprite>(/*0,0,200.0f,200.0f*/);
@@ -238,7 +238,7 @@ namespace basecross {
 				if (CntlVec[0].fThumbLX >= 0.8f)
 				{
 					scene->m_volumeBGM += 0.01f;
-					scene->m_volumeLevelBGM += 5.5f;
+					scene->m_volumeLevelBGM += 5.4f;
 					volumeChanged = true;
 					if (scene->m_volumeBGM > 1.0f && scene->m_volumeLevelBGM > 270.0f)
 					{
@@ -250,7 +250,7 @@ namespace basecross {
 				if (CntlVec[0].fThumbLX <= -0.8f)
 				{
 					scene->m_volumeBGM -= 0.01f;
-					scene->m_volumeLevelBGM -= 5.5f;
+					scene->m_volumeLevelBGM -= 5.4f;
 					volumeChanged = true;
 					if (scene->m_volumeBGM < 0.0f && scene->m_volumeLevelBGM < -270.0f)
 					{
@@ -260,66 +260,66 @@ namespace basecross {
 				}
 				m_BGM->m_SourceVoice->SetVolume(scene->m_volumeBGM);
 
-				auto BGM = m_BGMsoundSprites[6].lock();
+				auto BGM = m_BGMsoundSprites[2].lock();
 				BGM->SetPosition(scene->m_volumeLevelBGM, 50.0f, 0.0f);
 
 
-				if (scene->m_volumeBGM == 0.00f)
-				{
-					auto sound1 = m_BGMsoundSprites[2].lock();
-					sound1->SetDrawActive(true);
+			//	if (scene->m_volumeBGM == 0.00f)
+			//	{
+			//		auto sound1 = m_BGMsoundSprites[2].lock();
+			//		sound1->SetDrawActive(true);
 
-					auto sound2 = m_BGMsoundSprites[3].lock();
-					sound2->SetDrawActive(false);
+			//		auto sound2 = m_BGMsoundSprites[3].lock();
+			//		sound2->SetDrawActive(false);
 
-					auto sound3 = m_BGMsoundSprites[4].lock();
-					sound3->SetDrawActive(false);
+			//		auto sound3 = m_BGMsoundSprites[4].lock();
+			//		sound3->SetDrawActive(false);
 
-					auto sound4 = m_BGMsoundSprites[5].lock();
-					sound4->SetDrawActive(false);
-				}
-				if (0.01f < scene->m_volumeBGM > 0.30f)
-				{
-					auto sound1 = m_BGMsoundSprites[2].lock();
-					sound1->SetDrawActive(false);
+			//		auto sound4 = m_BGMsoundSprites[5].lock();
+			//		sound4->SetDrawActive(false);
+			//	}
+			//	if (0.01f < scene->m_volumeBGM > 0.30f)
+			//	{
+			//		auto sound1 = m_BGMsoundSprites[2].lock();
+			//		sound1->SetDrawActive(false);
 
-					auto sound2 = m_BGMsoundSprites[3].lock();
-					sound2->SetDrawActive(true);
+			//		auto sound2 = m_BGMsoundSprites[3].lock();
+			//		sound2->SetDrawActive(true);
 
-					auto sound3 = m_BGMsoundSprites[4].lock();
-					sound3->SetDrawActive(false);
+			//		auto sound3 = m_BGMsoundSprites[4].lock();
+			//		sound3->SetDrawActive(false);
 
-					auto sound4 = m_BGMsoundSprites[5].lock();
-					sound4->SetDrawActive(false);
-				}
-				if (0.30f < scene->m_volumeBGM > 0.70f)
-				{
-					auto sound1 = m_BGMsoundSprites[2].lock();
-					sound1->SetDrawActive(false);
+			//		auto sound4 = m_BGMsoundSprites[5].lock();
+			//		sound4->SetDrawActive(false);
+			//	}
+			//	if (0.30f < scene->m_volumeBGM > 0.70f)
+			//	{
+			//		auto sound1 = m_BGMsoundSprites[2].lock();
+			//		sound1->SetDrawActive(false);
 
-					auto sound2 = m_BGMsoundSprites[3].lock();
-					sound2->SetDrawActive(false);
+			//		auto sound2 = m_BGMsoundSprites[3].lock();
+			//		sound2->SetDrawActive(false);
 
-					auto sound3 = m_BGMsoundSprites[4].lock();
-					sound3->SetDrawActive(true);
+			//		auto sound3 = m_BGMsoundSprites[4].lock();
+			//		sound3->SetDrawActive(true);
 
-					auto sound4 = m_BGMsoundSprites[5].lock();
-					sound4->SetDrawActive(false);
-				}
-				if (0.70f < scene->m_volumeBGM >= 1.00f)
-				{
-					auto sound1 = m_BGMsoundSprites[2].lock();
-					sound1->SetDrawActive(false);
+			//		auto sound4 = m_BGMsoundSprites[5].lock();
+			//		sound4->SetDrawActive(false);
+			//	}
+			//	if (0.70f < scene->m_volumeBGM >= 1.00f)
+			//	{
+			//		auto sound1 = m_BGMsoundSprites[2].lock();
+			//		sound1->SetDrawActive(false);
 
-					auto sound2 = m_BGMsoundSprites[3].lock();
-					sound2->SetDrawActive(false);
+			//		auto sound2 = m_BGMsoundSprites[3].lock();
+			//		sound2->SetDrawActive(false);
 
-					auto sound3 = m_BGMsoundSprites[4].lock();
-					sound3->SetDrawActive(false);
+			//		auto sound3 = m_BGMsoundSprites[4].lock();
+			//		sound3->SetDrawActive(false);
 
-					auto sound4 = m_BGMsoundSprites[5].lock();
-					sound4->SetDrawActive(true);
-				}
+			//		auto sound4 = m_BGMsoundSprites[5].lock();
+			//		sound4->SetDrawActive(true);
+			//	}
 			}
 
 			else
@@ -329,7 +329,7 @@ namespace basecross {
 				if (CntlVec[0].fThumbLX >= 0.8f)
 				{
 					scene->m_volumeSE += 0.01f;
-					scene->m_volumeLevelSE += 5.5f;
+					scene->m_volumeLevelSE += 5.4f;
 					volumeChanged = true;
 					if (scene->m_volumeSE > 1.0f && scene->m_volumeLevelSE > 270.0f)
 					{
@@ -341,7 +341,7 @@ namespace basecross {
 				if (CntlVec[0].fThumbLX <= -0.8f)
 				{
 					scene->m_volumeSE -= 0.01f;
-					scene->m_volumeLevelSE -= 5.5f;
+					scene->m_volumeLevelSE -= 5.4f;
 					volumeChanged = true;
 					if (scene->m_volumeSE < 0.0f && scene->m_volumeLevelSE < -270.0f)
 					{
@@ -359,67 +359,67 @@ namespace basecross {
 				}
 				//m_SE->m_SourceVoice->SetVolume(scene->m_volumeSE);
 
-				auto SE = m_SEsoundSprites[6].lock();
+				auto SE = m_SEsoundSprites[2].lock();
 				SE->SetPosition(scene->m_volumeLevelSE, -163.0f, 0.0f);
 
 
-				if (scene->m_volumeSE == 0.00f)
-				{
-					auto sound1 = m_SEsoundSprites[2].lock();
-					sound1->SetDrawActive(true);
+				//if (scene->m_volumeSE == 0.00f)
+				//{
+				//	auto sound1 = m_SEsoundSprites[2].lock();
+				//	sound1->SetDrawActive(true);
 
-					auto sound2 = m_SEsoundSprites[3].lock();
-					sound2->SetDrawActive(false);
+				//	auto sound2 = m_SEsoundSprites[3].lock();
+				//	sound2->SetDrawActive(false);
 
-					auto sound3 = m_SEsoundSprites[4].lock();
-					sound3->SetDrawActive(false);
+				//	auto sound3 = m_SEsoundSprites[4].lock();
+				//	sound3->SetDrawActive(false);
 
-					auto sound4 = m_SEsoundSprites[5].lock();
-					sound4->SetDrawActive(false);
-				}
-				if (0.01f < scene->m_volumeSE > 0.30f)
-				{
-					auto sound1 = m_SEsoundSprites[2].lock();
-					sound1->SetDrawActive(false);
+				//	auto sound4 = m_SEsoundSprites[5].lock();
+				//	sound4->SetDrawActive(false);
+				//}
+				//if (0.01f < scene->m_volumeSE > 0.30f)
+				//{
+				//	auto sound1 = m_SEsoundSprites[2].lock();
+				//	sound1->SetDrawActive(false);
 
-					auto sound2 = m_SEsoundSprites[3].lock();
-					sound2->SetDrawActive(true);
+				//	auto sound2 = m_SEsoundSprites[3].lock();
+				//	sound2->SetDrawActive(true);
 
-					auto sound3 = m_SEsoundSprites[4].lock();
-					sound3->SetDrawActive(false);
+				//	auto sound3 = m_SEsoundSprites[4].lock();
+				//	sound3->SetDrawActive(false);
 
-					auto sound4 = m_SEsoundSprites[5].lock();
-					sound4->SetDrawActive(false);
-				}
-				if (0.30f < scene->m_volumeSE > 0.70f)
-				{
-					auto sound1 = m_SEsoundSprites[2].lock();
-					sound1->SetDrawActive(false);
+				//	auto sound4 = m_SEsoundSprites[5].lock();
+				//	sound4->SetDrawActive(false);
+				//}
+				//if (0.30f < scene->m_volumeSE > 0.70f)
+				//{
+				//	auto sound1 = m_SEsoundSprites[2].lock();
+				//	sound1->SetDrawActive(false);
 
-					auto sound2 = m_SEsoundSprites[3].lock();
-					sound2->SetDrawActive(false);
+				//	auto sound2 = m_SEsoundSprites[3].lock();
+				//	sound2->SetDrawActive(false);
 
-					auto sound3 = m_SEsoundSprites[4].lock();
-					sound3->SetDrawActive(true);
+				//	auto sound3 = m_SEsoundSprites[4].lock();
+				//	sound3->SetDrawActive(true);
 
-					auto sound4 = m_SEsoundSprites[5].lock();
-					sound4->SetDrawActive(false);
-				}
-				if (0.70f < scene->m_volumeSE >= 1.00f)
-				{
-					auto sound1 = m_SEsoundSprites[2].lock();
-					sound1->SetDrawActive(false);
+				//	auto sound4 = m_SEsoundSprites[5].lock();
+				//	sound4->SetDrawActive(false);
+				//}
+				//if (0.70f < scene->m_volumeSE >= 1.00f)
+				//{
+				//	auto sound1 = m_SEsoundSprites[2].lock();
+				//	sound1->SetDrawActive(false);
 
-					auto sound2 = m_SEsoundSprites[3].lock();
-					sound2->SetDrawActive(false);
+				//	auto sound2 = m_SEsoundSprites[3].lock();
+				//	sound2->SetDrawActive(false);
 
-					auto sound3 = m_SEsoundSprites[4].lock();
-					sound3->SetDrawActive(false);
+				//	auto sound3 = m_SEsoundSprites[4].lock();
+				//	sound3->SetDrawActive(false);
 
-					auto sound4 = m_SEsoundSprites[5].lock();
-					sound4->SetDrawActive(true);
+				//	auto sound4 = m_SEsoundSprites[5].lock();
+				//	sound4->SetDrawActive(true);
 
-				}
+				//}
 			}
 		}
 	}
