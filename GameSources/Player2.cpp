@@ -169,104 +169,150 @@ namespace basecross
 
 	void Player::OnUpdate()
 	{
+		// このフレームの経過時間を取得。すべての時間ベースの計算で使う。
 		float elapsedTime = App::GetApp()->GetElapsedTime();
 
-		// === ステップ1: 入力と速度更新 ===
+		// ===================================================================
+		// === ステップ1: プレイヤーの「意志」と「世界の法則」で速度を更新 ===
+		// ===================================================================
+
+		// プレイヤーからの入力を処理系に登録する。
+		// これにより、このフレームでAボタンが押されればOnPushAが呼ばれる。
 		m_InputHandler.PushHandle(GetThis<Player>());
 
+		// --- 速度ベクトルの各成分を決定 ---
+
+		// X方向：常に一定の速度で右に進み続ける、というゲームのルール。
 		m_velocity.x = m_Speed;
-		if (m_isAir) {
+
+		// Y方向：物理法則（重力）を適用する。
+		// このm_isAirは、「前のフレームの終わり」に決定された接地状態。
+		if (m_isAir)
+		{
+			// もし空中にいるなら、重力によって落下速度を増加させる。
 			m_velocity.y += m_gravity * elapsedTime;
 		}
-		else {
+		else
+		{
+			// もし地面にいるなら、不必要な落下や上昇を防ぐ。
+			// (ただし、ジャンプ直後の上昇速度(y>0)は消さないように、下降速度(y<0)だけをリセット)
 			if (m_velocity.y < 0) {
 				m_velocity.y = 0;
 			}
 		}
 
-		// === ステップ2: 移動量計算と衝突判定の準備 ===
+		// =================================================================
+		// === ステップ2: 移動と衝突の「シミュレーション」を行う         ===
+		// =================================================================
+
+		// 現在位置を取得し、このフレームで動くべき「生の」移動量を計算する。
 		auto ptrTransform = GetComponent<Transform>();
 		Vec3 currentPosition = ptrTransform->GetPosition();
 		Vec3 deltaPosition = m_velocity * elapsedTime;
 
-		// --- 複数当たり判定ループ ---
+		// --- 2a. 複数の影との当たり判定ループ ---
+		// これから動く先の「未来の位置」で当たり判定を行う（予測ベースの判定）。
 		m_Center = currentPosition + deltaPosition;
+		// プレイヤーの当たり判定の大きさを、不均一スケールも考慮して決定する。
 		m_Radius = ((m_Scale.x < m_Scale.y) ? m_Scale.x : m_Scale.y) / 2.0f;
 
+		// このフレームで最も重要（めり込みが最大）だった衝突情報を記録する変数。
 		Vec3 best_mtv(0.0f, 0.0f, 0.0f);
 		float max_overlap_sq = 0.0f;
 
+		// シーンから影の管理者である「ShadowDrawer」を探し出す。
 		auto shadowDrawer = GetStage()->GetSharedGameObject<ShadowDrawer>(L"ShadowDrawer");
-		if (shadowDrawer) {
+		if (shadowDrawer)
+		{
+			// ShadowDrawerから、影の計算と描画を統括する「ShadowComponent」を取得。
 			auto shadowComp = shadowDrawer->GetComponent<ShadowComponent>();
-			if (shadowComp) {
+			if (shadowComp)
+			{
+				// ShadowComponentが計算した、最新の「すべての影の頂点リスト」をもらう。
 				const auto& allShadows = shadowComp->GetAllShadowsVertices();
-				for (const auto& singleShadowVertices : allShadows) {
-					if (singleShadowVertices.size() < 3) continue;
+				// すべての影に対して、当たり判定を試みる。
+				for (const auto& singleShadowVertices : allShadows)
+				{
+					if (singleShadowVertices.size() < 3) continue; // ポリゴンでなければスキップ。
+
 					Vec3 mtv;
-					if (ComputeMTV(singleShadowVertices, mtv)) {
+					// あなたが完成させた、2Dボロノイ領域ベースの衝突判定を実行。
+					if (ComputeMTV(singleShadowVertices, mtv))
+					{
+						// 衝突した場合、そのめり込み量（の2乗）を計算。
 						float current_overlap_sq = mtv.dot(mtv);
-						if (current_overlap_sq > max_overlap_sq) {
+						// もし、今回のめり込みが今までの最大記録よりも大きいなら、記録を更新。
+						if (current_overlap_sq > max_overlap_sq)
+						{
 							max_overlap_sq = current_overlap_sq;
-							best_mtv = mtv;
+							best_mtv = mtv; // この衝突を「最も重要な衝突」として記憶する。
 						}
 					}
 				}
 			}
 		}
 
-		// === ステップ3: 衝突応答 - 速度と位置の厳格な補正 ===
+		// =================================================================
+		// === ステップ3: シミュレーション結果に基づき、物理状態を補正する ===
+		// =================================================================
 
+		// best_mtvが更新されていれば（ゼロベクトルでなければ）、何らかの衝突があったと判断。
 		if (best_mtv.dot(best_mtv) > 1e-9f)
 		{
-			// --- 3a. 位置を、まずMTVで補正する ---
-			// これで、過去のフレームからのわずかなめり込みが解消される
+			// --- 3a. 位置の補正 ---
+			// まず、最も深刻なめり込み(best_mtv)を使って、現在の位置を押し戻す。
+			// これで、過去のフレームから持ち越した、わずかなめり込みが解消される。
 			currentPosition += best_mtv;
 
-			// --- 3b. 次に、速度を補正して、未来のめり込みを防ぐ ---
+			// --- 3b. 速度の補正 ---
+			// 次に、未来のフレームで同じめり込みが起きないように、速度ベクトルを補正する。
 			Vec3 collisionNormal = best_mtv.normalize();
 			float dot_vel_norm = m_velocity.dot(collisionNormal);
 
-			// 速度が衝突面にめり込む方向を向いているなら...
+			// 速度が衝突面にめり込む方向を向いている（内積が負）場合のみ補正。
 			if (dot_vel_norm < 0) {
-				// そのめり込む速度成分を、完全に除去する
+				// 速度ベクトルから、衝突面に垂直な（めり込む）成分を完全に除去する。
+				// これにより、プレイヤーは壁に「ピタッ」と止まる。
 				m_velocity -= collisionNormal * dot_vel_norm;
 			}
 
-			// --- 3c. 衝突後の状態を決定 ---
-			// 接地判定
+			// --- 3c. 接地状態の決定 ---
+			// 衝突面の法線の向きと、プレイヤーのY速度から、本当に「接地」したかを厳密に判断。
 			if (collisionNormal.y > 0.7f && m_velocity.y <= 0.0f) {
+				// 歩ける斜面、かつ落下中なら、接地とみなす。
 				m_isAir = false;
-				// Y速度は、上の速度除去でほぼゼロになっているはずだが、念のため再設定
-				m_velocity.y = 0;
+				m_velocity.y = 0; // 接地したので、Y速度を確実にゼロにリセット。
 			}
 			else {
+				// それ以外（横壁や、駆け上がっている坂など）との衝突なら、まだ空中扱い。
 				m_isAir = true;
-			}
-			// 横壁判定
-			if (abs(collisionNormal.x) > 0.7f) {
-				// X速度も、上の速度除去でゼロになっているはず
 			}
 		}
 		else // どの影とも衝突しなかった場合
 		{
+			// 何にも当たらなければ、当然、空中にいる。
 			m_isAir = true;
 		}
 
-		// === ステップ4: 最終的な位置を適用 ===
+		// =================================================================
+		// === ステップ4: 最終的な位置を決定し、Transformに適用する      ===
+		// =================================================================
 
-		// ★★★ 最終的な移動は、補正された「後」の速度でのみ行う ★★★
+		// 衝突応答によって補正された「後」の、安全な速度で、最終的な移動量を再計算。
 		deltaPosition = m_velocity * elapsedTime;
 
-		// 最下層の床との接触（保険）
+		// 最下層の床に落ちないようにする、最後の安全装置。
 		if ((currentPosition.y + deltaPosition.y) < -4.99f) {
 			deltaPosition.y = -4.99f - currentPosition.y;
 			m_velocity.y = 0;
 			m_isAir = false;
 		}
 
+		// 「補正済みの現在位置」に、「補正済みの移動量」を加えて、最終的な位置をセットする。
 		ptrTransform->SetPosition(currentPosition + deltaPosition);
-		DrawStrings();;
+
+		// デバッグ用の文字列を描画。
+		DrawStrings();
 	}
 
 
