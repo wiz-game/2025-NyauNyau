@@ -30,10 +30,27 @@ namespace basecross {
 
 
 		std::vector<std::shared_ptr<GameObject>> m_sprites;
+		std::vector<std::shared_ptr<BackTitleButton>> m_SelectSprites;
+		std::shared_ptr<SelectStageSprite> catPointSprite;
+
+		int m_SpriteNum;//今選択しているスプライト
+
+		bool m_CntrolLock;
+		float m_selectY;//矢印のY座標の位置
+		float m_selectX;//矢印のX座標の位置
+
 
 	public:
 		//構築と破棄
-		GameOverStage() :Stage() {}
+		GameOverStage() :
+			Stage(),
+			m_CntrolLock(false),
+			m_SpriteNum(0),
+			m_selectX(0.0f),
+			m_selectY(0.0f)
+
+		{
+		}
 		virtual ~GameOverStage() {}
 
 		virtual void OnCreate()override; //初期化
@@ -42,6 +59,23 @@ namespace basecross {
 		//Aボタン
 		void OnPushA();
 		void StartCatWalkAnimation();
+
+		void ChangeSelect(int num);
+		//矢印のY軸を変更させる関数
+		void SetSelectPosition(int SpriteNum);
+
+
+		//スプライトナンバーのアクセサ
+		int GetSpriteNum() const
+		{
+			return m_SpriteNum;
+		}
+
+		void SetSpriteNum(int i)
+		{
+			m_SpriteNum = i;
+		}
+
 	};
 }
 //end basecross

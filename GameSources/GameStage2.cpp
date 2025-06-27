@@ -558,7 +558,7 @@ namespace basecross {
 			m_gameStageUI.push_back(phase2UI_A);
 
 			auto stage = AddGameObject<GameStageUI>();
-			stage->SetTexture(L"TEX_STAGE1");
+			stage->SetTexture(L"TEX_STAGE2");
 			stage->SetPosition(0, 0, 0);
 			stage->SetScale(2.0f, 2.0f, 1.0f);
 			m_gameStageUI.push_back(stage);
