@@ -44,8 +44,6 @@ namespace basecross
 
 	void Box::OnUpdate()
 	{
-		auto cntlVec = GetStage()->GetThis<GameStage>()->GetGameObjectVec();
-		//コントローラチェックして入力があればコマンド呼び出し
 
 		MoveXZ();
 		BoxMove();

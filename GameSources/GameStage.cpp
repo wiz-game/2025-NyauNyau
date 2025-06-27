@@ -24,7 +24,6 @@ namespace basecross {
 		ptrmainCamera->SetAt(Vec3(0.0f, 0.0f, 0.0f));
 		m_mainView->SetCamera(ptrmainCamera);
 
-
 		m_phase1View = ObjectFactory::Create<SingleView>(GetThis<Stage>());
 		auto ptrphase1Camera = ObjectFactory::Create<Phase1Camera>();
 		ptrphase1Camera->SetEye(Vec3(10.0f, 30.0f, -70.0f));

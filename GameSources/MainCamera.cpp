@@ -78,7 +78,6 @@ namespace basecross {
 		if (ptrOpeningCameraman)
 		{
 			auto pos = ptrOpeningCameraman->GetAtPos();
-			auto rotation = ptrOpeningCameraman->GetComponent<Transform>()->GetRotation();
 			SetAt(pos);
 		}
 		Camera::OnUpdate();

@@ -50,10 +50,10 @@ namespace basecross
 	// ゴールへ向かうステートに入る時の初期化処理
 	void OpeningCameraman::ToGoalEnterBehavior()
 	{
-		m_StartPos = Vec3(-25.0f, 22.0f, 0.0f);
+		m_StartPos = Vec3(-25.0f, 22.0f, -20.0f);
 		m_EndPos = Vec3(40.0f, 20.75f, 0.0f); //ゴールオブジェクト付近
-		m_AtStartPos = Vec3(0.0f, 0.0f, 0.0f);
-		m_AtEndPos = Vec3(40.0f,20.0f,-10.0f);  //ゴールオブジェクト付近
+		m_AtStartPos = Vec3(-25.0f, 22.0f, 0.0f);
+		m_AtEndPos = Vec3(40.0f,20.0f,20.0f);  //ゴールオブジェクト付近
 		m_AtPos = m_AtStartPos; //現在の注視点をリセット
 		m_TotalTime = 0.0f;     //経過時間をリセット
 	}
@@ -63,8 +63,8 @@ namespace basecross
 	{
 		m_StartPos = Vec3(40.0f, 20.75f, 0.0f);  // 前のステートの終点が始点 
 		m_EndPos = Vec3(0.0f, 3.0f, -5.0f);
-		m_AtStartPos = Vec3(40.0f, 20.0f, 0.0f); // 前のステートの注視点終点が始点
-		m_AtEndPos = Vec3(-25.0f, 22.0f, -0.5f);     // プレイヤーの初期位置を見る
+		m_AtStartPos = Vec3(40.0f, 20.0f,20.0f); // 前のステートの注視点終点が始点
+		m_AtEndPos = Vec3(-25.0f, 22.0f, 0.0f);     // プレイヤーの初期位置を見る
 		m_AtPos = m_AtStartPos;                  // 現在の注視点をリセット
 		m_TotalTime = 0.0f;                      // 経過時間をリセット
 	}
