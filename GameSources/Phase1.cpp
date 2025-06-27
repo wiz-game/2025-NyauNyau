@@ -36,7 +36,7 @@ namespace basecross
 
     void Phase1::OnUpdate()
     {
-        auto Sprite = GetStage()->GetThis<GameStage>()->GetGameObjectVec();
+        //auto Sprite = GetStage()->GetThis<GameStage>()->GetGameObjectVec();
     }
 
 
