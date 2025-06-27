@@ -15,6 +15,7 @@ namespace basecross {
 	class GameOverSprite : public GameObject
 	{
 
+
 	public:
 		// \’z‚Æ”jŠü
 		GameOverSprite(const shared_ptr<Stage>& stage) :

@@ -27,44 +27,69 @@ namespace basecross {
 		};
 
 		// スプライト用のドローコンポーネントを追加する
-		auto drawComp = AddComponent<PCTSpriteDraw>(m_vertices, indices); // 頂点データとインデックスデータを設定する
-		drawComp->SetTextureResource(L"TEX_BACKTITLE");
-		drawComp->SetSamplerState(SamplerState::LinearWrap);
+		m_drawComp = AddComponent<PCTSpriteDraw>(m_vertices, indices); // 頂点データとインデックスデータを設定する
+		//m_drawComp->SetTextureResource(L"TEX_BACKTITLE");
+		m_drawComp->SetSamplerState(SamplerState::LinearWrap);
 		SetAlphaActive(true);
 
 		// 位置を設定する
-		auto ptrTrans = GetComponent<Transform>();
-		ptrTrans->SetScale(1, 1, 1);
-		ptrTrans->SetRotation(0, 0, 0);
-		ptrTrans->SetPosition(0, -260.0f, 0);// 画面の中心を原点としたピクセル単位（1280x800）
+		m_ptrTrans = GetComponent<Transform>();
+		m_ptrTrans->SetScale(1, 1, 1);
+		m_ptrTrans->SetRotation(0, 0, 0);
+		m_ptrTrans->SetPosition(0, -260.0f, 0);// 画面の中心を原点としたピクセル単位（1280x800）
 	}
 
 	void BackTitleButton::OnUpdate()
 	{
-		//経過時間を取得
-		float elapsedTiem = App::GetApp()->GetElapsedTime();
-
-		//時間経過
-		m_totalTime += elapsedTiem * blinkSpeed;
-		auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
-		if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A)
+		if (m_Select)
 		{
-			blinkSpeed = 10;
+			//経過時間を取得
+			float elapsedTiem = App::GetApp()->GetElapsedTime();
+
+			//時間経過
+			m_totalTime += elapsedTiem * blinkSpeed;
+			auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+			if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A)
+			{
+				blinkSpeed = 10;
+			}
+
+			if (m_totalTime >= XM_PI)
+			{
+				m_totalTime = 0.0f;
+			}
+
+			auto drawComp = GetComponent<PCTSpriteDraw>();
+			//明滅の変化
+			float s = sin(m_totalTime) * 0.75f + 0.25f;
+			//ライトの当たり具合
+			drawComp->SetDiffuse(Col4(1, 1, 1, s));
+		}
+		else
+		{
+			m_drawComp->SetDiffuse(Col4(1, 1, 1, 0.5f));
 		}
 
-		if (m_totalTime >= XM_PI)
-		{
-			m_totalTime = 0.0f;
-		}
-
-		auto drawComp = GetComponent<PCTSpriteDraw>();
-		//明滅の変化
-		float s = sin(m_totalTime) * 0.75f + 0.25f;
-		//ライトの当たり具合
-		drawComp->SetDiffuse(Col4(1, 1, 1, s));
 	}
 
 
+	//テクスチャ
+	void BackTitleButton::SetTexture(const std::wstring& Key)
+	{
+		m_drawComp->SetTextureResource(Key);
+	}
+
+	//position
+	void BackTitleButton::SetPosition(float x, float y, float z)
+	{
+		m_ptrTrans->SetPosition(x, y, z);
+	}
+
+	//scale
+	void BackTitleButton::SetScale(float x, float y, float z)
+	{
+		m_ptrTrans->SetScale(x, y, z);
+	}
 
 
 
