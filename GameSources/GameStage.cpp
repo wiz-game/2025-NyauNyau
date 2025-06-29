@@ -210,7 +210,7 @@ namespace basecross {
 			{
 				Vec3(1.25f, 1.0f, 1.0f),
 				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(-25.0f, 22.0f, -0.5f)
+				Vec3(-35.0f, 22.0f, -0.5f)
 			},
 
 		};
@@ -254,7 +254,7 @@ namespace basecross {
 		{
 			Vec3(9.0f,9.0f,-0.001f),
 			Vec3(0.0f,0.0f,0.0f),
-			Vec3(-35.0f,26.25f,-0.5f)
+			Vec3(-45.0f,26.25f,-0.5f)
 		}
 		};
 		for (auto& v : vec) {
@@ -502,7 +502,7 @@ namespace basecross {
 			//Boxの作成
 			CreateBox();
 			//ShadowBall(ギミック)の作成
-			CreateShadowBall();
+			//CreateShadowBall();
 			//SpotLightの作成
 			auto spotLight = AddGameObject<SpotLight>();
 			SetSharedGameObject(L"SpotLight", spotLight);
@@ -603,6 +603,10 @@ namespace basecross {
 				m_selectedBoxIndex = 0; // 最初のBox (Box_0) を選択候補にする
 			}
 
+
+			// --- タイマーの初期化 ---
+			m_initialUpdateTimer = 0.0f;     // タイマーを0にリセット
+			m_isInitialUpdatePeriod = true;  // ゲーム開始直後なので、初期期間フラグをtrueに
 		}
 		catch (...) {
 			throw;
@@ -964,12 +968,30 @@ namespace basecross {
 				return;
 			}
 
+			// --- 最初の2秒間のタイマー処理 ---
+			if (m_isInitialUpdatePeriod) 
+			{
+				m_initialUpdateTimer += App::GetApp()->GetElapsedTime();
+				if (m_initialUpdateTimer > 2.0f) 
+				{
+					m_isInitialUpdatePeriod = false;
+				}
+			}
+
 			if (pause->IsPlaying())
 			{
 				auto gameObjectVec = GetGameObjectVec();
 				for (auto obj : gameObjectVec)
 				{
-				    if (dynamic_pointer_cast<Box>(obj))
+					if (m_isInitialUpdatePeriod)
+					{
+						if (dynamic_pointer_cast<Player>(obj) &&
+							dynamic_pointer_cast<Enemy>(obj))
+						{
+							obj->SetUpdateActive(true);
+						}
+					}
+				    else if (dynamic_pointer_cast<Box>(obj))
 					{
 						obj->SetUpdateActive(true);
 					}
@@ -1026,17 +1048,20 @@ namespace basecross {
 					phase2UI->SetDrawActive(true);
 					boxPointer->SetDrawActive(false);
 
-					auto gameObjectVec = GetGameObjectVec();
-					for (auto obj : gameObjectVec)
+					if (currentPhase == GamePhase::Phase2)
 					{
-						if (dynamic_pointer_cast<Box>(obj))
+						auto gameObjectVec = GetGameObjectVec();
+						for (auto obj : gameObjectVec)
 						{
-							obj->SetUpdateActive(false);
-						}
-						else
-						{
-							obj->SetUpdateActive(true);
+							if (dynamic_pointer_cast<Box>(obj))
+							{
+								obj->SetUpdateActive(false);
+							}
+							else
+							{
+								obj->SetUpdateActive(true);
 
+							}
 						}
 					}
 				}

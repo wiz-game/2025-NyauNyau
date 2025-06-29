@@ -124,6 +124,8 @@ namespace basecross {
 
 		CameraSelect m_CameraSelect;
 
+		float m_initialUpdateTimer; // 最初の数秒間を計るためのタイマー
+		bool m_isInitialUpdatePeriod; // 最初の数秒間の間かを示すフラグ
 
 	public:
 		//構築と破棄
