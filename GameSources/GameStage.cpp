@@ -8,7 +8,6 @@
 #include "Project.h"
 
 #include "ShadowDrawer.h"
-#include "ShadowObject.h"
 #include "RaycastLine.h"
 namespace basecross {
 
@@ -310,18 +309,18 @@ namespace basecross {
 		{
 		    Vec3(2.5f, 2.5f, 2.5f),
 		    Vec3(0.0f, 0.0f, 0.0f),
-		    Vec3(10.0f ,16.25f, -20.0f)
+		    Vec3(7.0f ,11.5f, -20.0f)
 		},
 		{
-			Vec3(2.5f, 2.5f, 2.5f),
+			Vec3(5.0f, 2.5f, 2.5f),
 			Vec3(0.0f, 0.0f, 0.0f),
-			Vec3(5.0f ,16.25f, -20.0f)
+			Vec3(14.0f ,11.5f, -20.0f)
         },
-		{
-			Vec3(2.5f, 2.5f, 2.5f),
-			Vec3(0.0f, 0.0f, 0.0f),
-			Vec3(15.0f ,16.25f, -20.0f)
-        },
+		//{
+		//	Vec3(2.5f, 2.5f, 2.5f),
+		//	Vec3(0.0f, 0.0f, 0.0f),
+		//	Vec3(15.0f ,11.5f, -20.0f)
+  //      },
 
 
 		};
@@ -508,7 +507,8 @@ namespace basecross {
 			SetSharedGameObject(L"SpotLight", spotLight);
 			//影の作成
 			//AddGameObject<ShadowObject>();
-			AddGameObject<ShadowDrawer>();
+			auto shadowDrawer = AddGameObject<ShadowDrawer>();
+			SetSharedGameObject(L"ShadowDrawer", shadowDrawer);
 			//プレイヤーの作成
 			CreatePlayer();
 			//エネミーの作成
@@ -522,6 +522,14 @@ namespace basecross {
 				Vec3(0.0f, 0.0f, 0.0f),
 				Vec3(45.0f, 20.75f, -0.1f)
 			);
+
+			//ねこの助走用の足場
+			AddGameObject<ShadowFloor>(
+				Vec3(100.0f, 30.0f, 1.0f),
+				Vec3(0.0f, 0.0f, 0.0f),
+				Vec3(-75.0f, 5.0f, 0.0f)
+			);
+
 			//チーズの作成
 			CreateCheese();
 			//本棚の作成
@@ -534,34 +542,34 @@ namespace basecross {
 			//スプライトオブジェクト
 			AddGameObject<Phase1>();
 
-			auto UI = AddGameObject<GameStageUI>();
-			UI->SetTexture(L"TEX_GameStageUI");
-			UI->SetPosition(0, 300.0f, 0);
-			UI->SetScale(2.0f, 1.0f, 1.0f);
-			m_gameStageUI.push_back(UI);
+			//auto UI = AddGameObject<GameStageUI>();
+			//UI->SetTexture(L"TEX_GameStageUI");
+			//UI->SetPosition(0, 300.0f, 0);
+			//UI->SetScale(2.0f, 1.0f, 1.0f);
+			//m_gameStageUI.push_back(UI);
 
 			auto phase1UI_A = AddGameObject<GameStageUI>();
 			phase1UI_A->SetTexture(L"TEX_phase1UI_A");
 			phase1UI_A->SetPosition(535.0f, -280.0f, 0);
-			phase1UI_A->SetScale(0.4f, 0.4f, 1.0f);
+			phase1UI_A->SetScale(0.5f, 0.4f, 1.0f);
 			m_gameStageUI.push_back(phase1UI_A);
 
 			auto phase1UI_B = AddGameObject<GameStageUI>();
 			phase1UI_B->SetTexture(L"TEX_phase1UI_B");
 			phase1UI_B->SetPosition(530.0f, -200.0f, 0);
-			phase1UI_B->SetScale(0.4f, 0.4f, 1.0f);
+			phase1UI_B->SetScale(0.5f, 0.4f, 1.0f);
 			m_gameStageUI.push_back(phase1UI_B);
 
 			auto phase1UI_light = AddGameObject<GameStageUI>();
 			phase1UI_light->SetTexture(L"TEX_phase1UI_light");
 			phase1UI_light->SetPosition(540.0f, -360.0f, 0);
-			phase1UI_light->SetScale(0.4f, 0.4f, 1.0f);
+			phase1UI_light->SetScale(0.5f, 0.4f, 1.0f);
 			m_gameStageUI.push_back(phase1UI_light);
 
 			auto phase2UI_A = AddGameObject<GameStageUI>();
 			phase2UI_A->SetTexture(L"TEX_phase2UI_A");
 			phase2UI_A->SetPosition(535.0f, -280.0f, 0);
-			phase2UI_A->SetScale(0.4f, 0.4f, 1.0f);
+			phase2UI_A->SetScale(0.5f, 0.4f, 1.0f);
 			phase2UI_A->SetDrawActive(false);
 			m_gameStageUI.push_back(phase2UI_A);
 
@@ -576,9 +584,11 @@ namespace basecross {
 			pointer->SetTexture(L"TEX_BoxPointer");
 			pointer->SetScale(1.0f, 1.0f, 1.0f);
 			pointer->SetDrawActive(true);
-			pointer->SetTargetBox(m_controllableBoxes[0]);
-
-
+			pointer->SetTargetBox(m_controllableBoxes[0],true);
+			
+			//フェードスクリーンを生成して保持する
+			auto fadeScreen = AddGameObject<FadeScreen>();
+			m_fadeScreen = fadeScreen;
 
 			auto scene = App::GetApp()->GetScene<Scene>();
 			auto volume = scene->m_volumeBGM;
@@ -595,7 +605,7 @@ namespace basecross {
 
 			m_stickMovedLeftLastFrame = false;   // 前のフレームで左に倒されていたか
 			m_stickMovedRightLastFrame = false;  // 前のフレームで右に倒されていたか
-
+			m_lastNotifiedIndex = -2;//UIはまだ通知されていない
 
 			// もし操作可能なBoxがステージに存在すれば、最初のBoxを選択候補とする
 			if (!m_controllableBoxes.empty()) 
@@ -674,6 +684,23 @@ namespace basecross {
 				{
 					AttemptToControlSelectedBox();
 				}
+				//if (m_selectedBoxIndex != m_lastNotifiedIndex)
+				//{
+				//	//操作対象のBoxをポインターで表示
+				//	if (auto pointer = m_selectionPointerUI.lock())
+				//	{
+				//		if (m_selectedBoxIndex >= 0 && m_selectedBoxIndex < m_controllableBoxes.size())
+				//		{
+				//			pointer->SetTargetBox(m_controllableBoxes[m_selectedBoxIndex], true);
+				//		}
+				//		else 
+				//		{
+				//			pointer->SetTargetBox(nullptr, false);
+				//		}
+				//	}
+					// 最後に通知したインデックスを更新
+					//m_lastNotifiedIndex = m_selectedBoxIndex;
+				//}
 			}
 			else if (m_currentControlMode == GameControlMode::ControlBox)
 			{
@@ -685,7 +712,7 @@ namespace basecross {
 			}
 		}
 		
-		//UpdateSelectionUI();
+		UpdateSelectionUI();
 
 		auto device = app->GetInputDevice();
 		auto pad = device.GetControlerVec()[0];
@@ -706,7 +733,7 @@ namespace basecross {
 		if (m_isStageFadingOut)
 		{
 			//スプライトが有効で、まだ表示されていたら
-			auto stageSpr = m_gameStageUI[5].lock();
+			auto stageSpr = m_gameStageUI[4].lock();
 
 			if (stageSpr && stageSpr->IsDrawActive())
 			{
@@ -816,7 +843,7 @@ namespace basecross {
 				//操作可能のボックスとポインターを親子関係にする
 				if (auto point = m_selectionPointerUI.lock())
 				{
-					point->SetTargetBox(m_controllableBoxes[m_selectedBoxIndex]);
+					point->SetTargetBox(m_controllableBoxes[m_selectedBoxIndex],false);
 				}
 
 			}
@@ -845,6 +872,93 @@ namespace basecross {
 		return GetSharedGameObject<Table>(L"Table"); 
 	}
 
+
+	void GameStage::UpdateSelectionUI()
+	{
+		int currentTargetIndex = -1;
+
+		// 現在のモードからターゲットにすべきBoxのインデックスを決定
+		if (m_currentControlMode == GameControlMode::SelectBox) {
+			currentTargetIndex = m_selectedBoxIndex;
+		}
+		else if (m_currentControlMode == GameControlMode::ControlBox) {
+			if (m_currentlyControlledBox) {
+				for (int i = 0; i < m_controllableBoxes.size(); ++i) {
+					if (m_controllableBoxes[i] == m_currentlyControlledBox) {
+						currentTargetIndex = i;
+						break;
+					}
+				}
+			}
+		}
+
+		// ターゲットが前回から変更された場合のみ、UIに通知する
+		if (currentTargetIndex != m_lastNotifiedIndex)
+		{
+			if (auto pointer = m_selectionPointerUI.lock())
+			{
+				bool shouldAnimate = (m_currentControlMode == GameControlMode::SelectBox);
+
+				if (currentTargetIndex >= 0 && currentTargetIndex < m_controllableBoxes.size()) {
+					pointer->SetTargetBox(m_controllableBoxes[currentTargetIndex], shouldAnimate);
+				}
+				else {
+					pointer->SetTargetBox(nullptr, false);
+				}
+			}
+			m_lastNotifiedIndex = currentTargetIndex;
+		}
+	}
+
+
+	void GameStage::OnPlayerCollision(shared_ptr<GameObject> player, shared_ptr<GameObject> other)
+	{
+		////すでにゲームオーバーが始まっていたら何もしない
+		//if (m_isGameOver)
+		//{
+		//	return;
+		//}
+		//// 衝突相手が地面または敵か確認
+		//if (dynamic_pointer_cast<Ground>(other) || dynamic_pointer_cast<Enemy>(other))
+		//{
+		//	// プレイヤーの isDead フラグを立てて、多重衝突を防ぐ
+		//	if (auto castedPlayer = dynamic_pointer_cast<Player>(player)) {
+		//		if (castedPlayer->IsDead()) {
+		//			return; // 既に死亡処理中なら抜ける
+		//		}
+		//		castedPlayer->SetIsDead(true); // 死亡状態にする
+		//	}
+
+		//	// ゲームオーバー処理を開始する
+		//	StartGameOver();
+		//}
+
+	}
+
+	// ゲームオーバー処理（フェードとシーン遷移）に特化した関数
+	void GameStage::StartGameOver()
+	{
+		//if (m_isGameOver) {
+		//	return;
+		//}
+		//m_isGameOver = true;
+
+		//// サウンド再生
+		//auto ptrXA = App::GetApp()->GetXAudio2Manager();
+		//ptrXA->Start(L"Fall", 0, 0.5f);
+
+		//// フェードアウトを開始
+		//if (auto fade = m_fadeScreen.lock()) {
+		//	float fadeDuration = 1.5f;
+
+		//	fade->StartFadeOut(fadeDuration, [this]() {
+		//		auto scene = App::GetApp()->GetScene<Scene>();
+		//		PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"ToGameOverStage");
+		//		});
+		//}
+	}
+
+
 	// テクスチャの読込
 	void GameStage::LoadTextures()
 	{
@@ -863,7 +977,7 @@ namespace basecross {
 		// テクスチャの読込と登録
 		//app->RegisterTexture(L"TEX_BOX", texPath + L"brick.jpg");
 		app->RegisterTexture(L"TEX_CHEESE", texPath + L"cheese.png");
-		app->RegisterTexture(L"TEX_KABE", texPath + L"kabe.png");
+		app->RegisterTexture(L"TEX_KABE", texPath + L"kabe2.png");
 		app->RegisterTexture(L"TEX_YUKA", texPath + L"floor.png");
 		app->RegisterTexture(L"TEX_PAUSE", texPath + L"PauseSprite.png");
 		app->RegisterTexture(L"TEX_NEZUMI", texPath + L"nezumi.png");
@@ -941,6 +1055,12 @@ namespace basecross {
 		auto meshTsumiki4 = MeshResource::CreateBoneModelMesh(modelPath + L"Block4\\", L"Block4.bmf");
 		app->RegisterResource(L"MODEL_TSUMIKI4", meshTsumiki4);
 
+
+		//ねこ
+		if (app->CheckResource<MeshResource>(L"MODEL_NEKO")) return;
+		auto meshNeko = MeshResource::CreateBoneModelMesh(modelPath + L"Neko\\", L"Neko.bmf");
+		app->RegisterResource(L"MODEL_NEKO", meshNeko);
+
 	}
 
 
@@ -957,6 +1077,7 @@ namespace basecross {
 		auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
 		auto scene = App::GetApp()->GetScene<Scene>();
 		auto volume = scene->m_volumeBGM;
+		auto volumeSE = scene->m_volumeSE;
 		auto ptrXA = App::GetApp()->GetXAudio2Manager();
 
 
@@ -999,10 +1120,6 @@ namespace basecross {
 					{
 						obj->SetUpdateActive(true);
 					}
-					else if (dynamic_pointer_cast<ShadowObject>(obj))
-					{
-						obj->SetUpdateActive(true);
-					}
 					else if (dynamic_pointer_cast<ShadowDrawer>(obj))
 					{
 						obj->SetUpdateActive(true);
@@ -1030,19 +1147,21 @@ namespace basecross {
 				// BボタンでPhase2(GameStart)へ
 				if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B)
 				{
-					ptrXA->Start(L"Bbutton", 0, 1.0f);
+					ptrXA->Start(L"Bbutton", 0, volumeSE);
+
+					//ptrXA->Start(L"CatVoice", 0, volumeSE);
 
 					SetView(m_mainView);
 
 					currentPhase = GamePhase::Phase2;
 
-					auto UI = m_gameStageUI[0].lock();
-					auto UI_A = m_gameStageUI[1].lock();
-					auto UI_B = m_gameStageUI[2].lock();
-					auto phase2UI = m_gameStageUI[4].lock();
+					//auto UI = m_gameStageUI[0].lock();
+					auto UI_A = m_gameStageUI[0].lock();
+					auto UI_B = m_gameStageUI[1].lock();
+					auto phase2UI = m_gameStageUI[3].lock();
 					auto boxPointer = m_selectionPointerUI.lock();
 
-					UI->SetDrawActive(false);
+					//UI->SetDrawActive(false);
 					UI_A->SetDrawActive(false);
 					UI_B->SetDrawActive(false);
 					phase2UI->SetDrawActive(true);

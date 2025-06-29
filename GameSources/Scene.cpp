@@ -39,6 +39,10 @@ namespace basecross{
 			app->RegisterWav(L"Jump", soundPath + L"jump.wav");
 			app->RegisterWav(L"Fall", soundPath + L"fall.wav");
 			app->RegisterWav(L"Bbutton", soundPath + L"bbutton.wav");
+			app->RegisterWav(L"SelectButtonSE", soundPath + L"SelectButtonSE.wav");
+			app->RegisterWav(L"GamennsenniSE", soundPath + L"GamennsenniSE.wav");
+			app->RegisterWav(L"Fall2_SE", soundPath + L"Fall_SE.wav");
+			app->RegisterWav(L"CatVoice", soundPath + L"CatVoice.wav");
 
 
 
@@ -93,6 +97,9 @@ namespace basecross{
 		//ゲームオーバーステージの設定
 		if (event->m_MsgStr == L"ToGameOverStage") {
 			ResetActiveStage<GameOverStage>();
+		}
+		if (event->m_MsgStr == L"ToOpelation") {
+			ResetActiveStage<Opelation>();
 		}
 
 

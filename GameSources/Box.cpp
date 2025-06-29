@@ -25,8 +25,8 @@ namespace basecross
 		m_transComp->SetRotation(0,0,0);
 		m_transComp->SetPosition(0.0f, - 4.75f, -4.0f);*/
 
-		m_transComp->SetScale(2.5, 2.5f, 2.5f);
-		m_transComp->SetPosition(Vec3(10.0f, 11.5f, -20.0f));
+		//m_transComp->SetScale(2.5, 2.5f, 2.5f);
+		//m_transComp->SetPosition(Vec3(10.0f, 11.5f, -20.0f));
 
 		//ƒRƒŠƒWƒ‡ƒ“‚Â‚¯‚é
 		auto ptrColl = AddComponent<CollisionRect>();
@@ -274,25 +274,7 @@ namespace basecross
 
 	std::vector<Vec3> Box::GetBoxVertices() const
 	{
-		/*std::vector<Vec3> boxVertices;
-
-		auto transform = GetComponent<Transform>();
-		Vec3 position = transform->GetPosition();
-		Vec3 scale = transform->GetScale();
-
-		boxVertices = {
-			position + Vec3(-scale.x / 2, -scale.y / 2, -scale.z / 2),
-			position + Vec3(scale.x / 2, -scale.y / 2, -scale.z / 2),
-			position + Vec3(-scale.x / 2, scale.y / 2, -scale.z / 2),
-			position + Vec3(scale.x / 2, scale.y / 2, -scale.z / 2),
-			position + Vec3(-scale.x / 2, -scale.y / 2, scale.z / 2),
-			position + Vec3(scale.x / 2, -scale.y / 2, scale.z / 2),
-			position + Vec3(-scale.x / 2, scale.y / 2, scale.z / 2),
-			position + Vec3(scale.x / 2, scale.y / 2, scale.z / 2)
-		};
-
-		return boxVertices;*/
-
+		//’¸“_‚ð•Ô‚·
 		return 
 		{
 		Vec3(-0.5f, -0.5f, -0.5f),

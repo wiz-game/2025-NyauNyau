@@ -15,6 +15,7 @@
 #include "Table.h"
 
 #include "GameStagePointerUI.h"
+#include "FadeScreen.h"
 
 //#include  "cmath"
 
@@ -103,6 +104,7 @@ namespace basecross {
 
 		// SelectBoxモードの時に、ハイライトされているBox
 		int m_selectedBoxIndex;
+		int m_lastNotifiedIndex;//UIに最後に通知したインデックス
 
 		// 現在のゲームの操作モード（SelectBox か ControlBox か）を保持する
 		GameControlMode m_currentControlMode;
@@ -127,6 +129,10 @@ namespace basecross {
 		float m_initialUpdateTimer; // 最初の数秒間を計るためのタイマー
 		bool m_isInitialUpdatePeriod; // 最初の数秒間の間かを示すフラグ
 
+		weak_ptr<FadeScreen> m_fadeScreen;
+		//ゲームオーバーフラグ
+		bool m_isGameOver = false;
+
 	public:
 		//構築と破棄
 		GameStage() :
@@ -134,7 +140,8 @@ namespace basecross {
 			m_Time(0.0f),
 			m_isStageFadingOut(false),
 			m_fadeTimer(0.0f),
-			m_filterFadeTimer(0.0f)
+			m_filterFadeTimer(0.0f),
+			m_lastNotifiedIndex(-2)
 		{}
 		virtual ~GameStage() {}
 
@@ -169,6 +176,10 @@ namespace basecross {
 		virtual void OnUpdate2()override;
 		virtual void OnDestroy()override;
 
+		void UpdateSelectionUI();
+
+		void OnPlayerCollision(shared_ptr<GameObject> player, shared_ptr<GameObject> other);
+		void StartGameOver();
 
 	};
 }

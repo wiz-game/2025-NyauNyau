@@ -1,6 +1,6 @@
 /*!
-@file GameOverSprite.h
-@brief ゲームオーバースプライトなど
+@file BackgroundTitleSprite.h
+@brief タイトル名など
 */
 
 #pragma once
@@ -10,26 +10,25 @@ namespace basecross {
 
 
 	//--------------------------------------------------------------------------------------
-	//	class GameOverSprite : public GameObject;
+	//	class BackgroundTitleSprite : public GameObject;
 	//--------------------------------------------------------------------------------------
-	class GameOverSprite : public GameObject
+	class OpelationSprite : public GameObject
 	{
-
 
 	public:
 		// 構築と破棄
-		GameOverSprite(const shared_ptr<Stage>& stage) :
+		OpelationSprite(const shared_ptr<Stage>& stage) :
 			GameObject(stage)
 		{
 		}
 
-		virtual ~GameOverSprite()
+		virtual ~OpelationSprite()
 		{
 		}
 
 
 		virtual void OnCreate() override; // 初期化
-		virtual void OnUpdate() override; // 更新
+		//virtual void OnUpdate() override; // 更新
 		//virtual void OnDraw() override; // 描画
 	};
 

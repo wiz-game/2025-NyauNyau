@@ -25,7 +25,7 @@ namespace basecross
         //std::vector<Vec3> m_shadowVertices;
         void SetStrategy(const std::shared_ptr<BoxShadowStrategy>& strategy);
 
-        std::vector<std::vector<Vec3>> m_allShadowsVertices; // ★新しい★
+        std::vector<std::vector<Vec3>> m_allShadowsVertices;  
 
         // 影のメッシュデータを更新する
         void UpdateMesh();
@@ -33,6 +33,9 @@ namespace basecross
         // コンストラクタ：オーナーと、使用するストラテジを受け取る
         ShadowComponent(const std::shared_ptr<GameObject>& owner, const std::shared_ptr<BoxShadowStrategy>& strategy);
 
+        //すべとの影の頂点データを渡す
+       // 計算済みの、すべての影の頂点リストを返す
+        const std::vector<std::vector<Vec3>>& GetAllShadowsVertices() const;
         // --- ライフサイクルメソッド ---
 
         // コンポーネントの初期化時に呼び出される

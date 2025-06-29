@@ -42,14 +42,29 @@ namespace basecross {
 			//スプライトオブジェクト
 			auto Rat = AddGameObject<GameSprite>();
 			Rat->SetTexture(L"TEX_Rat");
-			Rat->SetPosition(0, 0, 0);
-			Rat->SetScale(2.0f, 1.0f, 1.0f);
+			Rat->SetPosition(0, 100, 0);
+			Rat->SetScale(3.0f, 4.0f, 1.0f);
 			m_sprites.push_back(Rat);
 
+
 			m_sprites.push_back(AddGameObject<GameOverSprite>());
-			m_sprites.push_back(AddGameObject<BackTitleButton>());
 
 
+			auto gamestage = AddGameObject<BackTitleButton>();
+			gamestage->SetTexture(L"TEX_GameStage");
+			gamestage->SetPosition(0, -220, 0);
+			gamestage->SetScale(0.65f, 0.45f, 1.0f);
+			gamestage->SetSelected(true);
+			m_SelectSprites.push_back(gamestage);
+
+			auto title = AddGameObject<BackTitleButton>();
+			title->SetTexture(L"TEX_BACKTITLE");
+			title->SetPosition(0, -320, 0);
+			title->SetScale(0.6f, 0.8f, 1.0f);
+			title->SetSelected(false);
+			m_SelectSprites.push_back(title);
+
+			//ロード中のスプライト
 			m_catSprite = AddGameObject<CatWalkSprite>();
 			auto walk = m_catSprite.lock();
 			walk->SetDrawActive(false);
@@ -69,6 +84,11 @@ namespace basecross {
 			rat->SetDrawActive(false);
 			rat->SetMovementActive(false);
 
+			//ネコ矢印
+			catPointSprite = AddGameObject<SelectStageSprite>();
+			catPointSprite->SetTexture(L"TEX_POINT");
+			catPointSprite->SetPosition(-250.0f, m_selectY - 220.0f, 0);
+			catPointSprite->SetScale(0.5f, 0.5f, 0.5f);
 
 			auto scene = App::GetApp()->GetScene<Scene>();
 			auto volumeBGM = scene->m_volumeBGM;
@@ -85,9 +105,135 @@ namespace basecross {
 
 	void GameOverStage::OnUpdate()
 	{
-		//コントローラチェックして入力があればコマンド呼び出し
-		m_InputHandler.PushHandle(GetThis<GameOverStage>());
+		//コントローラの取得
+		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+		auto scene = App::GetApp()->GetScene<Scene>();
+		auto volumeSE = scene->m_volumeSE;
+		auto ptrXA = App::GetApp()->GetXAudio2Manager();
+
+		//スタートボタンを押したときにボーズする
+		if (CntlVec[0].bConnected)
+		{
+			//CntrolLock = falseの時
+			if (!m_CntrolLock)
+			{
+				//上向き
+				if (CntlVec[0].fThumbLY >= 0.8f)
+				{
+					m_SpriteNum--;
+					//一番上を上回ったら下に行く
+					if (m_SpriteNum < 0)
+					{
+						m_SpriteNum = 2;
+					}
+					m_CntrolLock = true;
+					SetSpriteNum(m_SpriteNum);
+					ChangeSelect(m_SpriteNum);
+					SetSelectPosition(m_SpriteNum);
+					//ポイントスプライトの座標変更
+					if (catPointSprite)
+					{
+						catPointSprite->SetPosition(-250.0f, m_selectY, 0);
+					}
+
+					m_SE = ptrXA->Start(L"SelectButtonSE", 0, volumeSE);
+
+				}
+				//下向き
+				else if (CntlVec[0].fThumbLY <= -0.8f)
+				{
+					m_SpriteNum++;
+					//一番下を下回ったら上に戻る
+					if (m_SpriteNum >= 3)
+					{
+						m_SpriteNum = 0;
+					}
+					m_CntrolLock = true;
+					SetSpriteNum(m_SpriteNum);
+					ChangeSelect(m_SpriteNum);
+					SetSelectPosition(m_SpriteNum);
+					//ポイントスプライトの座標変更
+					if (catPointSprite)
+					{
+						catPointSprite->SetPosition(-250.0f, m_selectY, 0);
+					}
+					m_SE = ptrXA->Start(L"SelectButtonSE", 0, volumeSE);
+				}
+			}
+			//動かしていない時
+			else
+			{
+				if (CntlVec[0].fThumbLY == 0.0f)
+				{
+					m_CntrolLock = false;
+				}
+			}
+		}
+
+
+
+		if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A)
+		{
+			auto scene = App::GetApp()->GetScene<Scene>();
+			auto volumeSE = scene->m_volumeSE;
+			auto ptrXA = App::GetApp()->GetXAudio2Manager();
+			m_SE = ptrXA->Start(L"button_SE", 0, volumeSE);
+
+			StartCatWalkAnimation();
+
+			switch (m_SpriteNum)
+			{
+			case 0://ゲームステージに戻る
+
+				PostEvent(0.7f, GetThis<GameOverStage>(), scene, L"ToGameStage");
+				return;
+
+			case 1://タイトル
+				PostEvent(0.7f, GetThis<GameOverStage>(), scene, L"ToTitleStage");
+				return;
+
+			}
+		}
 	}
+
+
+
+	//選択しているSpriteを点滅させる処理
+	void GameOverStage::ChangeSelect(int m_SpriteNum)
+	{
+		for (int i = 0; i < 2; i++)
+		{
+			//StageNumがm_spritesと一致していたら
+			if (i == m_SpriteNum)
+			{
+
+				m_SelectSprites[i]->SetSelected(true);
+
+			}
+			else
+			{
+				m_SelectSprites[i]->SetSelected(false);
+			}
+
+		}
+	}
+
+	//ステージ番号からm_selectを設定する関数
+	void GameOverStage::SetSelectPosition(int SpriteNum)
+	{
+		switch (SpriteNum)
+		{
+		case 0:
+			//m_selectX = -200.0f;
+			m_selectY = -220.0f;
+			break;
+		case 1:
+			//m_selectX = -250.0f;
+			m_selectY = -320;
+			break;
+		}
+	}
+
 
 	//コントローラーのAボタンでゲーム画面に移動
 	void GameOverStage::OnPushA()
@@ -119,8 +265,9 @@ namespace basecross {
 
 		// テクスチャの読込と登録
 		app->RegisterTexture(L"TEX_GAMEOVER", texPath + L"GameOver.png");
-		app->RegisterTexture(L"TEX_BACKTITLE", texPath + L"Back Title.png");
+		app->RegisterTexture(L"TEX_BACKTITLE", texPath + L"PauseStage title.png");
 		app->RegisterTexture(L"TEX_Rat", texPath + L"Rat GameOver.png");
+		app->RegisterTexture(L"TEX_GameStage", texPath + L"BackToGameStage.png");
 
 	}
 
@@ -137,6 +284,12 @@ namespace basecross {
 		for (auto sprite : m_sprites)
 		{
 			RemoveGameObject<GameObject>(sprite);
+		}
+		catPointSprite->SetDrawActive(false);
+
+		for (auto sprite : m_SelectSprites)
+		{
+			RemoveGameObject<BackTitleButton>(sprite);
 		}
 
 

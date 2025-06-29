@@ -35,6 +35,12 @@ namespace basecross
 		//空中にいるか
 		bool m_isAir;
 
+		//死亡フラグ
+		bool m_isDead;
+		bool m_isFallSE;//落下音
+
+		shared_ptr<SoundItem> m_fallSound; // 再生中の落下サウンドを保持
+
 		float m_cameraAngleY; // カメラの回り込み
 		float m_velocityY;
 		Vec3 m_forward; // 前方向を示すベクトル
@@ -44,9 +50,8 @@ namespace basecross
 	
 		void MoveY();
 		void MoveXZ();
-		void OnCollisionExcute(shared_ptr<GameObject>& Other);
+		void OnCollisionEnter(shared_ptr<GameObject>& Other) override;
 		void OnCollisionExit(shared_ptr<GameObject>& Other);
-		void Jump(shared_ptr<GameObject>& jump);
 	    void DrawStrings();
 
 		shared_ptr<PNTStaticDraw> m_drawComp; // 標準的なアニメーション無しのドローコンポーネント
@@ -59,7 +64,9 @@ namespace basecross
 		float m_Radius;
 
 		// 衝突相手の情報
-		shared_ptr<ShadowObject> m_OtherPolygon;
+		//shared_ptr<ShadowObject> m_OtherPolygon;
+
+		std::vector<std::vector<Vec3>> m_shadowVertices;
 
 		shared_ptr<SoundItem> m_BGM;
 	
@@ -149,7 +156,15 @@ namespace basecross
 		//void OnCollisionEnter(shared_ptr<GameObject>& collision) override;
 
 
+		bool IsDead() const
+		{
+			return m_isDead;
+		}
 
+		void SetIsDead(bool isDead)
+		{
+			m_isDead = isDead;
+		}
 
 	};
 }
