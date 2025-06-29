@@ -253,7 +253,7 @@ namespace basecross {
 		{
 			Vec3(9.0f,9.0f,-0.001f),
 			Vec3(0.0f,0.0f,0.0f),
-			Vec3(-45.0f,26.25f,-0.5f)
+			Vec3(-55.0f,26.25f,-0.5f)
 		}
 		};
 		for (auto& v : vec) {
