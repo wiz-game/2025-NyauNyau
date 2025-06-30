@@ -14,7 +14,8 @@ namespace basecross {
 	//--------------------------------------------------------------------------------------
 	//	ゲームステージクラス実体
 	//--------------------------------------------------------------------------------------
-	void GameStage::CreateViewLight() {
+	void GameStage::CreateViewLight() 
+	{
 
 		m_mainView = ObjectFactory::Create<SingleView>(GetThis<Stage>());
 		auto ptrmainCamera = ObjectFactory::Create<MainCamera>();
@@ -22,30 +23,26 @@ namespace basecross {
 		ptrmainCamera->SetAt(Vec3(0.0f, 0.0f, 0.0f));
 		m_mainView->SetCamera(ptrmainCamera);
 
-
 		m_phase1View = ObjectFactory::Create<SingleView>(GetThis<Stage>());
 		auto ptrphase1Camera = ObjectFactory::Create<Phase1Camera>();
 		ptrphase1Camera->SetEye(Vec3(10.0f, 30.0f, -70.0f));
 		ptrphase1Camera->SetAt(Vec3(10.0f, 20.0f, 0.0f));
-
 		m_phase1View->SetCamera(ptrphase1Camera);
 
-		SetView(m_phase1View);
+		//OpeningCameraView用のビュー
+		m_OpeningCameraView = ObjectFactory::Create<SingleView>(GetThis<Stage>());
+		auto ptrOpeningCamera = ObjectFactory::Create<OpeningCamera>();
+		ptrOpeningCamera->SetEye(200.0f, 180.0f, 200.0f);
+		m_OpeningCameraView->SetCamera(ptrOpeningCamera);
 
-
-
-
+		//初期状態ではm_OpeningCameraViewを使う
+		SetView(m_OpeningCameraView);
+		m_CameraSelect = CameraSelect::openingCamera;
 
 		//マルチライトの作成
 		auto light = CreateLight<MultiLight>();
 		light->SetDefaultLighting(); //デフォルトのライティングを指定
 
-
-
-		//マルチライトの作成
-		auto PtrMultiLight = CreateLight<MultiLight>();
-		//デフォルトのライティングを指定
-		PtrMultiLight->SetDefaultLighting();
 	}
 
 	void GameStage::CreateWall()
@@ -212,7 +209,7 @@ namespace basecross {
 			{
 				Vec3(1.25f, 1.0f, 1.0f),
 				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(-25.0f, 20.5f, -0.5f)
+				Vec3(-35.0f, 22.0f, -0.5f)
 			},
 
 		};
@@ -256,7 +253,7 @@ namespace basecross {
 		{
 			Vec3(9.0f,9.0f,-0.001f),
 			Vec3(0.0f,0.0f,0.0f),
-			Vec3(-70.0f,26.25f,-0.5f)
+			Vec3(-55.0f,26.25f,-0.5f)
 		}
 		};
 		for (auto& v : vec) {
@@ -354,7 +351,6 @@ namespace basecross {
 		}
 
 	}
-
 
 	void GameStage::CreateShadowBall()
 	{
@@ -466,6 +462,22 @@ namespace basecross {
 
 	}
 
+	//カメラマンの作成
+	void GameStage::CreateCameraman() 
+	{
+		auto ptrOpeningCameraman = AddGameObject<OpeningCameraman>();
+		//シェア配列にOpeningCameramanを追加
+		SetSharedGameObject(L"OpeningCameraman", ptrOpeningCameraman);
+
+		auto ptrOpeningCamera = dynamic_pointer_cast<OpeningCamera>(m_OpeningCameraView->GetCamera());
+		if (ptrOpeningCamera) 
+		{
+			ptrOpeningCamera->SetCameraObject(ptrOpeningCameraman);
+			SetView(m_OpeningCameraView);
+			m_CameraSelect = CameraSelect::openingCamera;
+		}
+
+	}
 
 
 
@@ -506,7 +518,7 @@ namespace basecross {
 			//ゴールの作成
 			//CreategoalGate();
 			AddGameObject<goalGate>(
-				Vec3(2.5f, 3.5f, 0.001f),
+				Vec3(2.5f, 3.5f, 0.0f),
 				Vec3(0.0f, 0.0f, 0.0f),
 				Vec3(45.0f, 20.75f, -0.1f)
 			);
@@ -522,6 +534,10 @@ namespace basecross {
 			CreateCheese();
 			//本棚の作成
 			CreateBookShelf();
+			//カメラマンの作成
+			CreateCameraman();
+
+
 
 			//スプライトオブジェクト
 			AddGameObject<Phase1>();
@@ -597,6 +613,10 @@ namespace basecross {
 				m_selectedBoxIndex = 0; // 最初のBox (Box_0) を選択候補にする
 			}
 
+
+			// --- タイマーの初期化 ---
+			m_initialUpdateTimer = 0.0f;     // タイマーを0にリセット
+			m_isInitialUpdatePeriod = true;  // ゲーム開始直後なので、初期期間フラグをtrueに
 		}
 		catch (...) {
 			throw;
@@ -754,8 +774,19 @@ namespace basecross {
 			}
 		}
 
-
 	}
+
+	void GameStage::ToPhase1Camera()
+	{
+		//Phase1Cameraに変更
+		auto ptrPhase1Camera = dynamic_pointer_cast<Phase1Camera>(m_phase1View->GetCamera());
+		if (ptrPhase1Camera)
+		{
+			SetView(m_phase1View);
+			m_CameraSelect = CameraSelect::phase1Camera;
+		}
+	}
+
 
 	void GameStage::OnPushA()
 	{
@@ -847,13 +878,18 @@ namespace basecross {
 		int currentTargetIndex = -1;
 
 		// 現在のモードからターゲットにすべきBoxのインデックスを決定
-		if (m_currentControlMode == GameControlMode::SelectBox) {
+		if (m_currentControlMode == GameControlMode::SelectBox) 
+		{
 			currentTargetIndex = m_selectedBoxIndex;
 		}
-		else if (m_currentControlMode == GameControlMode::ControlBox) {
-			if (m_currentlyControlledBox) {
-				for (int i = 0; i < m_controllableBoxes.size(); ++i) {
-					if (m_controllableBoxes[i] == m_currentlyControlledBox) {
+		else if (m_currentControlMode == GameControlMode::ControlBox) 
+		{
+			if (m_currentlyControlledBox) 
+			{
+				for (int i = 0; i < m_controllableBoxes.size(); ++i) 
+				{
+					if (m_controllableBoxes[i] == m_currentlyControlledBox) 
+					{
 						currentTargetIndex = i;
 						break;
 					}
@@ -868,10 +904,12 @@ namespace basecross {
 			{
 				bool shouldAnimate = (m_currentControlMode == GameControlMode::SelectBox);
 
-				if (currentTargetIndex >= 0 && currentTargetIndex < m_controllableBoxes.size()) {
+				if (currentTargetIndex >= 0 && currentTargetIndex < m_controllableBoxes.size()) 
+				{
 					pointer->SetTargetBox(m_controllableBoxes[currentTargetIndex], shouldAnimate);
 				}
-				else {
+				else 
+				{
 					pointer->SetTargetBox(nullptr, false);
 				}
 			}
@@ -961,15 +999,11 @@ namespace basecross {
 		app->RegisterTexture(L"TEX_SETTING", texPath + L"PauseStage setting.png");
 		app->RegisterTexture(L"TEX_END", texPath + L"PauseStage end.png");
 		app->RegisterTexture(L"TEX_END2", texPath + L"PauseStage Back.png");
-
 		app->RegisterTexture(L"TEX_GameStageUI", texPath + L"GameStageUI.png");
-
 		app->RegisterTexture(L"TEX_phase1UI_A", texPath + L"phase1UI_A.png");
 		app->RegisterTexture(L"TEX_phase1UI_B", texPath + L"phase1UI_B.png");
 		app->RegisterTexture(L"TEX_phase1UI_light", texPath + L"phase1.2UI_light.png");
 		app->RegisterTexture(L"TEX_phase2UI_A", texPath + L"phase2UI_A.png");
-
-
 		app->RegisterTexture(L"TEX_BoxPointer", texPath + L"BoxPoint.png");
 
 	}
@@ -1058,20 +1092,46 @@ namespace basecross {
 				return;
 			}
 
+			// --- 最初の2秒間のタイマー処理 ---
+			if (m_isInitialUpdatePeriod) 
+			{
+				m_initialUpdateTimer += App::GetApp()->GetElapsedTime();
+				if (m_initialUpdateTimer > 2.0f) 
+				{
+					m_isInitialUpdatePeriod = false;
+				}
+			}
+
 			if (pause->IsPlaying())
 			{
 				auto gameObjectVec = GetGameObjectVec();
 				for (auto obj : gameObjectVec)
 				{
-					if (dynamic_pointer_cast<PauseManager>(obj))
+					if (m_isInitialUpdatePeriod)
+					{
+						if (dynamic_pointer_cast<Player>(obj) &&
+							dynamic_pointer_cast<Enemy>(obj))
+						{
+							obj->SetUpdateActive(true);
+						}
+					}
+				    else if (dynamic_pointer_cast<Box>(obj))
 					{
 						obj->SetUpdateActive(true);
 					}
-				    if (dynamic_pointer_cast<Box>(obj))
+					else if (dynamic_pointer_cast<PauseManager>(obj))
 					{
 						obj->SetUpdateActive(true);
 					}
 					else if (dynamic_pointer_cast<ShadowDrawer>(obj))
+					{
+						obj->SetUpdateActive(true);
+					}
+					else if(dynamic_pointer_cast<OpeningCamera>(obj))
+					{
+						obj->SetUpdateActive(true);
+					}
+					else if(dynamic_pointer_cast<OpeningCameraman>(obj))
 					{
 						obj->SetUpdateActive(true);
 					}
@@ -1110,17 +1170,20 @@ namespace basecross {
 					phase2UI->SetDrawActive(true);
 					boxPointer->SetDrawActive(false);
 
-					auto gameObjectVec = GetGameObjectVec();
-					for (auto obj : gameObjectVec)
+					if (currentPhase == GamePhase::Phase2)
 					{
-						if (dynamic_pointer_cast<Box>(obj))
+						auto gameObjectVec = GetGameObjectVec();
+						for (auto obj : gameObjectVec)
 						{
-							obj->SetUpdateActive(false);
-						}
-						else
-						{
-							obj->SetUpdateActive(true);
+							if (dynamic_pointer_cast<Box>(obj))
+							{
+								obj->SetUpdateActive(false);
+							}
+							else
+							{
+								obj->SetUpdateActive(true);
 
+							}
 						}
 					}
 				}

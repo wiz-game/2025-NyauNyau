@@ -38,6 +38,13 @@ namespace basecross {
 		ControlBox  // 特定のBoxを選択し、そのBoxを操作している最中であることを示すモード
 	};
 
+	enum class CameraSelect 
+	{
+		openingCamera,
+		phase1Camera,
+	};
+
+
 	class GameStage : public Stage {
 		//ビューの作成
 		void CreateViewLight();
@@ -62,18 +69,20 @@ namespace basecross {
 		//モデルの読込
 		void LoadModels();
 
-
-
 		void CreateBox();
 		//void CreateTestShadowBox();
 
-		//プレイヤーの生成
+		//プレイヤーの作成
 		void CreatePlayer();
 
-		//エネミーの生成
+		//エネミーの作成
 		void CreateEnemy();
 
+		//ギミック（仮）の作成
 		void CreateShadowBall();
+
+		//カメラマンの作成
+		void CreateCameraman();
 
 		std::weak_ptr<PauseManager> m_pauseManager;//ポーズマネージャーへの参照
 		std::weak_ptr<SettingStage> m_settingStage;//セッティングステージへの参照
@@ -86,6 +95,7 @@ namespace basecross {
 
 		shared_ptr<SingleView> m_mainView; // メインカメラへの参照
 		shared_ptr<SingleView> m_phase1View;
+		shared_ptr<SingleView> m_OpeningCameraView;
 
 		GamePhase currentPhase = GamePhase::Phase1; // 最初に設定されているPhase
 
@@ -107,8 +117,6 @@ namespace basecross {
 		bool m_stickMovedLeftLastFrame;  // 前のフレームで左に倒されていたか
         bool m_stickMovedRightLastFrame; // 前のフレームで右に倒されていたか
 
-		//std::shared_ptr<Box> boxObject;
-		//std::vector<std::shared_ptr<GameObject>> gameObjects;
 		float m_Time;
 		bool m_isStageFadingOut;
 		float m_fadeTimer;
@@ -116,6 +124,10 @@ namespace basecross {
 
 		shared_ptr<PNTBoneModelDraw> m_drawModelComp;
 
+		CameraSelect m_CameraSelect;
+
+		float m_initialUpdateTimer; // 最初の数秒間を計るためのタイマー
+		bool m_isInitialUpdatePeriod; // 最初の数秒間の間かを示すフラグ
 
 		weak_ptr<FadeScreen> m_fadeScreen;
 		//ゲームオーバーフラグ
@@ -150,6 +162,13 @@ namespace basecross {
 
 		std::shared_ptr<Table> GetTableObject() const; // Tableオブジェクトを取得する関数
 
+
+		CameraSelect GetCameraSelect() const
+		{
+			return m_CameraSelect;
+		}
+
+		void ToPhase1Camera();
 
 		//初期化		
 		virtual void OnCreate()override;

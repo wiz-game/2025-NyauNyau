@@ -41,7 +41,7 @@ namespace basecross {
 
 		//Aƒ{ƒ^ƒ“
 		void OnPushA();
-		void OnPushB(){}
+		void SwitchStage();
 	};
 }
 //end basecross
