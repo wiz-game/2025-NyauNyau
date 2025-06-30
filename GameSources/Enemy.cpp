@@ -45,6 +45,7 @@ namespace basecross {
 
 		//ƒRƒŠƒWƒ‡ƒ“
 		auto ptrColl = AddComponent<CollisionObb>();
+		ptrColl->SetFixed(false);
 
 		AddTag(L"Enemy");
 
