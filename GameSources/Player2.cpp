@@ -25,11 +25,8 @@ namespace basecross
 		m_collisionFlag(false),
 		m_gravity(-4.0),
 		m_Radius(0.0f),
-		m_Center(0.0f,0.0f,0.0f)
-
-
-
-
+		m_Center(0.0f,0.0f,0.0f),
+		m_jumpBufferCounter(0.0f)
 	{}
 
 	Vec2 Player::GetInputState() const {
@@ -167,30 +164,29 @@ namespace basecross
 	void Player::OnUpdate()
 	{
 		float elapsedTime = App::GetApp()->GetElapsedTime();
+		m_InputHandler.PushHandle(GetThis<Player>()); // ジャンプ入力はいつでも受け付ける
 
-		// === ステップ1: 入力と速度更新 ===
-		m_InputHandler.PushHandle(GetThis<Player>());
-
-		m_velocity.x = m_Speed;
-		if (m_isAir) {
-			m_velocity.y += m_gravity * elapsedTime;
-		}
-		else {
-			if (m_velocity.y < 0) {
-				m_velocity.y = 0;
-			}
-		}
-
-		// === ステップ2: 移動量計算と衝突判定の準備 ===
 		auto ptrTransform = GetComponent<Transform>();
 		Vec3 currentPosition = ptrTransform->GetPosition();
+
+		// ---まず、このフレームで働く力をすべて速度に反映 ---
+		m_velocity.x = m_Speed;
+		// 接地していなくても、まず重力を計算する
+		m_velocity.y += m_gravity * elapsedTime;
+
+
+		// ---速度から、このフレームの移動量を計算 ---
 		Vec3 deltaPosition = m_velocity * elapsedTime;
 
-		// --- 複数当たり判定ループ ---
-		m_Center = currentPosition + deltaPosition;
+
+		// ---衝突判定と、それに基づく「状態の確定」と「補正」 ---
+
+		//判定用の中心と半径を設定
+		m_Center = currentPosition + deltaPosition; // 常に未来位置で予測
 		m_Radius = ((m_Scale.x < m_Scale.y) ? m_Scale.x : m_Scale.y) / 2.0f;
 
-		Vec3 best_mtv(0.0f, 0.0f, 0.0f);
+		//複数当たり判定ループで、最も深刻な衝突(best_mtv)を見つける
+		Vec3 best_mtv(0, 0, 0);
 		float max_overlap_sq = 0.0f;
 
 		auto shadowDrawer = GetStage()->GetSharedGameObject<ShadowDrawer>(L"ShadowDrawer");
@@ -212,42 +208,39 @@ namespace basecross
 			}
 		}
 
-		// === ステップ3: 衝突応答 - 速度と位置の厳格な補正 ===
-
-		if (best_mtv.dot(best_mtv) > 1e-9f) // 衝突があったなら
+		//衝突応答
+		if (best_mtv.dot(best_mtv) > 1e-9f) // 衝突があったか？
 		{
+			// まず、位置を押し出して補正する
+			deltaPosition += best_mtv * 1.01f;
+
 			Vec3 collisionNormal = best_mtv.normalize();
 
-			// ★★★ Y方向の衝突（地面）を最優先で解決 ★★★
+			// 条件：地面に、めり込むように接触したか
 			if (collisionNormal.y > 0.7f && m_velocity.y <= 0)
 			{
-				// 1. まず、Y速度をゼロにして、それ以上落下しないようにする
+				// 接地したので、Y速度を強制的にゼロにする
+				// これが「静止摩擦」の役割を果たし、振動を止める
 				m_velocity.y = 0;
-				m_isAir = false;
-
-				// 2. 次に、Y方向の移動量(deltaPosition.y)を、
-				//    めり込みを解消する量(best_mtv.y)で、完全に上書きする
-				deltaPosition.y = best_mtv.y;
 			}
 
-			// ★★★ 次に、X方向の衝突（壁）を解決 ★★★
-			if (abs(collisionNormal.x) > 0.7f)
+			// 横壁に当たった場合も同様に、X速度をゼロにする
+			if (abs(collisionNormal.x) > 0.7f && m_velocity.x != 0)
 			{
 				m_velocity.x = 0;
-				deltaPosition.x = best_mtv.x;
 			}
 		}
-		else // 衝突がなかった場合
-		{
+
+		//最終的な位置を適用
+		deltaPosition = m_velocity * elapsedTime;
+		if (abs(m_velocity.y) < 0.1f) { // わずかな誤差を許容
+			m_isAir = false;
+		}
+		else {
 			m_isAir = true;
 		}
 
-		// === ステップ4: 最終的な位置を適用 ===
-
-		// ★★★ 最終的な移動は、補正された「後」の速度でのみ行う ★★★
-		deltaPosition = m_velocity * elapsedTime;
-
-		// 最下層の床との接触（保険）
+		// (保険の最下層地面処理)
 		if ((currentPosition.y + deltaPosition.y) < -4.99f) {
 			deltaPosition.y = -4.99f - currentPosition.y;
 			m_velocity.y = 0;
@@ -255,7 +248,7 @@ namespace basecross
 		}
 
 		ptrTransform->SetPosition(currentPosition + deltaPosition);
-		DrawStrings();;
+		DrawStrings();
 	}
 
 	//Aボタン
@@ -264,6 +257,7 @@ namespace basecross
 		auto scene = App::GetApp()->GetScene<Scene>();
 		auto volume = scene->m_volumeBGM;
 		auto ptrXA = App::GetApp()->GetXAudio2Manager();
+		m_jumpBufferCounter = 0.15f;
 
 		if (m_isAir == false)
 		{
@@ -280,7 +274,7 @@ namespace basecross
 			//重力の適用
 			float elapsedTime = App::GetApp()->GetElapsedTime();
 			m_velocity.y += elapsedTime;
-			auto ptrGra = AddComponent<Gravity>();
+			//auto ptrGra = AddComponent<Gravity>();
 
 			ptrTransform->SetPosition(pos);
 		}
