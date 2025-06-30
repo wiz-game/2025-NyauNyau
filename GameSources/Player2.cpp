@@ -17,9 +17,6 @@ namespace basecross
 		m_Position(Position),
 		m_Speed(8.0f),
 		m_isAir(true),
-		m_isDead(false),
-		m_isFallSE(false),
-		m_fallSound(nullptr),
 		m_Player1(false),
 		m_cameraAngleY(0.0f),
 		m_forward(0.0f),
@@ -28,9 +25,13 @@ namespace basecross
 		m_collisionFlag(false),
 		m_gravity(-4.0),
 		m_Radius(0.0f),
-		m_Center(0.0f,0.0f,0.0f),
-		m_jumpBufferCounter(0.0f)
-	{}
+		m_Center(0.0f, 0.0f, 0.0f),
+		m_jumpBufferCounter(0.0f),
+		m_isDead(false),
+		m_isFallSE(false),
+		m_number(0)
+	{
+	}
 
 	Vec2 Player::GetInputState() const {
 		Vec2 ret;
@@ -84,7 +85,7 @@ namespace basecross
 			//if (m_Player1)
 			//{
 				//z軸を固定
-				angle.z = 0;
+			angle.z = 0;
 			//}
 			//else
 			//{
@@ -132,7 +133,7 @@ namespace basecross
 		m_Center = Vec3(1.2f, 0.6f, 0.3f);
 		Vec3 position = Vec3(m_Center.x, m_Center.y, 0.0f);
 
-		
+
 
 		//各パフォーマンスを得る
 		GetStage()->SetCollisionPerformanceActive(true);
@@ -166,47 +167,9 @@ namespace basecross
 
 	void Player::OnUpdate()
 	{
-		// このフレームの経過時間を取得。すべての時間ベースの計算で使う。
 		float elapsedTime = App::GetApp()->GetElapsedTime();
 		m_InputHandler.PushHandle(GetThis<Player>()); // ジャンプ入力はいつでも受け付ける
 
-<<<<<<< HEAD
-		// ===================================================================
-		// === ステップ1: プレイヤーの「意志」と「世界の法則」で速度を更新 ===
-		// ===================================================================
-
-		// プレイヤーからの入力を処理系に登録する。
-		// これにより、このフレームでAボタンが押されればOnPushAが呼ばれる。
-		m_InputHandler.PushHandle(GetThis<Player>());
-
-		// --- 速度ベクトルの各成分を決定 ---
-
-		// X方向：常に一定の速度で右に進み続ける、というゲームのルール。
-		m_velocity.x = m_Speed;
-
-		// Y方向：物理法則（重力）を適用する。
-		// このm_isAirは、「前のフレームの終わり」に決定された接地状態。
-		if (m_isAir)
-		{
-			// もし空中にいるなら、重力によって落下速度を増加させる。
-			m_velocity.y += m_gravity * elapsedTime;
-		}
-		else
-		{
-			// もし地面にいるなら、不必要な落下や上昇を防ぐ。
-			// (ただし、ジャンプ直後の上昇速度(y>0)は消さないように、下降速度(y<0)だけをリセット)
-			if (m_velocity.y < 0) {
-				m_velocity.y = 0;
-			}
-		}
-
-		// =================================================================
-		// === ステップ2: 移動と衝突の「シミュレーション」を行う         ===
-		// =================================================================
-
-		// 現在位置を取得し、このフレームで動くべき「生の」移動量を計算する。
-=======
->>>>>>> Shadow
 		auto ptrTransform = GetComponent<Transform>();
 		Vec3 currentPosition = ptrTransform->GetPosition();
 
@@ -219,16 +182,6 @@ namespace basecross
 		// ---速度から、このフレームの移動量を計算 ---
 		Vec3 deltaPosition = m_velocity * elapsedTime;
 
-<<<<<<< HEAD
-		// --- 2a. 複数の影との当たり判定ループ ---
-		// これから動く先の「未来の位置」で当たり判定を行う（予測ベースの判定）。
-		m_Center = currentPosition + deltaPosition;
-		// プレイヤーの当たり判定の大きさを、不均一スケールも考慮して決定する。
-		m_Radius = ((m_Scale.x < m_Scale.y) ? m_Scale.x : m_Scale.y) / 2.0f;
-
-		// このフレームで最も重要（めり込みが最大）だった衝突情報を記録する変数。
-		Vec3 best_mtv(0.0f, 0.0f, 0.0f);
-=======
 
 		// ---衝突判定と、それに基づく「状態の確定」と「補正」 ---
 
@@ -238,101 +191,35 @@ namespace basecross
 
 		//複数当たり判定ループで、最も深刻な衝突(best_mtv)を見つける
 		Vec3 best_mtv(0, 0, 0);
->>>>>>> Shadow
 		float max_overlap_sq = 0.0f;
 
-		// シーンから影の管理者である「ShadowDrawer」を探し出す。
 		auto shadowDrawer = GetStage()->GetSharedGameObject<ShadowDrawer>(L"ShadowDrawer");
-		if (shadowDrawer)
-		{
-			// ShadowDrawerから、影の計算と描画を統括する「ShadowComponent」を取得。
+		if (shadowDrawer) {
 			auto shadowComp = shadowDrawer->GetComponent<ShadowComponent>();
-			if (shadowComp)
-			{
-				// ShadowComponentが計算した、最新の「すべての影の頂点リスト」をもらう。
+			if (shadowComp) {
 				const auto& allShadows = shadowComp->GetAllShadowsVertices();
-				// すべての影に対して、当たり判定を試みる。
-				for (const auto& singleShadowVertices : allShadows)
-				{
-					if (singleShadowVertices.size() < 3) continue; // ポリゴンでなければスキップ。
-
+				for (const auto& singleShadowVertices : allShadows) {
+					if (singleShadowVertices.size() < 3) continue;
 					Vec3 mtv;
-					// あなたが完成させた、2Dボロノイ領域ベースの衝突判定を実行。
-					if (ComputeMTV(singleShadowVertices, mtv))
-					{
-						// 衝突した場合、そのめり込み量（の2乗）を計算。
+					if (ComputeMTV(singleShadowVertices, mtv)) {
 						float current_overlap_sq = mtv.dot(mtv);
-						// もし、今回のめり込みが今までの最大記録よりも大きいなら、記録を更新。
-						if (current_overlap_sq > max_overlap_sq)
-						{
+						if (current_overlap_sq > max_overlap_sq) {
 							max_overlap_sq = current_overlap_sq;
-							best_mtv = mtv; // この衝突を「最も重要な衝突」として記憶する。
+							best_mtv = mtv;
 						}
 					}
 				}
 			}
 		}
 
-<<<<<<< HEAD
-		// =================================================================
-		// === ステップ3: シミュレーション結果に基づき、物理状態を補正する ===
-		// =================================================================
-
-		// best_mtvが更新されていれば（ゼロベクトルでなければ）、何らかの衝突があったと判断。
-		if (best_mtv.dot(best_mtv) > 1e-9f)
-		{
-			// --- 3a. 位置の補正 ---
-			// まず、最も深刻なめり込み(best_mtv)を使って、現在の位置を押し戻す。
-			// これで、過去のフレームから持ち越した、わずかなめり込みが解消される。
-			currentPosition += best_mtv;
-
-			// --- 3b. 速度の補正 ---
-			// 次に、未来のフレームで同じめり込みが起きないように、速度ベクトルを補正する。
-=======
 		//衝突応答
 		if (best_mtv.dot(best_mtv) > 1e-9f) // 衝突があったか？
 		{
 			// まず、位置を押し出して補正する
 			deltaPosition += best_mtv * 1.01f;
 
->>>>>>> Shadow
 			Vec3 collisionNormal = best_mtv.normalize();
 
-<<<<<<< HEAD
-			// 速度が衝突面にめり込む方向を向いている（内積が負）場合のみ補正。
-			if (dot_vel_norm < 0) {
-				// 速度ベクトルから、衝突面に垂直な（めり込む）成分を完全に除去する。
-				// これにより、プレイヤーは壁に「ピタッ」と止まる。
-				m_velocity -= collisionNormal * dot_vel_norm;
-			}
-
-			// --- 3c. 接地状態の決定 ---
-			// 衝突面の法線の向きと、プレイヤーのY速度から、本当に「接地」したかを厳密に判断。
-			if (collisionNormal.y > 0.7f && m_velocity.y <= 0.0f) {
-				// 歩ける斜面、かつ落下中なら、接地とみなす。
-				m_isAir = false;
-				m_velocity.y = 0; // 接地したので、Y速度を確実にゼロにリセット。
-			}
-			else {
-				// それ以外（横壁や、駆け上がっている坂など）との衝突なら、まだ空中扱い。
-				m_isAir = true;
-			}
-		}
-		else // どの影とも衝突しなかった場合
-		{
-			// 何にも当たらなければ、当然、空中にいる。
-			m_isAir = true;
-		}
-
-		// =================================================================
-		// === ステップ4: 最終的な位置を決定し、Transformに適用する      ===
-		// =================================================================
-
-		// 衝突応答によって補正された「後」の、安全な速度で、最終的な移動量を再計算。
-		deltaPosition = m_velocity * elapsedTime;
-
-		// 最下層の床に落ちないようにする、最後の安全装置。
-=======
 			// 条件：地面に、めり込むように接触したか
 			if (collisionNormal.y > 0.7f && m_velocity.y <= 0)
 			{
@@ -358,50 +245,14 @@ namespace basecross
 		}
 
 		// (保険の最下層地面処理)
->>>>>>> Shadow
 		if ((currentPosition.y + deltaPosition.y) < -4.99f) {
 			deltaPosition.y = -4.99f - currentPosition.y;
 			m_velocity.y = 0;
 			m_isAir = false;
 		}
 
-		// 「補正済みの現在位置」に、「補正済みの移動量」を加えて、最終的な位置をセットする。
 		ptrTransform->SetPosition(currentPosition + deltaPosition);
-<<<<<<< HEAD
-
-		// デバッグ用の文字列を描画。
 		DrawStrings();
-	}
-
-
-	void Player::MoveXZ() 
-	{
-		/*auto angle = GetInputState();
-		float elapsedTime = App::GetApp()->GetElapsedTime();
-		auto pos = GetComponent<Transform>()->GetPosition();
-		pos += elapsedTime * m_velocity;
-		GetComponent<Transform>()->SetPosition(pos);*/
-	}
-
-	void Player::MoveY() 
-	{
-		//auto ptrTransform = GetComponent<Transform>();
-		//auto pos = GetComponent<Transform>()->GetPosition();
-
-
-		//if (m_isAir == true)
-		//{
-		//	// 重力の適用
-		//	float elapsedTime = App::GetApp()->GetElapsedTime();
-		//	//m_velocity.y += m_gravity * elapsedTime;
-		//	auto ptrGra = AddComponent<Gravity>();
-
-		//	ptrTransform->SetPosition(pos);
-
-		//}
-=======
-		DrawStrings();
->>>>>>> Shadow
 	}
 
 	//Aボタン
@@ -410,17 +261,13 @@ namespace basecross
 		auto scene = App::GetApp()->GetScene<Scene>();
 		auto volume = scene->m_volumeBGM;
 		auto ptrXA = App::GetApp()->GetXAudio2Manager();
-<<<<<<< HEAD
-		auto volumeSE = scene->m_volumeSE;
-=======
 		m_jumpBufferCounter = 0.15f;
->>>>>>> Shadow
 
 		if (m_isAir == false)
 		{
-			m_velocity.y = 4.0f; // ジャンプの初速を与える
+			m_velocity.y = 5.0f; // ジャンプの初速を与える
 			m_isAir = true; // ジャンプしたので空中状態にする
-			ptrXA->Start(L"Jump", 0, volumeSE);
+			ptrXA->Start(L"Jump", 0, 0.5f);
 
 		}
 		else
@@ -438,37 +285,22 @@ namespace basecross
 
 	}
 
-	void Player::OnCollisionEnter(shared_ptr<GameObject>& Other)
+	void Player::OnCollisionExcute(shared_ptr<GameObject>& Other)
 	{
-		//すでに死亡中なら何もしない
-		if (m_isDead)
-		{
-			return;
-		}
-
-		// 衝突対象が地面または敵か確認
-		if (dynamic_pointer_cast<Ground>(Other) || dynamic_pointer_cast<Enemy>(Other))
+		if (dynamic_pointer_cast<Ground>(Other)) // 衝突対象が地面か確認
 		{
 			auto scene = App::GetApp()->GetScene<Scene>();
-			auto volumeBGM = scene->m_volumeBGM;
-			auto volumeSE = scene->m_volumeSE;
+
+			auto volume = scene->m_volumeBGM;
 
 			auto ptrXA = App::GetApp()->GetXAudio2Manager();
-			ptrXA->Stop(m_fallSound);
-			m_fallSound = nullptr;
 
-			ptrXA->Start(L"Fall", 0, volumeSE);
-			m_isDead = true;
+			ptrXA->Start(L"Fall", 0, 0.5f);
 
 			PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"ToGameOverStage");
-			// 自分が所属しているステージ（GameStage）のポインタを取得
-		//	auto stage = std::dynamic_pointer_cast<GameStage>(GetStage());
-		//	if (stage) {
-		//		// GameStageにゲームオーバー処理の開始を依頼する
-		//		stage->StartGameOver();
-		//	}
-		}
 
+
+		}
 		else if (dynamic_pointer_cast<ShadowFloor>(Other) || dynamic_pointer_cast<BookShelf>(Other))
 		{
 			m_velocity.y *= 0;
@@ -482,6 +314,10 @@ namespace basecross
 		//m_collisionFlag = false;
 	}
 
+	void Player::OnCollisionEnter(shared_ptr<GameObject>& Other)
+	{
+		
+	}
 
 	//void Player::SetPlayerMove(bool Player1)
 	//{
@@ -579,7 +415,7 @@ namespace basecross
 		Vec2 mtv2D = pushDirection2D * overlap;
 
 		//3Dベクトルに戻す（Z成分は必ず0
-		mtv = Vec3(mtv2D.x, mtv2D.y+0.025, 0.0f);
+		mtv = Vec3(mtv2D.x, mtv2D.y + 0.025, 0.0f);
 
 		return true;
 	}
