@@ -301,7 +301,7 @@ namespace basecross
 		// 衝突応答によって補正された「後」の、安全な速度で、最終的な移動量を再計算。
 		deltaPosition = m_velocity * elapsedTime;
 
-		// 最下層の床に落ちないようにする、最後の安全装置。
+		 //最下層の床に落ちないようにする、最後の安全装置。
 		if ((currentPosition.y + deltaPosition.y) < -4.99f) {
 			deltaPosition.y = -4.99f - currentPosition.y;
 			m_velocity.y = 0;
@@ -313,6 +313,19 @@ namespace basecross
 
 		// デバッグ用の文字列を描画。
 		DrawStrings();
+
+
+		//プレイヤーが床から15.0fの場所まで来たら落ちている音を鳴らす
+		auto transform = GetComponent<Transform>()->GetPosition();
+		if (transform.y < 15.0f && !m_isFallSE)
+		{
+			
+			m_isFallSE = true;
+			auto scene = App::GetApp()->GetScene<Scene>();
+			auto volume = scene->m_volumeSE;
+			auto ptrXA = App::GetApp()->GetXAudio2Manager();
+			m_fallSound = ptrXA->Start(L"Fall2_SE", 0, volume);
+		}
 	}
 
 
@@ -373,8 +386,15 @@ namespace basecross
 
 	}
 
+	//衝突判定
 	void Player::OnCollisionEnter(shared_ptr<GameObject>& Other)
 	{
+		//オブジェクトが自分自身だったら無視する
+		if (Other.get() == this)
+		{
+			return;
+		}
+
 		//すでに死亡中なら何もしない
 		if (m_isDead)
 		{
@@ -384,6 +404,7 @@ namespace basecross
 		// 衝突対象が地面または敵か確認
 		if (dynamic_pointer_cast<Ground>(Other) || dynamic_pointer_cast<Enemy>(Other))
 		{
+			m_isDead = true;
 			auto scene = App::GetApp()->GetScene<Scene>();
 			auto volumeBGM = scene->m_volumeBGM;
 			auto volumeSE = scene->m_volumeSE;
@@ -392,23 +413,27 @@ namespace basecross
 			ptrXA->Stop(m_fallSound);
 			m_fallSound = nullptr;
 
-			ptrXA->Start(L"Fall", 0, volumeSE);
-			m_isDead = true;
 
-			PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"ToGameOverStage");
+			if (m_isDead)
+			{
+				ptrXA->Start(L"Fall", 0, volumeSE);
+				PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"ToGameOverStage");
+			}
 			// 自分が所属しているステージ（GameStage）のポインタを取得
 		//	auto stage = std::dynamic_pointer_cast<GameStage>(GetStage());
 		//	if (stage) {
 		//		// GameStageにゲームオーバー処理の開始を依頼する
 		//		stage->StartGameOver();
 		//	}
+			return;
 		}
 
 		else if (dynamic_pointer_cast<ShadowFloor>(Other) || dynamic_pointer_cast<BookShelf>(Other))
 		{
+			m_isDead = false;
 			m_velocity.y *= 0;
 			m_isAir = false;
-
+			return;
 		}
 	}
 

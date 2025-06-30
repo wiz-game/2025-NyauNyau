@@ -42,8 +42,8 @@ namespace basecross {
 			//スプライトオブジェクト
 			auto Rat = AddGameObject<GameSprite>();
 			Rat->SetTexture(L"TEX_Rat");
-			Rat->SetPosition(0, 100, 0);
-			Rat->SetScale(3.0f, 4.0f, 1.0f);
+			Rat->SetPosition(0, 150, 0);
+			Rat->SetScale(2.0f, 3.0f, 1.0f);
 			m_sprites.push_back(Rat);
 
 
@@ -53,7 +53,7 @@ namespace basecross {
 			auto gamestage = AddGameObject<BackTitleButton>();
 			gamestage->SetTexture(L"TEX_GameStage");
 			gamestage->SetPosition(0, -220, 0);
-			gamestage->SetScale(0.65f, 0.45f, 1.0f);
+			gamestage->SetScale(0.75f, 0.5f, 1.0f);
 			gamestage->SetSelected(true);
 			m_SelectSprites.push_back(gamestage);
 
