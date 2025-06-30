@@ -1131,7 +1131,7 @@ namespace basecross {
 					{
 						obj->SetUpdateActive(true);
 					}
-					else if(dynamic_pointer_cast<OpeningCameraman>(obj))
+					else if (dynamic_pointer_cast<OpeningCameraman>(obj))
 					{
 						obj->SetUpdateActive(true);
 					}
