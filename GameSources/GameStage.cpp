@@ -878,13 +878,18 @@ namespace basecross {
 		int currentTargetIndex = -1;
 
 		// 現在のモードからターゲットにすべきBoxのインデックスを決定
-		if (m_currentControlMode == GameControlMode::SelectBox) {
+		if (m_currentControlMode == GameControlMode::SelectBox) 
+		{
 			currentTargetIndex = m_selectedBoxIndex;
 		}
-		else if (m_currentControlMode == GameControlMode::ControlBox) {
-			if (m_currentlyControlledBox) {
-				for (int i = 0; i < m_controllableBoxes.size(); ++i) {
-					if (m_controllableBoxes[i] == m_currentlyControlledBox) {
+		else if (m_currentControlMode == GameControlMode::ControlBox) 
+		{
+			if (m_currentlyControlledBox) 
+			{
+				for (int i = 0; i < m_controllableBoxes.size(); ++i) 
+				{
+					if (m_controllableBoxes[i] == m_currentlyControlledBox) 
+					{
 						currentTargetIndex = i;
 						break;
 					}
@@ -899,10 +904,12 @@ namespace basecross {
 			{
 				bool shouldAnimate = (m_currentControlMode == GameControlMode::SelectBox);
 
-				if (currentTargetIndex >= 0 && currentTargetIndex < m_controllableBoxes.size()) {
+				if (currentTargetIndex >= 0 && currentTargetIndex < m_controllableBoxes.size()) 
+				{
 					pointer->SetTargetBox(m_controllableBoxes[currentTargetIndex], shouldAnimate);
 				}
-				else {
+				else 
+				{
 					pointer->SetTargetBox(nullptr, false);
 				}
 			}
@@ -992,15 +999,11 @@ namespace basecross {
 		app->RegisterTexture(L"TEX_SETTING", texPath + L"PauseStage setting.png");
 		app->RegisterTexture(L"TEX_END", texPath + L"PauseStage end.png");
 		app->RegisterTexture(L"TEX_END2", texPath + L"PauseStage Back.png");
-
 		app->RegisterTexture(L"TEX_GameStageUI", texPath + L"GameStageUI.png");
-
 		app->RegisterTexture(L"TEX_phase1UI_A", texPath + L"phase1UI_A.png");
 		app->RegisterTexture(L"TEX_phase1UI_B", texPath + L"phase1UI_B.png");
 		app->RegisterTexture(L"TEX_phase1UI_light", texPath + L"phase1.2UI_light.png");
 		app->RegisterTexture(L"TEX_phase2UI_A", texPath + L"phase2UI_A.png");
-
-
 		app->RegisterTexture(L"TEX_BoxPointer", texPath + L"BoxPoint.png");
 
 	}

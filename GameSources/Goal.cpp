@@ -44,6 +44,8 @@ namespace basecross
 		ptrDraw->SetMeshResource(L"DEFAULT_SQUARE");
 		ptrDraw->SetTextureResource(L"TEX_GOAL");
 		ptrDraw->SetEmissive(Col4(1, 1, 1, 1));
+		SetAlphaActive(true);
+
 
 		//ptrDraw->SetFogEnabled(true);
 		//ptrDraw->SetOwnShadowActive(true);
