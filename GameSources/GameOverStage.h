@@ -40,6 +40,8 @@ namespace basecross {
 		float m_selectX;//–îˆó‚ÌXÀ•W‚ÌˆÊ’u
 
 
+		bool m_once;
+
 	public:
 		//\’z‚Æ”jŠü
 		GameOverStage() :

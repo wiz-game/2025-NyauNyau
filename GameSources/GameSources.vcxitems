@@ -28,6 +28,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)GameStagePointerUI.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Opelation.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)OpelationSprite.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)OpeningCamera.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Phase1Camera.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FootprintSprite.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)gameClearSprite.h" />
@@ -86,6 +87,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStagePointerUI.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Opelation.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)OpelationSprite.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)OpeningCamera.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Phase1Camera.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FootprintSprite.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)gameClearSprite.cpp" />

@@ -15,7 +15,7 @@ namespace basecross
 		m_Scale(Scale),
 		m_Rotation(Rotation),
 		m_Position(Position),
-		m_Speed(5.0f),
+		m_Speed(8.0f),
 		m_isAir(true),
 		m_isDead(false),
 		m_isFallSE(false),

@@ -31,6 +31,7 @@
 #include "PauseSprite.h"
 #include "TitleStratButton.h"
 #include "MainCamera.h"
+#include "OpeningCamera.h"
 #include "BackTitleButton.h"
 #include "SelectStage.h"
 #include "SelectStageSprite.h"
