@@ -48,9 +48,14 @@ namespace basecross
 		bool m_collisionFlag;
 		const float m_gravity;
 	
+<<<<<<< HEAD
 		void MoveY();
 		void MoveXZ();
 		void OnCollisionEnter(shared_ptr<GameObject>& Other) override;
+=======
+		float m_jumpBufferCounter; // ジャンプ入力を覚えておく残り時間
+		void OnCollisionExcute(shared_ptr<GameObject>& Other);
+>>>>>>> Shadow
 		void OnCollisionExit(shared_ptr<GameObject>& Other);
 	    void DrawStrings();
 
@@ -145,14 +150,14 @@ namespace basecross
 		bool ComputeMTV(const std::vector<Vec3>& polygonVertices, Vec3& mtv);
 		//bool ComputeMTV(const shared_ptr<ShadowObject>& polygon, const Vec3& sphereWorldCenter, float sphereRadius, Vec3& mtv); // 変更後
 
-
 		virtual ~Player() {}
 		//アクセサ
 		//初期化
 		virtual void OnCreate() override;
 		//更新
 		virtual void OnUpdate() override;
-
+		//一定間隔
+		void FixedUpdate();
 		//void OnCollisionEnter(shared_ptr<GameObject>& collision) override;
 
 

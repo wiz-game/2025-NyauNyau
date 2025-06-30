@@ -28,11 +28,8 @@ namespace basecross
 		m_collisionFlag(false),
 		m_gravity(-4.0),
 		m_Radius(0.0f),
-		m_Center(0.0f,0.0f,0.0f)
-
-
-
-
+		m_Center(0.0f,0.0f,0.0f),
+		m_jumpBufferCounter(0.0f)
 	{}
 
 	Vec2 Player::GetInputState() const {
@@ -171,7 +168,9 @@ namespace basecross
 	{
 		// このフレームの経過時間を取得。すべての時間ベースの計算で使う。
 		float elapsedTime = App::GetApp()->GetElapsedTime();
+		m_InputHandler.PushHandle(GetThis<Player>()); // ジャンプ入力はいつでも受け付ける
 
+<<<<<<< HEAD
 		// ===================================================================
 		// === ステップ1: プレイヤーの「意志」と「世界の法則」で速度を更新 ===
 		// ===================================================================
@@ -206,10 +205,21 @@ namespace basecross
 		// =================================================================
 
 		// 現在位置を取得し、このフレームで動くべき「生の」移動量を計算する。
+=======
+>>>>>>> Shadow
 		auto ptrTransform = GetComponent<Transform>();
 		Vec3 currentPosition = ptrTransform->GetPosition();
+
+		// ---まず、このフレームで働く力をすべて速度に反映 ---
+		m_velocity.x = m_Speed;
+		// 接地していなくても、まず重力を計算する
+		m_velocity.y += m_gravity * elapsedTime;
+
+
+		// ---速度から、このフレームの移動量を計算 ---
 		Vec3 deltaPosition = m_velocity * elapsedTime;
 
+<<<<<<< HEAD
 		// --- 2a. 複数の影との当たり判定ループ ---
 		// これから動く先の「未来の位置」で当たり判定を行う（予測ベースの判定）。
 		m_Center = currentPosition + deltaPosition;
@@ -218,6 +228,17 @@ namespace basecross
 
 		// このフレームで最も重要（めり込みが最大）だった衝突情報を記録する変数。
 		Vec3 best_mtv(0.0f, 0.0f, 0.0f);
+=======
+
+		// ---衝突判定と、それに基づく「状態の確定」と「補正」 ---
+
+		//判定用の中心と半径を設定
+		m_Center = currentPosition + deltaPosition; // 常に未来位置で予測
+		m_Radius = ((m_Scale.x < m_Scale.y) ? m_Scale.x : m_Scale.y) / 2.0f;
+
+		//複数当たり判定ループで、最も深刻な衝突(best_mtv)を見つける
+		Vec3 best_mtv(0, 0, 0);
+>>>>>>> Shadow
 		float max_overlap_sq = 0.0f;
 
 		// シーンから影の管理者である「ShadowDrawer」を探し出す。
@@ -252,6 +273,7 @@ namespace basecross
 			}
 		}
 
+<<<<<<< HEAD
 		// =================================================================
 		// === ステップ3: シミュレーション結果に基づき、物理状態を補正する ===
 		// =================================================================
@@ -266,9 +288,17 @@ namespace basecross
 
 			// --- 3b. 速度の補正 ---
 			// 次に、未来のフレームで同じめり込みが起きないように、速度ベクトルを補正する。
-			Vec3 collisionNormal = best_mtv.normalize();
-			float dot_vel_norm = m_velocity.dot(collisionNormal);
+=======
+		//衝突応答
+		if (best_mtv.dot(best_mtv) > 1e-9f) // 衝突があったか？
+		{
+			// まず、位置を押し出して補正する
+			deltaPosition += best_mtv * 1.01f;
 
+>>>>>>> Shadow
+			Vec3 collisionNormal = best_mtv.normalize();
+
+<<<<<<< HEAD
 			// 速度が衝突面にめり込む方向を向いている（内積が負）場合のみ補正。
 			if (dot_vel_norm < 0) {
 				// 速度ベクトルから、衝突面に垂直な（めり込む）成分を完全に除去する。
@@ -302,6 +332,33 @@ namespace basecross
 		deltaPosition = m_velocity * elapsedTime;
 
 		// 最下層の床に落ちないようにする、最後の安全装置。
+=======
+			// 条件：地面に、めり込むように接触したか
+			if (collisionNormal.y > 0.7f && m_velocity.y <= 0)
+			{
+				// 接地したので、Y速度を強制的にゼロにする
+				// これが「静止摩擦」の役割を果たし、振動を止める
+				m_velocity.y = 0;
+			}
+
+			// 横壁に当たった場合も同様に、X速度をゼロにする
+			if (abs(collisionNormal.x) > 0.7f && m_velocity.x != 0)
+			{
+				m_velocity.x = 0;
+			}
+		}
+
+		//最終的な位置を適用
+		deltaPosition = m_velocity * elapsedTime;
+		if (abs(m_velocity.y) < 0.1f) { // わずかな誤差を許容
+			m_isAir = false;
+		}
+		else {
+			m_isAir = true;
+		}
+
+		// (保険の最下層地面処理)
+>>>>>>> Shadow
 		if ((currentPosition.y + deltaPosition.y) < -4.99f) {
 			deltaPosition.y = -4.99f - currentPosition.y;
 			m_velocity.y = 0;
@@ -310,6 +367,7 @@ namespace basecross
 
 		// 「補正済みの現在位置」に、「補正済みの移動量」を加えて、最終的な位置をセットする。
 		ptrTransform->SetPosition(currentPosition + deltaPosition);
+<<<<<<< HEAD
 
 		// デバッグ用の文字列を描画。
 		DrawStrings();
@@ -341,6 +399,9 @@ namespace basecross
 		//	ptrTransform->SetPosition(pos);
 
 		//}
+=======
+		DrawStrings();
+>>>>>>> Shadow
 	}
 
 	//Aボタン
@@ -349,7 +410,11 @@ namespace basecross
 		auto scene = App::GetApp()->GetScene<Scene>();
 		auto volume = scene->m_volumeBGM;
 		auto ptrXA = App::GetApp()->GetXAudio2Manager();
+<<<<<<< HEAD
 		auto volumeSE = scene->m_volumeSE;
+=======
+		m_jumpBufferCounter = 0.15f;
+>>>>>>> Shadow
 
 		if (m_isAir == false)
 		{
@@ -366,7 +431,7 @@ namespace basecross
 			//重力の適用
 			float elapsedTime = App::GetApp()->GetElapsedTime();
 			m_velocity.y += elapsedTime;
-			auto ptrGra = AddComponent<Gravity>();
+			//auto ptrGra = AddComponent<Gravity>();
 
 			ptrTransform->SetPosition(pos);
 		}
