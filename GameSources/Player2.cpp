@@ -214,38 +214,30 @@ namespace basecross
 
 		// === ステップ3: 衝突応答 - 速度と位置の厳格な補正 ===
 
-		if (best_mtv.dot(best_mtv) > 1e-9f)
+		if (best_mtv.dot(best_mtv) > 1e-9f) // 衝突があったなら
 		{
-			// --- 3a. 位置を、まずMTVで補正する ---
-			// これで、過去のフレームからのわずかなめり込みが解消される
-			currentPosition += best_mtv;
-
-			// --- 3b. 次に、速度を補正して、未来のめり込みを防ぐ ---
 			Vec3 collisionNormal = best_mtv.normalize();
-			float dot_vel_norm = m_velocity.dot(collisionNormal);
 
-			// 速度が衝突面にめり込む方向を向いているなら...
-			if (dot_vel_norm < 0) {
-				// そのめり込む速度成分を、完全に除去する
-				m_velocity -= collisionNormal * dot_vel_norm;
-			}
-
-			// --- 3c. 衝突後の状態を決定 ---
-			// 接地判定
-			if (collisionNormal.y > 0.7f && m_velocity.y <= 0.0f) {
-				m_isAir = false;
-				// Y速度は、上の速度除去でほぼゼロになっているはずだが、念のため再設定
+			// ★★★ Y方向の衝突（地面）を最優先で解決 ★★★
+			if (collisionNormal.y > 0.7f && m_velocity.y <= 0)
+			{
+				// 1. まず、Y速度をゼロにして、それ以上落下しないようにする
 				m_velocity.y = 0;
+				m_isAir = false;
+
+				// 2. 次に、Y方向の移動量(deltaPosition.y)を、
+				//    めり込みを解消する量(best_mtv.y)で、完全に上書きする
+				deltaPosition.y = best_mtv.y;
 			}
-			else {
-				m_isAir = true;
-			}
-			// 横壁判定
-			if (abs(collisionNormal.x) > 0.7f) {
-				// X速度も、上の速度除去でゼロになっているはず
+
+			// ★★★ 次に、X方向の衝突（壁）を解決 ★★★
+			if (abs(collisionNormal.x) > 0.7f)
+			{
+				m_velocity.x = 0;
+				deltaPosition.x = best_mtv.x;
 			}
 		}
-		else // どの影とも衝突しなかった場合
+		else // 衝突がなかった場合
 		{
 			m_isAir = true;
 		}
@@ -264,33 +256,6 @@ namespace basecross
 
 		ptrTransform->SetPosition(currentPosition + deltaPosition);
 		DrawStrings();;
-	}
-
-	void Player::MoveXZ() 
-	{
-		/*auto angle = GetInputState();
-		float elapsedTime = App::GetApp()->GetElapsedTime();
-		auto pos = GetComponent<Transform>()->GetPosition();
-		pos += elapsedTime * m_velocity;
-		GetComponent<Transform>()->SetPosition(pos);*/
-	}
-
-	void Player::MoveY() 
-	{
-		//auto ptrTransform = GetComponent<Transform>();
-		//auto pos = GetComponent<Transform>()->GetPosition();
-
-
-		//if (m_isAir == true)
-		//{
-		//	// 重力の適用
-		//	float elapsedTime = App::GetApp()->GetElapsedTime();
-		//	//m_velocity.y += m_gravity * elapsedTime;
-		//	auto ptrGra = AddComponent<Gravity>();
-
-		//	ptrTransform->SetPosition(pos);
-
-		//}
 	}
 
 	//Aボタン

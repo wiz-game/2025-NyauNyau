@@ -42,8 +42,6 @@ namespace basecross
 		bool m_collisionFlag;
 		const float m_gravity;
 	
-		void MoveY();
-		void MoveXZ();
 		void OnCollisionExcute(shared_ptr<GameObject>& Other);
 		void OnCollisionExit(shared_ptr<GameObject>& Other);
 	    void DrawStrings();
