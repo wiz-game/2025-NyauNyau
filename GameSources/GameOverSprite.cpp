@@ -33,7 +33,7 @@ namespace basecross {
 
 		// 位置を設定する
 		auto ptrTrans = GetComponent<Transform>();
-		ptrTrans->SetPosition(0, 0, 0); // 画面の中心を原点としたピクセル単位（1280x800）
+		ptrTrans->SetPosition(0, 50, 0); // 画面の中心を原点としたピクセル単位（1280x800）
 	}
 
 	void GameOverSprite::OnUpdate()

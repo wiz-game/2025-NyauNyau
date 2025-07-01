@@ -55,11 +55,12 @@ namespace basecross {
 		//if (otherObject->FindTag(L"Player_0")) // "Player" タグを持つオブジェクトと衝突
 		//{
 		//	auto scene = App::GetApp()->GetScene<Scene>();
-		//	PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"ToTitleStage");
+		//	auto volumeBGM = scene->m_volumeBGM;
+		//	auto volumeSE = scene->m_volumeSE;
+		//	auto ptrXA = App::GetApp()->GetXAudio2Manager();
 
-		//	//一定時間後にスプライトを削除する（タイトル画面からゲームステージに移るタイミング）
-		//	PostEvent(5.0f, GetThis<ObjectInterface>(), scene, L"RemoveSprite");
-
+		//	ptrXA->Start(L"Fall", 0, volumeSE);
+		//	PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"ToGameOverStage");
 		//}
 	}
 

@@ -89,7 +89,7 @@ namespace basecross {
 		{
 			Vec3(200.0f, 10.0f, 200.0f),  // 10,1,10
 			Vec3(0.0f, 0.0f, 0.0f),
-			Vec3(0.0f, -10.5f, 0.0f)
+			Vec3(0.0f, -10.0f, 0.0f)
 		},
 			//{
 			//	Vec3(20.0f, 1.0f, 8.0f),
@@ -620,7 +620,7 @@ namespace basecross {
 			m_selectionPointerUI = AddGameObject<GameStagePointerUI>();
 			auto pointer = m_selectionPointerUI.lock();
 			pointer->SetTexture(L"TEX_BoxPointer");
-			pointer->SetScale(1.0f, 1.0f, 1.0f);
+			pointer->SetScale(1.2f, 1.2f, 1.0f);
 			pointer->SetDrawActive(true);
 			pointer->SetTargetBox(m_controllableBoxes[0],true);
 			
