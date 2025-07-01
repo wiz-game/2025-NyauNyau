@@ -69,6 +69,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)TitleStratButton.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TitleStage.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SystemManager.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TuskCatSprite.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Wall.h" />
   </ItemGroup>
   <ItemGroup>
@@ -126,6 +127,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)TitleStratButton.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TitleStage.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SystemManager.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)TuskCatSprite.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Wall.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)WinMain.cpp" />
   </ItemGroup>
