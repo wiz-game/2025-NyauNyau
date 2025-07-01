@@ -39,22 +39,16 @@ namespace basecross {
 
 
 		//ƒRƒŠƒWƒ‡ƒ“‚Â‚¯‚é
+		auto ptrColl = AddComponent<CollisionObb>();
+		ptrColl->SetFixed(true);
 
+
+		AddTag(L"Window");
 
 	}
 
 	void Window::OnUpdate()
 	{
-		if (isEnemyHit)
-		{
-		}
-		else
-		{
-			auto ptrColl = AddComponent<CollisionObb>();
-			ptrColl->SetFixed(true);
-
-		}
-
 	}
 
 	void Window::InitDrawComp()

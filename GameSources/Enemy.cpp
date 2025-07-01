@@ -96,7 +96,7 @@ namespace basecross {
 
 		//”L‚©‚ç20.0f“à‚ÉPlayer‚ª“ü‚Á‚½‚ç–Â‚­
 		// weak_ptr‚©‚çshared_ptr‚ğæ“¾
-		if (auto player = m_targetPlayer.lock()) 
+		if (auto player = m_targetPlayer.lock())
 		{
 			// ©•ª‚ÆƒvƒŒƒCƒ„[‚ÌTransform‚ğæ“¾
 			auto myPos = GetComponent<Transform>()->GetPosition();
@@ -165,9 +165,15 @@ namespace basecross {
 			PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"ToGameOverStage");
 
 		}
-		if (otherObject->FindTag(L"ShadowObject")) {
-			auto grav = GetComponent<Gravity>();
-			grav->StartJump(Vec3(0, 10.0f, 0));
+		if (otherObject->FindTag(L"Window")) {
+			auto enemyCollider = GetComponent<CollisionObb>();
+			auto windowCollider = otherObject->GetComponent<CollisionObb>();
+
+			if (enemyCollider && windowCollider)
+			{
+
+
+			}
 		}
 	}
 }
