@@ -100,7 +100,7 @@ namespace basecross {
 		GamePhase currentPhase = GamePhase::Phase1; // 最初に設定されているPhase
 
 		// ステージ上に存在する、プレイヤーが操作できるBoxオブジェクトのリスト
-		std::vector<std::shared_ptr<Box>> m_controllableBoxes;
+		vector<std::shared_ptr<Box>> m_controllableBoxes;
 
 		// SelectBoxモードの時に、ハイライトされているBox
 		int m_selectedBoxIndex;
@@ -110,9 +110,9 @@ namespace basecross {
 		GameControlMode m_currentControlMode;
 
 		// ControlBoxモードの時に、現在実際に操作対象となっているBoxオブジェクトへのポインタ
-		std::shared_ptr<Box> m_currentlyControlledBox;
+		shared_ptr<Box> m_currentlyControlledBox;
 		
-		std::weak_ptr<GameStagePointerUI> m_selectionPointerUI;//選択ポインターUIへのポインタ
+		weak_ptr<GameStagePointerUI> m_selectionPointerUI;//選択ポインターUIへのポインタ
 
 		bool m_stickMovedLeftLastFrame;  // 前のフレームで左に倒されていたか
         bool m_stickMovedRightLastFrame; // 前のフレームで右に倒されていたか
@@ -126,12 +126,23 @@ namespace basecross {
 
 		CameraSelect m_CameraSelect;
 
-		float m_initialUpdateTimer; // 最初の数秒間を計るためのタイマー
-		bool m_isInitialUpdatePeriod; // 最初の数秒間の間かを示すフラグ
+		float m_isTimer; // phase1の時間制限を計るためのタイマー
+		bool m_isTimerflag; // タイマーの間かを示すフラグ
+
+		float m_isShortTimer; // 最初の数秒間を計るためのタイマー
+		bool m_isShortTimerflag; // 最初の数秒間の間かを示すフラグ
 
 		weak_ptr<FadeScreen> m_fadeScreen;
 		//ゲームオーバーフラグ
 		bool m_isGameOver = false;
+
+		shared_ptr<GameStageUI> m_exclamationMarkUI; // Exclamation markUIへのポインタ
+		bool m_isExclamationMarkActive; // Exclamation markが表示されているか
+
+		// Exclamation markの表示制御用に追加
+		bool m_isExclamationMark;    // Exclamation markが表示中かを示すフラグ
+		float m_exclamationMarkTimer;   // Exclamation markの表示時間を計るタイマー
+
 
 	public:
 		//構築と破棄

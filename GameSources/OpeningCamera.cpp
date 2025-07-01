@@ -92,7 +92,7 @@ namespace basecross
 	void OpeningCameraman::EndStateEnterBehavior() 
 	{
 		auto ptrGameGtage = GetTypeStage<GameStage>();
-		ptrGameGtage->ToPhase1Camera(); // GameStageのToMyCamera()関数を呼び出し、カメラをPhase1Cameraに切り替える
+		ptrGameGtage->ToPhase1Camera(); // GameStageのToPhase1Camera()関数を呼び出し、カメラをPhase1Cameraに切り替える
 	}
 
 
