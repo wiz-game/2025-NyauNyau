@@ -17,7 +17,6 @@ namespace basecross {
 
 		shared_ptr<PNTStaticModelDraw> m_drawComp;
 
-		bool isEnemyHit;
 
 	public:
 		Window(const shared_ptr<Stage>& stage,
@@ -33,7 +32,6 @@ namespace basecross {
 		void OnUpdate() override;
 
 		void InitDrawComp();
-		virtual void OnCollisionEnter(shared_ptr<GameObject>& Other) override;
 
 
 	};
