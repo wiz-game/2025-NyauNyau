@@ -43,6 +43,7 @@ namespace basecross{
 			app->RegisterWav(L"GamennsenniSE", soundPath + L"GamennsenniSE.wav");
 			app->RegisterWav(L"Fall2_SE", soundPath + L"Fall_SE.wav");
 			app->RegisterWav(L"CatVoice", soundPath + L"CatVoice.wav");
+			app->RegisterWav(L"Impact", soundPath + L"Impact3.wav");
 
 
 

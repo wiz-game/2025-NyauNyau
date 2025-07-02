@@ -25,6 +25,8 @@ namespace basecross {
 		InputHandler<GameOverStage> m_InputHandler;
 		shared_ptr<SoundItem> m_BGM;
 		shared_ptr<SoundItem> m_SE;
+		shared_ptr<SoundItem> m_ImpactSE;
+
 
 		std::weak_ptr<CatWalkSprite> m_catSprite;//”L‚ª•à‚­ƒAƒjƒ[ƒVƒ‡ƒ“
 		std::weak_ptr<GameSprite> m_loading;
@@ -46,6 +48,9 @@ namespace basecross {
 
 		bool m_once;
 
+		bool m_ImpactedSE;
+		bool m_shakeStarted;
+
 	public:
 		//\’z‚Æ”jŠü
 		GameOverStage() :
@@ -54,7 +59,9 @@ namespace basecross {
 			m_SpriteNum(0),
 			m_selectX(0.0f),
 			m_selectY(0.0f),
-			m_time(0.0f)
+			m_time(0.0f),
+			m_ImpactedSE(false),
+			m_shakeStarted(false)
 
 		{
 		}

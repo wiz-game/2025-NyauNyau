@@ -112,29 +112,34 @@ namespace basecross {
 
 	void GameOverStage::OnUpdate()
 	{
-		//0.5秒後にスプライトを表示する
-		m_time += App::GetApp()->GetElapsedTime();
-		if (m_time > 0.45f)
-		{
-			SpriteDraw();
-
-			if (m_time > 0.6f)
-			{
-				m_time = 0.0f;
-				//ゲームオーバーのスプライトの揺れ開始
-				if (auto spr = m_GameOverSprite.lock())
-				{
-					// 0.3秒間、強さ8で揺らす
-					spr->StartShake(0.3f, 8.0f);
-				}
-			}
-		}
-
 		//コントローラの取得
 		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
 		auto scene = App::GetApp()->GetScene<Scene>();
 		auto volumeSE = scene->m_volumeSE;
 		auto ptrXA = App::GetApp()->GetXAudio2Manager();
+
+
+		//0.5秒後にスプライトを表示する
+		m_time += App::GetApp()->GetElapsedTime();
+		if (m_time > 0.45f && !m_ImpactedSE)
+		{
+			SpriteDraw();
+			m_ImpactSE = ptrXA->Start(L"Impact", 0, 0.8f);
+			m_ImpactedSE = true;
+		}
+
+		if (m_time > 0.6f && !m_shakeStarted)
+		{
+			m_time = 0.0f;
+			if (auto spr = m_GameOverSprite.lock())
+			{
+				// 0.3秒間、強さ8で揺らす
+				spr->StartShake(0.3f, 8.0f);
+			}
+			// 揺れ開始済みフラグを立てる
+			m_shakeStarted = true;
+		}
+
 
 		//スタートボタンを押したときにボーズする
 		if (CntlVec[0].bConnected)
@@ -332,6 +337,7 @@ namespace basecross {
 		{
 			RemoveGameObject<BackTitleButton>(sprite);
 		}
+		m_TuskSprite.lock()->SetDrawActive(false);
 
 
 		if (auto spr = m_catSprite.lock())
