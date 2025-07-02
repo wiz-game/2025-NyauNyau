@@ -428,7 +428,7 @@ namespace basecross {
 		vector<vector<Vec3>> vec = {
 			{  Vec3(22.0f, 26.4f, 1.0f),
 				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(12.0f, 32.0f, 0.0f)
+				Vec3(17.0f, 32.0f, 0.0f)
 			},
 
 		};
@@ -462,7 +462,7 @@ namespace basecross {
 		vector<vector<Vec3>> vec = {
 			{   Vec3(40.0f, 30.0f, 1.0f),
 				Vec3(0.0f, XMConvertToRadians(180), 0.0f),
-				Vec3(50.0f, 5.0f, 0.0f)
+				Vec3(60.0f, 5.0f, 0.0f)
 			},
 			{
 				Vec3(40.0f, 30.0f, 1.0f),

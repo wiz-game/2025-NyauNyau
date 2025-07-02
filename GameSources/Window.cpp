@@ -68,13 +68,5 @@ namespace basecross {
 
 	}
 
-	void Window::OnCollisionEnter(shared_ptr<GameObject>& otherObject)
-	{
-		if (otherObject->FindTag(L"Enemy")) // "Player" タグを持つオブジェクトと衝突
-		{
-			isEnemyHit = true;
-		}
-	}
-
 }
 //end basecross
