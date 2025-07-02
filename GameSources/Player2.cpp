@@ -252,7 +252,7 @@ namespace basecross
 		}
 
 		ptrTransform->SetPosition(currentPosition + deltaPosition);
-		DrawStrings();
+		//DrawStrings();
 
 
 		//プレイヤーが床から15.0fの場所まで来たら落ちている音を鳴らす

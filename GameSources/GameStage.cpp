@@ -773,9 +773,9 @@ namespace basecross {
 		auto pad = device.GetControlerVec()[0];
 		auto delta = app->GetElapsedTime();
 
-		auto scene = app->GetScene<Scene>();
-		wstring log = scene->GetDebugString();
-		wstringstream wss(log);
+		//auto scene = app->GetScene<Scene>();
+		//wstring log = scene->GetDebugString();
+		//wstringstream wss(log);
 
 
 		m_Time += delta;
