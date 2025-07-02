@@ -18,7 +18,7 @@ namespace basecross {
 		m_Rotation(Rotation),
 		m_Position(Position),
 		isGameOver(false),
-		m_soundDistance(20.0f), // 5メートル以内に入ったら鳴く
+		m_soundDistance(20.0f), // 20メートル以内に入ったら鳴く
 		m_hasMeowed(false),     // 最初はまだ鳴いていない
 		EnemySpeed(9.0f),
 		m_CatSound(nullptr)
@@ -45,6 +45,7 @@ namespace basecross {
 
 		//コリジョン
 		auto ptrColl = AddComponent<CollisionObb>();
+		ptrColl->SetFixed(false);
 
 		AddTag(L"Enemy");
 
@@ -92,8 +93,10 @@ namespace basecross {
 		m_drawComp->UpdateAnimation(elapsedTime);
 
 
+
+		//猫から20.0f内にPlayerが入ったら鳴く
 		// weak_ptrからshared_ptrを取得
-		if (auto player = m_targetPlayer.lock()) 
+		if (auto player = m_targetPlayer.lock())
 		{
 			// 自分とプレイヤーのTransformを取得
 			auto myPos = GetComponent<Transform>()->GetPosition();
@@ -152,21 +155,25 @@ namespace basecross {
 		if (otherObject->FindTag(L"Player_0")) // "Player" タグを持つオブジェクトと衝突
 		{
 			isGameOver = true; // ゲームオーバーフラグを設定
-			//auto ptrXA = App::GetApp()->GetXAudio2Manager();
-			//ptrXA->Stop(m_CatSound);
-			//m_CatSound = nullptr;
-
-
+			auto ptrXA = App::GetApp()->GetXAudio2Manager();
+			ptrXA->Stop(m_CatSound);
+			m_CatSound = nullptr;
 			auto scene = App::GetApp()->GetScene<Scene>();
+			auto volumeSE = scene->m_volumeSE;
+			ptrXA->Start(L"Fall", 0, volumeSE);
+
 			PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"ToGameOverStage");
 
-			//	//一定時間後にスプライトを削除する（タイトル画面からゲームステージに移るタイミング）
-			//	PostEvent(5.0f, GetThis<ObjectInterface>(), scene, L"RemoveSprite");
-
 		}
-		if (otherObject->FindTag(L"ShadowObject")) {
-			auto grav = GetComponent<Gravity>();
-			grav->StartJump(Vec3(0, 10.0f, 0));
+		if (otherObject->FindTag(L"Window")) {
+			auto enemyCollider = GetComponent<CollisionObb>();
+			auto windowCollider = otherObject->GetComponent<CollisionObb>();
+
+			if (enemyCollider && windowCollider)
+			{
+
+
+			}
 		}
 	}
 }

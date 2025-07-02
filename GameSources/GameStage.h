@@ -64,6 +64,8 @@ namespace basecross {
 		void CreateTable();
 		//本棚
 		void CreateBookShelf();
+		//窓
+		void CreateMado();
 		//テクスチャの読込
 		void LoadTextures();
 		//モデルの読込

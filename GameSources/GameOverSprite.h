@@ -14,12 +14,23 @@ namespace basecross {
 	//--------------------------------------------------------------------------------------
 	class GameOverSprite : public GameObject
 	{
+		//Œ³‚ÌÀ•W‚ğ•Û‘¶‚µ‚Ä‚¨‚­•Ï”
+		Vec3 m_originalPosition;
+		//—h‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚Ìƒtƒ‰ƒO
+		bool m_isShaking;
+		//—h‚ê‚ğ‘±‚·‚éŠÔ
+		float m_shakeDuration;
+		//—h‚ê‚Ì‹­‚³
+		float m_shakePower;
 
 
 	public:
 		// \’z‚Æ”jŠü
 		GameOverSprite(const shared_ptr<Stage>& stage) :
-			GameObject(stage)
+			GameObject(stage),
+			m_isShaking(false),
+			m_shakeDuration(0.0f),
+			m_shakePower(5.0f)
 		{
 		}
 
@@ -31,6 +42,8 @@ namespace basecross {
 		virtual void OnCreate() override; // ‰Šú‰»
 		virtual void OnUpdate() override; // XV
 		//virtual void OnDraw() override; // •`‰æ
+
+		void StartShake(float duration, float power = 5.0f);
 	};
 
 }

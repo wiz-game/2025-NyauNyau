@@ -89,7 +89,7 @@ namespace basecross {
 		{
 			Vec3(200.0f, 10.0f, 200.0f),  // 10,1,10
 			Vec3(0.0f, 0.0f, 0.0f),
-			Vec3(0.0f, -10.5f, 0.0f)
+			Vec3(0.0f, -10.0f, 0.0f)
 		},
 			//{
 			//	Vec3(20.0f, 1.0f, 8.0f),
@@ -423,12 +423,46 @@ namespace basecross {
 
 	}
 
+	void GameStage::CreateMado()
+	{
+		vector<vector<Vec3>> vec = {
+			{  Vec3(22.0f, 26.4f, 1.0f),
+				Vec3(0.0f, 0.0f, 0.0f),
+				Vec3(17.0f, 32.0f, 0.0f)
+			},
+
+		};
+
+
+		int index = 0; // ユニーク名用のインデックス
+		vector<shared_ptr<Window>> windows; // 生成した `Window` を管理するリスト
+
+		for (auto& v : vec) {
+			auto ptrWindow = AddGameObject<Window>(v[0], v[1], v[2]);
+
+			// ユニーク名を生成
+			wstring uniqueTag = L"Window_" + to_wstring(index);
+
+			ptrWindow->AddTag(uniqueTag);  // ユニークなタグを適用
+			windows.push_back(ptrWindow);    // `Window` をリストに保存
+
+			index++; // 次のオブジェクトのためにインデックスを増加
+		}
+
+		// すべての `Window` を共有ゲームオブジェクトとして登録
+		for (size_t i = 0; i < windows.size(); ++i) {
+			wstring uniqueName = L"Window_" + to_wstring(i);  // ユニーク名を生成
+			SetSharedGameObject(uniqueName, windows[i]);      // ユニーク名で共有登録
+		}
+
+	}
+
 	void GameStage::CreateBookShelf()
 	{
 		vector<vector<Vec3>> vec = {
 			{   Vec3(40.0f, 30.0f, 1.0f),
 				Vec3(0.0f, XMConvertToRadians(180), 0.0f),
-				Vec3(50.0f, 5.0f, 0.0f)
+				Vec3(60.0f, 5.0f, 0.0f)
 			},
 			{
 				Vec3(40.0f, 30.0f, 1.0f),
@@ -438,6 +472,7 @@ namespace basecross {
 			},
 
 		};
+
 
 		int index = 0; // ユニーク名用のインデックス
 		vector<shared_ptr<BookShelf>> bookshelfs; // 生成した `BookShelf` を管理するリスト
@@ -461,6 +496,7 @@ namespace basecross {
 		}
 
 	}
+
 
 	//カメラマンの作成
 	void GameStage::CreateCameraman() 
@@ -534,6 +570,8 @@ namespace basecross {
 			CreateCheese();
 			//本棚の作成
 			CreateBookShelf();
+			//窓の作成
+			CreateMado();
 			//カメラマンの作成
 			CreateCameraman();
 
@@ -583,7 +621,7 @@ namespace basecross {
 			m_selectionPointerUI = AddGameObject<GameStagePointerUI>();
 			auto pointer = m_selectionPointerUI.lock();
 			pointer->SetTexture(L"TEX_BoxPointer");
-			pointer->SetScale(1.0f, 1.0f, 1.0f);
+			pointer->SetScale(1.2f, 1.2f, 1.0f);
 			pointer->SetDrawActive(true);
 			pointer->SetTargetBox(m_controllableBoxes[0],true);
 			
@@ -1051,6 +1089,12 @@ namespace basecross {
 		if (app->CheckResource<MultiMeshResource>(L"MODEL_BOOKSHELF")) return;
 		auto meshBookShelf = MultiMeshResource::CreateStaticModelMultiMesh(modelPath + L"BookShelf\\", L"BookShelf.bmf");
 		app->RegisterResource(L"MODEL_BOOKSHELF", meshBookShelf);
+
+
+		//窓
+		if (app->CheckResource<MultiMeshResource>(L"MODEL_WINDOW")) return;
+		auto meshWindow = MultiMeshResource::CreateStaticModelMultiMesh(modelPath + L"Window\\", L"Window.bmf");
+		app->RegisterResource(L"MODEL_WINDOW", meshWindow);
 
 
 		//つみき(青/立方体)

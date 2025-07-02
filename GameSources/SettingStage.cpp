@@ -261,11 +261,7 @@ namespace basecross {
 		app->RegisterTexture(L"TEX_SE", texPath + L"SE.png");
 		app->RegisterTexture(L"TEX_SoundVol", texPath + L"SoundVol.png");
 		app->RegisterTexture(L"TEX_SoundVolBox", texPath + L"SoundVolBox.png");
-		app->RegisterTexture(L"TEX_LittleSound", texPath + L"LittleSound.png");
-		app->RegisterTexture(L"TEX_NormalSound", texPath + L"NormalSound.png");
-		app->RegisterTexture(L"TEX_BigSound", texPath + L"BigSound.png");
-		app->RegisterTexture(L"TEX_NotSound", texPath + L"NotSound.png");
-		app->RegisterTexture(L"TEX_Sound", texPath + L"Sound.png");
+		//app->RegisterTexture(L"TEX_Sound", texPath + L"Sound.png");
 		app->RegisterTexture(L"TEX_StageUI", texPath + L"SettingStageUI.png");
 
 
