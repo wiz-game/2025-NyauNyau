@@ -1123,19 +1123,23 @@ namespace basecross {
 			// --- 最初の2秒間のタイマー処理 ---
 			if (m_isShortTimerflag) 
 			{
+				auto playertrans = GetSharedGameObject<Player>(L"Player_0")->GetComponent<Transform>();
+				auto playerpos = playertrans->GetPosition();
+				auto ui = m_exclamationMarkUI;
+				auto view = GetView();
+
 				m_isShortTimer += App::GetApp()->GetElapsedTime();
-				if (m_isShortTimer > 2.0f) 
+				if (m_isShortTimer > 1.0f)
 				{
-					auto playertrans = GetSharedGameObject<Player>(L"Player_0")->GetComponent<Transform>();
-					auto playerpos = playertrans->GetPosition();
-					auto ui = m_exclamationMarkUI;
-					auto view = GetView();
 
 					if (ui)
 					{
-						ui->SetPosition(-300, 100, 0);
+						ui->SetPosition(-400, 50, 0);
 						//ui->SetDrawActive(true);
 					}
+				}
+				if (m_isShortTimer > 2.0f) 
+				{
 
 					m_isExclamationMark = true;
 					m_exclamationMarkTimer = 0.0f;
@@ -1145,12 +1149,14 @@ namespace basecross {
 			}
 
 
+
+
 			//---Exclamationmarkの表示時間管理---
 			if (m_isExclamationMark)
 			{
 				m_exclamationMarkTimer += App::GetApp()->GetElapsedTime();
 
-				if (m_exclamationMarkTimer > 0.5f)
+				if (m_exclamationMarkTimer > 0.2f)
 				{
 					auto ui = m_exclamationMarkUI;
 					if (ui)
