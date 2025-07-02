@@ -277,7 +277,6 @@ namespace basecross
 			//重力の適用
 			float elapsedTime = App::GetApp()->GetElapsedTime();
 			m_velocity.y += elapsedTime;
-			//auto ptrGra = AddComponent<Gravity>();
 
 			ptrTransform->SetPosition(pos);
 		}
@@ -311,7 +310,7 @@ namespace basecross
 
 		else if (dynamic_pointer_cast<ShadowFloor>(Other) || dynamic_pointer_cast<BookShelf>(Other))
 		{
-			m_velocity.y *= 0;
+			m_velocity.y = 0;
 			m_isAir = false;
 
 		}
