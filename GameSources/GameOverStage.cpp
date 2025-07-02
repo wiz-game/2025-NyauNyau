@@ -102,6 +102,8 @@ namespace basecross {
 			auto ptrXA = App::GetApp()->GetXAudio2Manager();
 			m_BGM = ptrXA->Start(L"GameOverbgm", 0, volumeBGM);
 
+			m_once = false;
+
 		}
 		catch (...) {
 			throw;
@@ -209,17 +211,27 @@ namespace basecross {
 			auto ptrXA = App::GetApp()->GetXAudio2Manager();
 			m_SE = ptrXA->Start(L"button_SE", 0, volumeSE);
 
-			StartCatWalkAnimation();
 
 			switch (m_SpriteNum)
 			{
 			case 0://ゲームステージに戻る
+				if (m_once == false)
+				{			
+					StartCatWalkAnimation();
 
-				PostEvent(0.7f, GetThis<GameOverStage>(), scene, L"ToGameStage");
+					PostEvent(0.7f, GetThis<GameOverStage>(), scene, L"ToGameStage");
+					m_once = true;
+				}
 				return;
 
 			case 1://タイトル
-				PostEvent(0.7f, GetThis<GameOverStage>(), scene, L"ToTitleStage");
+				if (m_once == false)
+				{
+					StartCatWalkAnimation();
+
+					PostEvent(0.7f, GetThis<GameOverStage>(), scene, L"ToTitleStage");
+					m_once = true;
+				}
 				return;
 
 			}

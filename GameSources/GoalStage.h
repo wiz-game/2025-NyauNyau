@@ -30,6 +30,7 @@ namespace basecross {
 
 		std::vector<std::shared_ptr<GameObject>> m_sprites;
 
+		bool m_once;
 
 
 	public:
