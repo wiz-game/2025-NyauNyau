@@ -222,7 +222,6 @@ namespace basecross
 
 			// --- テーブルの範囲情報を取得 ---
 			auto stage = GetStage();
-			auto stage2 = GetStage();
 
 			auto stageptr = dynamic_pointer_cast<GameStage>(stage);
 			auto stageptr2 = dynamic_pointer_cast<GameStage2>(stage);
@@ -275,7 +274,7 @@ namespace basecross
 				currentTransform->SetPosition(nextPos);
 			}
 
-			if (stageptr2)
+			else if (stageptr2)
 			{
 				auto table = stageptr2->GetTableObject(); // GameStageからTableオブジェクトを取得
 				if (table)

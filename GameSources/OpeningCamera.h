@@ -46,6 +46,8 @@ namespace basecross
 		void ToStartEnterBehavior();
 		bool ExcuteBehavior(float totaltime);
 		void EndStateEnterBehavior();
+		void EndStateEnterBehavior2();
+
 	};
 
 	//--------------------------------------------------------------------------------------

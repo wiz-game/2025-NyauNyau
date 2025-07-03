@@ -96,6 +96,14 @@ namespace basecross
 	}
 
 
+	// オープニングの最終ステートに入った時の処理
+	void OpeningCameraman::EndStateEnterBehavior2()
+	{
+		auto ptrGameGtage2 = GetTypeStage<GameStage2>();
+		ptrGameGtage2->ToPhase1Camera(); // GameStageのToMyCamera()関数を呼び出し、カメラをPhase1Cameraに切り替える
+	}
+
+
 	//--------------------------------------------------------------------------------------
 	//	class OpeningCameramanToGoalState : public ObjState<OpeningCameraman>;
 	//--------------------------------------------------------------------------------------
