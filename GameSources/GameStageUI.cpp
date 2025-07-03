@@ -1,5 +1,5 @@
 /*!
-@file BackTitleButton.cpp
+@file GameStageUI.cpp
 @brief ステージスプライト実体
 */
 

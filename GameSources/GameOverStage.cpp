@@ -40,21 +40,22 @@ namespace basecross {
 			m_once = false;
 
 			//スプライトオブジェクト
-			auto Rat = AddGameObject<GameSprite>();
-			Rat->SetTexture(L"TEX_Rat");
-			Rat->SetPosition(0, 100, 0);
-			Rat->SetScale(3.0f, 4.0f, 1.0f);
-			m_sprites.push_back(Rat);
+			//auto Rat = AddGameObject<GameSprite>();
+			//Rat->SetTexture(L"TEX_Rat");
+			//Rat->SetPosition(0, 150, 0);
+			//Rat->SetScale(2.0f, 3.0f, 1.0f);
+			//m_sprites.push_back(Rat);
 
-
-			m_sprites.push_back(AddGameObject<GameOverSprite>());
+			m_GameOverSprite = AddGameObject<GameOverSprite>();
+			m_GameOverSprite.lock()->SetDrawActive(false);
 
 
 			auto gamestage = AddGameObject<BackTitleButton>();
 			gamestage->SetTexture(L"TEX_GameStage");
 			gamestage->SetPosition(0, -220, 0);
-			gamestage->SetScale(0.65f, 0.45f, 1.0f);
+			gamestage->SetScale(0.75f, 0.5f, 1.0f);
 			gamestage->SetSelected(true);
+			gamestage->SetDrawActive(false);
 			m_SelectSprites.push_back(gamestage);
 
 			auto title = AddGameObject<BackTitleButton>();
@@ -62,6 +63,7 @@ namespace basecross {
 			title->SetPosition(0, -320, 0);
 			title->SetScale(0.6f, 0.8f, 1.0f);
 			title->SetSelected(false);
+			title->SetDrawActive(false);
 			m_SelectSprites.push_back(title);
 
 			//ロード中のスプライト
@@ -84,16 +86,23 @@ namespace basecross {
 			rat->SetDrawActive(false);
 			rat->SetMovementActive(false);
 
+			m_TuskSprite = AddGameObject<TuskCatSprite>();
+			auto tusk = m_TuskSprite.lock();
+			tusk->StartAnimation();
+
 			//ネコ矢印
 			catPointSprite = AddGameObject<SelectStageSprite>();
 			catPointSprite->SetTexture(L"TEX_POINT");
 			catPointSprite->SetPosition(-250.0f, m_selectY - 220.0f, 0);
 			catPointSprite->SetScale(0.5f, 0.5f, 0.5f);
+			catPointSprite->SetDrawActive(false);
 
 			auto scene = App::GetApp()->GetScene<Scene>();
 			auto volumeBGM = scene->m_volumeBGM;
 			auto ptrXA = App::GetApp()->GetXAudio2Manager();
 			m_BGM = ptrXA->Start(L"GameOverbgm", 0, volumeBGM);
+
+			m_once = false;
 
 		}
 		catch (...) {
@@ -110,6 +119,29 @@ namespace basecross {
 		auto scene = App::GetApp()->GetScene<Scene>();
 		auto volumeSE = scene->m_volumeSE;
 		auto ptrXA = App::GetApp()->GetXAudio2Manager();
+
+
+		//0.5秒後にスプライトを表示する
+		m_time += App::GetApp()->GetElapsedTime();
+		if (m_time > 0.45f && !m_ImpactedSE)
+		{
+			SpriteDraw();
+			m_ImpactSE = ptrXA->Start(L"Impact", 0, 0.8f);
+			m_ImpactedSE = true;
+		}
+
+		if (m_time > 0.6f && !m_shakeStarted)
+		{
+			m_time = 0.0f;
+			if (auto spr = m_GameOverSprite.lock())
+			{
+				// 0.3秒間、強さ8で揺らす
+				spr->StartShake(0.3f, 8.0f);
+			}
+			// 揺れ開始済みフラグを立てる
+			m_shakeStarted = true;
+		}
+
 
 		//スタートボタンを押したときにボーズする
 		if (CntlVec[0].bConnected)
@@ -179,17 +211,27 @@ namespace basecross {
 			auto ptrXA = App::GetApp()->GetXAudio2Manager();
 			m_SE = ptrXA->Start(L"button_SE", 0, volumeSE);
 
-			StartCatWalkAnimation();
 
 			switch (m_SpriteNum)
 			{
 			case 0://ゲームステージに戻る
+				if (m_once == false)
+				{			
+					StartCatWalkAnimation();
 
-				PostEvent(0.7f, GetThis<GameOverStage>(), scene, L"ToGameStage");
+					PostEvent(0.7f, GetThis<GameOverStage>(), scene, L"ToGameStage");
+					m_once = true;
+				}
 				return;
 
 			case 1://タイトル
-				PostEvent(0.7f, GetThis<GameOverStage>(), scene, L"ToTitleStage");
+				if (m_once == false)
+				{
+					StartCatWalkAnimation();
+
+					PostEvent(0.7f, GetThis<GameOverStage>(), scene, L"ToTitleStage");
+					m_once = true;
+				}
 				return;
 
 			}
@@ -268,6 +310,7 @@ namespace basecross {
 		app->RegisterTexture(L"TEX_BACKTITLE", texPath + L"PauseStage title.png");
 		app->RegisterTexture(L"TEX_Rat", texPath + L"Rat GameOver.png");
 		app->RegisterTexture(L"TEX_GameStage", texPath + L"BackToGameStage.png");
+		app->RegisterTexture(L"TEX_TuskCat", texPath + L"Cat_Tusk.png");
 
 	}
 
@@ -277,11 +320,26 @@ namespace basecross {
 		XAPtr->Stop(m_BGM);
 	}
 
+	//スプライトの表示
+	void GameOverStage::SpriteDraw()
+	{
+		if(auto sprite = m_GameOverSprite.lock())
+		{
+			sprite->SetDrawActive(true);
+		}
+		catPointSprite->SetDrawActive(true);
+
+		for (auto sprite : m_SelectSprites)
+		{
+			sprite->SetDrawActive(true);
+		}
+
+	}
 
 	void GameOverStage::StartCatWalkAnimation()
 	{
 		//スプライトの非表示
-		for (auto sprite : m_sprites)
+		if(auto sprite = m_GameOverSprite.lock())
 		{
 			RemoveGameObject<GameObject>(sprite);
 		}
@@ -291,6 +349,7 @@ namespace basecross {
 		{
 			RemoveGameObject<BackTitleButton>(sprite);
 		}
+		m_TuskSprite.lock()->SetDrawActive(false);
 
 
 		if (auto spr = m_catSprite.lock())

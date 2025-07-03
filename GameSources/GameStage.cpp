@@ -89,7 +89,7 @@ namespace basecross {
 		{
 			Vec3(200.0f, 10.0f, 200.0f),  // 10,1,10
 			Vec3(0.0f, 0.0f, 0.0f),
-			Vec3(0.0f, -10.5f, 0.0f)
+			Vec3(0.0f, -10.0f, 0.0f)
 		},
 			//{
 			//	Vec3(20.0f, 1.0f, 8.0f),
@@ -423,12 +423,46 @@ namespace basecross {
 
 	}
 
+	void GameStage::CreateMado()
+	{
+		vector<vector<Vec3>> vec = {
+			{  Vec3(22.0f, 26.4f, 1.0f),
+				Vec3(0.0f, 0.0f, 0.0f),
+				Vec3(17.0f, 32.0f, 0.0f)
+			},
+
+		};
+
+
+		int index = 0; // ユニーク名用のインデックス
+		vector<shared_ptr<Window>> windows; // 生成した `Window` を管理するリスト
+
+		for (auto& v : vec) {
+			auto ptrWindow = AddGameObject<Window>(v[0], v[1], v[2]);
+
+			// ユニーク名を生成
+			wstring uniqueTag = L"Window_" + to_wstring(index);
+
+			ptrWindow->AddTag(uniqueTag);  // ユニークなタグを適用
+			windows.push_back(ptrWindow);    // `Window` をリストに保存
+
+			index++; // 次のオブジェクトのためにインデックスを増加
+		}
+
+		// すべての `Window` を共有ゲームオブジェクトとして登録
+		for (size_t i = 0; i < windows.size(); ++i) {
+			wstring uniqueName = L"Window_" + to_wstring(i);  // ユニーク名を生成
+			SetSharedGameObject(uniqueName, windows[i]);      // ユニーク名で共有登録
+		}
+
+	}
+
 	void GameStage::CreateBookShelf()
 	{
 		vector<vector<Vec3>> vec = {
 			{   Vec3(40.0f, 30.0f, 1.0f),
 				Vec3(0.0f, XMConvertToRadians(180), 0.0f),
-				Vec3(50.0f, 5.0f, 0.0f)
+				Vec3(60.0f, 5.0f, 0.0f)
 			},
 			{
 				Vec3(40.0f, 30.0f, 1.0f),
@@ -438,6 +472,7 @@ namespace basecross {
 			},
 
 		};
+
 
 		int index = 0; // ユニーク名用のインデックス
 		vector<shared_ptr<BookShelf>> bookshelfs; // 生成した `BookShelf` を管理するリスト
@@ -461,6 +496,7 @@ namespace basecross {
 		}
 
 	}
+
 
 	//カメラマンの作成
 	void GameStage::CreateCameraman() 
@@ -534,6 +570,8 @@ namespace basecross {
 			CreateCheese();
 			//本棚の作成
 			CreateBookShelf();
+			//窓の作成
+			CreateMado();
 			//カメラマンの作成
 			CreateCameraman();
 
@@ -579,10 +617,11 @@ namespace basecross {
 			stage->SetScale(2.0f, 2.0f, 1.0f);
 			m_gameStageUI.push_back(stage);
 
+
 			m_selectionPointerUI = AddGameObject<GameStagePointerUI>();
 			auto pointer = m_selectionPointerUI.lock();
 			pointer->SetTexture(L"TEX_BoxPointer");
-			pointer->SetScale(1.0f, 1.0f, 1.0f);
+			pointer->SetScale(1.2f, 1.2f, 1.0f);
 			pointer->SetDrawActive(true);
 			pointer->SetTargetBox(m_controllableBoxes[0],true);
 			
@@ -613,10 +652,26 @@ namespace basecross {
 				m_selectedBoxIndex = 0; // 最初のBox (Box_0) を選択候補にする
 			}
 
+			// Exclamation markの生成
+			auto exclamationMark = AddGameObject<GameStageUI>();
+			exclamationMark->SetTexture(L"TEX_Exclamationmark");
+			exclamationMark->SetScale(0.1f, 0.1f, -0.5f); // スケールはスクリーン座標系に合わせて調整
+			exclamationMark->SetDrawActive(false); 
+			m_exclamationMarkUI = exclamationMark; // ポインタを保持
+			m_isExclamationMarkActive = false;
 
-			// --- タイマーの初期化 ---
-			m_initialUpdateTimer = 0.0f;     // タイマーを0にリセット
-			m_isInitialUpdatePeriod = true;  // ゲーム開始直後なので、初期期間フラグをtrueに
+			// ---phase1の時間制限タイマーの初期化---
+			m_isTimer = 0.0f;
+			m_isTimerflag = true;
+
+			// --- 最初の2秒間のタイマーの初期化 ---
+			m_isShortTimer = 0.0f;     // タイマーを0にリセット
+			m_isShortTimerflag = true;  // ゲーム開始直後なので、初期期間フラグをtrueに
+
+			// Exclamation mark表示制御用変数の初期化
+			m_isExclamationMark = false; // 初期状態では表示されていない
+			m_exclamationMarkTimer = 0.0f;
+
 		}
 		catch (...) {
 			throw;
@@ -718,9 +773,9 @@ namespace basecross {
 		auto pad = device.GetControlerVec()[0];
 		auto delta = app->GetElapsedTime();
 
-		auto scene = app->GetScene<Scene>();
-		wstring log = scene->GetDebugString();
-		wstringstream wss(log);
+		//auto scene = app->GetScene<Scene>();
+		//wstring log = scene->GetDebugString();
+		//wstringstream wss(log);
 
 
 		m_Time += delta;
@@ -1005,6 +1060,7 @@ namespace basecross {
 		app->RegisterTexture(L"TEX_phase1UI_light", texPath + L"phase1.2UI_light.png");
 		app->RegisterTexture(L"TEX_phase2UI_A", texPath + L"phase2UI_A.png");
 		app->RegisterTexture(L"TEX_BoxPointer", texPath + L"BoxPoint.png");
+		app->RegisterTexture(L"TEX_Exclamationmark", texPath + L"Exclamationmark.png");
 
 	}
 
@@ -1033,6 +1089,12 @@ namespace basecross {
 		if (app->CheckResource<MultiMeshResource>(L"MODEL_BOOKSHELF")) return;
 		auto meshBookShelf = MultiMeshResource::CreateStaticModelMultiMesh(modelPath + L"BookShelf\\", L"BookShelf.bmf");
 		app->RegisterResource(L"MODEL_BOOKSHELF", meshBookShelf);
+
+
+		//窓
+		if (app->CheckResource<MultiMeshResource>(L"MODEL_WINDOW")) return;
+		auto meshWindow = MultiMeshResource::CreateStaticModelMultiMesh(modelPath + L"Window\\", L"Window.bmf");
+		app->RegisterResource(L"MODEL_WINDOW", meshWindow);
 
 
 		//つみき(青/立方体)
@@ -1092,13 +1154,61 @@ namespace basecross {
 				return;
 			}
 
-			// --- 最初の2秒間のタイマー処理 ---
-			if (m_isInitialUpdatePeriod) 
+			// ---phase1の時間制限のタイマー処理---
+			if (m_isTimerflag)
 			{
-				m_initialUpdateTimer += App::GetApp()->GetElapsedTime();
-				if (m_initialUpdateTimer > 2.0f) 
+				m_isTimer += App::GetApp()->GetElapsedTime();
+				if (m_isTimer > 32.0f)
 				{
-					m_isInitialUpdatePeriod = false;
+					m_isTimerflag = false;
+				}
+			}
+
+			// --- 最初の2秒間のタイマー処理 ---
+			if (m_isShortTimerflag) 
+			{
+				auto playertrans = GetSharedGameObject<Player>(L"Player_0")->GetComponent<Transform>();
+				auto playerpos = playertrans->GetPosition();
+				auto ui = m_exclamationMarkUI;
+				auto view = GetView();
+
+				m_isShortTimer += App::GetApp()->GetElapsedTime();
+				if (m_isShortTimer > 1.0f)
+				{
+
+					if (ui)
+					{
+						ui->SetPosition(-400, 50, 0);
+						//ui->SetDrawActive(true);
+					}
+				}
+				if (m_isShortTimer > 2.0f) 
+				{
+
+					m_isExclamationMark = true;
+					m_exclamationMarkTimer = 0.0f;
+
+					m_isShortTimerflag = false;
+				}
+			}
+
+
+
+
+			//---Exclamationmarkの表示時間管理---
+			if (m_isExclamationMark)
+			{
+				m_exclamationMarkTimer += App::GetApp()->GetElapsedTime();
+
+				if (m_exclamationMarkTimer > 0.2f)
+				{
+					auto ui = m_exclamationMarkUI;
+					if (ui)
+					{
+						ui->SetDrawActive(false);
+					}
+
+					m_isExclamationMark = false;
 				}
 			}
 
@@ -1107,37 +1217,41 @@ namespace basecross {
 				auto gameObjectVec = GetGameObjectVec();
 				for (auto obj : gameObjectVec)
 				{
-					if (m_isInitialUpdatePeriod)
+					if (m_isTimerflag)
 					{
-						if (dynamic_pointer_cast<Player>(obj) &&
-							dynamic_pointer_cast<Enemy>(obj))
+
+					    if (m_isShortTimerflag)
+					    {
+						    if (dynamic_pointer_cast<Player>(obj) &&
+						    	dynamic_pointer_cast<Enemy>(obj))
+						    {
+						    	obj->SetUpdateActive(true);
+						    }
+					    }
+						else if (dynamic_pointer_cast<Box>(obj))
 						{
 							obj->SetUpdateActive(true);
 						}
-					}
-				    else if (dynamic_pointer_cast<Box>(obj))
-					{
-						obj->SetUpdateActive(true);
-					}
-					else if (dynamic_pointer_cast<PauseManager>(obj))
-					{
-						obj->SetUpdateActive(true);
-					}
-					else if (dynamic_pointer_cast<ShadowDrawer>(obj))
-					{
-						obj->SetUpdateActive(true);
-					}
-					else if(dynamic_pointer_cast<OpeningCamera>(obj))
-					{
-						obj->SetUpdateActive(true);
-					}
-					else if (dynamic_pointer_cast<OpeningCameraman>(obj))
-					{
-						obj->SetUpdateActive(true);
-					}
-					else
-					{
-						obj->SetUpdateActive(false);
+						else if (dynamic_pointer_cast<PauseManager>(obj))
+						{
+							obj->SetUpdateActive(true);
+						}
+						else if (dynamic_pointer_cast<ShadowDrawer>(obj))
+						{
+							obj->SetUpdateActive(true);
+						}
+						else if (dynamic_pointer_cast<OpeningCamera>(obj))
+						{
+							obj->SetUpdateActive(true);
+						}
+						else if (dynamic_pointer_cast<OpeningCameraman>(obj))
+						{
+							obj->SetUpdateActive(true);
+						}
+						else
+						{
+							obj->SetUpdateActive(false);
+						}
 					}
 				}
 
@@ -1147,8 +1261,8 @@ namespace basecross {
 					return;
 				}
 
-				// BボタンでPhase2(GameStart)へ
-				if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B)
+				// Bボタン、もしくは制限時間オーバーでPhase2(GameStart)へ
+				if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B || m_isTimerflag == false)
 				{
 					ptrXA->Start(L"Bbutton", 0, volumeSE);
 

@@ -52,7 +52,7 @@ namespace basecross
 		void MoveY();
 		void MoveXZ();
 		void OnCollisionEnter(shared_ptr<GameObject>& Other) override;
-		void OnCollisionExcute(shared_ptr<GameObject>& Other);
+		//void OnCollisionExcute(shared_ptr<GameObject>& Other);
 		void OnCollisionExit(shared_ptr<GameObject>& Other);
 	    void DrawStrings();
 

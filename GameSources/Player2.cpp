@@ -251,7 +251,20 @@ namespace basecross
 		}*/
 
 		ptrTransform->SetPosition(currentPosition + deltaPosition);
-		DrawStrings();
+		//DrawStrings();
+
+
+		//プレイヤーが床から15.0fの場所まで来たら落ちている音を鳴らす
+		auto transform = GetComponent<Transform>()->GetPosition();
+		if (transform.y < 15.0f && !m_isFallSE)
+		{
+			
+			m_isFallSE = true;
+			auto scene = App::GetApp()->GetScene<Scene>();
+			auto volume = scene->m_volumeSE;
+			auto ptrXA = App::GetApp()->GetXAudio2Manager();
+			m_fallSound = ptrXA->Start(L"Fall2_SE", 0, volume);
+		}
 	}
 
 	//Aボタン
@@ -283,8 +296,23 @@ namespace basecross
 
 	}
 
-	void Player::OnCollisionExcute(shared_ptr<GameObject>& Other)
+	//衝突判定
+	void Player::OnCollisionEnter(shared_ptr<GameObject>& Other)
 	{
+		//オブジェクトが自分自身だったら無視する
+		if (Other.get() == this)
+		{
+			return;
+		}
+
+		//すでに死亡中なら何もしない
+		if (m_isDead)
+		{
+			return;
+		}
+
+		// 衝突対象が地面または敵か確認
+		if (dynamic_pointer_cast<Ground>(Other) || dynamic_pointer_cast<Enemy>(Other))
 		
 	}
 
@@ -297,24 +325,41 @@ namespace basecross
 	{
 		if (dynamic_pointer_cast<Ground>(Other)) // 衝突対象が地面か確認
 		{
+			m_isDead = true;
 			auto scene = App::GetApp()->GetScene<Scene>();
 
 			auto volume = scene->m_volumeBGM;
+			auto volumeSE = scene->m_volumeSE;
 
 			auto ptrXA = App::GetApp()->GetXAudio2Manager();
 
-			ptrXA->Start(L"Fall", 0, 0.5f);
 
-			PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"ToGameOverStage");
+			if (m_isDead)
+			{
+				ptrXA->Start(L"Fall", 0, volumeSE);
+				PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"ToGameOverStage");
+			}
+			// 自分が所属しているステージ（GameStage）のポインタを取得
+		//	auto stage = std::dynamic_pointer_cast<GameStage>(GetStage());
+		//	if (stage) {
+		//		// GameStageにゲームオーバー処理の開始を依頼する
+		//		stage->StartGameOver();
+		//	}
+			return;
 		}
-
 		else if (dynamic_pointer_cast<ShadowFloor>(Other) || dynamic_pointer_cast<BookShelf>(Other))
 		{
 			m_velocity.y = 0;
 			m_isAir = false;
-
+			return;
 		}
 	}
+
+	void Player::OnCollisionExit(shared_ptr<GameObject>& Other)
+	{
+		//m_collisionFlag = false;
+	}
+
 
 	//void Player::SetPlayerMove(bool Player1)
 	//{

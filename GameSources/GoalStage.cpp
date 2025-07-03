@@ -40,7 +40,10 @@ namespace basecross {
 
 			//スプライトオブジェクト
 			m_sprites.push_back(AddGameObject<gameClearSprite>());
-			m_sprites.push_back(AddGameObject<BackTitleButton>());
+			auto button = AddGameObject<BackTitleButton>();
+			button->SetTexture(L"TEX_BACKTITLE");
+			button->SetSelected(true);
+			m_sprites.push_back(button);
 
 
 			m_catSprite = AddGameObject<CatWalkSprite>();
@@ -69,7 +72,7 @@ namespace basecross {
 			auto ptrXA = App::GetApp()->GetXAudio2Manager();
 			m_BGM = ptrXA->Start(L"GameClearbgm", XAUDIO2_LOOP_INFINITE, volumeBGM);
 
-
+			bool m_once = false;
 		}
 
 		catch (...) {
@@ -93,8 +96,13 @@ namespace basecross {
 		auto ptrXA = App::GetApp()->GetXAudio2Manager();
 		m_SE = ptrXA->Start(L"button_SE", 0, volumeSE);
 
-		StartCatWalkAnimation();
-		PostEvent(3.0f, GetThis<ObjectInterface>(), scene, L"ToTitleStage");
+		if (m_once == false)
+		{
+	     	StartCatWalkAnimation();
+			PostEvent(3.0f, GetThis<ObjectInterface>(), scene, L"ToTitleStage");
+
+			m_once = true;
+		}
 	}
 
 	void goalStage::LoadTextures()

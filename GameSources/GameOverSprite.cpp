@@ -4,7 +4,7 @@
 */
 
 #include "stdafx.h"
-#include "Project.h"
+#include "GameOverSprite.h"
 
 namespace basecross {
 
@@ -33,13 +33,49 @@ namespace basecross {
 
 		// 位置を設定する
 		auto ptrTrans = GetComponent<Transform>();
-		ptrTrans->SetPosition(0, 0, 0); // 画面の中心を原点としたピクセル単位（1280x800）
+		ptrTrans->SetPosition(0, 50, 0.5f); // 画面の中心を原点としたピクセル単位（1280x800）
+	
+		m_originalPosition = GetComponent<Transform>()->GetPosition();
 	}
 
 	void GameOverSprite::OnUpdate()
 	{
+		//揺れが始まっていないなら何もしない	
+		if (!m_isShaking)
+		{
+			return;
+		}
 
+		// 揺れ時間を減らしていく
+		m_shakeDuration -= App::GetApp()->GetElapsedTime();
+
+		// 揺れ時間が終わったら
+		if (m_shakeDuration <= 0.0f) {
+			m_isShaking = false;
+			// 座標を元の位置に戻す
+			GetComponent<Transform>()->SetPosition(m_originalPosition);
+			return;
+		}
+		// --- 揺れている間の処理 ---
+		// -m_shakePower から +m_shakePower までのランダムな値を生成
+		float offsetX = (rand() / (float)RAND_MAX * 2.0f - 1.0f) * m_shakePower;
+		float offsetY = (rand() / (float)RAND_MAX * 2.0f - 1.0f) * m_shakePower;
+
+		// 元の位置にランダムなオフセットを加えて座標を設定
+		GetComponent<Transform>()->SetPosition(
+			m_originalPosition.x + offsetX,
+			m_originalPosition.y + offsetY,
+			m_originalPosition.z
+		);
 	}
 
+	//揺れを開始させる関数
+	void GameOverSprite::StartShake(float duration, float power) {
+		m_isShaking = true;
+		m_shakeDuration = duration;//揺れの時間
+		m_shakePower = power;//揺れの強さ
+		// 念のため、元の位置を再取得しておく
+		m_originalPosition = GetComponent<Transform>()->GetPosition();
+	}
 }
 //end basecross

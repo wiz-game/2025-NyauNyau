@@ -47,7 +47,7 @@ namespace basecross
 
 		MoveXZ();
 		BoxMove();
-		DrawStrings();
+		//DrawStrings();
 	}
 
 	Vec2 Box::GetInputState() const 
@@ -70,9 +70,9 @@ namespace basecross
 			auto& app = App::GetApp();
 			auto scene = app->GetScene<Scene>();
 
-			wstring log = scene->GetDebugString();
-			wstringstream wss;
-			wss << log;
+			//wstring log = scene->GetDebugString();
+			//wstringstream wss;
+			//wss << log;
 	}
 
 	Vec3 Box::GetMoveVector() const

@@ -1,5 +1,5 @@
 /*!
-@file BackTitleButton.h
+@file GameStageUI.h
 @brief ステージスプライトなど
 */
 

@@ -57,7 +57,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Opelation.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)OpelationSprite.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)OpeningCamera.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Timer.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)TuskCatSprite.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)BackTitleButton.h" />
@@ -86,7 +87,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Opelation.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)OpelationSprite.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)OpeningCamera.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Timer.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TuskCatSprite.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Window.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Character.cpp">

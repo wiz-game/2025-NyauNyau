@@ -53,7 +53,7 @@
 
 #include "GameStageUI.h"
 #include "GameStagePointerUI.h"
-
+#include "Window.h"
 #include "GameSprite.h"
 #include "Opelation.h"
 #include "OpelationSprite.h"
