@@ -296,25 +296,6 @@ namespace basecross
 
 	}
 
-	//衝突判定
-	void Player::OnCollisionEnter(shared_ptr<GameObject>& Other)
-	{
-		//オブジェクトが自分自身だったら無視する
-		if (Other.get() == this)
-		{
-			return;
-		}
-
-		//すでに死亡中なら何もしない
-		if (m_isDead)
-		{
-			return;
-		}
-
-		// 衝突対象が地面または敵か確認
-		if (dynamic_pointer_cast<Ground>(Other) || dynamic_pointer_cast<Enemy>(Other))
-		
-	}
 
 	void Player::OnCollisionExit(shared_ptr<GameObject>& Other)
 	{
@@ -353,11 +334,6 @@ namespace basecross
 			m_isAir = false;
 			return;
 		}
-	}
-
-	void Player::OnCollisionExit(shared_ptr<GameObject>& Other)
-	{
-		//m_collisionFlag = false;
 	}
 
 
