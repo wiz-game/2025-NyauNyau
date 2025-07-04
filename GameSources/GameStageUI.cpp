@@ -82,5 +82,46 @@ namespace basecross {
 		SetColor(Col4(r, g, b, a));
 	}
 
+	//ゲーム時間に応じて、再生するアニメーションシーケンスを決定
+	void GameStageUI::UpdateAnimationByGameTime(float gameTime)
+	{
+		//ゲーム時間に応じて、再生するアニメーションシーケンスを決定
+		if (gameTime > 25.0f)
+		{
+			m_CurrentAnimeTextures = &m_animeTexturesDanger;
+		}
+		else if (gameTime > 15.0f)
+		{
+			m_CurrentAnimeTextures = &m_animeTexturesHurry;
+		}
+		else
+		{
+			m_CurrentAnimeTextures = &m_animeTexturesNomal;
+		}
+
+		//選択されたシーケンスでアニメーションを再生(通常のOnUpdateのロジック)
+		if (!m_CurrentAnimeTextures || m_CurrentAnimeTextures->empty())
+		{
+			return;
+		}
+
+		m_frameTimer += App::GetApp()->GetElapsedTime();
+		if (m_frameTimer >= m_timePerFrame)
+		{
+			m_frameTimer -= m_timePerFrame;
+			m_currentFrame++;
+			if (m_currentFrame >= m_CurrentAnimeTextures->size())
+			{
+				m_currentFrame = 0; //常にループする
+			}
+
+			auto drawComp = GetComponent<SpriteBaseDraw>();
+			if (drawComp)
+			{
+				drawComp->SetTextureResource((*m_CurrentAnimeTextures)[m_currentFrame]);
+			}
+		}
+	}
+
 }
 //end basecross
