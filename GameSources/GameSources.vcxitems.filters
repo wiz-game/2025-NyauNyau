@@ -59,6 +59,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)OpeningCamera.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TuskCatSprite.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Window.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)GameStage3.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)BackTitleButton.h" />
@@ -89,6 +90,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)OpeningCamera.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TuskCatSprite.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Window.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameStage3.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Character.cpp">

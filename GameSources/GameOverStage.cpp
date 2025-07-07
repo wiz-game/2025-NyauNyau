@@ -212,16 +212,25 @@ namespace basecross {
 			m_SE = ptrXA->Start(L"button_SE", 0, volumeSE);
 
 
+			auto stageNum = scene->GetStageNum();
+
 			switch (m_SpriteNum)
 			{
 			case 0://ゲームステージに戻る
-				if (m_once == false)
-				{			
-					StartCatWalkAnimation();
-
+				if (stageNum == 0)
+				{
 					PostEvent(0.7f, GetThis<GameOverStage>(), scene, L"ToGameStage");
-					m_once = true;
 				}
+				else if (stageNum == 1)
+				{
+					PostEvent(0.7f, GetThis<GameOverStage>(), scene, L"ToGameStage2");
+				}
+				else if (stageNum == 2)
+				{
+					PostEvent(0.7f, GetThis<GameOverStage>(), scene, L"ToGameStage3");
+				}
+
+
 				return;
 
 			case 1://タイトル

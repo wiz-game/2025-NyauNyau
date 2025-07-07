@@ -58,6 +58,6 @@
 #include "Opelation.h"
 #include "OpelationSprite.h"
 #include "GameStage2.h"
-
+#include "GameStage3.h"
 
 
