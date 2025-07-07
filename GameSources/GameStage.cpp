@@ -1061,6 +1061,9 @@ namespace basecross {
 		app->RegisterTexture(L"TEX_phase2UI_A", texPath + L"phase2UI_A.png");
 		app->RegisterTexture(L"TEX_BoxPointer", texPath + L"BoxPoint.png");
 		app->RegisterTexture(L"TEX_Exclamationmark", texPath + L"Exclamationmark.png");
+		app->RegisterTexture(L"TEX_TimerFrame", texPath + L"Timer.png");
+		app->RegisterTexture(L"TEX_TimerInside", texPath + L"WhiteCircle.png");
+		app->RegisterTexture(L"TEX_TimerSechand", texPath + L"sechand.png");
 
 	}
 

@@ -73,6 +73,11 @@ namespace basecross {
 			const vector<wstring>& dangerKeys
 		);
 
+		//アニメーション用の関数
+		void SetAnimation(const std::vector<std::wstring>& textureKeys, float timePerFrame, bool loop);
+		void PlayAnimation();
+		void StopAnimation();
+
 		void SetTargetBox(const shared_ptr<Box>& target);
 	};
 }

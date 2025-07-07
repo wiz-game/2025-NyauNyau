@@ -42,7 +42,11 @@ namespace basecross {
 
 	void GameStageUI::OnUpdate()
 	{
-
+		if (!m_isAnimating || m_CurrentAnimeTextures.empty()) 
+		{
+			return; // アニメーションが再生中でないか、テクスチャがなければ何もしない
+		
+		}
 	}
 
 	//テクスチャ
