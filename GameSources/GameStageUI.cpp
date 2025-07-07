@@ -42,11 +42,49 @@ namespace basecross {
 
 	void GameStageUI::OnUpdate()
 	{
-		if (!m_isAnimating || m_CurrentAnimeTextures.empty()) 
+
+	}
+
+	// アニメーションを設定する関数
+	void GameStageUI::SetAnimation(const std::vector<std::wstring>& textureKeys, float timePerFrame, bool loop) 
+	{
+		auto& app = App::GetApp();
+		m_CurrentAnimeTextures.clear();
+		// テクスチャキーのリストからテクスチャリソースを取得して保持
+		for (const auto& key : textureKeys)
 		{
-			return; // アニメーションが再生中でないか、テクスチャがなければ何もしない
-		
+			auto texture = app->GetResource<TextureResource>(key);
+			if (texture)
+			{
+				m_CurrentAnimeTextures.push_back(texture);
+			}
 		}
+		m_timePerFrame = timePerFrame;
+		m_isLoop = loop;
+
+		// 最初のフレームをテクスチャとして設定
+		auto drawComp = GetComponent<SpriteBaseDraw>();
+		if (drawComp && !m_CurrentAnimeTextures.empty())
+		{
+			drawComp->SetTextureResource(m_CurrentAnimeTextures[0]);
+		}
+	}
+
+	// アニメーション再生を開始する関数
+	void GameStageUI::PlayAnimation() 
+	{
+		if (!m_CurrentAnimeTextures.empty())
+		{
+			m_isAnimating = true;
+			m_frameTimer = 0.0f;
+			m_currentFrame = 0;
+		}
+	}
+
+	// アニメーションを停止する関数
+	void GameStageUI::StopAnimation() 
+	{
+		m_isAnimating = false;
 	}
 
 	//テクスチャ
@@ -66,7 +104,6 @@ namespace basecross {
 	{
 		m_ptrTrans->SetScale(x, y, z);
 	}
-
 
 	void GameStageUI::SetColor(const Col4& color)
 	{

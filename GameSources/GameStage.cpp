@@ -660,6 +660,22 @@ namespace basecross {
 			m_exclamationMarkUI = exclamationMark; // ポインタを保持
 			m_isExclamationMarkActive = false;
 
+			// Exclamation mark表示制御用変数の初期化
+			m_isExclamationMark = false; // 初期状態では表示されていない
+			m_exclamationMarkTimer = 0.0f;
+
+			// アニメーションに使うテクスチャのキーをリストで用意
+			std::vector<std::wstring> animKeys =
+			{
+				              ///////////////////////////////////////////////////////
+
+			};
+
+			// UIオブジェクトにアニメーションを設定
+            // 1フレームあたり0.1秒で、ループはしない設定
+			exclamationMark->SetAnimation(animKeys, 0.1f, false);
+			exclamationMark->SetDrawActive(false); // 初期状態は非表示
+
 			// ---phase1の時間制限タイマーの初期化---
 			m_isTimer = 0.0f;
 			m_isTimerflag = true;
@@ -667,10 +683,6 @@ namespace basecross {
 			// --- 最初の2秒間のタイマーの初期化 ---
 			m_isShortTimer = 0.0f;     // タイマーを0にリセット
 			m_isShortTimerflag = true;  // ゲーム開始直後なので、初期期間フラグをtrueに
-
-			// Exclamation mark表示制御用変数の初期化
-			m_isExclamationMark = false; // 初期状態では表示されていない
-			m_exclamationMarkTimer = 0.0f;
 
 		}
 		catch (...) {
@@ -1185,14 +1197,16 @@ namespace basecross {
 						//ui->SetDrawActive(true);
 					}
 				}
+
 				if (m_isShortTimer > 2.0f) 
 				{
 
-					m_isExclamationMark = true;
-					m_exclamationMarkTimer = 0.0f;
-
-					m_isShortTimerflag = false;
+					// ... (位置設定の処理) ...
+					ui->SetDrawActive(true);
+					ui->PlayAnimation(); // ★アニメーションを再生開始★
 				}
+
+				m_isShortTimerflag = false;
 			}
 
 

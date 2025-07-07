@@ -25,7 +25,6 @@ namespace basecross {
 		vector<shared_ptr<TextureResource>> m_animeTexturesNomal;
 		vector<shared_ptr<TextureResource>> m_animeTexturesHurry;
 		vector<shared_ptr<TextureResource>> m_animeTexturesDanger;
-
 		//現在再生中のアニメーションテクスチャリストへのポインタ
 		vector<shared_ptr<TextureResource>>* m_CurrentAnimeTextures;
 
