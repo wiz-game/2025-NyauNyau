@@ -211,11 +211,20 @@ namespace basecross {
 
 			StartCatWalkAnimation();
 
+			auto stageNum = scene->GetStageNum();
+
 			switch (m_SpriteNum)
 			{
 			case 0://ゲームステージに戻る
+				if (stageNum == 0)
+				{
+					PostEvent(0.7f, GetThis<GameOverStage>(), scene, L"ToGameStage");
+				}
+				else if (stageNum == 1)
+				{
+					PostEvent(0.7f, GetThis<GameOverStage>(), scene, L"ToGameStage2");
+				}
 
-				PostEvent(0.7f, GetThis<GameOverStage>(), scene, L"ToGameStage");
 				return;
 
 			case 1://タイトル

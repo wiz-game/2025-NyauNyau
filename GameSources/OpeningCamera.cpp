@@ -91,17 +91,24 @@ namespace basecross
 	// オープニングの最終ステートに入った時の処理
 	void OpeningCameraman::EndStateEnterBehavior() 
 	{
-		auto ptrGameGtage = GetTypeStage<GameStage>();
-		ptrGameGtage->ToPhase1Camera(); // GameStageのToMyCamera()関数を呼び出し、カメラをPhase1Cameraに切り替える
+		
+		auto stage = dynamic_pointer_cast<GameStage>(GetStage());
+		auto stage2 = dynamic_pointer_cast<GameStage2>(GetStage());
+
+		auto ptrGameStage = dynamic_pointer_cast<GameStage>(stage);
+		auto ptrGameStage2 = dynamic_pointer_cast<GameStage2>(stage2);
+		if (ptrGameStage)
+		{
+		ptrGameStage->ToPhase1Camera(); // GameStageのToMyCamera()関数を呼び出し、カメラをPhase1Cameraに切り替える
+
+		}
+		else if(ptrGameStage2)
+		{
+			ptrGameStage2->ToPhase1Camera(); // GameStageのToMyCamera()関数を呼び出し、カメラをPhase1Cameraに切り替える
+		}
 	}
 
 
-	// オープニングの最終ステートに入った時の処理
-	void OpeningCameraman::EndStateEnterBehavior2()
-	{
-		auto ptrGameGtage2 = GetTypeStage<GameStage2>();
-		ptrGameGtage2->ToPhase1Camera(); // GameStageのToMyCamera()関数を呼び出し、カメラをPhase1Cameraに切り替える
-	}
 
 
 	//--------------------------------------------------------------------------------------

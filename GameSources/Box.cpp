@@ -221,10 +221,11 @@ namespace basecross
 			Vec3 nextPos = currentPos + deltaMove; //Boxのポジションに移動の値を足す
 
 			// --- テーブルの範囲情報を取得 ---
-			auto stage = GetStage();
+			//auto stage = GetStage()->GetThis<GameStage>();
+			//auto stage2 = GetStage()->GetThis<GameStage2>();
 
-			auto stageptr = dynamic_pointer_cast<GameStage>(stage);
-			auto stageptr2 = dynamic_pointer_cast<GameStage2>(stage);
+			auto stageptr = dynamic_pointer_cast<GameStage>(GetStage());
+			auto stageptr2 = dynamic_pointer_cast<GameStage2>(GetStage());
 
 			if (stageptr) 
 			{

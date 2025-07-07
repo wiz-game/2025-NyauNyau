@@ -136,9 +136,9 @@ namespace basecross
 
 
 		//各パフォーマンスを得る
-		GetStage()->SetCollisionPerformanceActive(true);
-		GetStage()->SetUpdatePerformanceActive(true);
-		GetStage()->SetDrawPerformanceActive(true);
+		//GetStage()->SetCollisionPerformanceActive(true);
+		//GetStage()->SetUpdatePerformanceActive(true);
+		//GetStage()->SetDrawPerformanceActive(true);
 
 
 		//描画コンポーネントの設定
