@@ -224,6 +224,11 @@ namespace basecross {
 				{
 					PostEvent(0.7f, GetThis<GameOverStage>(), scene, L"ToGameStage2");
 				}
+				else if (stageNum == 2)
+				{
+					PostEvent(0.7f, GetThis<GameOverStage>(), scene, L"ToGameStage3");
+				}
+
 
 				return;
 

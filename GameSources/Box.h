@@ -38,6 +38,8 @@ namespace basecross {
 		void BoxMove();
 		void DrawStrings();
 
+		void ClampObjectPositionToTable(Vec3 nextPos, Vec3 boxScaleHalved, std::shared_ptr<GameObject>& table);
+
 		shared_ptr<PNTStaticDraw> m_drawComp;
 		shared_ptr<Transform> m_transComp;
 
