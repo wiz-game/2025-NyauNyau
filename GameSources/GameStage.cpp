@@ -617,19 +617,16 @@ namespace basecross {
 			stage->SetScale(2.0f, 2.0f, 1.0f);
 			m_gameStageUI.push_back(stage);
 
-<<<<<<< Updated upstream
-=======
-			//プレイヤーに追尾する「??」
+			//プレイヤーに追尾するアセェ
 			auto playerObject = GetSharedGameObject<Player>(L"Player_0");
-			auto ase = AddGameObject<GameStageUI>();
+			m_ase = AddGameObject<GameStagePointerUI>();
+			auto ase = m_ase.lock();
 			ase->SetTexture(L"TEX_Ase");
 			ase->SetPosition(0, 0, 0);
-			ase->SetScale(2.0f, 2.0f, 1.0f);
+			ase->SetScale(0.8f, 0.8f, 1.0f);
 			ase->SetTargetPlayer(playerObject);
-			m_gameStageUI.push_back(ase);
 
 
->>>>>>> Stashed changes
 			m_selectionPointerUI = AddGameObject<GameStagePointerUI>();
 			auto pointer = m_selectionPointerUI.lock();
 			pointer->SetTexture(L"TEX_BoxPointer");
@@ -752,14 +749,6 @@ namespace basecross {
 		auto pad = device.GetControlerVec()[0];
 		auto delta = app->GetElapsedTime();
 
-<<<<<<< Updated upstream
-		auto scene = app->GetScene<Scene>();
-		wstring log = scene->GetDebugString();
-		wstringstream wss(log);
-
-
-=======
->>>>>>> Stashed changes
 		m_Time += delta;
 
 		if (m_Time > 0.3f && !m_isStageFadingOut)
@@ -1042,11 +1031,8 @@ namespace basecross {
 		app->RegisterTexture(L"TEX_phase1UI_light", texPath + L"phase1.2UI_light.png");
 		app->RegisterTexture(L"TEX_phase2UI_A", texPath + L"phase2UI_A.png");
 		app->RegisterTexture(L"TEX_BoxPointer", texPath + L"BoxPoint.png");
-<<<<<<< Updated upstream
-=======
-		app->RegisterTexture(L"TEX_Exclamationmark", texPath + L"Exclamationmark.png");
+		//app->RegisterTexture(L"TEX_Exclamationmark", texPath + L"Exclamationmark.png");
 		app->RegisterTexture(L"TEX_Ase", texPath + L"Ase.png");
->>>>>>> Stashed changes
 
 	}
 

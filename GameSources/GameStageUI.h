@@ -6,6 +6,7 @@
 #pragma once
 #include "stdafx.h"
 #include "Box.h"
+#include "Player2.h"
 
 namespace basecross {
 
@@ -21,23 +22,13 @@ namespace basecross {
 
 		std::weak_ptr<Player> m_target;
 
-		bool m_isAnimation;
-		float m_baseOffsetY;//上下の中心となるY座標のオフセット
-		float m_baseOffsetX;//上下の中心となるY座標のオフセット
-		float m_totalTime;
-		float blinkSpeed;//点滅速度
 
 
 
 	public:
 		// 構築と破棄
 		GameStageUI(const shared_ptr<Stage>& stage) :
-			GameObject(stage),
-			m_isAnimation(false),
-			m_baseOffsetY(3.5f),
-			m_baseOffsetX(3.5f),
-			m_totalTime(0.0f),
-			blinkSpeed(3.0f)
+			GameObject(stage)
 		{
 		}
 		virtual ~GameStageUI()
