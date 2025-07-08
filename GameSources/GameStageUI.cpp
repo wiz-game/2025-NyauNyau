@@ -45,40 +45,20 @@ namespace basecross {
 
 	}
 
+	//ゲーム時間に応じて、再生するアニメーションシーケンスを決定
+	void GameStageUI::UpdateAnimationByGameTime(float gameTime)
+	{
+	}
+
+
 	// アニメーションを設定する関数
 	void GameStageUI::SetAnimation(const std::vector<std::wstring>& textureKeys, float timePerFrame, bool loop) 
 	{
-		auto& app = App::GetApp();
-		m_CurrentAnimeTextures.clear();
-		// テクスチャキーのリストからテクスチャリソースを取得して保持
-		for (const auto& key : textureKeys)
-		{
-			auto texture = app->GetResource<TextureResource>(key);
-			if (texture)
-			{
-				m_CurrentAnimeTextures.push_back(texture);
-			}
-		}
-		m_timePerFrame = timePerFrame;
-		m_isLoop = loop;
-
-		// 最初のフレームをテクスチャとして設定
-		auto drawComp = GetComponent<SpriteBaseDraw>();
-		if (drawComp && !m_CurrentAnimeTextures.empty())
-		{
-			drawComp->SetTextureResource(m_CurrentAnimeTextures[0]);
-		}
 	}
 
 	// アニメーション再生を開始する関数
 	void GameStageUI::PlayAnimation() 
 	{
-		if (!m_CurrentAnimeTextures.empty())
-		{
-			m_isAnimating = true;
-			m_frameTimer = 0.0f;
-			m_currentFrame = 0;
-		}
 	}
 
 	// アニメーションを停止する関数
@@ -123,46 +103,6 @@ namespace basecross {
 		SetColor(Col4(r, g, b, a));
 	}
 
-	//ゲーム時間に応じて、再生するアニメーションシーケンスを決定
-	void GameStageUI::UpdateAnimationByGameTime(float gameTime)
-	{
-		//ゲーム時間に応じて、再生するアニメーションシーケンスを決定
-		if (gameTime > 25.0f)
-		{
-			m_CurrentAnimeTextures = &m_animeTexturesDanger;
-		}
-		else if (gameTime > 15.0f)
-		{
-			m_CurrentAnimeTextures = &m_animeTexturesHurry;
-		}
-		else
-		{
-			m_CurrentAnimeTextures = &m_animeTexturesNomal;
-		}
-
-		//選択されたシーケンスでアニメーションを再生(通常のOnUpdateのロジック)
-		if (!m_CurrentAnimeTextures || m_CurrentAnimeTextures->empty())
-		{
-			return;
-		}
-
-		m_frameTimer += App::GetApp()->GetElapsedTime();
-		if (m_frameTimer >= m_timePerFrame)
-		{
-			m_frameTimer -= m_timePerFrame;
-			m_currentFrame++;
-			if (m_currentFrame >= m_CurrentAnimeTextures->size())
-			{
-				m_currentFrame = 0; //常にループする
-			}
-
-			auto drawComp = GetComponent<SpriteBaseDraw>();
-			if (drawComp)
-			{
-				drawComp->SetTextureResource((*m_CurrentAnimeTextures)[m_currentFrame]);
-			}
-		}
-	}
 
 }
 //end basecross
