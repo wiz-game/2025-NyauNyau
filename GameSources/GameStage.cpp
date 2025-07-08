@@ -652,13 +652,17 @@ namespace basecross {
 				m_selectedBoxIndex = 0; // 最初のBox (Box_0) を選択候補にする
 			}
 
-			// Exclamation markの生成
-			auto exclamationMark = AddGameObject<GameStageUI>();
-			exclamationMark->SetTexture(L"TEX_Exclamationmark");
-			exclamationMark->SetScale(0.1f, 0.1f, -0.5f); // スケールはスクリーン座標系に合わせて調整
-			exclamationMark->SetDrawActive(false); 
-			m_exclamationMarkUI = exclamationMark; // ポインタを保持
-			m_isExclamationMarkActive = false;
+			//// Exclamation markの生成
+			//auto exclamationMark = AddGameObject<GameStageUI>();
+			//exclamationMark->SetTexture(L"TEX_Exclamationmark");
+			//exclamationMark->SetScale(0.1f, 0.1f, -0.5f); // スケールはスクリーン座標系に合わせて調整
+			//exclamationMark->SetDrawActive(false); 
+			//m_exclamationMarkUI = exclamationMark; // ポインタを保持
+			//m_isExclamationMarkActive = false;
+
+			//// Exclamation mark表示制御用変数の初期化
+			//m_isExclamationMark = false; // 初期状態では表示されていない
+			//m_exclamationMarkTimer = 0.0f;
 
 			// ---phase1の時間制限タイマーの初期化---
 			m_isTimer = 0.0f;
@@ -668,12 +672,55 @@ namespace basecross {
 			m_isShortTimer = 0.0f;     // タイマーを0にリセット
 			m_isShortTimerflag = true;  // ゲーム開始直後なので、初期期間フラグをtrueに
 
-			// Exclamation mark表示制御用変数の初期化
-			m_isExclamationMark = false; // 初期状態では表示されていない
-			m_exclamationMarkTimer = 0.0f;
+			//タイマー時計UIの生成
+			Vec2 clockPosition = Vec2(500.0f, 250.0f); // 時計を表示する位置
+			// 時計の外枠のスケール
+			float TimerFrameScaleX = 0.5f; 
+			float TimerFrameScaleY= 0.8f;
+			//時計の文字盤（中）のスケール
+			float TimerClockFaceScaleX = 0.5f;
+			float TimerClockFaceScaleY = 0.8f;
+			//時計の秒針のスケール
+			float TimerSecHandScaleX = 0.5f;
+			float TimerSecHandScaleY = 0.68f;
+
+			// 時計の外枠
+			auto clockFrame = AddGameObject<GameStageUI>();
+			clockFrame->SetTexture(L"TEX_TimerFrame");
+			clockFrame->SetPosition(clockPosition.x, clockPosition.y, 0.2f);
+			clockFrame->SetScale(TimerFrameScaleX, TimerFrameScaleY, 1.0f);
+			m_timerClockFrameUI = clockFrame;
+
+			// 時計の文字盤
+			auto clockFace = AddGameObject<GameStageUI>();
+			clockFace->SetTexture(L"TEX_TimerClockFace");
+			clockFace->SetPosition(clockPosition.x, clockPosition.y, 0.3f); 
+			clockFace->SetScale(TimerClockFaceScaleX, TimerClockFaceScaleY, 1.0f);
+			m_timerClockFaceUI = clockFace;
+
+			// 時計の秒針 
+			auto clockHand = AddGameObject<GameStageUI>();
+			clockHand->SetTexture(L"TEX_TimerSecHand");
+			clockHand->SetPosition(clockPosition.x , clockPosition.y, 0.2f);
+			clockHand->SetScale(TimerSecHandScaleX, TimerSecHandScaleY, 1.0f);
+			m_timerSecHandUI = clockHand;
+
+			//秒針のピボットを設定（画像の下の部分が中心になるようにする）
+			auto sechandTransform = clockHand->GetComponent<Transform>();
+			if (sechandTransform) 
+			{
+				sechandTransform->SetPivot(Vec3(0.0f, -0.5f, 0.0f)); // Y軸方向にピボットをずらす
+			}
+
+			//タイマー
+			clockFrame->SetDrawActive(false);
+			clockFace->SetDrawActive(false);
+			clockHand->SetDrawActive(false);
+
 
 		}
-		catch (...) {
+		catch (...) 
+		{
 			throw;
 		}
 	}
@@ -1061,6 +1108,9 @@ namespace basecross {
 		app->RegisterTexture(L"TEX_phase2UI_A", texPath + L"phase2UI_A.png");
 		app->RegisterTexture(L"TEX_BoxPointer", texPath + L"BoxPoint.png");
 		app->RegisterTexture(L"TEX_Exclamationmark", texPath + L"Exclamationmark.png");
+		app->RegisterTexture(L"TEX_TimerFrame", texPath + L"Timer.png");
+		app->RegisterTexture(L"TEX_TimerClockFace", texPath + L"WhiteCircle.png");
+		app->RegisterTexture(L"TEX_TimerSecHand", texPath + L"sechand.png");
 
 	}
 
@@ -1182,14 +1232,16 @@ namespace basecross {
 						//ui->SetDrawActive(true);
 					}
 				}
+
 				if (m_isShortTimer > 2.0f) 
 				{
 
-					m_isExclamationMark = true;
-					m_exclamationMarkTimer = 0.0f;
-
-					m_isShortTimerflag = false;
+					// ... (位置設定の処理) ...
+					ui->SetDrawActive(true);
+					ui->PlayAnimation(); // ★アニメーションを再生開始★
 				}
+
+				m_isShortTimerflag = false;
 			}
 
 
@@ -1215,6 +1267,10 @@ namespace basecross {
 			if (pause->IsPlaying())
 			{
 				auto gameObjectVec = GetGameObjectVec();
+				// 時計の各パーツのポインタを取得
+				auto clockFrame = m_timerClockFrameUI.lock();
+				auto clockFace = m_timerClockFaceUI.lock();
+				auto clockHand = m_timerSecHandUI.lock();
 				for (auto obj : gameObjectVec)
 				{
 					if (m_isTimerflag)
@@ -1252,6 +1308,37 @@ namespace basecross {
 						{
 							obj->SetUpdateActive(false);
 						}
+
+						// 全てのパーツが存在すれば、表示して回転させる
+						if (clockFrame && clockFace && clockHand)
+						{
+							// UIを表示状態にする
+							clockFrame->SetDrawActive(true);
+							clockFace->SetDrawActive(true);
+							clockHand->SetDrawActive(true);
+							// 秒針の回転角度を計算
+							float totalDuration = 32.0f;
+							// 現在の時間の進捗率 (0.0 ～ 1.0) を計算
+							float progress = m_isTimer / totalDuration;
+							// 時計回りなのでマイナス方向
+							float rotationAngleZ_degrees = -360.0f * progress;
+							// ラジアンに変換
+							float rotationAngleZ_radians = XMConvertToRadians(rotationAngleZ_degrees);
+							// 秒針のTransformを取得して回転を設定
+							auto handTransform = clockHand->GetComponent<Transform>();
+							if (handTransform) 
+							{
+								handTransform->SetRotation(Vec3(0.0f, 0.0f, rotationAngleZ_radians));
+							}
+
+						}
+					}
+					else
+					{
+						// 時間切れになったら時計を非表示にする (オプション)
+						if (auto clockHand = m_timerSecHandUI.lock()) clockHand->SetDrawActive(false);
+						if (auto clockFace = m_timerClockFaceUI.lock()) clockFace->SetDrawActive(false);
+						if (auto clockFrame = m_timerClockFrameUI.lock()) clockFrame->SetDrawActive(false);
 					}
 				}
 
@@ -1283,6 +1370,11 @@ namespace basecross {
 					UI_B->SetDrawActive(false);
 					phase2UI->SetDrawActive(true);
 					boxPointer->SetDrawActive(false);
+
+					// Phase2 になったら時計を非表示にする
+					if (auto clockHand = m_timerSecHandUI.lock()) clockHand->SetDrawActive(false);
+					if (auto clockFace = m_timerClockFaceUI.lock()) clockFace->SetDrawActive(false);
+					if (auto clockFrame = m_timerClockFrameUI.lock()) clockFrame->SetDrawActive(false);
 
 					if (currentPhase == GamePhase::Phase2)
 					{
