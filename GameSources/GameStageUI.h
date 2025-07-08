@@ -19,14 +19,25 @@ namespace basecross {
 		std::shared_ptr<Transform> m_ptrTrans;
 		std::vector<VertexPositionColorTexture> m_vertices;
 
-		std::weak_ptr<Box> m_targetBox;
+		std::weak_ptr<Player> m_target;
+
+		bool m_isAnimation;
+		float m_baseOffsetY;//上下の中心となるY座標のオフセット
+		float m_baseOffsetX;//上下の中心となるY座標のオフセット
+		float m_totalTime;
+		float blinkSpeed;//点滅速度
 
 
 
 	public:
 		// 構築と破棄
 		GameStageUI(const shared_ptr<Stage>& stage) :
-			GameObject(stage)
+			GameObject(stage),
+			m_isAnimation(false),
+			m_baseOffsetY(3.5f),
+			m_baseOffsetX(3.5f),
+			m_totalTime(0.0f),
+			blinkSpeed(3.0f)
 		{
 		}
 		virtual ~GameStageUI()
@@ -46,7 +57,7 @@ namespace basecross {
 		void SetColor(float r, float g, float b, float a);
 
 
-		void SetTargetBox(const shared_ptr<Box>& target);
+		void SetTargetPlayer(const shared_ptr<Player>& target);
 	};
 }
 //end basecross

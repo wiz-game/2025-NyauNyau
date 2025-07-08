@@ -617,6 +617,19 @@ namespace basecross {
 			stage->SetScale(2.0f, 2.0f, 1.0f);
 			m_gameStageUI.push_back(stage);
 
+<<<<<<< Updated upstream
+=======
+			//プレイヤーに追尾する「??」
+			auto playerObject = GetSharedGameObject<Player>(L"Player_0");
+			auto ase = AddGameObject<GameStageUI>();
+			ase->SetTexture(L"TEX_Ase");
+			ase->SetPosition(0, 0, 0);
+			ase->SetScale(2.0f, 2.0f, 1.0f);
+			ase->SetTargetPlayer(playerObject);
+			m_gameStageUI.push_back(ase);
+
+
+>>>>>>> Stashed changes
 			m_selectionPointerUI = AddGameObject<GameStagePointerUI>();
 			auto pointer = m_selectionPointerUI.lock();
 			pointer->SetTexture(L"TEX_BoxPointer");
@@ -722,23 +735,6 @@ namespace basecross {
 				{
 					AttemptToControlSelectedBox();
 				}
-				//if (m_selectedBoxIndex != m_lastNotifiedIndex)
-				//{
-				//	//操作対象のBoxをポインターで表示
-				//	if (auto pointer = m_selectionPointerUI.lock())
-				//	{
-				//		if (m_selectedBoxIndex >= 0 && m_selectedBoxIndex < m_controllableBoxes.size())
-				//		{
-				//			pointer->SetTargetBox(m_controllableBoxes[m_selectedBoxIndex], true);
-				//		}
-				//		else 
-				//		{
-				//			pointer->SetTargetBox(nullptr, false);
-				//		}
-				//	}
-					// 最後に通知したインデックスを更新
-					//m_lastNotifiedIndex = m_selectedBoxIndex;
-				//}
 			}
 			else if (m_currentControlMode == GameControlMode::ControlBox)
 			{
@@ -756,11 +752,14 @@ namespace basecross {
 		auto pad = device.GetControlerVec()[0];
 		auto delta = app->GetElapsedTime();
 
+<<<<<<< Updated upstream
 		auto scene = app->GetScene<Scene>();
 		wstring log = scene->GetDebugString();
 		wstringstream wss(log);
 
 
+=======
+>>>>>>> Stashed changes
 		m_Time += delta;
 
 		if (m_Time > 0.3f && !m_isStageFadingOut)
@@ -1043,6 +1042,11 @@ namespace basecross {
 		app->RegisterTexture(L"TEX_phase1UI_light", texPath + L"phase1.2UI_light.png");
 		app->RegisterTexture(L"TEX_phase2UI_A", texPath + L"phase2UI_A.png");
 		app->RegisterTexture(L"TEX_BoxPointer", texPath + L"BoxPoint.png");
+<<<<<<< Updated upstream
+=======
+		app->RegisterTexture(L"TEX_Exclamationmark", texPath + L"Exclamationmark.png");
+		app->RegisterTexture(L"TEX_Ase", texPath + L"Ase.png");
+>>>>>>> Stashed changes
 
 	}
 
