@@ -682,7 +682,7 @@ namespace basecross {
 			float TimerClockFaceScaleY = 0.8f;
 			//時計の秒針のスケール
 			float TimerSecHandScaleX = 0.5f;
-			float TimerSecHandScaleY = 0.6f;
+			float TimerSecHandScaleY = 0.68f;
 
 			// 時計の外枠
 			auto clockFrame = AddGameObject<GameStageUI>();
@@ -701,7 +701,7 @@ namespace basecross {
 			// 時計の秒針 
 			auto clockHand = AddGameObject<GameStageUI>();
 			clockHand->SetTexture(L"TEX_TimerSecHand");
-			clockHand->SetPosition(clockPosition.x, clockPosition.y, 0.0f);
+			clockHand->SetPosition(clockPosition.x , clockPosition.y, 0.2f);
 			clockHand->SetScale(TimerSecHandScaleX, TimerSecHandScaleY, 1.0f);
 			m_timerSecHandUI = clockHand;
 
@@ -719,7 +719,8 @@ namespace basecross {
 
 
 		}
-		catch (...) {
+		catch (...) 
+		{
 			throw;
 		}
 	}
