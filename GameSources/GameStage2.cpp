@@ -617,6 +617,17 @@ namespace basecross {
 			stage->SetScale(2.0f, 2.0f, 1.0f);
 			m_gameStageUI.push_back(stage);
 
+			//プレイヤーに追尾するアセェ
+			auto playerObject = GetSharedGameObject<Player>(L"Player_0");
+			m_ase = AddGameObject<GameStagePointerUI>();
+			auto ase = m_ase.lock();
+			ase->SetTexture(L"TEX_Ase");
+			ase->SetPosition(0, 0, 0);
+			ase->SetScale(0.8f, 0.8f, 1.0f);
+			ase->SetTargetPlayer(playerObject);
+
+
+
 			m_selectionPointerUI = AddGameObject<GameStagePointerUI>();
 			auto pointer = m_selectionPointerUI.lock();
 			pointer->SetTexture(L"TEX_BoxPointer");

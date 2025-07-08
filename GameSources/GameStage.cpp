@@ -617,6 +617,15 @@ namespace basecross {
 			stage->SetScale(2.0f, 2.0f, 1.0f);
 			m_gameStageUI.push_back(stage);
 
+			//プレイヤーに追尾するアセェ
+			auto playerObject = GetSharedGameObject<Player>(L"Player_0");
+			m_ase = AddGameObject<GameStagePointerUI>();
+			auto ase = m_ase.lock();
+			ase->SetTexture(L"TEX_Ase");
+			ase->SetPosition(0, 0, 0);
+			ase->SetScale(0.8f, 0.8f, 1.0f);
+			ase->SetTargetPlayer(playerObject);
+
 
 			m_selectionPointerUI = AddGameObject<GameStagePointerUI>();
 			auto pointer = m_selectionPointerUI.lock();
@@ -786,23 +795,6 @@ namespace basecross {
 				{
 					AttemptToControlSelectedBox();
 				}
-				//if (m_selectedBoxIndex != m_lastNotifiedIndex)
-				//{
-				//	//操作対象のBoxをポインターで表示
-				//	if (auto pointer = m_selectionPointerUI.lock())
-				//	{
-				//		if (m_selectedBoxIndex >= 0 && m_selectedBoxIndex < m_controllableBoxes.size())
-				//		{
-				//			pointer->SetTargetBox(m_controllableBoxes[m_selectedBoxIndex], true);
-				//		}
-				//		else 
-				//		{
-				//			pointer->SetTargetBox(nullptr, false);
-				//		}
-				//	}
-					// 最後に通知したインデックスを更新
-					//m_lastNotifiedIndex = m_selectedBoxIndex;
-				//}
 			}
 			else if (m_currentControlMode == GameControlMode::ControlBox)
 			{
@@ -819,11 +811,6 @@ namespace basecross {
 		auto device = app->GetInputDevice();
 		auto pad = device.GetControlerVec()[0];
 		auto delta = app->GetElapsedTime();
-
-		//auto scene = app->GetScene<Scene>();
-		//wstring log = scene->GetDebugString();
-		//wstringstream wss(log);
-
 
 		m_Time += delta;
 
@@ -1111,6 +1098,8 @@ namespace basecross {
 		app->RegisterTexture(L"TEX_TimerFrame", texPath + L"Timer.png");
 		app->RegisterTexture(L"TEX_TimerClockFace", texPath + L"WhiteCircle.png");
 		app->RegisterTexture(L"TEX_TimerSecHand", texPath + L"sechand.png");
+		//app->RegisterTexture(L"TEX_Exclamationmark", texPath + L"Exclamationmark.png");
+		app->RegisterTexture(L"TEX_Ase", texPath + L"Ase.png");
 
 	}
 

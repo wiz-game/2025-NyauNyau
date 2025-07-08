@@ -6,6 +6,7 @@
 #pragma once
 #include "stdafx.h"
 #include "Box.h"
+#include "Player2.h"
 
 namespace basecross {
 
@@ -19,7 +20,8 @@ namespace basecross {
 		std::shared_ptr<Transform> m_ptrTrans;
 		std::vector<VertexPositionColorTexture> m_vertices;
 
-		std::weak_ptr<Box> m_targetBox;
+		std::weak_ptr<Player> m_target;
+
 
 		//時間制限のアニメーション用のテクスチャリスト
 		vector<shared_ptr<TextureResource>> m_animeTexturesNomal;
@@ -77,7 +79,7 @@ namespace basecross {
 		void PlayAnimation();
 		void StopAnimation();
 
-		void SetTargetBox(const shared_ptr<Box>& target);
+		void SetTargetPlayer(const shared_ptr<Player>& target);
 	};
 }
 //end basecross

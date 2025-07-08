@@ -42,7 +42,6 @@ namespace basecross {
 
 	void GameStageUI::OnUpdate()
 	{
-
 	}
 
 	//ゲーム時間に応じて、再生するアニメーションシーケンスを決定

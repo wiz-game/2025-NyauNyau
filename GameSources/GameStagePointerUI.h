@@ -27,7 +27,13 @@ namespace basecross {
 		bool m_isAnimating;//アニメーション中かどうか
 		float m_animationTime;//時間
 		float m_baseOffsetY;//上下の中心となるY座標のオフセット
+		float m_baseOffsetX;//上下の中心となるX座標のオフセット
 
+		bool m_isAnimation;
+		float m_totalTime;
+		float blinkSpeed;//点滅速度
+		float m_aseOffsetY;//上下の中心となるY座標のオフセット
+		float m_aseOffsetX;//上下の中心となるX座標のオフセット
 
 
 	public:
@@ -37,9 +43,15 @@ namespace basecross {
 			m_speed(2.0f),
 			m_moveRange(1.0f),
 			m_isAnimating(false),
+			m_isAnimation(false),
 			m_animationTime(0.0f),
 			m_baseOffsetY(3.5f),
-			m_moveDirection(-1.0f)
+			m_baseOffsetX(3.5f),
+			m_moveDirection(-1.0f),
+			m_totalTime(0.0f),
+			blinkSpeed(3.0f),
+			m_aseOffsetY(1.0f),
+			m_aseOffsetX(1.0f)
 		{
 		}
 		virtual ~GameStagePointerUI()
@@ -60,6 +72,9 @@ namespace basecross {
 
 		//操作可能Boxのポインター(animationなし)と選択中のBoxのポインター(animationあり)
 		void SetTargetBox(const shared_ptr<Box>& target, bool isAnimate);
+
+		//プレイヤーに追尾する汗
+		void SetTargetPlayer(const shared_ptr<Player>& target);
 
 	};
 }

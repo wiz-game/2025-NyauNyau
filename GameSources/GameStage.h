@@ -89,6 +89,7 @@ namespace basecross {
 		std::weak_ptr<PauseManager> m_pauseManager;//ポーズマネージャーへの参照
 		std::weak_ptr<SettingStage> m_settingStage;//セッティングステージへの参照
 		std::vector<std::weak_ptr<GameStageUI>> m_gameStageUI;//UIスプライトへの参照
+		std::weak_ptr<GameStagePointerUI> m_ase;//UIスプライトへの参照
 
 		//入力ハンドラー
 		InputHandler<GameStage> m_InputHandler;
