@@ -673,9 +673,9 @@ namespace basecross {
 			m_isShortTimerflag = true;  // ゲーム開始直後なので、初期期間フラグをtrueに
 
 			//タイマー時計UIの生成
-			Vec2 clockPosition = Vec2(500.0f, 250.0f); // 時計を表示する位置
+			Vec2 clockPosition = Vec2(0.0f, 290.0f); // 時計を表示する位置
 			// 時計の外枠のスケール
-			float TimerFrameScaleX = 0.5f; 
+			float TimerFrameScaleX = 0.5f;
 			float TimerFrameScaleY= 0.8f;
 			//時計の文字盤（中）のスケール
 			float TimerClockFaceScaleX = 0.5f;
