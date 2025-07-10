@@ -1191,7 +1191,7 @@ namespace basecross
 
 				if (isTimerSoundFlag)
 				{
-					if (m_isTimer >= 20.0f) //Žc‚è10•b‚Ìƒ^ƒCƒ~ƒ“ƒO‚ð’m‚ç‚¹‚éŒø‰Ê‰¹‚ð—¬‚·
+					if (m_isTimer >= 26.0f) //Žc‚è10•b‚Ìƒ^ƒCƒ~ƒ“ƒO‚ð’m‚ç‚¹‚éŒø‰Ê‰¹‚ð—¬‚·
 					{
 						auto scene = App::GetApp()->GetScene<Scene>();
 						auto volume = scene->m_volumeBGM;
@@ -1201,7 +1201,7 @@ namespace basecross
 					}
 				}
 
-				if (m_isTimer > 30.0f) //ŽžŠÔ§ŒÀ‚ð30•b‚É‚·‚é
+				if (m_isTimer > 36.0f) //ŽžŠÔ§ŒÀ‚ð30•b‚É‚·‚é
 				{
 					m_isTimerflag = false;
 				}
@@ -1245,23 +1245,26 @@ namespace basecross
 					// ƒ^ƒCƒ}[‚ð•\Ž¦‚µ‚Ä•bj‚ð‰ñ“]‚³‚¹‚é
 					if (clockFrame && clockFace && clockHand)
 					{
-						// UI‚ð•\Ž¦ó‘Ô‚É‚·‚é
-						clockFrame->SetDrawActive(true);
-						clockFace->SetDrawActive(true);
-						clockHand->SetDrawActive(true);
-						// •bj‚Ì‰ñ“]Šp“x‚ðŒvŽZ(‰½ƒtƒŒ[ƒ€‚ÅˆêŽü‚·‚é‚©)
-						float totalDuration = 30.0f;
-						// Œ»Ý‚ÌŽžŠÔ‚Ìi’»—¦ (0.0 ` 1.0) ‚ðŒvŽZ
-						float progress = m_isTimer / totalDuration;
-						// ŽžŒv‰ñ‚è‚È‚Ì‚Åƒ}ƒCƒiƒX•ûŒü
-						float rotationAngleZ_degrees = -360.0f * progress;
-						// ƒ‰ƒWƒAƒ“‚É•ÏŠ·
-						float rotationAngleZ_radians = XMConvertToRadians(rotationAngleZ_degrees);
-						// •bj‚ÌTransform‚ðŽæ“¾‚µ‚Ä‰ñ“]‚ðÝ’è
-						auto handTransform = clockHand->GetComponent<Transform>();
-						if (handTransform)
+						if (m_isTimer >= 6.0f)
 						{
-							handTransform->SetRotation(Vec3(0.0f, 0.0f, rotationAngleZ_radians));
+							// UI‚ð•\Ž¦ó‘Ô‚É‚·‚é
+							clockFrame->SetDrawActive(true);
+							clockFace->SetDrawActive(true);
+							clockHand->SetDrawActive(true);
+							// •bj‚Ì‰ñ“]Šp“x‚ðŒvŽZ(‰½ƒtƒŒ[ƒ€(•b)‚ÅˆêŽü‚·‚é‚©)
+							float totalDuration = 30.0f;
+							// Œ»Ý‚ÌŽžŠÔ‚Ìi’»—¦ (0.0 ` 1.0) ‚ðŒvŽZ
+							float progress = (m_isTimer - 6.0f) / totalDuration; // Å‰‚ÌƒJƒƒ‰‰‰o‚Ì•b”•ª‚ðƒ}ƒCƒiƒX‚µ‚Ä‚¨‚­
+							// ŽžŒv‰ñ‚è‚È‚Ì‚Åƒ}ƒCƒiƒX•ûŒü
+							float rotationAngleZ_degrees = -360.0f * progress;
+							// ƒ‰ƒWƒAƒ“‚É•ÏŠ·
+							float rotationAngleZ_radians = XMConvertToRadians(rotationAngleZ_degrees);
+							// •bj‚ÌTransform‚ðŽæ“¾‚µ‚Ä‰ñ“]‚ðÝ’è
+							auto handTransform = clockHand->GetComponent<Transform>();
+							if (handTransform)
+							{
+								handTransform->SetRotation(Vec3(0.0f, 0.0f, rotationAngleZ_radians));
+							}
 						}
 
 					}
