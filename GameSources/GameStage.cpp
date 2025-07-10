@@ -1135,6 +1135,11 @@ namespace basecross
 		auto volumeSE = scene->m_volumeSE;
 		auto ptrXA = App::GetApp()->GetXAudio2Manager();
 		auto gameObjectVec = GetGameObjectVec();
+		// 時計の各パーツのポインタを取得
+		auto clockFrame = m_timerClockFrameUI.lock();
+		auto clockFace = m_timerClockFaceUI.lock();
+		auto clockHand = m_timerSecHandUI.lock();
+
 
 		if (currentPhase == GamePhase::Phase0)
 		{
@@ -1186,7 +1191,7 @@ namespace basecross
 
 				if (isTimerSoundFlag)
 				{
-					if (m_isTimer >= 20.0f) //残り10秒のタイミングを知らせる効果音を流す
+					if (m_isTimer >= 26.0f) //残り10秒のタイミングを知らせる効果音を流す
 					{
 						auto scene = App::GetApp()->GetScene<Scene>();
 						auto volume = scene->m_volumeBGM;
@@ -1196,7 +1201,7 @@ namespace basecross
 					}
 				}
 
-				if (m_isTimer > 30.0f) //時間制限を30秒にする
+				if (m_isTimer > 36.0f) //時間制限を30秒にする
 				{
 					m_isTimerflag = false;
 				}
@@ -1204,10 +1209,6 @@ namespace basecross
 
 			if (pause->IsPlaying())
 			{
-				// 時計の各パーツのポインタを取得
-				auto clockFrame = m_timerClockFrameUI.lock();
-				auto clockFace = m_timerClockFaceUI.lock();
-				auto clockHand = m_timerSecHandUI.lock();
 				for (auto obj : gameObjectVec)
 				{
 					//---phase1時のオブジェクト処理---
@@ -1244,23 +1245,26 @@ namespace basecross
 					// タイマーを表示して秒針を回転させる
 					if (clockFrame && clockFace && clockHand)
 					{
-						// UIを表示状態にする
-						clockFrame->SetDrawActive(true);
-						clockFace->SetDrawActive(true);
-						clockHand->SetDrawActive(true);
-						// 秒針の回転角度を計算(何フレームで一周するか)
-						float totalDuration = 30.0f;
-						// 現在の時間の進捗率 (0.0 ～ 1.0) を計算
-						float progress = m_isTimer / totalDuration;
-						// 時計回りなのでマイナス方向
-						float rotationAngleZ_degrees = -360.0f * progress;
-						// ラジアンに変換
-						float rotationAngleZ_radians = XMConvertToRadians(rotationAngleZ_degrees);
-						// 秒針のTransformを取得して回転を設定
-						auto handTransform = clockHand->GetComponent<Transform>();
-						if (handTransform)
+						if (m_isTimer >= 6.0f)
 						{
-							handTransform->SetRotation(Vec3(0.0f, 0.0f, rotationAngleZ_radians));
+							// UIを表示状態にする
+							clockFrame->SetDrawActive(true);
+							clockFace->SetDrawActive(true);
+							clockHand->SetDrawActive(true);
+							// 秒針の回転角度を計算(何フレーム(秒)で一周するか)
+							float totalDuration = 30.0f;
+							// 現在の時間の進捗率 (0.0 ～ 1.0) を計算
+							float progress = (m_isTimer - 6.0f) / totalDuration; // 最初のカメラ演出の秒数分をマイナスしておく
+							// 時計回りなのでマイナス方向
+							float rotationAngleZ_degrees = -360.0f * progress;
+							// ラジアンに変換
+							float rotationAngleZ_radians = XMConvertToRadians(rotationAngleZ_degrees);
+							// 秒針のTransformを取得して回転を設定
+							auto handTransform = clockHand->GetComponent<Transform>();
+							if (handTransform)
+							{
+								handTransform->SetRotation(Vec3(0.0f, 0.0f, rotationAngleZ_radians));
+							}
 						}
 
 					}
