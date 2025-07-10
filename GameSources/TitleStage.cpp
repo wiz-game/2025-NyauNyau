@@ -128,6 +128,11 @@ namespace basecross {
 
 	void TitleStage::OnUpdate()
 	{
+		auto& app = App::GetApp();
+		auto input = app->GetInputDevice();
+
+
+
 		//コントローラチェックして入力があればコマンド呼び出し
 		m_InputHandler.PushHandle(GetThis<TitleStage>());
 
