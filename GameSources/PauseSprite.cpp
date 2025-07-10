@@ -40,6 +40,7 @@ namespace basecross {
 	void PauseSprite::OnUpdate()
 	{
 		if (m_Selected)
+
 		{
 			//–¾–Å‚Ìˆ—
 			//Œo‰ßŠÔ‚ğæ“¾

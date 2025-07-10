@@ -23,14 +23,14 @@ namespace basecross {
 		//ポーズ画面
 		Pause = ObjectFactory::Create<PauseSprite>(GetStage());
 		Pause->SetTexture(L"TEX_PAUSE");
-		Pause->SetPosition(0, 0, 0);
+		Pause->SetPosition(0, 0, 5.0f);
 		Pause->SetSelected(false);
 		Pause->SetScale(1.5f, 1.5f, 0);
 
 		//リスタート
 		auto restart = ObjectFactory::Create<PauseSprite>(stage);
 		restart->SetTexture(L"TEX_RESTART");
-		restart->SetPosition(0, 20, 0);
+		restart->SetPosition(0, 20, 5.0f);
 		restart->SetScale(0.5f, 0.5f, 0.5f);
 		restart->SetSelected(true);
 		m_pauseSprites.push_back(restart);//m_pauseSpritesにrestartを入れる
@@ -38,7 +38,7 @@ namespace basecross {
 		//タイトルに戻る
 		auto title = ObjectFactory::Create<PauseSprite>(stage);
 		title->SetTexture(L"TEX_BACK");
-		title->SetPosition(0, -70.0f, 0);
+		title->SetPosition(0, -70.0f, 5.0f);
 		title->SetScale(0.5f, 0.5f, 0.5f);
 		title->SetSelected(false);
 		m_pauseSprites.push_back(title);//m_pauseSpritesにbackを入れる
@@ -46,7 +46,7 @@ namespace basecross {
 		//設定
 		auto setting = ObjectFactory::Create<PauseSprite>(stage);
 		setting->SetTexture(L"TEX_SETTING");
-		setting->SetPosition(0, -160.0f, 0);
+		setting->SetPosition(0, -160.0f, 5.0f);
 		setting->SetScale(0.47f, 0.47f, 0.47f);
 		setting->SetSelected(false);
 		m_pauseSprites.push_back(setting);//m_pauseSpritesにendを入れる
@@ -54,7 +54,7 @@ namespace basecross {
 		//終了
 		auto end = ObjectFactory::Create<PauseSprite>(stage);
 		end->SetTexture(L"TEX_END2");
-		end->SetPosition(0, -250.0f, 0);
+		end->SetPosition(0, -250.0f, 5.0f);
 		end->SetScale(0.47f, 0.47f, 0.47f);
 		end->SetSelected(false);
 		m_pauseSprites.push_back(end);//m_pauseSpritesにendを入れる
