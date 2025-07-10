@@ -1135,6 +1135,11 @@ namespace basecross
 		auto volumeSE = scene->m_volumeSE;
 		auto ptrXA = App::GetApp()->GetXAudio2Manager();
 		auto gameObjectVec = GetGameObjectVec();
+		// 時計の各パーツのポインタを取得
+		auto clockFrame = m_timerClockFrameUI.lock();
+		auto clockFace = m_timerClockFaceUI.lock();
+		auto clockHand = m_timerSecHandUI.lock();
+
 
 		if (currentPhase == GamePhase::Phase0)
 		{
@@ -1204,10 +1209,6 @@ namespace basecross
 
 			if (pause->IsPlaying())
 			{
-				// 時計の各パーツのポインタを取得
-				auto clockFrame = m_timerClockFrameUI.lock();
-				auto clockFace = m_timerClockFaceUI.lock();
-				auto clockHand = m_timerSecHandUI.lock();
 				for (auto obj : gameObjectVec)
 				{
 					//---phase1時のオブジェクト処理---
