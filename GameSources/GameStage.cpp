@@ -1222,13 +1222,15 @@ namespace basecross
 						{
 							obj->SetUpdateActive(true);
 						}
-
-					if (m_isShortTimer >= 2.0f)
-					{
-						m_isShortTimerflag = false;
-						currentPhase = GamePhase::Phase1;
 					}
 				}
+
+				if (m_isShortTimer >= 2.0f)
+				{
+					m_isShortTimerflag = false;
+					currentPhase = GamePhase::Phase1;
+				}
+				
 			}
 
 			//UIの非表示
@@ -1238,7 +1240,7 @@ namespace basecross
 
 		if (currentPhase == GamePhase::Phase1)
 		{
-			if (pause->IsPlaying())
+			if (!pause)
 			{
 				return;
 			}
@@ -1250,28 +1252,30 @@ namespace basecross
 			{
 				m_isTimer += App::GetApp()->GetElapsedTime(); //タイマーの値をプラスしていく
 
-					if (isTimerSoundFlag)
+				if (isTimerSoundFlag)
+				{
+					if (m_isTimer >= 26.0f) //残り10秒のタイミングを知らせる効果音を流す
 					{
-						if (m_isTimer >= 26.0f) //残り10秒のタイミングを知らせる効果音を流す
-						{
-							auto scene = App::GetApp()->GetScene<Scene>();
-							auto volume = scene->m_volumeBGM;
-							auto ptrXA = App::GetApp()->GetXAudio2Manager();
-							m_TimerSound = ptrXA->Start(L"Tikutaku", 0, 0.8f);
-							isTimerSoundFlag = false;
-						}
-					}
-
-					if (m_isTimer > 36.0f) //時間制限を30秒にする
-					{
-						m_isTimerflag = false;
+						auto scene = App::GetApp()->GetScene<Scene>();
+						auto volume = scene->m_volumeBGM;
+						auto ptrXA = App::GetApp()->GetXAudio2Manager();
+						m_TimerSound = ptrXA->Start(L"Tikutaku", 0, 0.8f);
+						isTimerSoundFlag = false;
 					}
 				}
 
-				for (auto obj : gameObjectVec)
+				if (m_isTimer > 36.0f) //時間制限を30秒にする
 				{
-					//---phase1時のオブジェクト処理---
-					if (m_isTimerflag)
+					m_isTimerflag = false;
+				}
+			}
+
+			for (auto obj : gameObjectVec)
+			{
+				//---phase1時のオブジェクト処理---
+				if (m_isTimerflag)
+				{
+					if (pause->IsPlaying())
 					{
 
 						if (dynamic_pointer_cast<Box>(obj))
@@ -1298,104 +1302,107 @@ namespace basecross
 						{
 							obj->SetUpdateActive(false);
 						}
-
 					}
 
 				}
 
-				// タイマーを表示して秒針を回転させる
-				if (clockFrame && clockFace && clockHand)
-				{
-					if (m_isTimer >= 6.0f)
-					{
-						// UIを表示状態にする
-						clockFrame->SetDrawActive(true);
-						clockFace->SetDrawActive(true);
-						clockHand->SetDrawActive(true);
-						// 秒針の回転角度を計算(何フレーム(秒)で一周するか)
-						float totalDuration = 30.0f;
-						// 現在の時間の進捗率 (0.0 ～ 1.0) を計算
-						float progress = (m_isTimer - 6.0f) / totalDuration; // 最初のカメラ演出の秒数分をマイナスしておく
-						// 時計回りなのでマイナス方向
-						float rotationAngleZ_degrees = -360.0f * progress;
-						// ラジアンに変換
-						float rotationAngleZ_radians = XMConvertToRadians(rotationAngleZ_degrees);
-						// 秒針のTransformを取得して回転を設定
-						auto handTransform = clockHand->GetComponent<Transform>();
-						if (handTransform)
-						{
-							handTransform->SetRotation(Vec3(0.0f, 0.0f, rotationAngleZ_radians));
-						}
-					}
-				}
-				else
-				{
-					// 時間切れになったら時計を非表示にする
-					if (auto clockHand = m_timerSecHandUI.lock()) clockHand->SetDrawActive(false);
-					if (auto clockFace = m_timerClockFaceUI.lock()) clockFace->SetDrawActive(false);
-					if (auto clockFrame = m_timerClockFrameUI.lock()) clockFrame->SetDrawActive(false);
-				}
 			}
 
-					//NotUIDraw();
-					////コントローラチェックがfalesならキーボードUIを表示する
-					//if (!CntlCheck)
-					//{
-					//	//キーボードUI
-					//	auto KeyboardUI = m_gameStageUI_Key[3].lock();
-					//	KeyboardUI->SetDrawActive(true);
-					//}
-
-					//if (cntlVec[0].wPressedButtons)
-					//{
-						//コントローラUI
-						//auto UI = m_gameStageUI[3].lock();
-						//UI->SetDrawActive(true);
-
-						// Bボタン、もしくは制限時間オーバーでPhase2(GameStart)へ
-					if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B || m_isTimerflag == false)
+			// タイマーを表示して秒針を回転させる
+			if (clockFrame && clockFace && clockHand)
+			{
+				if (m_isTimer >= 6.0f)
+				{
+					// UIを表示状態にする
+					clockFrame->SetDrawActive(true);
+					clockFace->SetDrawActive(true);
+					clockHand->SetDrawActive(true);
+					// 秒針の回転角度を計算(何フレーム(秒)で一周するか)
+					float totalDuration = 30.0f;
+					// 現在の時間の進捗率 (0.0 ～ 1.0) を計算
+					float progress = (m_isTimer - 6.0f) / totalDuration; // 最初のカメラ演出の秒数分をマイナスしておく
+					// 時計回りなのでマイナス方向
+					float rotationAngleZ_degrees = -360.0f * progress;
+					// ラジアンに変換
+					float rotationAngleZ_radians = XMConvertToRadians(rotationAngleZ_degrees);
+					// 秒針のTransformを取得して回転を設定
+					auto handTransform = clockHand->GetComponent<Transform>();
+					if (handTransform)
 					{
-						ptrXA->Start(L"Bbutton", 0, volumeSE);
+						handTransform->SetRotation(Vec3(0.0f, 0.0f, rotationAngleZ_radians));
+					}
+				}
+			}
+			else
+			{
+				// 時間切れになったら時計を非表示にする
+				if (auto clockHand = m_timerSecHandUI.lock()) clockHand->SetDrawActive(false);
+				if (auto clockFace = m_timerClockFaceUI.lock()) clockFace->SetDrawActive(false);
+				if (auto clockFrame = m_timerClockFrameUI.lock()) clockFrame->SetDrawActive(false);
+			}
+
+			//NotUIDraw();
+			////コントローラチェックがfalesならキーボードUIを表示する
+			//if (!CntlCheck)
+			//{
+			//	//キーボードUI
+			//	auto KeyboardUI = m_gameStageUI_Key[3].lock();
+			//	KeyboardUI->SetDrawActive(true);
+			//}
+
+			//if (cntlVec[0].wPressedButtons)
+			//{
+			//コントローラUI
+			//auto UI = m_gameStageUI[3].lock();
+			//UI->SetDrawActive(true);
+
+			// Bボタン、もしくは制限時間オーバーでPhase2(GameStart)へ
+			if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B || m_isTimerflag == false)
+			{
+				ptrXA->Start(L"Bbutton", 0, volumeSE);
 
 				SetView(m_mainView);
 
-						currentPhase = GamePhase::Phase2;
+				currentPhase = GamePhase::Phase2;
 
-						NotUIDraw();
-						auto KeyboardUI = m_gameStageUI_Key[3].lock();
-						KeyboardUI->SetDrawActive(true);
-						KeyboardUI->SetPosition(540.0f, -360.0f, 0);
-					}
+				NotUIDraw();
+				auto KeyboardUI = m_gameStageUI_Key[3].lock();
+				KeyboardUI->SetDrawActive(true);
+				KeyboardUI->SetPosition(540.0f, -360.0f, 0);
+			}
 
+			isTimerSoundFlag = false;
+			ptrXA->Stop(m_TimerSound);
 
+		}
 
+		if (currentPhase == GamePhase::Phase2)
+		{
+			if (!pause)
+			{
+				return;
+			}
 
-					isTimerSoundFlag = false;
-					ptrXA->Stop(m_TimerSound);
+			// Phase2 になったら時計を非表示にする
+			if (auto clockHand = m_timerSecHandUI.lock()) clockHand->SetDrawActive(false);
+			if (auto clockFace = m_timerClockFaceUI.lock()) clockFace->SetDrawActive(false);
+			if (auto clockFrame = m_timerClockFrameUI.lock()) clockFrame->SetDrawActive(false);
 
-					// Phase2 になったら時計を非表示にする
-					if (auto clockHand = m_timerSecHandUI.lock()) clockHand->SetDrawActive(false);
-					if (auto clockFace = m_timerClockFaceUI.lock()) clockFace->SetDrawActive(false);
-					if (auto clockFrame = m_timerClockFrameUI.lock()) clockFrame->SetDrawActive(false);
-
-					if (currentPhase == GamePhase::Phase2)
+			if (pause->IsPlaying())
+			{
+				auto gameObjectVec = GetGameObjectVec();
+				for (auto obj : gameObjectVec)
+				{
+					if (dynamic_pointer_cast<Box>(obj))
 					{
-						auto gameObjectVec = GetGameObjectVec();
-						for (auto obj : gameObjectVec)
-						{
-							if (dynamic_pointer_cast<Box>(obj))
-							{
-								obj->SetUpdateActive(false);
-							}
-							else
-							{
-								obj->SetUpdateActive(true);
+						obj->SetUpdateActive(false);
+					}
+					else
+					{
+						obj->SetUpdateActive(true);
 
-							}
-						}
 					}
 				}
-				//}
 			}
 		}
 	}
