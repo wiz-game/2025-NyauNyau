@@ -27,6 +27,7 @@ namespace basecross {
 
 	enum class GamePhase
 	{
+		Phase0,
 		Phase1,   //Box のみ操作可能なフェーズ
  	    Phase2,   //全オブジェクトが動作開始するフェーズ
 
@@ -100,7 +101,7 @@ namespace basecross {
 		shared_ptr<SingleView> m_phase1View;
 		shared_ptr<SingleView> m_OpeningCameraView;
 
-		GamePhase currentPhase = GamePhase::Phase1; // 最初に設定されているPhase
+		GamePhase currentPhase = GamePhase::Phase0; // 最初に設定されているPhase
 
 		// ステージ上に存在する、プレイヤーが操作できるBoxオブジェクトのリスト
 		vector<std::shared_ptr<Box>> m_controllableBoxes;
@@ -144,14 +145,16 @@ namespace basecross {
 		std::weak_ptr<GameStageUI> m_timerClockFaceUI;   // 時計の文字盤（中）
 		std::weak_ptr<GameStageUI> m_timerSecHandUI;   // 時計の秒針
 
+		bool isTimerSoundFlag;
 
+		shared_ptr<SoundItem> m_TimerSound;
 
-		shared_ptr<GameStageUI> m_exclamationMarkUI; // Exclamation markUIへのポインタ  //
-		bool m_isExclamationMarkActive; // Exclamation markが表示されているか           //
+		//shared_ptr<GameStageUI> m_exclamationMarkUI; // Exclamation markUIへのポインタ  
+		//bool m_isExclamationMarkActive; // Exclamation markが表示されているか           
 
 		// Exclamation markの表示制御用に追加  //
-		bool m_isExclamationMark;    // Exclamation markが表示中かを示すフラグ       //
-		float m_exclamationMarkTimer;   // Exclamation markの表示時間を計るタイマー  //
+		//bool m_isExclamationMark;    // Exclamation markが表示中かを示すフラグ       
+		//float m_exclamationMarkTimer;   // Exclamation markの表示時間を計るタイマー  
 
 
 	public:

@@ -277,7 +277,7 @@ namespace basecross
 
 		if (m_isAir == false)
 		{
-			m_velocity.y = 3.0f; // ジャンプの初速を与える
+			m_velocity.y = 5.0f; // ジャンプの初速を与える
 			m_isAir = true; // ジャンプしたので空中状態にする
 			ptrXA->Start(L"Jump", 0, 0.5f);
 
@@ -433,7 +433,7 @@ namespace basecross
 		Vec2 mtv2D = pushDirection2D * overlap;
 
 		//3Dベクトルに戻す（Z成分は必ず0
-		mtv = Vec3(mtv2D.x, mtv2D.y + 0.025, 0.0f);
+		mtv = Vec3(mtv2D.x, mtv2D.y, 0.0f);
 
 		return true;
 	}
