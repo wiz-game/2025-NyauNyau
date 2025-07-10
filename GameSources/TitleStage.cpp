@@ -190,6 +190,7 @@ namespace basecross {
 		// ƒeƒNƒXƒ`ƒƒ‚Ì“Çž‚Æ“o˜^
 		app->RegisterTexture(L"TEX_TITLESTAGE", texPath + L"TitleStage2.png");
 		app->RegisterTexture(L"TEX_TITLESTRATBUTTON", texPath + L"TitleStage StratButton.png");
+		app->RegisterTexture(L"TEX_TITLESTRATBUTTON_Key", texPath + L"TitleStage StartButton_Keyboard.png");
 		app->RegisterTexture(L"TEX_TITLE ni", texPath + L"Title ni.png");
 		app->RegisterTexture(L"TEX_TITLE lya", texPath + L"Title lya.png");
 		app->RegisterTexture(L"TEX_TITLE u", texPath + L"Title u.png");

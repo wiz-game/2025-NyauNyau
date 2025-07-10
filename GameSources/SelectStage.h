@@ -26,6 +26,7 @@ namespace basecross {
 		std::vector<std::weak_ptr<FootprintSprite>> m_footprints;//‘«Õ‚ÌŠÇ—
 		std::shared_ptr<FootprintSprite> m_transFootprints;
 		std::shared_ptr<SelectStageSprite> catPointSprite;
+		std::shared_ptr<GameStageUI> m_ComingSoon;
 
 		std::weak_ptr<CatWalkSprite> m_catWalk;
 		std::weak_ptr<GameSprite> m_loading;

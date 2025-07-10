@@ -98,12 +98,19 @@ namespace basecross {
 
 
 			//UI
-			m_StageUI = AddGameObject<GameStageUI>();
-			auto stageUI = m_StageUI.lock();
+			auto stageUI = AddGameObject<GameStageUI>();
 			stageUI->SetTexture(L"TEX_StageUI");
 			stageUI->SetPosition(380.0f, -300.0f, 0);
 			stageUI->SetScale(0.5f, 0.7f, 0);
+			stageUI->SetDrawActive(false);
+			m_StageUI.push_back(stageUI);
 
+
+			auto KeyboardStageUI = AddGameObject<GameStageUI>();
+			KeyboardStageUI->SetTexture(L"TEX_StageUI_Key");
+			KeyboardStageUI->SetPosition(380.0f, -300.0f, 0);
+			KeyboardStageUI->SetScale(0.5f, 0.7f, 0);
+			m_StageUI.push_back(KeyboardStageUI);
 
 			//BGM
 			auto ptrXA = App::GetApp()->GetXAudio2Manager();
@@ -135,8 +142,14 @@ namespace basecross {
 		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
 		if (CntlVec[0].bConnected)
 		{
-			//ゲームステージへ
-			//Aボタンを押したときにゲームステージに移動する
+			//auto CntlUI = m_StageUI[0].lock();
+			//CntlUI->SetDrawActive(true);
+
+			//auto KeyboardUI = m_StageUI[1].lock();
+			//KeyboardUI->SetDrawActive(false);
+
+		//ゲームステージへ
+		//Aボタンを押したときにゲームステージに移動する
 			if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B)
 			{
 				auto ptrXA = App::GetApp()->GetXAudio2Manager();
@@ -241,6 +254,7 @@ namespace basecross {
 				SE->SetPosition(scene->m_volumeLevelSE, -163.0f, 0.0f);
 			}
 		}
+
 	}
 
 
@@ -263,6 +277,7 @@ namespace basecross {
 		app->RegisterTexture(L"TEX_SoundVolBox", texPath + L"SoundVolBox.png");
 		//app->RegisterTexture(L"TEX_Sound", texPath + L"Sound.png");
 		app->RegisterTexture(L"TEX_StageUI", texPath + L"SettingStageUI.png");
+		app->RegisterTexture(L"TEX_StageUI_Key", texPath + L"SettingStageUI_Keyboard.png");
 
 
 	}

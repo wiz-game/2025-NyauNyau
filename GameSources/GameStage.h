@@ -90,6 +90,8 @@ namespace basecross {
 		std::weak_ptr<PauseManager> m_pauseManager;//ポーズマネージャーへの参照
 		std::weak_ptr<SettingStage> m_settingStage;//セッティングステージへの参照
 		std::vector<std::weak_ptr<GameStageUI>> m_gameStageUI;//UIスプライトへの参照
+		std::vector<std::weak_ptr<GameStageUI>> m_gameStageUI_Key;//UIスプライトへの参照
+
 		std::weak_ptr<GameStagePointerUI> m_ase;//UIスプライトへの参照
 
 		//入力ハンドラー
@@ -156,6 +158,8 @@ namespace basecross {
 		//bool m_isExclamationMark;    // Exclamation markが表示中かを示すフラグ       
 		//float m_exclamationMarkTimer;   // Exclamation markの表示時間を計るタイマー  
 
+		bool CntlUIDrawing;//コントローラUIが表示されているかどうか
+		bool CntlCheck;//コントロールが接続されているかどうか
 
 	public:
 		//構築と破棄
@@ -165,7 +169,9 @@ namespace basecross {
 			m_isStageFadingOut(false),
 			m_fadeTimer(0.0f),
 			m_filterFadeTimer(0.0f),
-			m_lastNotifiedIndex(-2)
+			m_lastNotifiedIndex(-2),
+			CntlUIDrawing(false),
+			CntlCheck(false)
 		{}
 		virtual ~GameStage() {}
 
@@ -204,6 +210,10 @@ namespace basecross {
 
 		void OnPlayerCollision(shared_ptr<GameObject> player, shared_ptr<GameObject> other);
 		void StartGameOver();
+
+		void CntlUIDraw();
+		void KeyboardUIDraw();
+		void NotUIDraw();
 
 	};
 }

@@ -30,7 +30,7 @@ namespace basecross {
 		bool isBGMSelected = true;
 		bool m_MenuNavigationLock = true;
 
-		std::weak_ptr<GameStageUI> m_StageUI;
+		std::vector <std::weak_ptr<GameStageUI>> m_StageUI;
 
 
 	public:
