@@ -433,7 +433,7 @@ namespace basecross
 		Vec2 mtv2D = pushDirection2D * overlap;
 
 		//3Dベクトルに戻す（Z成分は必ず0
-		mtv = Vec3(mtv2D.x, mtv2D.y + 0.025, 0.0f);
+		mtv = Vec3(mtv2D.x, mtv2D.y, 0.0f);
 
 		return true;
 	}
