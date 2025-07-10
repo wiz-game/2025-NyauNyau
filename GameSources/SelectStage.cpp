@@ -60,6 +60,12 @@ namespace basecross {
 			stage3->SetPosition(0, -200.0f, 0);
 			m_stageSprites.push_back(stage3);
 
+			//auto footprints = AddGameObject<SelectStageSprite>();
+			//footprints->SetTexture(L"TEX_FOOTPRINTs");
+			//footprints->SetPosition(400, -400.0f, 0);
+			//m_stageSprites.push_back(stage3);
+
+
 			//ƒlƒR–îˆó
 			catPointSprite = AddGameObject<SelectStageSprite>();
 			catPointSprite->SetTexture(L"TEX_POINT");
@@ -194,12 +200,34 @@ namespace basecross {
 						case 1:
 							m_ComingSoon->SetDrawActive(true);
 							loading->SetDrawActive(false);
+							if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A && !m_OnPush)
+							{
 							//PostEvent(3.0f, GetThis<SelectStage>(), PtrScene, L"ToGameStage2");
+								PostEvent(5.0f, GetThis<SelectStage>(), PtrScene, L"ToSelectStage");
+								m_OnPush = true;
+								m_StageNum = 0;
+							}
+							else
+							{
+								m_OnPush = false;
+							}
+
 							m_once = true;
 							break;
 						case 2:
 							m_ComingSoon->SetDrawActive(true);
 							loading->SetDrawActive(false);
+							if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A && !m_OnPush)
+							{
+								//PostEvent(3.0f, GetThis<SelectStage>(), PtrScene, L"ToGameStage2");
+								PostEvent(5.0f, GetThis<SelectStage>(), PtrScene, L"ToSelectStage");
+								m_OnPush = true;
+								m_StageNum = 0;
+							}
+							else
+							{
+								m_OnPush = false;
+							}
 							//PostEvent(3.0f, GetThis<SelectStage>(), PtrScene, L"ToGameStage3");
 							m_once = true;
 							break;
@@ -410,6 +438,7 @@ namespace basecross {
 		app->RegisterTexture(L"TEX_POINT", texPath + L"point.png");
 		app->RegisterTexture(L"TEX_POINT2", texPath + L"point2.png");
 		app->RegisterTexture(L"TEX_FOOTPRINT", texPath + L"Footprint.png");
+		app->RegisterTexture(L"TEX_FOOTPRINTs", texPath + L"Footprints.png");
 
 		app->RegisterTexture(L"TEX_CatWalk", texPath + L"Cat Walk.png");
 		app->RegisterTexture(L"TEX_Loading", texPath + L"Loading.png");
