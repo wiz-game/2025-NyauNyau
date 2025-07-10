@@ -9,7 +9,8 @@
 
 #include "ShadowDrawer.h"
 #include "RaycastLine.h"
-namespace basecross {
+namespace basecross 
+{
 
 	//--------------------------------------------------------------------------------------
 	//	ゲームステージクラス実体
@@ -879,7 +880,6 @@ namespace basecross {
 		}
 	}
 
-
 	void GameStage::OnPushA()
 	{
 
@@ -1012,51 +1012,12 @@ namespace basecross {
 
 	void GameStage::OnPlayerCollision(shared_ptr<GameObject> player, shared_ptr<GameObject> other)
 	{
-		////すでにゲームオーバーが始まっていたら何もしない
-		//if (m_isGameOver)
-		//{
-		//	return;
-		//}
-		//// 衝突相手が地面または敵か確認
-		//if (dynamic_pointer_cast<Ground>(other) || dynamic_pointer_cast<Enemy>(other))
-		//{
-		//	// プレイヤーの isDead フラグを立てて、多重衝突を防ぐ
-		//	if (auto castedPlayer = dynamic_pointer_cast<Player>(player)) {
-		//		if (castedPlayer->IsDead()) {
-		//			return; // 既に死亡処理中なら抜ける
-		//		}
-		//		castedPlayer->SetIsDead(true); // 死亡状態にする
-		//	}
-
-		//	// ゲームオーバー処理を開始する
-		//	StartGameOver();
-		//}
-
 	}
 
 	// ゲームオーバー処理（フェードとシーン遷移）に特化した関数
 	void GameStage::StartGameOver()
 	{
-		//if (m_isGameOver) {
-		//	return;
-		//}
-		//m_isGameOver = true;
-
-		//// サウンド再生
-		//auto ptrXA = App::GetApp()->GetXAudio2Manager();
-		//ptrXA->Start(L"Fall", 0, 0.5f);
-
-		//// フェードアウトを開始
-		//if (auto fade = m_fadeScreen.lock()) {
-		//	float fadeDuration = 1.5f;
-
-		//	fade->StartFadeOut(fadeDuration, [this]() {
-		//		auto scene = App::GetApp()->GetScene<Scene>();
-		//		PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"ToGameOverStage");
-		//		});
-		//}
 	}
-
 
 	// テクスチャの読込
 	void GameStage::LoadTextures()
@@ -1188,30 +1149,35 @@ namespace basecross {
 
 		if (currentPhase == GamePhase::Phase0)
 		{
+			m_isShortTimer += App::GetApp()->GetElapsedTime(); //タイマーの値をプラスしていく
+
 			// --- 最初の2秒間のタイマー処理 ---
-			for (auto obj : gameObjectVec)
+			if (m_isShortTimerflag)
 			{
-				if (m_isShortTimerflag)
+				for (auto obj : gameObjectVec)
 				{
-					m_isShortTimer += App::GetApp()->GetElapsedTime();
-					if (dynamic_pointer_cast<Player>(obj) &&
-						dynamic_pointer_cast<Enemy>(obj))
+					if (dynamic_pointer_cast<Player>(obj))
 					{
 						obj->SetUpdateActive(true);
 					}
-					else
+					else if (dynamic_pointer_cast<Enemy>(obj))
+					{
+						obj->SetUpdateActive(true);
+					}
+					else if (dynamic_pointer_cast<Box>(obj))
 					{
 						obj->SetUpdateActive(false);
 					}
+					else
+					{
+						obj->SetUpdateActive(true);
+					}
 
-					if (m_isShortTimer == 2.0f)
+					if (m_isShortTimer >= 2.0f)
 					{
 						m_isShortTimerflag = false;
+						currentPhase = GamePhase::Phase1;
 					}
-				}
-				else if (!m_isShortTimerflag)
-				{
-					currentPhase = GamePhase::Phase1;
 				}
 			}
 		}
@@ -1227,7 +1193,8 @@ namespace basecross {
 			// ---phase1の時間制限のタイマー処理---
 			if (m_isTimerflag)
 			{
-				m_isTimer += App::GetApp()->GetElapsedTime();
+				m_isTimer += App::GetApp()->GetElapsedTime(); //タイマーの値をプラスしていく
+
 				if (isTimerSoundFlag)
 				{
 					if (m_isTimer >= 20.0f) //残り10秒のタイミングを知らせる効果音を流す
@@ -1236,10 +1203,8 @@ namespace basecross {
 						auto volume = scene->m_volumeBGM;
 						auto ptrXA = App::GetApp()->GetXAudio2Manager();
 						m_TimerSound = ptrXA->Start(L"Tikutaku", 0, 0.8f);
-
 						isTimerSoundFlag = false;
 					}
-
 				}
 
 				if (m_isTimer > 30.0f) //時間制限を30秒にする
@@ -1285,29 +1250,30 @@ namespace basecross {
 							obj->SetUpdateActive(false);
 						}
 
-						// タイマーを表示して秒針を回転させる
-						if (clockFrame && clockFace && clockHand)
-						{
-							// UIを表示状態にする
-							clockFrame->SetDrawActive(true);
-							clockFace->SetDrawActive(true);
-							clockHand->SetDrawActive(true);
-							// 秒針の回転角度を計算(何フレームで一周するか)
-							float totalDuration = 30.0f;
-							// 現在の時間の進捗率 (0.0 ～ 1.0) を計算
-							float progress = m_isTimer / totalDuration;
-							// 時計回りなのでマイナス方向
-							float rotationAngleZ_degrees = -360.0f * progress;
-							// ラジアンに変換
-							float rotationAngleZ_radians = XMConvertToRadians(rotationAngleZ_degrees);
-							// 秒針のTransformを取得して回転を設定
-							auto handTransform = clockHand->GetComponent<Transform>();
-							if (handTransform) 
-							{
-								handTransform->SetRotation(Vec3(0.0f, 0.0f, rotationAngleZ_radians));
-							}
+					}
 
+					// タイマーを表示して秒針を回転させる
+					if (clockFrame && clockFace && clockHand)
+					{
+						// UIを表示状態にする
+						clockFrame->SetDrawActive(true);
+						clockFace->SetDrawActive(true);
+						clockHand->SetDrawActive(true);
+						// 秒針の回転角度を計算(何フレームで一周するか)
+						float totalDuration = 30.0f;
+						// 現在の時間の進捗率 (0.0 ～ 1.0) を計算
+						float progress = m_isTimer / totalDuration;
+						// 時計回りなのでマイナス方向
+						float rotationAngleZ_degrees = -360.0f * progress;
+						// ラジアンに変換
+						float rotationAngleZ_radians = XMConvertToRadians(rotationAngleZ_degrees);
+						// 秒針のTransformを取得して回転を設定
+						auto handTransform = clockHand->GetComponent<Transform>();
+						if (handTransform)
+						{
+							handTransform->SetRotation(Vec3(0.0f, 0.0f, rotationAngleZ_radians));
 						}
+
 					}
 					else
 					{
@@ -1316,64 +1282,64 @@ namespace basecross {
 						if (auto clockFace = m_timerClockFaceUI.lock()) clockFace->SetDrawActive(false);
 						if (auto clockFrame = m_timerClockFrameUI.lock()) clockFrame->SetDrawActive(false);
 					}
-				}
 
-				auto pause = m_pauseManager.lock();
-				if (!pause)
-				{
-					return;
-				}
 
-				// Bボタン、もしくは制限時間オーバーでPhase2(GameStart)へ
-				if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B || m_isTimerflag == false)
-				{
-					ptrXA->Start(L"Bbutton", 0, volumeSE);
+					auto pause = m_pauseManager.lock();
+					if (!pause)
+					{
+						return;
+					}
 
-					SetView(m_mainView);
+					// Bボタン、もしくは制限時間オーバーでPhase2(GameStart)へ
+					if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B || m_isTimerflag == false)
+					{
+						ptrXA->Start(L"Bbutton", 0, volumeSE);
 
-					currentPhase = GamePhase::Phase2;
-				}
+						SetView(m_mainView);
 
-				if (currentPhase == GamePhase::Phase2)
-				{
-					//auto UI = m_gameStageUI[0].lock();
-					auto UI_A = m_gameStageUI[0].lock();
-					auto UI_B = m_gameStageUI[1].lock();
-					auto phase2UI = m_gameStageUI[3].lock();
-					auto boxPointer = m_selectionPointerUI.lock();
-
-					//UI->SetDrawActive(false);
-					UI_A->SetDrawActive(false);
-					UI_B->SetDrawActive(false);
-					phase2UI->SetDrawActive(true);
-					boxPointer->SetDrawActive(false);
-
-					isTimerSoundFlag = false;
-					ptrXA->Stop(m_TimerSound);
-
-					// Phase2 になったら時計を非表示にする
-					if (auto clockHand = m_timerSecHandUI.lock()) clockHand->SetDrawActive(false);
-					if (auto clockFace = m_timerClockFaceUI.lock()) clockFace->SetDrawActive(false);
-					if (auto clockFrame = m_timerClockFrameUI.lock()) clockFrame->SetDrawActive(false);
+						currentPhase = GamePhase::Phase2;
+					}
 
 					if (currentPhase == GamePhase::Phase2)
 					{
-						auto gameObjectVec = GetGameObjectVec();
-						for (auto obj : gameObjectVec)
-						{
-							if (dynamic_pointer_cast<Box>(obj))
-							{
-								obj->SetUpdateActive(false);
-							}
-							else
-							{
-								obj->SetUpdateActive(true);
+						//auto UI = m_gameStageUI[0].lock();
+						auto UI_A = m_gameStageUI[0].lock();
+						auto UI_B = m_gameStageUI[1].lock();
+						auto phase2UI = m_gameStageUI[3].lock();
+						auto boxPointer = m_selectionPointerUI.lock();
 
+						//UI->SetDrawActive(false);
+						UI_A->SetDrawActive(false);
+						UI_B->SetDrawActive(false);
+						phase2UI->SetDrawActive(true);
+						boxPointer->SetDrawActive(false);
+
+						isTimerSoundFlag = false;
+						ptrXA->Stop(m_TimerSound);
+
+						// Phase2 になったら時計を非表示にする
+						if (auto clockHand = m_timerSecHandUI.lock()) clockHand->SetDrawActive(false);
+						if (auto clockFace = m_timerClockFaceUI.lock()) clockFace->SetDrawActive(false);
+						if (auto clockFrame = m_timerClockFrameUI.lock()) clockFrame->SetDrawActive(false);
+
+						if (currentPhase == GamePhase::Phase2)
+						{
+							auto gameObjectVec = GetGameObjectVec();
+							for (auto obj : gameObjectVec)
+							{
+								if (dynamic_pointer_cast<Box>(obj))
+								{
+									obj->SetUpdateActive(false);
+								}
+								else
+								{
+									obj->SetUpdateActive(true);
+
+								}
 							}
 						}
 					}
 				}
-				
 			}
 		}
 	}
