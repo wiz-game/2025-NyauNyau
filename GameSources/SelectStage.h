@@ -52,6 +52,7 @@ namespace basecross {
 		void CreateFootprints();
 
 
+
 	public:
 		//ç\ízÇ∆îjä¸
 		SelectStage() :
@@ -59,7 +60,8 @@ namespace basecross {
 			m_CntrolLock(false),
 			footprintsStart(false),
 			m_catNum(0),
-			m_time(0.0f)
+			m_time(0.0f),
+			m_OnPush(false)
 		{
 		}
 		virtual ~SelectStage() {}
