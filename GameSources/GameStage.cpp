@@ -1230,9 +1230,7 @@ namespace basecross
 					m_isShortTimerflag = false;
 					currentPhase = GamePhase::Phase1;
 				}
-				
 			}
-
 			//UIの非表示
 			NotUIDraw();
 		}
@@ -1269,7 +1267,7 @@ namespace basecross
 					}
 				}
 
-				if (m_isTimer > 36.0f) //時間制限を30秒にする
+				if (m_isTimer >= 36.0f) //時間制限を30秒にする
 				{
 					m_isTimerflag = false;
 				}
@@ -1370,21 +1368,20 @@ namespace basecross
 
 				currentPhase = GamePhase::Phase2;
 
-						//UIの非表示
-						NotUIDraw();
-						//ジャンプのUIだけ表示する
-						auto KeyboardUI = m_gameStageUI_Key[3].lock();
-						KeyboardUI->SetDrawActive(true);
-						KeyboardUI->SetPosition(540.0f, -360.0f, 0);
-					}
-
-			isTimerSoundFlag = false;
-			ptrXA->Stop(m_TimerSound);
+				//UIの非表示
+				NotUIDraw();
+				//ジャンプのUIだけ表示する
+				auto KeyboardUI = m_gameStageUI_Key[3].lock();
+				KeyboardUI->SetDrawActive(true);
+				KeyboardUI->SetPosition(540.0f, -360.0f, 0);
+		    }
 
 		}
 
-					isTimerSoundFlag = false;
-					ptrXA->Stop(m_TimerSound);
+		if (currentPhase == GamePhase::Phase2)
+		{
+			isTimerSoundFlag = false;
+			ptrXA->Stop(m_TimerSound);
 
 			// Phase2 になったら時計を非表示にする
 			if (auto clockHand = m_timerSecHandUI.lock()) clockHand->SetDrawActive(false);
@@ -1408,6 +1405,7 @@ namespace basecross
 				}
 			}
 		}
+		
 	}
 
 
@@ -1462,7 +1460,7 @@ namespace basecross
 			stagesr->SetDrawActive(false);
 		}
 	}
-
 }
+
 	
 //end basecross
