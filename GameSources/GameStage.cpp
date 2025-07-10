@@ -580,28 +580,27 @@ namespace basecross {
 			//スプライトオブジェクト
 			AddGameObject<Phase1>();
 
-			//auto UI = AddGameObject<GameStageUI>();
-			//UI->SetTexture(L"TEX_GameStageUI");
-			//UI->SetPosition(0, 300.0f, 0);
-			//UI->SetScale(2.0f, 1.0f, 1.0f);
-			//m_gameStageUI.push_back(UI);
 
+			//コントローラUI
 			auto phase1UI_A = AddGameObject<GameStageUI>();
 			phase1UI_A->SetTexture(L"TEX_phase1UI_A");
 			phase1UI_A->SetPosition(535.0f, -280.0f, 0);
 			phase1UI_A->SetScale(0.5f, 0.4f, 1.0f);
+			phase1UI_A->SetDrawActive(false);
 			m_gameStageUI.push_back(phase1UI_A);
 
 			auto phase1UI_B = AddGameObject<GameStageUI>();
 			phase1UI_B->SetTexture(L"TEX_phase1UI_B");
 			phase1UI_B->SetPosition(530.0f, -200.0f, 0);
 			phase1UI_B->SetScale(0.5f, 0.4f, 1.0f);
+			phase1UI_B->SetDrawActive(false);
 			m_gameStageUI.push_back(phase1UI_B);
 
 			auto phase1UI_light = AddGameObject<GameStageUI>();
 			phase1UI_light->SetTexture(L"TEX_phase1UI_light");
 			phase1UI_light->SetPosition(540.0f, -360.0f, 0);
 			phase1UI_light->SetScale(0.5f, 0.4f, 1.0f);
+			phase1UI_light->SetDrawActive(false);
 			m_gameStageUI.push_back(phase1UI_light);
 
 			auto phase2UI_A = AddGameObject<GameStageUI>();
@@ -616,6 +615,37 @@ namespace basecross {
 			stage->SetPosition(0, 0, 0);
 			stage->SetScale(2.0f, 2.0f, 1.0f);
 			m_gameStageUI.push_back(stage);
+
+
+
+			//キーボードUI
+			auto phase1UI_A_Key = AddGameObject<GameStageUI>();
+			phase1UI_A_Key->SetTexture(L"TEX_phase1UI_A_Keyboard");
+			phase1UI_A_Key->SetPosition(535.0f, -280.0f, 0);
+			phase1UI_A_Key->SetScale(0.5f, 0.4f, 1.0f);
+			m_gameStageUI_Key.push_back(phase1UI_A_Key);
+
+			auto phase1UI_B_Key = AddGameObject<GameStageUI>();
+			phase1UI_B_Key->SetTexture(L"TEX_phase1UI_B_Keyboard");
+			phase1UI_B_Key->SetPosition(530.0f, -200.0f, 0);
+			phase1UI_B_Key->SetScale(0.5f, 0.4f, 1.0f);
+			m_gameStageUI_Key.push_back(phase1UI_B_Key);
+
+			auto phase1UI_light_Key = AddGameObject<GameStageUI>();
+			phase1UI_light_Key->SetTexture(L"TEX_phase1UI_light_Keyboard");
+			phase1UI_light_Key->SetPosition(540.0f, -360.0f, 0);
+			phase1UI_light_Key->SetScale(0.5f, 0.4f, 1.0f);
+			m_gameStageUI_Key.push_back(phase1UI_light_Key);
+
+			auto phase2UI_A_Key = AddGameObject<GameStageUI>();
+			phase2UI_A_Key->SetTexture(L"TEX_phase2UI_A_Keyboard");
+			phase2UI_A_Key->SetPosition(535.0f, -280.0f, 0);
+			phase2UI_A_Key->SetScale(0.5f, 0.4f, 1.0f);
+			phase2UI_A_Key->SetDrawActive(false);
+			m_gameStageUI_Key.push_back(phase2UI_A_Key);
+
+
+			
 
 			//プレイヤーに追尾するアセェ
 			auto playerObject = GetSharedGameObject<Player>(L"Player_0");
@@ -754,6 +784,13 @@ namespace basecross {
 		// 最初のコントローラーが接続されているか確認
 		if (cntlVec[0].bConnected) 
 		{
+			//コントローラUIの表示
+			//if (!CntlUIDrawing)
+			//{
+			//	CntlUIDraw();
+			//	CntlUIDrawing = true;
+			//	CntlCheck = true;
+			//}
 			// 現在の操作モードによって処理を分岐
 			if (m_currentControlMode == GameControlMode::SelectBox) 
 			{
@@ -1100,6 +1137,11 @@ namespace basecross {
 		app->RegisterTexture(L"TEX_TimerSecHand", texPath + L"sechand.png");
 		//app->RegisterTexture(L"TEX_Exclamationmark", texPath + L"Exclamationmark.png");
 		app->RegisterTexture(L"TEX_Ase", texPath + L"Ase.png");
+		app->RegisterTexture(L"TEX_phase1UI_A_Keyboard", texPath + L"phase1UI_A_Keyboard.png");
+		app->RegisterTexture(L"TEX_phase1UI_B_Keyboard", texPath + L"phase1UI_B_Keyboard.png");
+		app->RegisterTexture(L"TEX_phase1UI_light_Keyboard", texPath + L"phase1.2UI_light_Keyboard.png");
+		app->RegisterTexture(L"TEX_phase2UI_A_Keyboard", texPath + L"phase2UI_A_Keyboard.png");
+
 
 	}
 
@@ -1204,7 +1246,7 @@ namespace basecross {
 			}
 
 			// --- 最初の2秒間のタイマー処理 ---
-			if (m_isShortTimerflag) 
+			if (m_isShortTimerflag)
 			{
 				auto playertrans = GetSharedGameObject<Player>(L"Player_0")->GetComponent<Transform>();
 				auto playerpos = playertrans->GetPosition();
@@ -1222,7 +1264,7 @@ namespace basecross {
 					}
 				}
 
-				if (m_isShortTimer > 2.0f) 
+				if (m_isShortTimer > 2.0f)
 				{
 
 					// ... (位置設定の処理) ...
@@ -1265,14 +1307,14 @@ namespace basecross {
 					if (m_isTimerflag)
 					{
 
-					    if (m_isShortTimerflag)
-					    {
-						    if (dynamic_pointer_cast<Player>(obj) &&
-						    	dynamic_pointer_cast<Enemy>(obj))
-						    {
-						    	obj->SetUpdateActive(true);
-						    }
-					    }
+						if (m_isShortTimerflag)
+						{
+							if (dynamic_pointer_cast<Player>(obj) &&
+								dynamic_pointer_cast<Enemy>(obj))
+							{
+								obj->SetUpdateActive(true);
+							}
+						}
 						else if (dynamic_pointer_cast<Box>(obj))
 						{
 							obj->SetUpdateActive(true);
@@ -1315,7 +1357,7 @@ namespace basecross {
 							float rotationAngleZ_radians = XMConvertToRadians(rotationAngleZ_degrees);
 							// 秒針のTransformを取得して回転を設定
 							auto handTransform = clockHand->GetComponent<Transform>();
-							if (handTransform) 
+							if (handTransform)
 							{
 								handTransform->SetRotation(Vec3(0.0f, 0.0f, rotationAngleZ_radians));
 							}
@@ -1337,7 +1379,22 @@ namespace basecross {
 					return;
 				}
 
-				// Bボタン、もしくは制限時間オーバーでPhase2(GameStart)へ
+				//NotUIDraw();
+				////コントローラチェックがfalesならキーボードUIを表示する
+				//if (!CntlCheck)
+				//{
+				//	//キーボードUI
+				//	auto KeyboardUI = m_gameStageUI_Key[3].lock();
+				//	KeyboardUI->SetDrawActive(true);
+				//}
+
+				//if (cntlVec[0].wPressedButtons)
+				//{
+					//コントローラUI
+					//auto UI = m_gameStageUI[3].lock();
+					//UI->SetDrawActive(true);
+
+					// Bボタン、もしくは制限時間オーバーでPhase2(GameStart)へ
 				if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B || m_isTimerflag == false)
 				{
 					ptrXA->Start(L"Bbutton", 0, volumeSE);
@@ -1348,17 +1405,12 @@ namespace basecross {
 
 					currentPhase = GamePhase::Phase2;
 
-					//auto UI = m_gameStageUI[0].lock();
-					auto UI_A = m_gameStageUI[0].lock();
-					auto UI_B = m_gameStageUI[1].lock();
-					auto phase2UI = m_gameStageUI[3].lock();
-					auto boxPointer = m_selectionPointerUI.lock();
 
-					//UI->SetDrawActive(false);
-					UI_A->SetDrawActive(false);
-					UI_B->SetDrawActive(false);
-					phase2UI->SetDrawActive(true);
-					boxPointer->SetDrawActive(false);
+					NotUIDraw();
+					auto KeyboardUI = m_gameStageUI_Key[3].lock();
+					KeyboardUI->SetDrawActive(true);
+					KeyboardUI->SetPosition(540.0f, -360.0f, 0);
+
 
 					// Phase2 になったら時計を非表示にする
 					if (auto clockHand = m_timerSecHandUI.lock()) clockHand->SetDrawActive(false);
@@ -1382,9 +1434,64 @@ namespace basecross {
 						}
 					}
 				}
+				//}
 			}
 		}
 	}
+
+
+	void GameStage::CntlUIDraw()
+	{
+		//コントローラスプライトの表示
+		for (int i = 0; i < m_gameStageUI.size(); i++)
+		{
+			auto stagesr = m_gameStageUI[i].lock();
+			stagesr->SetDrawActive(true);
+		}
+
+		//キーボードスプライトの非表示
+		for (int i = 0; i < m_gameStageUI_Key.size(); i++)
+		{
+			auto stagesr = m_gameStageUI_Key[i].lock();
+			stagesr->SetDrawActive(false);
+		}
+	}
+
+	void GameStage::KeyboardUIDraw()
+	{
+		//コントローラスプライトの表示
+		for (int i = 0; i < m_gameStageUI.size(); i++)
+		{
+			auto stagesr = m_gameStageUI[i].lock();
+			stagesr->SetDrawActive(false);
+		}
+
+		//キーボードスプライトの非表示
+		for (int i = 0; i < m_gameStageUI_Key.size(); i++)
+		{
+			auto stagesr = m_gameStageUI_Key[i].lock();
+			stagesr->SetDrawActive(true);
+		}
+	}
+
+
+	void GameStage::NotUIDraw()
+	{
+		//コントローラスプライトの表示
+		for (int i = 0; i < m_gameStageUI.size(); i++)
+		{
+			auto stagesr = m_gameStageUI[i].lock();
+			stagesr->SetDrawActive(false);
+		}
+
+		//キーボードスプライトの非表示
+		for (int i = 0; i < m_gameStageUI_Key.size(); i++)
+		{
+			auto stagesr = m_gameStageUI_Key[i].lock();
+			stagesr->SetDrawActive(false);
+		}
+	}
+
 }
 	
 //end basecross

@@ -41,7 +41,7 @@ namespace basecross {
 			//スプライトオブジェクト
 			m_sprites.push_back(AddGameObject<gameClearSprite>());
 			auto button = AddGameObject<BackTitleButton>();
-			button->SetTexture(L"TEX_BACKTITLE");
+			button->SetTexture(L"TEX_BACKTITLE_Key");
 			button->SetSelected(true);
 			m_sprites.push_back(button);
 
@@ -119,6 +119,8 @@ namespace basecross {
 		// テクスチャの読込と登録
 		app->RegisterTexture(L"TEX_GOALSTAGE", texPath + L"GoalStage.png");
 		app->RegisterTexture(L"TEX_BACKTITLE", texPath + L"Back Title.png");
+		app->RegisterTexture(L"TEX_BACKTITLE_Key", texPath + L"Back Title_Keyboard.png");
+
 	}
 
 	void goalStage::OnDestroy()

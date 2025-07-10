@@ -99,6 +99,12 @@ namespace basecross {
 
 			m_once = false;
 
+			m_ComingSoon = AddGameObject<GameStageUI>();
+			m_ComingSoon->SetTexture(L"TEX_Coming soon");
+			m_ComingSoon->SetPosition(0.0f, 0.0f, 0);
+			m_ComingSoon->SetScale(2.0f, 1.0f, 1.0f);
+			m_ComingSoon->SetDrawActive(false);
+
 
 		}
 		catch (...) {
@@ -177,6 +183,7 @@ namespace basecross {
 						m_SE = ptrXA->Start(L"button_SE", 0, volumeSE);
 
 						StartCatWalkAnimation();
+						auto loading = m_loading.lock();
 						//return;
 						switch (m_StageNum)
 						{
@@ -185,11 +192,15 @@ namespace basecross {
 							m_once = true;
 							break;
 						case 1:
-							PostEvent(3.0f, GetThis<SelectStage>(), PtrScene, L"ToGameStage2");
+							m_ComingSoon->SetDrawActive(true);
+							loading->SetDrawActive(false);
+							//PostEvent(3.0f, GetThis<SelectStage>(), PtrScene, L"ToGameStage2");
 							m_once = true;
 							break;
 						case 2:
-							PostEvent(3.0f, GetThis<SelectStage>(), PtrScene, L"ToGameStage3");
+							m_ComingSoon->SetDrawActive(true);
+							loading->SetDrawActive(false);
+							//PostEvent(3.0f, GetThis<SelectStage>(), PtrScene, L"ToGameStage3");
 							m_once = true;
 							break;
 
@@ -404,6 +415,7 @@ namespace basecross {
 		app->RegisterTexture(L"TEX_Loading", texPath + L"Loading.png");
 		app->RegisterTexture(L"TEX_NEZUMI", texPath + L"nezumi3.png");
 
+		app->RegisterTexture(L"TEX_Coming soon", texPath + L"coming soon.png");
 
 	}
 
