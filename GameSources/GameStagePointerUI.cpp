@@ -44,6 +44,28 @@ namespace basecross {
 
 	void GameStagePointerUI::OnUpdate()
 	{
+
+		if (m_isAnimation)
+		{
+			//経過時間を取得
+			float elapsedTiem = App::GetApp()->GetElapsedTime();
+
+			//時間経過
+			m_totalTime += elapsedTiem * blinkSpeed;
+			auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+
+			auto drawComp = GetComponent<PCTStaticDraw>();
+			//明滅の変化
+			float s = sin(m_totalTime) * 0.75f + 0.25f;
+			//ライトの当たり具合
+			drawComp->SetDiffuse(Col4(1, 1, 1, s));
+		}
+		else
+		{
+			return;
+		}
+
+
 		if (m_isAnimating)
 		{
 			// 前フレームからの経過時間を取得
@@ -110,6 +132,28 @@ namespace basecross {
 			m_isAnimating = false;
 		}
 	}
+
+
+	void GameStagePointerUI::SetTargetPlayer(const shared_ptr<Player>& target)
+	{
+		if (target)
+		{
+			SetDrawActive(true);
+			m_ptrTrans->SetParent(target);//渡されたPlayerを追従対象として設定
+
+			m_isAnimation = true;
+
+			m_ptrTrans->SetPosition(-m_aseOffsetX, m_aseOffsetY, 0.0f);
+		}
+		else
+		{
+			// ターゲットがnullptrの場合
+			SetDrawActive(false);
+			m_ptrTrans->SetParent(nullptr);
+			m_isAnimation = false;
+		}
+	}
+
 
 	//テクスチャ
 	void GameStagePointerUI::SetTexture(const std::wstring& Key)

@@ -1,6 +1,6 @@
 
 /*!
-@file GameStage2.h
+@file GameStage3.h
 @brief ゲームステージ
 */
 
@@ -25,27 +25,27 @@ namespace basecross {
 	//	ゲームステージクラス
 	//--------------------------------------------------------------------------------------
 
-	enum class GamePhase2
+	enum class GamePhase3
 	{
 		Phase1,   //Box のみ操作可能なフェーズ
 		Phase2,   //全オブジェクトが動作開始するフェーズ
 
 	};
 
-	enum class GameControlMode2
+	enum class GameControlMode3
 	{
 		SelectBox,  // 現在、操作するBoxを選択している最中であることを示すモード
 		ControlBox  // 特定のBoxを選択し、そのBoxを操作している最中であることを示すモード
 	};
 
-	enum class CameraSelect2
+	enum class CameraSelect3
 	{
 		openingCamera,
 		phase1Camera,
 	};
 
 
-	class GameStage2 : public Stage {
+	class GameStage3 : public Stage {
 		//ビューの作成
 		void CreateViewLight();
 		//壁の生成
@@ -92,7 +92,7 @@ namespace basecross {
 		std::weak_ptr<GameStagePointerUI> m_ase;//UIスプライトへの参照
 
 		//入力ハンドラー
-		InputHandler<GameStage2> m_InputHandler;
+		InputHandler<GameStage3> m_InputHandler;
 
 		shared_ptr<SoundItem> m_BGM;
 
@@ -100,7 +100,7 @@ namespace basecross {
 		shared_ptr<SingleView> m_phase1View;
 		shared_ptr<SingleView> m_OpeningCameraView;
 
-		GamePhase2 currentPhase = GamePhase2::Phase1; // 最初に設定されているPhase
+		GamePhase3 currentPhase = GamePhase3::Phase1; // 最初に設定されているPhase
 
 		// ステージ上に存在する、プレイヤーが操作できるBoxオブジェクトのリスト
 		std::vector<std::shared_ptr<Box>> m_controllableBoxes;
@@ -110,7 +110,7 @@ namespace basecross {
 		int m_lastNotifiedIndex;//UIに最後に通知したインデックス
 
 		// 現在のゲームの操作モード（SelectBox か ControlBox か）を保持する
-		GameControlMode2 m_currentControlMode;
+		GameControlMode3 m_currentControlMode;
 
 		// ControlBoxモードの時に、現在実際に操作対象となっているBoxオブジェクトへのポインタ
 		std::shared_ptr<Box> m_currentlyControlledBox;
@@ -127,7 +127,7 @@ namespace basecross {
 
 		shared_ptr<PNTBoneModelDraw> m_drawModelComp;
 
-		CameraSelect2 m_CameraSelect;
+		CameraSelect3 m_CameraSelect;
 
 		float m_initialUpdateTimer; // 最初の数秒間を計るためのタイマー
 		bool m_isInitialUpdatePeriod; // 最初の数秒間の間かを示すフラグ
@@ -138,7 +138,7 @@ namespace basecross {
 
 	public:
 		//構築と破棄
-		GameStage2() :
+		GameStage3() :
 			Stage(),
 			m_Time(0.0f),
 			m_isStageFadingOut(false),
@@ -146,13 +146,13 @@ namespace basecross {
 			m_filterFadeTimer(0.0f),
 			m_lastNotifiedIndex(-2)
 		{}
-		virtual ~GameStage2() {}
+		virtual ~GameStage3() {}
 
 
 		void OnPushA();
 
 		// 現在の操作モードを取得する関数
-		GameControlMode2 GetCurrentControlMode() const;
+		GameControlMode3 GetCurrentControlMode() const;
 		// 現在ハイライトされているBoxを操作対象に設定し、ControlBoxモードへ移行しようと試みる関数
 		void AttemptToControlSelectedBox();
 		// 現在操作中のBoxの操作を終了し、SelectBoxモードへ戻る関数
@@ -166,7 +166,7 @@ namespace basecross {
 		std::shared_ptr<Table> GetTableObject() const; // Tableオブジェクトを取得する関数
 
 
-		CameraSelect2 GetCameraSelect() const
+		CameraSelect3 GetCameraSelect() const
 		{
 			return m_CameraSelect;
 		}

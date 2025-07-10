@@ -89,6 +89,7 @@ namespace basecross {
 		std::weak_ptr<PauseManager> m_pauseManager;//ポーズマネージャーへの参照
 		std::weak_ptr<SettingStage> m_settingStage;//セッティングステージへの参照
 		std::vector<std::weak_ptr<GameStageUI>> m_gameStageUI;//UIスプライトへの参照
+		std::weak_ptr<GameStagePointerUI> m_ase;//UIスプライトへの参照
 
 		//入力ハンドラー
 		InputHandler<GameStage> m_InputHandler;
@@ -138,12 +139,19 @@ namespace basecross {
 		//ゲームオーバーフラグ
 		bool m_isGameOver = false;
 
-		shared_ptr<GameStageUI> m_exclamationMarkUI; // Exclamation markUIへのポインタ
-		bool m_isExclamationMarkActive; // Exclamation markが表示されているか
+		// タイマー時計用のUIオブジェクト 
+		std::weak_ptr<GameStageUI> m_timerClockFrameUI;  // 時計の外枠
+		std::weak_ptr<GameStageUI> m_timerClockFaceUI;   // 時計の文字盤（中）
+		std::weak_ptr<GameStageUI> m_timerSecHandUI;   // 時計の秒針
 
-		// Exclamation markの表示制御用に追加
-		bool m_isExclamationMark;    // Exclamation markが表示中かを示すフラグ
-		float m_exclamationMarkTimer;   // Exclamation markの表示時間を計るタイマー
+
+
+		shared_ptr<GameStageUI> m_exclamationMarkUI; // Exclamation markUIへのポインタ  //
+		bool m_isExclamationMarkActive; // Exclamation markが表示されているか           //
+
+		// Exclamation markの表示制御用に追加  //
+		bool m_isExclamationMark;    // Exclamation markが表示中かを示すフラグ       //
+		float m_exclamationMarkTimer;   // Exclamation markの表示時間を計るタイマー  //
 
 
 	public:

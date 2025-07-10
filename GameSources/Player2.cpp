@@ -16,7 +16,7 @@ namespace basecross
 		m_Rotation(Rotation),
 		m_Position(Position),
 		m_Speed(8.0f),
-		m_isAir(true),
+		m_isAir(false),
 		m_Player1(false),
 		m_cameraAngleY(0.0f),
 		m_forward(0.0f),
@@ -128,7 +128,7 @@ namespace basecross
 
 		//Collision衝突判定を付ける
 		auto ptrColl = AddComponent<CollisionObb>();
-		//ptrColl->SetMakedSize(2.5f);
+		ptrColl->SetMakedSize(1);
 
 		m_Center = Vec3(1.2f, 0.6f, 0.3f);
 		Vec3 position = Vec3(m_Center.x, m_Center.y, 0.0f);
@@ -136,9 +136,9 @@ namespace basecross
 
 
 		//各パフォーマンスを得る
-		GetStage()->SetCollisionPerformanceActive(true);
-		GetStage()->SetUpdatePerformanceActive(true);
-		GetStage()->SetDrawPerformanceActive(true);
+		//GetStage()->SetCollisionPerformanceActive(true);
+		//GetStage()->SetUpdatePerformanceActive(true);
+		//GetStage()->SetDrawPerformanceActive(true);
 
 
 		//描画コンポーネントの設定
@@ -156,8 +156,6 @@ namespace basecross
 		ptrString->SetText(L"");
 		ptrString->SetTextRect(Rect2D<float>(16.0f, 150.0f, 640.0f, 480.0f));
 
-
-
 		auto pos = GetComponent<Transform>()->GetPosition();
 		auto wall = GetStage()->GetSharedGameObject<Wall>(L"Wall_0");
 		Vec3 wallPoint = wall->GetWallPosition();
@@ -173,20 +171,20 @@ namespace basecross
 		auto ptrTransform = GetComponent<Transform>();
 		Vec3 currentPosition = ptrTransform->GetPosition();
 
-		// ---まず、このフレームで働く力をすべて速度に反映 ---
+		//このフレームで働く力をすべて速度に反映
 		m_velocity.x = m_Speed;
-		// 接地していなくても、まず重力を計算する
+		//接地していなくても、まず重力を計算する
 		m_velocity.y += m_gravity * elapsedTime;
 
 
-		// ---速度から、このフレームの移動量を計算 ---
+		//速度から、このフレームの移動量を計算
 		Vec3 deltaPosition = m_velocity * elapsedTime;
 
 
-		// ---衝突判定と、それに基づく「状態の確定」と「補正」 ---
+		//衝突判定と、それに基づく「状態の確定」と「補正」
 
 		//判定用の中心と半径を設定
-		m_Center = currentPosition + deltaPosition; // 常に未来位置で予測
+		m_Center = currentPosition + deltaPosition; 
 		m_Radius = ((m_Scale.x < m_Scale.y) ? m_Scale.x : m_Scale.y) / 2.0f;
 
 		//複数当たり判定ループで、最も深刻な衝突(best_mtv)を見つける
@@ -194,9 +192,12 @@ namespace basecross
 		float max_overlap_sq = 0.0f;
 
 		auto shadowDrawer = GetStage()->GetSharedGameObject<ShadowDrawer>(L"ShadowDrawer");
+		//ShadowDrawerの判定
 		if (shadowDrawer) {
+			//ShadowComponentがあったらやる
 			auto shadowComp = shadowDrawer->GetComponent<ShadowComponent>();
 			if (shadowComp) {
+				//判定の処理
 				const auto& allShadows = shadowComp->GetAllShadowsVertices();
 				for (const auto& singleShadowVertices : allShadows) {
 					if (singleShadowVertices.size() < 3) continue;
@@ -223,8 +224,6 @@ namespace basecross
 			// 条件：地面に、めり込むように接触したか
 			if (collisionNormal.y > 0.7f && m_velocity.y <= 0)
 			{
-				// 接地したので、Y速度を強制的にゼロにする
-				// これが「静止摩擦」の役割を果たし、振動を止める
 				m_velocity.y = 0;
 			}
 
@@ -244,15 +243,15 @@ namespace basecross
 			m_isAir = true;
 		}
 
-		// (保険の最下層地面処理)
-		if ((currentPosition.y + deltaPosition.y) < -4.99f) {
+		//層地面処理
+		/*if((currentPosition.y + deltaPosition.y) < -4.99f) {
 			deltaPosition.y = -4.99f - currentPosition.y;
 			m_velocity.y = 0;
 			m_isAir = false;
-		}
+		}*/
 
 		ptrTransform->SetPosition(currentPosition + deltaPosition);
-		DrawStrings();
+		//DrawStrings();
 
 
 		//プレイヤーが床から15.0fの場所まで来たら落ちている音を鳴らす
@@ -278,7 +277,7 @@ namespace basecross
 
 		if (m_isAir == false)
 		{
-			m_velocity.y = 5.0f; // ジャンプの初速を与える
+			m_velocity.y = 3.0f; // ジャンプの初速を与える
 			m_isAir = true; // ジャンプしたので空中状態にする
 			ptrXA->Start(L"Jump", 0, 0.5f);
 
@@ -291,30 +290,21 @@ namespace basecross
 			//重力の適用
 			float elapsedTime = App::GetApp()->GetElapsedTime();
 			m_velocity.y += elapsedTime;
-			//auto ptrGra = AddComponent<Gravity>();
 
 			ptrTransform->SetPosition(pos);
 		}
 
 	}
 
-	//衝突判定
+
+	void Player::OnCollisionExit(shared_ptr<GameObject>& Other)
+	{
+		//m_collisionFlag = false;
+	}
+
 	void Player::OnCollisionEnter(shared_ptr<GameObject>& Other)
 	{
-		//オブジェクトが自分自身だったら無視する
-		if (Other.get() == this)
-		{
-			return;
-		}
-
-		//すでに死亡中なら何もしない
-		if (m_isDead)
-		{
-			return;
-		}
-
-		// 衝突対象が地面または敵か確認
-		if (dynamic_pointer_cast<Ground>(Other) || dynamic_pointer_cast<Enemy>(Other))
+		if (dynamic_pointer_cast<Ground>(Other)) // 衝突対象が地面か確認
 		{
 			m_isDead = true;
 			auto scene = App::GetApp()->GetScene<Scene>();
@@ -340,16 +330,10 @@ namespace basecross
 		}
 		else if (dynamic_pointer_cast<ShadowFloor>(Other) || dynamic_pointer_cast<BookShelf>(Other))
 		{
-			m_isDead = false;
-			m_velocity.y *= 0;
+			m_velocity.y = 0;
 			m_isAir = false;
 			return;
 		}
-	}
-
-	void Player::OnCollisionExit(shared_ptr<GameObject>& Other)
-	{
-		//m_collisionFlag = false;
 	}
 
 

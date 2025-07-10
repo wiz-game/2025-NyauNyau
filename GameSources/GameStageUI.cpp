@@ -42,7 +42,28 @@ namespace basecross {
 
 	void GameStageUI::OnUpdate()
 	{
+	}
 
+	//ゲーム時間に応じて、再生するアニメーションシーケンスを決定
+	void GameStageUI::UpdateAnimationByGameTime(float gameTime)
+	{
+	}
+
+
+	// アニメーションを設定する関数
+	void GameStageUI::SetAnimation(const std::vector<std::wstring>& textureKeys, float timePerFrame, bool loop) 
+	{
+	}
+
+	// アニメーション再生を開始する関数
+	void GameStageUI::PlayAnimation() 
+	{
+	}
+
+	// アニメーションを停止する関数
+	void GameStageUI::StopAnimation() 
+	{
+		m_isAnimating = false;
 	}
 
 	//テクスチャ
@@ -63,7 +84,6 @@ namespace basecross {
 		m_ptrTrans->SetScale(x, y, z);
 	}
 
-
 	void GameStageUI::SetColor(const Col4& color)
 	{
 		//保持している全頂点の色情報を更新
@@ -81,6 +101,7 @@ namespace basecross {
 	{
 		SetColor(Col4(r, g, b, a));
 	}
+
 
 }
 //end basecross

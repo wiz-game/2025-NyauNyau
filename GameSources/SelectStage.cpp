@@ -189,6 +189,8 @@ namespace basecross {
 							m_once = true;
 							break;
 						case 2:
+							PostEvent(3.0f, GetThis<SelectStage>(), PtrScene, L"ToGameStage3");
+							m_once = true;
 							break;
 
 						default:

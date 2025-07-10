@@ -1,6 +1,6 @@
 
 /*!
-@file GameStage.cpp
+@file GameStage3.cpp
 @brief ゲームステージ実体
 */
 
@@ -14,7 +14,7 @@ namespace basecross {
 	//--------------------------------------------------------------------------------------
 	//	ゲームステージクラス実体
 	//--------------------------------------------------------------------------------------
-	void GameStage::CreateViewLight() 
+	void GameStage3::CreateViewLight()
 	{
 
 		m_mainView = ObjectFactory::Create<SingleView>(GetThis<Stage>());
@@ -37,7 +37,7 @@ namespace basecross {
 
 		//初期状態ではm_OpeningCameraViewを使う
 		SetView(m_OpeningCameraView);
-		m_CameraSelect = CameraSelect::openingCamera;
+		m_CameraSelect = CameraSelect3::openingCamera;
 
 		//マルチライトの作成
 		auto light = CreateLight<MultiLight>();
@@ -45,7 +45,7 @@ namespace basecross {
 
 	}
 
-	void GameStage::CreateWall()
+	void GameStage3::CreateWall()
 	{
 		vector<vector<Vec3>> vec = {
 			{
@@ -83,7 +83,7 @@ namespace basecross {
 		}
 	}
 
-	void GameStage::CreateGround()
+	void GameStage3::CreateGround()
 	{
 		vector<vector<Vec3>> vec = {
 		{
@@ -129,36 +129,36 @@ namespace basecross {
 
 	}
 
-	void GameStage::CreateShadowFloor()
+	void GameStage3::CreateShadowFloor()
 	{
 		vector<vector<Vec3>> vec = {
-		//{
-		//	Vec3(20.0f, 20.0f, 1.0f), 
-		//	Vec3(0.0f, 0.0f, 0.0f),
-		//	Vec3(0.0f, 4.0f, 0.0f)
-		//},
-		//{   Vec3(50.0f, 5.0f, 1.0f),
-		//	Vec3(0.0f, 0.0f, 0.0f),
-		//	Vec3(40.0f, 30.0f, 0.0f)
-		//},
-		//{
-		//	Vec3(70.0f, 5.0f, 1.0f),
-		//	Vec3(0.0f, 0.0f, 0.0f),
-		//	Vec3(-50.0f, 40.0f, 0.0f)
+			//{
+			//	Vec3(20.0f, 20.0f, 1.0f), 
+			//	Vec3(0.0f, 0.0f, 0.0f),
+			//	Vec3(0.0f, 4.0f, 0.0f)
+			//},
+			//{   Vec3(50.0f, 5.0f, 1.0f),
+			//	Vec3(0.0f, 0.0f, 0.0f),
+			//	Vec3(40.0f, 30.0f, 0.0f)
+			//},
+			//{
+			//	Vec3(70.0f, 5.0f, 1.0f),
+			//	Vec3(0.0f, 0.0f, 0.0f),
+			//	Vec3(-50.0f, 40.0f, 0.0f)
 
-  //      },
-		//{
-		//	Vec3(100.0f, 50.0f, 1.0f),
-		//	Vec3(0.0f, 0.0f, 0.0f),
-		//	Vec3(55.0f, -3.0f, 0.0f)
+	  //      },
+			//{
+			//	Vec3(100.0f, 50.0f, 1.0f),
+			//	Vec3(0.0f, 0.0f, 0.0f),
+			//	Vec3(55.0f, -3.0f, 0.0f)
 
-  //      },
-		//{
-		//	Vec3(40.0f, 30.0f, 1.0),
-		//	Vec3(0.0f, 0.0f, 0.0f),
-		//	Vec3(-25.0f, 5.0f, 0.0f)
+	  //      },
+			//{
+			//	Vec3(40.0f, 30.0f, 1.0),
+			//	Vec3(0.0f, 0.0f, 0.0f),
+			//	Vec3(-25.0f, 5.0f, 0.0f)
 
-		//},
+			//},
 
 		};
 
@@ -186,7 +186,7 @@ namespace basecross {
 	}
 
 	//スタート
-	void GameStage::CreatestartGate()
+	void GameStage3::CreatestartGate()
 	{
 		vector< vector <Vec3> > vec = {
 		{
@@ -202,7 +202,7 @@ namespace basecross {
 	}
 
 	//プレイヤー
-	void GameStage::CreatePlayer()
+	void GameStage3::CreatePlayer()
 	{
 		vector<vector<Vec3>> vec =
 		{
@@ -247,7 +247,7 @@ namespace basecross {
 
 	}
 
-	void GameStage::CreateEnemy()
+	void GameStage3::CreateEnemy()
 	{
 		vector< vector <Vec3> > vec = {
 		{
@@ -265,7 +265,7 @@ namespace basecross {
 
 
 	//ゴール
-	void GameStage::CreategoalGate()
+	void GameStage3::CreategoalGate()
 	{
 
 		//auto ptrgoalGate = AddGameObject<goalGate>(& scale,& rotation,& position);
@@ -286,7 +286,7 @@ namespace basecross {
 	}
 
 	//チーズ
-	void GameStage::CreateCheese()
+	void GameStage3::CreateCheese()
 	{
 		vector< vector <Vec3> > vec = {
 		{
@@ -303,24 +303,24 @@ namespace basecross {
 	}
 
 
-	void GameStage::CreateBox()
+	void GameStage3::CreateBox()
 	{
 		vector<vector<Vec3>> vec = {
 		{
-		    Vec3(2.5f, 2.5f, 2.5f),
-		    Vec3(0.0f, 0.0f, 0.0f),
-		    Vec3(7.0f ,11.5f, -20.0f)
+			Vec3(2.5f, 2.5f, 2.5f),
+			Vec3(0.0f, 0.0f, 0.0f),
+			Vec3(7.0f ,11.5f, -20.0f)
 		},
 		{
 			Vec3(5.0f, 2.5f, 2.5f),
 			Vec3(0.0f, 0.0f, 0.0f),
 			Vec3(14.0f ,11.5f, -20.0f)
-        },
-		//{
-		//	Vec3(2.5f, 2.5f, 2.5f),
-		//	Vec3(0.0f, 0.0f, 0.0f),
-		//	Vec3(15.0f ,11.5f, -20.0f)
-  //      },
+		},
+			//{
+			//	Vec3(2.5f, 2.5f, 2.5f),
+			//	Vec3(0.0f, 0.0f, 0.0f),
+			//	Vec3(15.0f ,11.5f, -20.0f)
+	  //      },
 
 
 		};
@@ -352,7 +352,7 @@ namespace basecross {
 
 	}
 
-	void GameStage::CreateShadowBall()
+	void GameStage3::CreateShadowBall()
 	{
 		vector<vector<Vec3>> vec = {
 		{
@@ -365,11 +365,11 @@ namespace basecross {
 			Vec3(0.0f, 0.0f, 0.0f),
 			Vec3(-20.0f, 45.0f, -0.01f)
 		},
-		//{
-		//	Vec3(2.5f, 2.5f, 0.0f),
-		//	Vec3(0.0f, 0.0f, 0.0f),
-		//	Vec3(-4.0f, -4.75f, -4.0f)
-		//},
+			//{
+			//	Vec3(2.5f, 2.5f, 0.0f),
+			//	Vec3(0.0f, 0.0f, 0.0f),
+			//	Vec3(-4.0f, -4.75f, -4.0f)
+			//},
 
 
 		};
@@ -377,7 +377,7 @@ namespace basecross {
 		int index = 0; // ユニーク名用のインデックス
 		vector<shared_ptr<ShadowBall>> ball; // 生成した `Ball` を管理するリスト
 
-		for (auto& v : vec) 
+		for (auto& v : vec)
 		{
 			auto ptrBall = AddGameObject<ShadowBall>(v[0], v[1], v[2]);
 
@@ -399,7 +399,7 @@ namespace basecross {
 
 	}
 
-	void GameStage::CreateTable()
+	void GameStage3::CreateTable()
 	{
 		vector<vector<Vec3>> vec = {
 		{
@@ -423,7 +423,7 @@ namespace basecross {
 
 	}
 
-	void GameStage::CreateMado()
+	void GameStage3::CreateMado()
 	{
 		vector<vector<Vec3>> vec = {
 			{  Vec3(22.0f, 26.4f, 1.0f),
@@ -457,7 +457,7 @@ namespace basecross {
 
 	}
 
-	void GameStage::CreateBookShelf()
+	void GameStage3::CreateBookShelf()
 	{
 		vector<vector<Vec3>> vec = {
 			{   Vec3(40.0f, 30.0f, 1.0f),
@@ -499,25 +499,25 @@ namespace basecross {
 
 
 	//カメラマンの作成
-	void GameStage::CreateCameraman() 
+	void GameStage3::CreateCameraman()
 	{
 		auto ptrOpeningCameraman = AddGameObject<OpeningCameraman>();
 		//シェア配列にOpeningCameramanを追加
 		SetSharedGameObject(L"OpeningCameraman", ptrOpeningCameraman);
 
 		auto ptrOpeningCamera = dynamic_pointer_cast<OpeningCamera>(m_OpeningCameraView->GetCamera());
-		if (ptrOpeningCamera) 
+		if (ptrOpeningCamera)
 		{
 			ptrOpeningCamera->SetCameraObject(ptrOpeningCameraman);
 			SetView(m_OpeningCameraView);
-			m_CameraSelect = CameraSelect::openingCamera;
+			m_CameraSelect = CameraSelect3::openingCamera;
 		}
 
 	}
 
 
 
-	void GameStage::OnCreate() {
+	void GameStage3::OnCreate() {
 		try {
 
 			LoadTextures();
@@ -612,7 +612,7 @@ namespace basecross {
 			m_gameStageUI.push_back(phase2UI_A);
 
 			auto stage = AddGameObject<GameStageUI>();
-			stage->SetTexture(L"TEX_STAGE1");
+			stage->SetTexture(L"TEX_STAGE3");
 			stage->SetPosition(0, 0, 0);
 			stage->SetScale(2.0f, 2.0f, 1.0f);
 			m_gameStageUI.push_back(stage);
@@ -632,8 +632,8 @@ namespace basecross {
 			pointer->SetTexture(L"TEX_BoxPointer");
 			pointer->SetScale(1.2f, 1.2f, 1.0f);
 			pointer->SetDrawActive(true);
-			pointer->SetTargetBox(m_controllableBoxes[0],true);
-			
+			pointer->SetTargetBox(m_controllableBoxes[0], true);
+
 			//フェードスクリーンを生成して保持する
 			auto fadeScreen = AddGameObject<FadeScreen>();
 			m_fadeScreen = fadeScreen;
@@ -647,7 +647,7 @@ namespace basecross {
 			m_pauseManager = AddGameObject<PauseManager>();
 
 			// 操作モードの初期設定
-			m_currentControlMode = GameControlMode::SelectBox; // ゲーム開始時はまずBoxを選択するモードから
+			m_currentControlMode = GameControlMode3::SelectBox; // ゲーム開始時はまずBoxを選択するモードから
 			m_selectedBoxIndex = -1;                           // まだ何も選択候補になっていない状態を示す 
 			m_currentlyControlledBox = nullptr;                // まだ操作対象のBoxは決定されていない
 
@@ -656,95 +656,32 @@ namespace basecross {
 			m_lastNotifiedIndex = -2;//UIはまだ通知されていない
 
 			// もし操作可能なBoxがステージに存在すれば、最初のBoxを選択候補とする
-			if (!m_controllableBoxes.empty()) 
+			if (!m_controllableBoxes.empty())
 			{
 				m_selectedBoxIndex = 0; // 最初のBox (Box_0) を選択候補にする
 			}
 
-			//// Exclamation markの生成
-			//auto exclamationMark = AddGameObject<GameStageUI>();
-			//exclamationMark->SetTexture(L"TEX_Exclamationmark");
-			//exclamationMark->SetScale(0.1f, 0.1f, -0.5f); // スケールはスクリーン座標系に合わせて調整
-			//exclamationMark->SetDrawActive(false); 
-			//m_exclamationMarkUI = exclamationMark; // ポインタを保持
-			//m_isExclamationMarkActive = false;
 
-			//// Exclamation mark表示制御用変数の初期化
-			//m_isExclamationMark = false; // 初期状態では表示されていない
-			//m_exclamationMarkTimer = 0.0f;
-
-			// ---phase1の時間制限タイマーの初期化---
-			m_isTimer = 0.0f;
-			m_isTimerflag = true;
-
-			// --- 最初の2秒間のタイマーの初期化 ---
-			m_isShortTimer = 0.0f;     // タイマーを0にリセット
-			m_isShortTimerflag = true;  // ゲーム開始直後なので、初期期間フラグをtrueに
-
-			//タイマー時計UIの生成
-			Vec2 clockPosition = Vec2(500.0f, 250.0f); // 時計を表示する位置
-			// 時計の外枠のスケール
-			float TimerFrameScaleX = 0.5f; 
-			float TimerFrameScaleY= 0.8f;
-			//時計の文字盤（中）のスケール
-			float TimerClockFaceScaleX = 0.5f;
-			float TimerClockFaceScaleY = 0.8f;
-			//時計の秒針のスケール
-			float TimerSecHandScaleX = 0.5f;
-			float TimerSecHandScaleY = 0.68f;
-
-			// 時計の外枠
-			auto clockFrame = AddGameObject<GameStageUI>();
-			clockFrame->SetTexture(L"TEX_TimerFrame");
-			clockFrame->SetPosition(clockPosition.x, clockPosition.y, 0.2f);
-			clockFrame->SetScale(TimerFrameScaleX, TimerFrameScaleY, 1.0f);
-			m_timerClockFrameUI = clockFrame;
-
-			// 時計の文字盤
-			auto clockFace = AddGameObject<GameStageUI>();
-			clockFace->SetTexture(L"TEX_TimerClockFace");
-			clockFace->SetPosition(clockPosition.x, clockPosition.y, 0.3f); 
-			clockFace->SetScale(TimerClockFaceScaleX, TimerClockFaceScaleY, 1.0f);
-			m_timerClockFaceUI = clockFace;
-
-			// 時計の秒針 
-			auto clockHand = AddGameObject<GameStageUI>();
-			clockHand->SetTexture(L"TEX_TimerSecHand");
-			clockHand->SetPosition(clockPosition.x , clockPosition.y, 0.2f);
-			clockHand->SetScale(TimerSecHandScaleX, TimerSecHandScaleY, 1.0f);
-			m_timerSecHandUI = clockHand;
-
-			//秒針のピボットを設定（画像の下の部分が中心になるようにする）
-			auto sechandTransform = clockHand->GetComponent<Transform>();
-			if (sechandTransform) 
-			{
-				sechandTransform->SetPivot(Vec3(0.0f, -0.5f, 0.0f)); // Y軸方向にピボットをずらす
-			}
-
-			//タイマー
-			clockFrame->SetDrawActive(false);
-			clockFace->SetDrawActive(false);
-			clockHand->SetDrawActive(false);
-
-
+			// --- タイマーの初期化 ---
+			m_initialUpdateTimer = 0.0f;     // タイマーを0にリセット
+			m_isInitialUpdatePeriod = true;  // ゲーム開始直後なので、初期期間フラグをtrueに
 		}
-		catch (...) 
-		{
+		catch (...) {
 			throw;
 		}
 	}
 
-	GameControlMode GameStage::GetCurrentControlMode() const 
+	GameControlMode3 GameStage3::GetCurrentControlMode() const
 	{
 		return m_currentControlMode; // 現在の操作モードを返す
 	}
 
 
-	void GameStage::OnUpdate()
+	void GameStage3::OnUpdate()
 	{
 
 		//コントローラチェックして入力があればコマンド呼び出し
-		m_InputHandler.PushHandle(GetThis<GameStage>());
+		m_InputHandler.PushHandle(GetThis<GameStage3>());
 
 
 		auto& app = App::GetApp();
@@ -752,26 +689,26 @@ namespace basecross {
 		auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
 
 		// 最初のコントローラーが接続されているか確認
-		if (cntlVec[0].bConnected) 
+		if (cntlVec[0].bConnected)
 		{
 			// 現在の操作モードによって処理を分岐
-			if (m_currentControlMode == GameControlMode::SelectBox) 
+			if (m_currentControlMode == GameControlMode3::SelectBox)
 			{
 
 				// 左スティックのX軸の値を取得
 				float stickX = cntlVec[0].fThumbLX;
-			
+
 				// スティック入力が反応する値（この値より大きく倒されたら反応）
 				const float stickThreshold = 0.8f;
 
 				// --- 右への選択切り替え ---
-				if (stickX > stickThreshold && !m_stickMovedRightLastFrame) 
+				if (stickX > stickThreshold && !m_stickMovedRightLastFrame)
 				{
 					SelectNextBox(); // 次のBoxを選択候補に
 					m_stickMovedRightLastFrame = true; // 右に倒されたことを記憶
 				}
 				// スティックが右から中央に戻り始めたら、フラグをリセットする準備
-				else if (stickX <= stickThreshold && m_stickMovedRightLastFrame) 
+				else if (stickX <= stickThreshold && m_stickMovedRightLastFrame)
 				{
 					// 値を下回ったらリセットする
 					m_stickMovedRightLastFrame = false;
@@ -779,38 +716,60 @@ namespace basecross {
 
 				// --- 左への選択切り替え ---
 			   // スティックが左に一定以上倒されていて、かつ「前フレームでは左に倒されていなかった」場合
-				if (stickX < -stickThreshold && !m_stickMovedLeftLastFrame) 
+				if (stickX < -stickThreshold && !m_stickMovedLeftLastFrame)
 				{
 					SelectPreviousBox(); // 前のBoxを選択候補に
 					m_stickMovedLeftLastFrame = true; // 左に倒されたことを記憶
 				}
 				// スティックが左から中央に戻り始めたら、フラグをリセットする準備
-				else if (stickX >= -stickThreshold && m_stickMovedLeftLastFrame) 
+				else if (stickX >= -stickThreshold && m_stickMovedLeftLastFrame)
 				{
 					m_stickMovedLeftLastFrame = false;
 				}
 
 				// Aボタンが押されたら現在の選択候補を操作対象に決定しようとする
-				if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A) 
+				if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A)
 				{
 					AttemptToControlSelectedBox();
 				}
+				//if (m_selectedBoxIndex != m_lastNotifiedIndex)
+				//{
+				//	//操作対象のBoxをポインターで表示
+				//	if (auto pointer = m_selectionPointerUI.lock())
+				//	{
+				//		if (m_selectedBoxIndex >= 0 && m_selectedBoxIndex < m_controllableBoxes.size())
+				//		{
+				//			pointer->SetTargetBox(m_controllableBoxes[m_selectedBoxIndex], true);
+				//		}
+				//		else 
+				//		{
+				//			pointer->SetTargetBox(nullptr, false);
+				//		}
+				//	}
+					// 最後に通知したインデックスを更新
+					//m_lastNotifiedIndex = m_selectedBoxIndex;
+				//}
 			}
-			else if (m_currentControlMode == GameControlMode::ControlBox)
+			else if (m_currentControlMode == GameControlMode3::ControlBox)
 			{
 				//もう一度Aボタンが押されたらBoxの操作を終了し、SelectBoxモードに戻る
-				if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A) 
+				if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A)
 				{
 					ReleaseControlOfBox();
 				}
 			}
 		}
-		
+
 		UpdateSelectionUI();
 
 		auto device = app->GetInputDevice();
 		auto pad = device.GetControlerVec()[0];
 		auto delta = app->GetElapsedTime();
+
+		auto scene = app->GetScene<Scene>();
+		wstring log = scene->GetDebugString();
+		wstringstream wss(log);
+
 
 		m_Time += delta;
 
@@ -865,28 +824,28 @@ namespace basecross {
 
 	}
 
-	void GameStage::ToPhase1Camera()
+	void GameStage3::ToPhase1Camera()
 	{
 		//Phase1Cameraに変更
 		auto ptrPhase1Camera = dynamic_pointer_cast<Phase1Camera>(m_phase1View->GetCamera());
 		if (ptrPhase1Camera)
 		{
 			SetView(m_phase1View);
-			m_CameraSelect = CameraSelect::phase1Camera;
+			m_CameraSelect = CameraSelect3::phase1Camera;
 		}
 	}
 
 
-	void GameStage::OnPushA()
+	void GameStage3::OnPushA()
 	{
 
 	}
 
 	// 次のBoxを選択候補としてハイライトする関数
-	void GameStage::SelectNextBox() 
+	void GameStage3::SelectNextBox()
 	{
 		// 現在がSelectBoxモードで、かつ操作可能なBoxが存在する場合のみ処理を行う
-		if (m_currentControlMode != GameControlMode::SelectBox || m_controllableBoxes.empty()) 
+		if (m_currentControlMode != GameControlMode3::SelectBox || m_controllableBoxes.empty())
 		{
 			return;
 		}
@@ -895,17 +854,17 @@ namespace basecross {
 		m_selectedBoxIndex++;
 
 		// インデックスがリストの末尾を超えたら、先頭に戻す (ループ選択)
-		if (m_selectedBoxIndex >= m_controllableBoxes.size()) 
+		if (m_selectedBoxIndex >= m_controllableBoxes.size())
 		{
 			m_selectedBoxIndex = 0;
 		}
 	}
 
 	// 前のBoxを選択候補としてハイライトする関数
-	void GameStage::SelectPreviousBox() 
+	void GameStage3::SelectPreviousBox()
 	{
 		// 現在がSelectBoxモードで、かつ操作可能なBoxが存在する場合のみ処理を行う
-		if (m_currentControlMode != GameControlMode::SelectBox || m_controllableBoxes.empty()) 
+		if (m_currentControlMode != GameControlMode3::SelectBox || m_controllableBoxes.empty())
 		{
 			return;
 		}
@@ -914,10 +873,10 @@ namespace basecross {
 	}
 
 	// 現在ハイライトされているBoxを操作対象に設定し、ControlBoxモードへ移行する関数
-	void GameStage::AttemptToControlSelectedBox()
+	void GameStage3::AttemptToControlSelectedBox()
 	{
 		// 現在がSelectBoxモードで、かつ有効なBoxが選択候補になっている場合のみ処理を行う
-		if (m_currentControlMode == GameControlMode::SelectBox &&
+		if (m_currentControlMode == GameControlMode3::SelectBox &&
 			m_selectedBoxIndex >= 0 && m_selectedBoxIndex < m_controllableBoxes.size())
 		{
 			// 選択候補のBoxを操作対象として設定
@@ -927,12 +886,12 @@ namespace basecross {
 				// Boxオブジェクト自体に「自分が操作対象である」ことを通知する
 				m_currentlyControlledBox->SetSelectedForControl(true);
 				// ゲームの操作モードをControlBoxモードに切り替える
-				m_currentControlMode = GameControlMode::ControlBox;
+				m_currentControlMode = GameControlMode3::ControlBox;
 
 				//操作可能のボックスとポインターを親子関係にする
 				if (auto point = m_selectionPointerUI.lock())
 				{
-					point->SetTargetBox(m_controllableBoxes[m_selectedBoxIndex],false);
+					point->SetTargetBox(m_controllableBoxes[m_selectedBoxIndex], false);
 				}
 
 			}
@@ -940,44 +899,44 @@ namespace basecross {
 	}
 
 	// Boxの操作を終了し、SelectBoxモードへ戻る関数
-	void GameStage::ReleaseControlOfBox()
+	void GameStage3::ReleaseControlOfBox()
 	{
 		// 現在がControlBoxモードの場合のみ処理を行う
-		if (m_currentControlMode == GameControlMode::ControlBox) 
+		if (m_currentControlMode == GameControlMode3::ControlBox)
 		{
 			// もし現在操作中のBoxがあれば、そのBoxに「操作対象でなくなった」ことを通知する
-			if (m_currentlyControlledBox) 
+			if (m_currentlyControlledBox)
 			{
 				m_currentlyControlledBox->SetSelectedForControl(false);
 				m_currentlyControlledBox = nullptr; // 操作対象のポインタをクリア
 			}
 		}
 		// ゲームの操作モードをSelectBoxモードに戻す
-		m_currentControlMode = GameControlMode::SelectBox;
+		m_currentControlMode = GameControlMode3::SelectBox;
 	}
 
-	std::shared_ptr<Table> GameStage::GetTableObject() const
+	std::shared_ptr<Table> GameStage3::GetTableObject() const
 	{
-		return GetSharedGameObject<Table>(L"Table"); 
+		return GetSharedGameObject<Table>(L"Table");
 	}
 
 
-	void GameStage::UpdateSelectionUI()
+	void GameStage3::UpdateSelectionUI()
 	{
 		int currentTargetIndex = -1;
 
 		// 現在のモードからターゲットにすべきBoxのインデックスを決定
-		if (m_currentControlMode == GameControlMode::SelectBox) 
+		if (m_currentControlMode == GameControlMode3::SelectBox)
 		{
 			currentTargetIndex = m_selectedBoxIndex;
 		}
-		else if (m_currentControlMode == GameControlMode::ControlBox) 
+		else if (m_currentControlMode == GameControlMode3::ControlBox)
 		{
-			if (m_currentlyControlledBox) 
+			if (m_currentlyControlledBox)
 			{
-				for (int i = 0; i < m_controllableBoxes.size(); ++i) 
+				for (int i = 0; i < m_controllableBoxes.size(); ++i)
 				{
-					if (m_controllableBoxes[i] == m_currentlyControlledBox) 
+					if (m_controllableBoxes[i] == m_currentlyControlledBox)
 					{
 						currentTargetIndex = i;
 						break;
@@ -991,13 +950,13 @@ namespace basecross {
 		{
 			if (auto pointer = m_selectionPointerUI.lock())
 			{
-				bool shouldAnimate = (m_currentControlMode == GameControlMode::SelectBox);
+				bool shouldAnimate = (m_currentControlMode == GameControlMode3::SelectBox);
 
-				if (currentTargetIndex >= 0 && currentTargetIndex < m_controllableBoxes.size()) 
+				if (currentTargetIndex >= 0 && currentTargetIndex < m_controllableBoxes.size())
 				{
 					pointer->SetTargetBox(m_controllableBoxes[currentTargetIndex], shouldAnimate);
 				}
-				else 
+				else
 				{
 					pointer->SetTargetBox(nullptr, false);
 				}
@@ -1007,7 +966,7 @@ namespace basecross {
 	}
 
 
-	void GameStage::OnPlayerCollision(shared_ptr<GameObject> player, shared_ptr<GameObject> other)
+	void GameStage3::OnPlayerCollision(shared_ptr<GameObject> player, shared_ptr<GameObject> other)
 	{
 		////すでにゲームオーバーが始まっていたら何もしない
 		//if (m_isGameOver)
@@ -1032,7 +991,7 @@ namespace basecross {
 	}
 
 	// ゲームオーバー処理（フェードとシーン遷移）に特化した関数
-	void GameStage::StartGameOver()
+	void GameStage3::StartGameOver()
 	{
 		//if (m_isGameOver) {
 		//	return;
@@ -1056,7 +1015,7 @@ namespace basecross {
 
 
 	// テクスチャの読込
-	void GameStage::LoadTextures()
+	void GameStage3::LoadTextures()
 	{
 		// アプリケーションオブジェクトを取得する
 		auto& app = App::GetApp(); // アプリケーションオブジェクト(シングルトン)のインスタンスを取得する
@@ -1094,16 +1053,10 @@ namespace basecross {
 		app->RegisterTexture(L"TEX_phase1UI_light", texPath + L"phase1.2UI_light.png");
 		app->RegisterTexture(L"TEX_phase2UI_A", texPath + L"phase2UI_A.png");
 		app->RegisterTexture(L"TEX_BoxPointer", texPath + L"BoxPoint.png");
-		app->RegisterTexture(L"TEX_Exclamationmark", texPath + L"Exclamationmark.png");
-		app->RegisterTexture(L"TEX_TimerFrame", texPath + L"Timer.png");
-		app->RegisterTexture(L"TEX_TimerClockFace", texPath + L"WhiteCircle.png");
-		app->RegisterTexture(L"TEX_TimerSecHand", texPath + L"sechand.png");
-		//app->RegisterTexture(L"TEX_Exclamationmark", texPath + L"Exclamationmark.png");
-		app->RegisterTexture(L"TEX_Ase", texPath + L"Ase.png");
 
 	}
 
-	void GameStage::LoadModels()
+	void GameStage3::LoadModels()
 	{
 		auto& app = App::GetApp();
 
@@ -1168,7 +1121,7 @@ namespace basecross {
 	}
 
 
-	void GameStage::OnDestroy()
+	void GameStage3::OnDestroy()
 	{
 		//BGMのストップ
 		auto XAPtr = App::GetApp()->GetXAudio2Manager();
@@ -1176,7 +1129,7 @@ namespace basecross {
 
 	}
 
-	void GameStage::OnUpdate2()
+	void GameStage3::OnUpdate2()
 	{
 		auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
 		auto scene = App::GetApp()->GetScene<Scene>();
@@ -1185,7 +1138,7 @@ namespace basecross {
 		auto ptrXA = App::GetApp()->GetXAudio2Manager();
 
 
-		if (currentPhase == GamePhase::Phase1)
+		if (currentPhase == GamePhase3::Phase1)
 		{
 			auto pause = m_pauseManager.lock();
 			if (!pause)
@@ -1193,141 +1146,52 @@ namespace basecross {
 				return;
 			}
 
-			// ---phase1の時間制限のタイマー処理---
-			if (m_isTimerflag)
-			{
-				m_isTimer += App::GetApp()->GetElapsedTime();
-				if (m_isTimer > 32.0f)
-				{
-					m_isTimerflag = false;
-				}
-			}
-
 			// --- 最初の2秒間のタイマー処理 ---
-			if (m_isShortTimerflag) 
+			if (m_isInitialUpdatePeriod)
 			{
-				auto playertrans = GetSharedGameObject<Player>(L"Player_0")->GetComponent<Transform>();
-				auto playerpos = playertrans->GetPosition();
-				auto ui = m_exclamationMarkUI;
-				auto view = GetView();
-
-				m_isShortTimer += App::GetApp()->GetElapsedTime();
-				if (m_isShortTimer > 1.0f)
+				m_initialUpdateTimer += App::GetApp()->GetElapsedTime();
+				if (m_initialUpdateTimer > 2.0f)
 				{
-
-					if (ui)
-					{
-						ui->SetPosition(-400, 50, 0);
-						//ui->SetDrawActive(true);
-					}
-				}
-
-				if (m_isShortTimer > 2.0f) 
-				{
-
-					// ... (位置設定の処理) ...
-					ui->SetDrawActive(true);
-					ui->PlayAnimation(); // ★アニメーションを再生開始★
-				}
-
-				m_isShortTimerflag = false;
-			}
-
-
-
-
-			//---Exclamationmarkの表示時間管理---
-			if (m_isExclamationMark)
-			{
-				m_exclamationMarkTimer += App::GetApp()->GetElapsedTime();
-
-				if (m_exclamationMarkTimer > 0.2f)
-				{
-					auto ui = m_exclamationMarkUI;
-					if (ui)
-					{
-						ui->SetDrawActive(false);
-					}
-
-					m_isExclamationMark = false;
+					m_isInitialUpdatePeriod = false;
 				}
 			}
 
 			if (pause->IsPlaying())
 			{
 				auto gameObjectVec = GetGameObjectVec();
-				// 時計の各パーツのポインタを取得
-				auto clockFrame = m_timerClockFrameUI.lock();
-				auto clockFace = m_timerClockFaceUI.lock();
-				auto clockHand = m_timerSecHandUI.lock();
 				for (auto obj : gameObjectVec)
 				{
-					if (m_isTimerflag)
+					if (m_isInitialUpdatePeriod)
 					{
-
-					    if (m_isShortTimerflag)
-					    {
-						    if (dynamic_pointer_cast<Player>(obj) &&
-						    	dynamic_pointer_cast<Enemy>(obj))
-						    {
-						    	obj->SetUpdateActive(true);
-						    }
-					    }
-						else if (dynamic_pointer_cast<Box>(obj))
+						if (dynamic_pointer_cast<Player>(obj) &&
+							dynamic_pointer_cast<Enemy>(obj))
 						{
 							obj->SetUpdateActive(true);
 						}
-						else if (dynamic_pointer_cast<PauseManager>(obj))
-						{
-							obj->SetUpdateActive(true);
-						}
-						else if (dynamic_pointer_cast<ShadowDrawer>(obj))
-						{
-							obj->SetUpdateActive(true);
-						}
-						else if (dynamic_pointer_cast<OpeningCamera>(obj))
-						{
-							obj->SetUpdateActive(true);
-						}
-						else if (dynamic_pointer_cast<OpeningCameraman>(obj))
-						{
-							obj->SetUpdateActive(true);
-						}
-						else
-						{
-							obj->SetUpdateActive(false);
-						}
-
-						// 全てのパーツが存在すれば、表示して回転させる
-						if (clockFrame && clockFace && clockHand)
-						{
-							// UIを表示状態にする
-							clockFrame->SetDrawActive(true);
-							clockFace->SetDrawActive(true);
-							clockHand->SetDrawActive(true);
-							// 秒針の回転角度を計算
-							float totalDuration = 32.0f;
-							// 現在の時間の進捗率 (0.0 ～ 1.0) を計算
-							float progress = m_isTimer / totalDuration;
-							// 時計回りなのでマイナス方向
-							float rotationAngleZ_degrees = -360.0f * progress;
-							// ラジアンに変換
-							float rotationAngleZ_radians = XMConvertToRadians(rotationAngleZ_degrees);
-							// 秒針のTransformを取得して回転を設定
-							auto handTransform = clockHand->GetComponent<Transform>();
-							if (handTransform) 
-							{
-								handTransform->SetRotation(Vec3(0.0f, 0.0f, rotationAngleZ_radians));
-							}
-
-						}
+					}
+					else if (dynamic_pointer_cast<Box>(obj))
+					{
+						obj->SetUpdateActive(true);
+					}
+					else if (dynamic_pointer_cast<PauseManager>(obj))
+					{
+						obj->SetUpdateActive(true);
+					}
+					else if (dynamic_pointer_cast<ShadowDrawer>(obj))
+					{
+						obj->SetUpdateActive(true);
+					}
+					else if (dynamic_pointer_cast<OpeningCamera>(obj))
+					{
+						obj->SetUpdateActive(true);
+					}
+					else if (dynamic_pointer_cast<OpeningCameraman>(obj))
+					{
+						obj->SetUpdateActive(true);
 					}
 					else
 					{
-						// 時間切れになったら時計を非表示にする (オプション)
-						if (auto clockHand = m_timerSecHandUI.lock()) clockHand->SetDrawActive(false);
-						if (auto clockFace = m_timerClockFaceUI.lock()) clockFace->SetDrawActive(false);
-						if (auto clockFrame = m_timerClockFrameUI.lock()) clockFrame->SetDrawActive(false);
+						obj->SetUpdateActive(false);
 					}
 				}
 
@@ -1337,8 +1201,8 @@ namespace basecross {
 					return;
 				}
 
-				// Bボタン、もしくは制限時間オーバーでPhase2(GameStart)へ
-				if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B || m_isTimerflag == false)
+				// BボタンでPhase2(GameStart)へ
+				if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B)
 				{
 					ptrXA->Start(L"Bbutton", 0, volumeSE);
 
@@ -1346,7 +1210,7 @@ namespace basecross {
 
 					SetView(m_mainView);
 
-					currentPhase = GamePhase::Phase2;
+					currentPhase = GamePhase3::Phase2;
 
 					//auto UI = m_gameStageUI[0].lock();
 					auto UI_A = m_gameStageUI[0].lock();
@@ -1360,12 +1224,7 @@ namespace basecross {
 					phase2UI->SetDrawActive(true);
 					boxPointer->SetDrawActive(false);
 
-					// Phase2 になったら時計を非表示にする
-					if (auto clockHand = m_timerSecHandUI.lock()) clockHand->SetDrawActive(false);
-					if (auto clockFace = m_timerClockFaceUI.lock()) clockFace->SetDrawActive(false);
-					if (auto clockFrame = m_timerClockFrameUI.lock()) clockFrame->SetDrawActive(false);
-
-					if (currentPhase == GamePhase::Phase2)
+					if (currentPhase == GamePhase3::Phase2)
 					{
 						auto gameObjectVec = GetGameObjectVec();
 						for (auto obj : gameObjectVec)
@@ -1386,5 +1245,5 @@ namespace basecross {
 		}
 	}
 }
-	
+
 //end basecross
