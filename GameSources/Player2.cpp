@@ -277,7 +277,7 @@ namespace basecross
 
 		if (m_isAir == false)
 		{
-			m_velocity.y = 3.0f; // ジャンプの初速を与える
+			m_velocity.y = 5.0f; // ジャンプの初速を与える
 			m_isAir = true; // ジャンプしたので空中状態にする
 			ptrXA->Start(L"Jump", 0, 0.5f);
 
