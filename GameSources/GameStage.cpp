@@ -1229,7 +1229,12 @@ namespace basecross
 				return;
 			}
 
+			//キーボードUIの表示
 			KeyboardUIDraw();
+			//フェーズ２の時のUIだけ非表示
+			auto stagesr = m_gameStageUI_Key[3].lock();
+			stagesr->SetDrawActive(false);
+
 
 			// ---phase1の時間制限のタイマー処理---
 			if (m_isTimerflag)
@@ -1354,12 +1359,13 @@ namespace basecross
 
 						currentPhase = GamePhase::Phase2;
 
+						//UIの非表示
 						NotUIDraw();
+						//ジャンプのUIだけ表示する
 						auto KeyboardUI = m_gameStageUI_Key[3].lock();
 						KeyboardUI->SetDrawActive(true);
 						KeyboardUI->SetPosition(540.0f, -360.0f, 0);
 					}
-
 
 
 
