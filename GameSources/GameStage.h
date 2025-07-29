@@ -91,6 +91,7 @@ namespace basecross {
 		std::weak_ptr<SettingStage> m_settingStage;//セッティングステージへの参照
 		std::vector<std::weak_ptr<GameStageUI>> m_gameStageUI;//UIスプライトへの参照
 		std::vector<std::weak_ptr<GameStageUI>> m_gameStageUI_Key;//UIスプライトへの参照
+		std::weak_ptr<GameStageUI> m_stageUI;//ステージUIスプライトへの参照
 
 		std::weak_ptr<GameStagePointerUI> m_ase;//UIスプライトへの参照
 

@@ -611,12 +611,11 @@ namespace basecross
 			phase2UI_A->SetDrawActive(false);
 			m_gameStageUI.push_back(phase2UI_A);
 
-			auto stage = AddGameObject<GameStageUI>();
+			m_stageUI = AddGameObject<GameStageUI>();
+			auto stage = m_stageUI.lock();
 			stage->SetTexture(L"TEX_STAGE1");
 			stage->SetPosition(0, 0, 0);
 			stage->SetScale(2.0f, 2.0f, 1.0f);
-			m_gameStageUI.push_back(stage);
-
 
 
 			//キーボードUI
@@ -853,7 +852,7 @@ namespace basecross
 		if (m_isStageFadingOut)
 		{
 			//スプライトが有効で、まだ表示されていたら
-			auto stageSpr = m_gameStageUI[4].lock();
+			auto stageSpr = m_stageUI.lock();
 
 			if (stageSpr && stageSpr->IsDrawActive())
 			{
