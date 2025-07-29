@@ -587,21 +587,21 @@ namespace basecross
 			phase1UI_A->SetTexture(L"TEX_phase1UI_A");
 			phase1UI_A->SetPosition(535.0f, -280.0f, 0);
 			phase1UI_A->SetScale(0.5f, 0.4f, 1.0f);
-			phase1UI_A->SetDrawActive(false);
+			phase1UI_A->SetDrawActive(true);
 			m_gameStageUI.push_back(phase1UI_A);
 
 			auto phase1UI_B = AddGameObject<GameStageUI>();
 			phase1UI_B->SetTexture(L"TEX_phase1UI_B");
 			phase1UI_B->SetPosition(530.0f, -200.0f, 0);
 			phase1UI_B->SetScale(0.5f, 0.4f, 1.0f);
-			phase1UI_B->SetDrawActive(false);
+			phase1UI_B->SetDrawActive(true);
 			m_gameStageUI.push_back(phase1UI_B);
 
 			auto phase1UI_light = AddGameObject<GameStageUI>();
 			phase1UI_light->SetTexture(L"TEX_phase1UI_light");
 			phase1UI_light->SetPosition(540.0f, -360.0f, 0);
 			phase1UI_light->SetScale(0.5f, 0.4f, 1.0f);
-			phase1UI_light->SetDrawActive(false);
+			phase1UI_light->SetDrawActive(true);
 			m_gameStageUI.push_back(phase1UI_light);
 
 			auto phase2UI_A = AddGameObject<GameStageUI>();
@@ -624,18 +624,21 @@ namespace basecross
 			phase1UI_A_Key->SetTexture(L"TEX_phase1UI_A_Keyboard");
 			phase1UI_A_Key->SetPosition(535.0f, -280.0f, 0);
 			phase1UI_A_Key->SetScale(0.5f, 0.4f, 1.0f);
+			phase1UI_A_Key->SetDrawActive(false);
 			m_gameStageUI_Key.push_back(phase1UI_A_Key);
 
 			auto phase1UI_B_Key = AddGameObject<GameStageUI>();
 			phase1UI_B_Key->SetTexture(L"TEX_phase1UI_B_Keyboard");
 			phase1UI_B_Key->SetPosition(530.0f, -200.0f, 0);
 			phase1UI_B_Key->SetScale(0.5f, 0.4f, 1.0f);
+			phase1UI_B_Key->SetDrawActive(false);
 			m_gameStageUI_Key.push_back(phase1UI_B_Key);
 
 			auto phase1UI_light_Key = AddGameObject<GameStageUI>();
 			phase1UI_light_Key->SetTexture(L"TEX_phase1UI_light_Keyboard");
 			phase1UI_light_Key->SetPosition(540.0f, -360.0f, 0);
 			phase1UI_light_Key->SetScale(0.5f, 0.4f, 1.0f);
+			phase1UI_light_Key->SetDrawActive(false);
 			m_gameStageUI_Key.push_back(phase1UI_light_Key);
 
 			auto phase2UI_A_Key = AddGameObject<GameStageUI>();
@@ -1243,10 +1246,10 @@ namespace basecross
 				return;
 			}
 
-			//キーボードUIの表示
-			KeyboardUIDraw();
+			//コントローラUIの表示
+			CntlUIDraw();
 			//フェーズ２の時のUIだけ非表示
-			auto stagesr = m_gameStageUI_Key[3].lock();
+			auto stagesr = m_gameStageUI[3].lock();
 			stagesr->SetDrawActive(false);
 
 
@@ -1371,9 +1374,9 @@ namespace basecross
 				//UIの非表示
 				NotUIDraw();
 				//ジャンプのUIだけ表示する
-				auto KeyboardUI = m_gameStageUI_Key[3].lock();
-				KeyboardUI->SetDrawActive(true);
-				KeyboardUI->SetPosition(540.0f, -360.0f, 0);
+				auto UI = m_gameStageUI[3].lock();
+				UI->SetDrawActive(true);
+				UI->SetPosition(540.0f, -360.0f, 0);
 		    }
 
 		}

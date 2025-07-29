@@ -107,7 +107,7 @@ namespace basecross {
 
 
 			auto KeyboardStageUI = AddGameObject<GameStageUI>();
-			KeyboardStageUI->SetTexture(L"TEX_StageUI_Key");
+			KeyboardStageUI->SetTexture(L"TEX_StageUI");
 			KeyboardStageUI->SetPosition(380.0f, -300.0f, 0);
 			KeyboardStageUI->SetScale(0.5f, 0.7f, 0);
 			m_StageUI.push_back(KeyboardStageUI);

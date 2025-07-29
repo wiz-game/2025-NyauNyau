@@ -41,7 +41,7 @@ namespace basecross {
 			//スプライトオブジェクト
 			m_sprites.push_back(AddGameObject<gameClearSprite>());
 			auto button = AddGameObject<BackTitleButton>();
-			button->SetTexture(L"TEX_BACKTITLE_Key");
+			button->SetTexture(L"TEX_BACKTITLE");
 			button->SetSelected(true);
 			m_sprites.push_back(button);
 
