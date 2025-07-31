@@ -765,6 +765,7 @@ namespace basecross
 
 	void GameStage::OnUpdate()
 	{
+		Reset();
 
 		//コントローラチェックして入力があればコマンド呼び出し
 		m_InputHandler.PushHandle(GetThis<GameStage>());
@@ -1460,6 +1461,19 @@ namespace basecross
 		{
 			auto stagesr = m_gameStageUI_Key[i].lock();
 			stagesr->SetDrawActive(false);
+		}
+	}
+
+
+	void GameStage::Reset()
+	{
+		auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+		auto scene = App::GetApp()->GetScene<Scene>();
+
+
+		if (cntlVec[0].wButtons & XINPUT_GAMEPAD_BACK)
+		{
+			PostEvent(0.0f, GetThis<GameStage>(), scene, L"ToTitleStage");
 		}
 	}
 }

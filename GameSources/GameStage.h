@@ -216,6 +216,8 @@ namespace basecross {
 		void KeyboardUIDraw();
 		void NotUIDraw();
 
+		void Reset();
+
 	};
 }
 //end basecross
