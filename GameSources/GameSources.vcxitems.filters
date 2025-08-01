@@ -1,75 +1,185 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="$(MSBuildThisFileDirectory)BackTitleButton.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)BaseShadowStrategy.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Box.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)BoxShadowStrategy.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)CatWalkSprite.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Character.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Cheese.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Enemy.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)GameSprite.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Phase1Camera.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)FootprintSprite.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)gameClearSprite.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)GameOverSprite.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)GameOverStage.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)GameStageUI.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Goal.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)GoalStage.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Ground.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)PauseManager.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)PauseSprite.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)MainCamera.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Phase1.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Player.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Player2.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)ProjectBehavior.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)ProjectShader.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)RaycastLine.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Scene.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)ShadowBall.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)ShadowComponent.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)SettingStage.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)SelectStageSprite.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)ShadowFloor.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)SoundSprite.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)SpotLight.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)SelectStage.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Start.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Table.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)TestShadowBox.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)BackgroundTitleSprite.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)TitleSprite.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)TitleStratButton.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)TitleStage.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)SystemManager.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Wall.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)WinMain.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)GameStage2.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)ShadowDrawer.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)BookShelf.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)GameStagePointerUI.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)PyramidShadowStrategy.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)FadeScreen.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Opelation.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)OpelationSprite.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)OpeningCamera.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)TuskCatSprite.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Window.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)GameStage3.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)BackgroundTitleSprite.cpp">
+      <Filter>Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)BackTitleButton.cpp">
+      <Filter>UI関係</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)BaseShadowStrategy.cpp">
+      <Filter>影関係</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)BookShelf.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Box.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)BoxShadowStrategy.cpp">
+      <Filter>影関係</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CatWalkSprite.cpp">
+      <Filter>Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Character.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Cheese.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Enemy.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)FadeScreen.cpp">
+      <Filter>Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)FootprintSprite.cpp">
+      <Filter>Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)gameClearSprite.cpp">
+      <Filter>Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)GameOverSprite.cpp">
+      <Filter>Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)GameOverStage.cpp">
+      <Filter>Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)GameSprite.cpp">
+      <Filter>Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
+      <Filter>Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)GameStage2.cpp">
+      <Filter>Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)GameStage3.cpp">
+      <Filter>Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)GameStagePointerUI.cpp">
+      <Filter>UI関係</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)GameStageUI.cpp">
+      <Filter>UI関係</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Goal.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)GoalStage.cpp">
+      <Filter>Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Ground.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)MainCamera.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)OpelationSprite.cpp">
+      <Filter>Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)PauseManager.cpp">
+      <Filter>Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)PauseSprite.cpp">
+      <Filter>Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Opelation.cpp">
+      <Filter>Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)OpeningCamera.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Phase1.cpp">
+      <Filter>Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Phase1Camera.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Player.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Player2.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ProjectBehavior.cpp">
+      <Filter>元々あるやつ</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ProjectShader.cpp">
+      <Filter>元々あるやつ</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)PyramidShadowStrategy.cpp">
+      <Filter>影関係</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Scene.cpp">
+      <Filter>元々あるやつ</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)SelectStage.cpp">
+      <Filter>Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)SelectStageSprite.cpp">
+      <Filter>Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)SettingStage.cpp">
+      <Filter>Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ShadowBall.cpp">
+      <Filter>影関係</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ShadowComponent.cpp">
+      <Filter>影関係</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ShadowDrawer.cpp">
+      <Filter>影関係</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ShadowFloor.cpp">
+      <Filter>影関係</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Start.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)SoundSprite.cpp">
+      <Filter>Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Table.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)TestShadowBox.cpp">
+      <Filter>影関係</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)TitleSprite.cpp">
+      <Filter>Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)TitleStage.cpp">
+      <Filter>Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)SpotLight.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)TitleStratButton.cpp">
+      <Filter>UI関係</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Wall.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)TuskCatSprite.cpp">
+      <Filter>Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Window.cpp">
+      <Filter>元々あるやつ</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)WinMain.cpp">
+      <Filter>元々あるやつ</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)RaycastLine.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)SystemManager.cpp">
+      <Filter>Stage</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="$(MSBuildThisFileDirectory)BackTitleButton.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)BaseShadowStrategy.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Box.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)BoxShadowStrategy.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)CatwalkSprite.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Table.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)GameStage2.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)GameSprite.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BackTitleButton.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BaseShadowStrategy.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Box.h" />
@@ -80,17 +190,184 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Table.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GameStage2.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)ShadowDrawer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GameSprite.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)GameStagePointerUI.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)PyramidShadowStrategy.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)FadeScreen.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Opelation.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)OpelationSprite.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)OpeningCamera.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)TuskCatSprite.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Window.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)GameStage3.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)BackgroundTitleSprite.h">
+      <Filter>Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)BackTitleButton.h">
+      <Filter>UI関係</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)BaseShadowStrategy.h">
+      <Filter>影関係</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)BookShelf.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Box.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)BoxShadowStrategy.h">
+      <Filter>影関係</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CatwalkSprite.h">
+      <Filter>Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Character.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Cheese.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Enemy.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)FadeScreen.h">
+      <Filter>Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)FootprintSprite.h">
+      <Filter>Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)gameClearSprite.h">
+      <Filter>Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameOverSprite.h">
+      <Filter>Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameOverStage.h">
+      <Filter>Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameSprite.h">
+      <Filter>Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameStage.h">
+      <Filter>Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameStage2.h">
+      <Filter>Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameStage3.h">
+      <Filter>Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameStagePointerUI.h">
+      <Filter>UI関係</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameStageUI.h">
+      <Filter>UI関係</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Goal.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)GoalStage.h">
+      <Filter>Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Ground.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)MainCamera.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)OpelationSprite.h">
+      <Filter>Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)PauseManager.h">
+      <Filter>Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)PauseSprite.h">
+      <Filter>Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Opelation.h">
+      <Filter>Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)OpeningCamera.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Phase1.h">
+      <Filter>Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Phase1Camera.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Player.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Player2.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Project.h">
+      <Filter>元々あるやつ</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ProjectBehavior.h">
+      <Filter>元々あるやつ</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ProjectShader.h">
+      <Filter>元々あるやつ</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)PyramidShadowStrategy.h">
+      <Filter>影関係</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Scene.h">
+      <Filter>元々あるやつ</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SelectStage.h">
+      <Filter>Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SelectStageSprite.h">
+      <Filter>Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SettingStage.h">
+      <Filter>Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ShadowBall.h">
+      <Filter>影関係</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ShadowComponent.h">
+      <Filter>影関係</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ShadowDrawer.h">
+      <Filter>影関係</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ShadowFloor.h">
+      <Filter>影関係</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Start.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SoundSprite.h">
+      <Filter>Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Table.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TestShadowBox.h">
+      <Filter>影関係</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TitleSprite.h">
+      <Filter>Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TitleStage.h">
+      <Filter>Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SpotLight.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TitleStratButton.h">
+      <Filter>UI関係</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Wall.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TuskCatSprite.h">
+      <Filter>Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Window.h">
+      <Filter>元々あるやつ</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)RaycastLine.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SystemManager.h">
+      <Filter>Stage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Character.cpp">
@@ -155,48 +432,27 @@
       <Filter>Katono_Stage</Filter>
     </ClCompile>
     <ClInclude Include="$(MSBuildThisFileDirectory)Box.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Character.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Enemy.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GameSprite.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Phase1Camera.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)FootprintSprite.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)gameClearSprite.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Cheese.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)GameOverSprite.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)GameOverStage.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)GameStage.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)GameStageUI.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Goal.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)GoalStage.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Ground.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)MainCamera.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)PauseManager.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Phase1.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)PauseSprite.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Player.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Player2.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Project.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)ProjectBehavior.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)ProjectShader.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)RaycastLine.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Scene.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)ShadowBall.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)ShadowComponent.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)SettingStage.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)SelectStageSprite.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)ShadowFloor.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)SoundSprite.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)SpotLight.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)SelectStage.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Start.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Table.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)TestShadowBox.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)BackgroundTitleSprite.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)TitleSprite.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)TitleStratButton.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)TitleStage.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)SystemManager.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Wall.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)BookShelf.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="GameObject">
+      <UniqueIdentifier>{1134a168-5211-4f02-862b-d4372688cca4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sprite">
+      <UniqueIdentifier>{03cbe96a-6568-425a-9f15-a7c27aa14d6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI関係">
+      <UniqueIdentifier>{cfb9a615-fff1-43ca-8353-afb09b23c144}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="影関係">
+      <UniqueIdentifier>{6b07c075-6b8f-4c74-8445-4b1c76a8eae4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Stage">
+      <UniqueIdentifier>{82865a31-c9ad-4eba-ad4c-e89a5d36c4c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="元々あるやつ">
+      <UniqueIdentifier>{abb5b233-4b9e-49e5-82e5-6bab0bd0197b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>
