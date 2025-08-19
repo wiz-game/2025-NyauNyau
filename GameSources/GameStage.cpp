@@ -9,6 +9,7 @@
 
 #include "ShadowDrawer.h"
 #include "RaycastLine.h"
+#include "SpotLight Of Effect.h"
 namespace basecross 
 {
 
@@ -750,6 +751,23 @@ namespace basecross
 			isTimerSoundFlag = true;
 
 
+			// オーラエフェクト（２つのオーラの大きさとアニメーションスピードを変えて重ねて表現）
+			SpotLightOfEffect::InitParams params; // オーラエフェクトに渡すパラメータをまとめた構造体（BaseCrossはAddGameObjectの際、引数が分かりづらいのでまとめると良い）
+			params.textureKey = L"line";//テクスチャ
+			params.sides = 30;			//面の数
+			params.height = 1.0f;		//筒の高さ
+			params.topRadius = 1.0f;	//筒の上のわっかの半径
+			params.bottomRadius = 1.0f; //下のわっかの半径
+			params.topColor = Col4(0.0f, 1.0f, 0.0f, 0.0f);		//上の方の色
+			params.bottomColor = Col4(0.5f, 1.0f, 0.0f, 1.0f);	//下の方の色
+			params.uvOffsetSpeed = Vec2(0.1f, 0.0f);			//アニメーションの速さ(テクスチャをずらす)
+			params.textureLoops = 1.0f;							//テクスチャのループ
+			AddGameObject<SpotLightOfEffect>(params); // 1つ目のオーラ
+
+			// ライト的なエフェクト
+			auto light = AddGameObject<SpotLightOfEffect>(SpotLightOfEffect::InitParams(L"line", 30, 0.0f, 0.0f, 5.0f, Col4(1.0f, 1.0f, 1.0f, 1.0f), Col4(0.2f, 0.2f, 0.2f, 0.0f), Vec2(0.0f)));
+			light->GetComponent<Transform>()->SetPosition(Vec3(10.0f, 11.2f, -30.0f));
+
 		}
 		catch (...) 
 		{
@@ -1095,6 +1113,7 @@ namespace basecross
 		app->RegisterTexture(L"TEX_phase1UI_B_Keyboard", texPath + L"phase1UI_B_Keyboard.png");
 		app->RegisterTexture(L"TEX_phase1UI_light_Keyboard", texPath + L"phase1.2UI_light_Keyboard.png");
 		app->RegisterTexture(L"TEX_phase2UI_A_Keyboard", texPath + L"phase2UI_A_Keyboard.png");
+		app->RegisterTexture(L"line", texPath + L"line.png"); // 画像ファイルを読み込んでアセットとして登録する
 
 
 	}

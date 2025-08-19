@@ -178,6 +178,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)SystemManager.cpp">
       <Filter>Stage</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)SpotLight Of Effect.cpp">
+      <Filter>Sprite</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)BackTitleButton.h" />
@@ -367,6 +370,9 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)SystemManager.h">
       <Filter>Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SpotLight Of Effect.h">
+      <Filter>Sprite</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

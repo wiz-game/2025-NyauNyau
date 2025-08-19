@@ -60,6 +60,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SelectStageSprite.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ShadowFloor.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SoundSprite.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SpotLight Of Effect.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SpotLight.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SelectStage.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Start.h" />
@@ -120,6 +121,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)SelectStageSprite.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ShadowFloor.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SoundSprite.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SpotLight Of Effect.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SpotLight.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SelectStage.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Start.cpp" />

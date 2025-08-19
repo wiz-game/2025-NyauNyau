@@ -1,6 +1,6 @@
 /*!
 @file BackgroundTitleSprite.h
-@brief ƒ^ƒCƒgƒ‹–¼‚È‚Ç
+@brief 
 */
 
 #pragma once
