@@ -183,16 +183,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="$(MSBuildThisFileDirectory)BackTitleButton.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)BaseShadowStrategy.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Box.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)BoxShadowStrategy.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)CatwalkSprite.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GameSprite.h">
       <Filter>Sprite</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Table.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)GameStage2.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GameSprite.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BackgroundTitleSprite.h">
       <Filter>Sprite</Filter>
@@ -373,6 +366,27 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)SpotLight Of Effect.h">
       <Filter>Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)BackTitleButton.h">
+      <Filter>UI関係</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)BaseShadowStrategy.h">
+      <Filter>影関係</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Box.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)BoxShadowStrategy.h">
+      <Filter>影関係</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CatwalkSprite.h">
+      <Filter>Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameStage2.h">
+      <Filter>Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Table.h">
+      <Filter>GameObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
