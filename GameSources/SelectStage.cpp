@@ -198,38 +198,14 @@ namespace basecross {
 							m_once = true;
 							break;
 						case 1:
-							m_ComingSoon->SetDrawActive(true);
-							loading->SetDrawActive(false);
-							if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A && !m_OnPush)
-							{
-							//PostEvent(3.0f, GetThis<SelectStage>(), PtrScene, L"ToGameStage2");
-								PostEvent(5.0f, GetThis<SelectStage>(), PtrScene, L"ToSelectStage");
-								m_OnPush = true;
-								m_StageNum = 0;
-							}
-							else
-							{
-								m_OnPush = false;
-							}
-
+							PostEvent(3.0f, GetThis<SelectStage>(), PtrScene, L"ToGameStage2");
 							m_once = true;
+							m_StageNum = 0;
 							break;
 						case 2:
-							m_ComingSoon->SetDrawActive(true);
-							loading->SetDrawActive(false);
-							if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A && !m_OnPush)
-							{
-								//PostEvent(3.0f, GetThis<SelectStage>(), PtrScene, L"ToGameStage2");
-								PostEvent(5.0f, GetThis<SelectStage>(), PtrScene, L"ToSelectStage");
-								m_OnPush = true;
-								m_StageNum = 0;
-							}
-							else
-							{
-								m_OnPush = false;
-							}
-							//PostEvent(3.0f, GetThis<SelectStage>(), PtrScene, L"ToGameStage3");
+							PostEvent(3.0f, GetThis<SelectStage>(), PtrScene, L"ToGameStage3");
 							m_once = true;
+							m_StageNum = 0;
 							break;
 
 						default:

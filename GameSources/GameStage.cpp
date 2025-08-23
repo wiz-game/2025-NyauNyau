@@ -651,7 +651,7 @@ namespace basecross
 
 			
 
-			//プレイヤーに追尾するアセェ
+			//プレイヤーに追尾する汗
 			auto playerObject = GetSharedGameObject<Player>(L"Player_0");
 			m_ase = AddGameObject<GameStagePointerUI>();
 			auto ase = m_ase.lock();
@@ -1114,8 +1114,6 @@ namespace basecross
 		app->RegisterTexture(L"TEX_phase1UI_light_Keyboard", texPath + L"phase1.2UI_light_Keyboard.png");
 		app->RegisterTexture(L"TEX_phase2UI_A_Keyboard", texPath + L"phase2UI_A_Keyboard.png");
 		app->RegisterTexture(L"line", texPath + L"line.png"); // 画像ファイルを読み込んでアセットとして登録する
-
-
 	}
 
 	void GameStage::LoadModels()

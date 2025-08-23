@@ -181,11 +181,25 @@ namespace basecross {
 				auto volumeSE = scene->m_volumeSE;
 				auto ptrXA = App::GetApp()->GetXAudio2Manager();
 				m_SE = ptrXA->Start(L"button_SE", 0, volumeSE);
+								
+				auto stageNum = scene->GetStageNum();
+
 				switch (m_SpriteNum)
 				{
 				case 0://リスタート
 
-					PostEvent(0.5f, GetThis<PauseManager>(), scene, L"ToGameStage");
+					if (stageNum == 0)
+					{
+						PostEvent(0.7f, GetThis<PauseManager>(), scene, L"ToGameStage");
+					}
+					else if (stageNum == 1)
+					{
+						PostEvent(0.7f, GetThis<PauseManager>(), scene, L"ToGameStage2");
+					}
+					else if (stageNum == 2)
+					{
+						PostEvent(0.7f, GetThis<PauseManager>(), scene, L"ToGameStage3");
+					}
 					return;
 
 				case 1://タイトル

@@ -27,6 +27,7 @@ namespace basecross {
 
 	enum class GamePhase3
 	{
+		Phase0,
 		Phase1,   //Box のみ操作可能なフェーズ
 		Phase2,   //全オブジェクトが動作開始するフェーズ
 
@@ -89,6 +90,8 @@ namespace basecross {
 		std::weak_ptr<PauseManager> m_pauseManager;//ポーズマネージャーへの参照
 		std::weak_ptr<SettingStage> m_settingStage;//セッティングステージへの参照
 		std::vector<std::weak_ptr<GameStageUI>> m_gameStageUI;//UIスプライトへの参照
+		std::weak_ptr<GameStageUI> m_stageUI;//ステージUIスプライトへの参照
+
 		std::weak_ptr<GameStagePointerUI> m_ase;//UIスプライトへの参照
 
 		//入力ハンドラー
@@ -100,7 +103,7 @@ namespace basecross {
 		shared_ptr<SingleView> m_phase1View;
 		shared_ptr<SingleView> m_OpeningCameraView;
 
-		GamePhase3 currentPhase = GamePhase3::Phase1; // 最初に設定されているPhase
+		GamePhase3 currentPhase = GamePhase3::Phase0; // 最初に設定されているPhase
 
 		// ステージ上に存在する、プレイヤーが操作できるBoxオブジェクトのリスト
 		std::vector<std::shared_ptr<Box>> m_controllableBoxes;
@@ -129,12 +132,35 @@ namespace basecross {
 
 		CameraSelect3 m_CameraSelect;
 
-		float m_initialUpdateTimer; // 最初の数秒間を計るためのタイマー
-		bool m_isInitialUpdatePeriod; // 最初の数秒間の間かを示すフラグ
+		float m_isTimer; // phase1の時間制限を計るためのタイマー
+		bool m_isTimerflag; // タイマーの間かを示すフラグ
+
+		float m_isShortTimer; // 最初の数秒間を計るためのタイマー
+		bool m_isShortTimerflag; // 最初の数秒間の間かを示すフラグ
 
 		weak_ptr<FadeScreen> m_fadeScreen;
 		//ゲームオーバーフラグ
 		bool m_isGameOver = false;
+
+		// タイマー時計用のUIオブジェクト 
+		std::weak_ptr<GameStageUI> m_timerClockFrameUI;  // 時計の外枠
+		std::weak_ptr<GameStageUI> m_timerClockFaceUI;   // 時計の文字盤（中）
+		std::weak_ptr<GameStageUI> m_timerSecHandUI;   // 時計の秒針
+
+		bool isTimerSoundFlag;
+
+		shared_ptr<SoundItem> m_TimerSound;
+
+		//shared_ptr<GameStageUI> m_exclamationMarkUI; // Exclamation markUIへのポインタ  
+		//bool m_isExclamationMarkActive; // Exclamation markが表示されているか           
+
+		// Exclamation markの表示制御用に追加  //
+		//bool m_isExclamationMark;    // Exclamation markが表示中かを示すフラグ       
+		//float m_exclamationMarkTimer;   // Exclamation markの表示時間を計るタイマー  
+
+		bool CntlUIDrawing;//コントローラUIが表示されているかどうか
+		bool CntlCheck;//コントロールが接続されているかどうか
+
 
 	public:
 		//構築と破棄
@@ -144,7 +170,9 @@ namespace basecross {
 			m_isStageFadingOut(false),
 			m_fadeTimer(0.0f),
 			m_filterFadeTimer(0.0f),
-			m_lastNotifiedIndex(-2)
+			m_lastNotifiedIndex(-2),
+			CntlUIDrawing(false),
+			CntlCheck(false)
 		{}
 		virtual ~GameStage3() {}
 
@@ -183,6 +211,11 @@ namespace basecross {
 
 		void OnPlayerCollision(shared_ptr<GameObject> player, shared_ptr<GameObject> other);
 		void StartGameOver();
+
+		void CntlUIDraw();
+		void NotUIDraw();
+
+		void Reset();
 
 	};
 }

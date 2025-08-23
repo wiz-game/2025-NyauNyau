@@ -9,6 +9,7 @@
 
 #include "ShadowDrawer.h"
 #include "RaycastLine.h"
+#include "SpotLight Of Effect.h"
 namespace basecross {
 
 	//--------------------------------------------------------------------------------------
@@ -586,22 +587,26 @@ namespace basecross {
 			//UI->SetScale(2.0f, 1.0f, 1.0f);
 			//m_gameStageUI.push_back(UI);
 
+			//コントローラUI
 			auto phase1UI_A = AddGameObject<GameStageUI>();
 			phase1UI_A->SetTexture(L"TEX_phase1UI_A");
 			phase1UI_A->SetPosition(535.0f, -280.0f, 0);
 			phase1UI_A->SetScale(0.5f, 0.4f, 1.0f);
+			phase1UI_A->SetDrawActive(true);
 			m_gameStageUI.push_back(phase1UI_A);
 
 			auto phase1UI_B = AddGameObject<GameStageUI>();
 			phase1UI_B->SetTexture(L"TEX_phase1UI_B");
 			phase1UI_B->SetPosition(530.0f, -200.0f, 0);
 			phase1UI_B->SetScale(0.5f, 0.4f, 1.0f);
+			phase1UI_B->SetDrawActive(true);
 			m_gameStageUI.push_back(phase1UI_B);
 
 			auto phase1UI_light = AddGameObject<GameStageUI>();
 			phase1UI_light->SetTexture(L"TEX_phase1UI_light");
 			phase1UI_light->SetPosition(540.0f, -360.0f, 0);
 			phase1UI_light->SetScale(0.5f, 0.4f, 1.0f);
+			phase1UI_light->SetDrawActive(true);
 			m_gameStageUI.push_back(phase1UI_light);
 
 			auto phase2UI_A = AddGameObject<GameStageUI>();
@@ -611,11 +616,11 @@ namespace basecross {
 			phase2UI_A->SetDrawActive(false);
 			m_gameStageUI.push_back(phase2UI_A);
 
-			auto stage = AddGameObject<GameStageUI>();
+			m_stageUI = AddGameObject<GameStageUI>();
+			auto stage = m_stageUI.lock();
 			stage->SetTexture(L"TEX_STAGE3");
 			stage->SetPosition(0, 0, 0);
 			stage->SetScale(2.0f, 2.0f, 1.0f);
-			m_gameStageUI.push_back(stage);
 
 			//プレイヤーに追尾するアセェ
 			auto playerObject = GetSharedGameObject<Player>(L"Player_0");
@@ -625,6 +630,7 @@ namespace basecross {
 			ase->SetPosition(0, 0, 0);
 			ase->SetScale(0.8f, 0.8f, 1.0f);
 			ase->SetTargetPlayer(playerObject);
+
 
 
 			m_selectionPointerUI = AddGameObject<GameStagePointerUI>();
@@ -662,9 +668,78 @@ namespace basecross {
 			}
 
 
-			// --- タイマーの初期化 ---
-			m_initialUpdateTimer = 0.0f;     // タイマーを0にリセット
-			m_isInitialUpdatePeriod = true;  // ゲーム開始直後なので、初期期間フラグをtrueに
+			// ---phase1の時間制限タイマーの初期化---
+			m_isTimer = 0.0f;
+			m_isTimerflag = true;
+
+			// --- 最初の2秒間のタイマーの初期化 ---
+			m_isShortTimer = 0.0f;     // タイマーを0にリセット
+			m_isShortTimerflag = true;  // ゲーム開始直後なので、初期期間フラグをtrueに
+
+			//タイマー時計UIの生成
+			Vec2 clockPosition = Vec2(0.0f, 290.0f); // 時計を表示する位置
+			// 時計の外枠のスケール
+			float TimerFrameScaleX = 0.5f;
+			float TimerFrameScaleY = 0.8f;
+			//時計の文字盤（中）のスケール
+			float TimerClockFaceScaleX = 0.5f;
+			float TimerClockFaceScaleY = 0.8f;
+			//時計の秒針のスケール
+			float TimerSecHandScaleX = 0.5f;
+			float TimerSecHandScaleY = 0.68f;
+
+			// 時計の外枠
+			auto clockFrame = AddGameObject<GameStageUI>();
+			clockFrame->SetTexture(L"TEX_TimerFrame");
+			clockFrame->SetPosition(clockPosition.x, clockPosition.y, 0.2f);
+			clockFrame->SetScale(TimerFrameScaleX, TimerFrameScaleY, 1.0f);
+			m_timerClockFrameUI = clockFrame;
+
+			// 時計の文字盤
+			auto clockFace = AddGameObject<GameStageUI>();
+			clockFace->SetTexture(L"TEX_TimerClockFace");
+			clockFace->SetPosition(clockPosition.x, clockPosition.y, 0.3f);
+			clockFace->SetScale(TimerClockFaceScaleX, TimerClockFaceScaleY, 1.0f);
+			m_timerClockFaceUI = clockFace;
+
+			// 時計の秒針 
+			auto clockHand = AddGameObject<GameStageUI>();
+			clockHand->SetTexture(L"TEX_TimerSecHand");
+			clockHand->SetPosition(clockPosition.x, clockPosition.y, 0.2f);
+			clockHand->SetScale(TimerSecHandScaleX, TimerSecHandScaleY, 1.0f);
+			m_timerSecHandUI = clockHand;
+
+			//秒針のピボットを設定（画像の下の部分が中心になるようにする）
+			auto sechandTransform = clockHand->GetComponent<Transform>();
+			if (sechandTransform)
+			{
+				sechandTransform->SetPivot(Vec3(0.0f, -0.5f, 0.0f)); // Y軸方向にピボットをずらす
+			}
+
+			//タイマー
+			clockFrame->SetDrawActive(false);
+			clockFace->SetDrawActive(false);
+			clockHand->SetDrawActive(false);
+
+			isTimerSoundFlag = true;
+
+
+			// オーラエフェクト（２つのオーラの大きさとアニメーションスピードを変えて重ねて表現）
+			SpotLightOfEffect::InitParams params; // オーラエフェクトに渡すパラメータをまとめた構造体（BaseCrossはAddGameObjectの際、引数が分かりづらいのでまとめると良い）
+			params.textureKey = L"line";//テクスチャ
+			params.sides = 30;			//面の数
+			params.height = 1.0f;		//筒の高さ
+			params.topRadius = 1.0f;	//筒の上のわっかの半径
+			params.bottomRadius = 1.0f; //下のわっかの半径
+			params.topColor = Col4(0.0f, 1.0f, 0.0f, 0.0f);		//上の方の色
+			params.bottomColor = Col4(0.5f, 1.0f, 0.0f, 1.0f);	//下の方の色
+			params.uvOffsetSpeed = Vec2(0.1f, 0.0f);			//アニメーションの速さ(テクスチャをずらす)
+			params.textureLoops = 1.0f;							//テクスチャのループ
+			AddGameObject<SpotLightOfEffect>(params); // 1つ目のオーラ
+
+			// ライト的なエフェクト
+			auto light = AddGameObject<SpotLightOfEffect>(SpotLightOfEffect::InitParams(L"line", 30, 0.0f, 0.0f, 5.0f, Col4(1.0f, 1.0f, 1.0f, 1.0f), Col4(0.2f, 0.2f, 0.2f, 0.0f), Vec2(0.0f)));
+			light->GetComponent<Transform>()->SetPosition(Vec3(10.0f, 11.2f, -30.0f));
 		}
 		catch (...) {
 			throw;
@@ -732,23 +807,6 @@ namespace basecross {
 				{
 					AttemptToControlSelectedBox();
 				}
-				//if (m_selectedBoxIndex != m_lastNotifiedIndex)
-				//{
-				//	//操作対象のBoxをポインターで表示
-				//	if (auto pointer = m_selectionPointerUI.lock())
-				//	{
-				//		if (m_selectedBoxIndex >= 0 && m_selectedBoxIndex < m_controllableBoxes.size())
-				//		{
-				//			pointer->SetTargetBox(m_controllableBoxes[m_selectedBoxIndex], true);
-				//		}
-				//		else 
-				//		{
-				//			pointer->SetTargetBox(nullptr, false);
-				//		}
-				//	}
-					// 最後に通知したインデックスを更新
-					//m_lastNotifiedIndex = m_selectedBoxIndex;
-				//}
 			}
 			else if (m_currentControlMode == GameControlMode3::ControlBox)
 			{
@@ -766,9 +824,9 @@ namespace basecross {
 		auto pad = device.GetControlerVec()[0];
 		auto delta = app->GetElapsedTime();
 
-		auto scene = app->GetScene<Scene>();
-		wstring log = scene->GetDebugString();
-		wstringstream wss(log);
+		//auto scene = app->GetScene<Scene>();
+		//wstring log = scene->GetDebugString();
+		//wstringstream wss(log);
 
 
 		m_Time += delta;
@@ -781,7 +839,7 @@ namespace basecross {
 		if (m_isStageFadingOut)
 		{
 			//スプライトが有効で、まだ表示されていたら
-			auto stageSpr = m_gameStageUI[4].lock();
+			auto stageSpr = m_stageUI.lock();
 
 			if (stageSpr && stageSpr->IsDrawActive())
 			{
@@ -968,49 +1026,11 @@ namespace basecross {
 
 	void GameStage3::OnPlayerCollision(shared_ptr<GameObject> player, shared_ptr<GameObject> other)
 	{
-		////すでにゲームオーバーが始まっていたら何もしない
-		//if (m_isGameOver)
-		//{
-		//	return;
-		//}
-		//// 衝突相手が地面または敵か確認
-		//if (dynamic_pointer_cast<Ground>(other) || dynamic_pointer_cast<Enemy>(other))
-		//{
-		//	// プレイヤーの isDead フラグを立てて、多重衝突を防ぐ
-		//	if (auto castedPlayer = dynamic_pointer_cast<Player>(player)) {
-		//		if (castedPlayer->IsDead()) {
-		//			return; // 既に死亡処理中なら抜ける
-		//		}
-		//		castedPlayer->SetIsDead(true); // 死亡状態にする
-		//	}
-
-		//	// ゲームオーバー処理を開始する
-		//	StartGameOver();
-		//}
-
 	}
 
 	// ゲームオーバー処理（フェードとシーン遷移）に特化した関数
 	void GameStage3::StartGameOver()
 	{
-		//if (m_isGameOver) {
-		//	return;
-		//}
-		//m_isGameOver = true;
-
-		//// サウンド再生
-		//auto ptrXA = App::GetApp()->GetXAudio2Manager();
-		//ptrXA->Start(L"Fall", 0, 0.5f);
-
-		//// フェードアウトを開始
-		//if (auto fade = m_fadeScreen.lock()) {
-		//	float fadeDuration = 1.5f;
-
-		//	fade->StartFadeOut(fadeDuration, [this]() {
-		//		auto scene = App::GetApp()->GetScene<Scene>();
-		//		PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"ToGameOverStage");
-		//		});
-		//}
 	}
 
 
@@ -1053,6 +1073,13 @@ namespace basecross {
 		app->RegisterTexture(L"TEX_phase1UI_light", texPath + L"phase1.2UI_light.png");
 		app->RegisterTexture(L"TEX_phase2UI_A", texPath + L"phase2UI_A.png");
 		app->RegisterTexture(L"TEX_BoxPointer", texPath + L"BoxPoint.png");
+		app->RegisterTexture(L"TEX_Exclamationmark", texPath + L"Exclamationmark.png");
+		app->RegisterTexture(L"TEX_TimerFrame", texPath + L"Timer.png");
+		app->RegisterTexture(L"TEX_TimerClockFace", texPath + L"WhiteCircle.png");
+		app->RegisterTexture(L"TEX_TimerSecHand", texPath + L"sechand.png");
+		//app->RegisterTexture(L"TEX_Exclamationmark", texPath + L"Exclamationmark.png");
+		app->RegisterTexture(L"TEX_Ase", texPath + L"Ase.png");
+		app->RegisterTexture(L"line", texPath + L"line.png"); // 画像ファイルを読み込んでアセットとして登録する
 
 	}
 
@@ -1136,114 +1163,272 @@ namespace basecross {
 		auto volume = scene->m_volumeBGM;
 		auto volumeSE = scene->m_volumeSE;
 		auto ptrXA = App::GetApp()->GetXAudio2Manager();
+		auto gameObjectVec = GetGameObjectVec();
 
+		// 時計の各パーツのポインタを取得
+		auto clockFrame = m_timerClockFrameUI.lock();
+		auto clockFace = m_timerClockFaceUI.lock();
+		auto clockHand = m_timerSecHandUI.lock();
+		//ポーズ
+		auto pause = m_pauseManager.lock();
 
-		if (currentPhase == GamePhase3::Phase1)
+		if (currentPhase == GamePhase3::Phase0)
 		{
-			auto pause = m_pauseManager.lock();
 			if (!pause)
 			{
 				return;
 			}
 
+			m_isShortTimer += App::GetApp()->GetElapsedTime(); //タイマーの値をプラスしていく
+
 			// --- 最初の2秒間のタイマー処理 ---
-			if (m_isInitialUpdatePeriod)
+			if (m_isShortTimerflag)
 			{
-				m_initialUpdateTimer += App::GetApp()->GetElapsedTime();
-				if (m_initialUpdateTimer > 2.0f)
+				if (pause->IsPlaying())
 				{
-					m_isInitialUpdatePeriod = false;
+
+					for (auto obj : gameObjectVec)
+					{
+						if (dynamic_pointer_cast<Player>(obj))
+						{
+							obj->SetUpdateActive(true);
+						}
+						else if (dynamic_pointer_cast<Enemy>(obj))
+						{
+							obj->SetUpdateActive(true);
+						}
+						else if (dynamic_pointer_cast<Box>(obj))
+						{
+							obj->SetUpdateActive(false);
+						}
+						else if (dynamic_pointer_cast<PauseManager>(obj))
+						{
+							obj->SetUpdateActive(true);
+						}
+						else
+						{
+							obj->SetUpdateActive(true);
+						}
+					}
+				}
+				if (m_isShortTimer >= 2.0f)
+				{
+					m_isShortTimerflag = false;
+					currentPhase = GamePhase3::Phase1;
 				}
 			}
+			//UIの非表示
+			NotUIDraw();
+		}
+
+
+		if (currentPhase == GamePhase3::Phase1)
+		{
+			if (!pause)
+			{
+				return;
+			}
+
+			//コントローラUIの表示
+			CntlUIDraw();
+			//フェーズ２の時のUIだけ非表示
+			auto stagesr = m_gameStageUI[3].lock();
+			stagesr->SetDrawActive(false);
+
+
+			// ---phase1の時間制限のタイマー処理---
+			if (m_isTimerflag)
+			{
+				m_isTimer += App::GetApp()->GetElapsedTime(); //タイマーの値をプラスしていく
+
+				if (isTimerSoundFlag)
+				{
+					if (m_isTimer >= 26.0f) //残り10秒のタイミングを知らせる効果音を流す
+					{
+						auto scene = App::GetApp()->GetScene<Scene>();
+						auto volume = scene->m_volumeBGM;
+						auto ptrXA = App::GetApp()->GetXAudio2Manager();
+						m_TimerSound = ptrXA->Start(L"Tikutaku", 0, 0.8f);
+						isTimerSoundFlag = false;
+					}
+				}
+
+				if (m_isTimer >= 36.0f) //時間制限を30秒にする
+				{
+					m_isTimerflag = false;
+				}
+			}
+
+			for (auto obj : gameObjectVec)
+			{
+				//---phase1時のオブジェクト処理---
+				if (m_isTimerflag)
+				{
+					if (pause->IsPlaying())
+					{
+
+						if (dynamic_pointer_cast<Box>(obj))
+						{
+							obj->SetUpdateActive(true);
+						}
+						else if (dynamic_pointer_cast<PauseManager>(obj))
+						{
+							obj->SetUpdateActive(true);
+						}
+						else if (dynamic_pointer_cast<ShadowDrawer>(obj))
+						{
+							obj->SetUpdateActive(true);
+						}
+						else if (dynamic_pointer_cast<OpeningCamera>(obj))
+						{
+							obj->SetUpdateActive(true);
+						}
+						else if (dynamic_pointer_cast<OpeningCameraman>(obj))
+						{
+							obj->SetUpdateActive(true);
+						}
+						else
+						{
+							obj->SetUpdateActive(false);
+						}
+					}
+
+				}
+
+			}
+
+			// タイマーを表示して秒針を回転させる
+			if (clockFrame && clockFace && clockHand)
+			{
+				if (m_isTimer >= 6.0f)
+				{
+					// UIを表示状態にする
+					clockFrame->SetDrawActive(true);
+					clockFace->SetDrawActive(true);
+					clockHand->SetDrawActive(true);
+					// 秒針の回転角度を計算(何フレーム(秒)で一周するか)
+					float totalDuration = 30.0f;
+					// 現在の時間の進捗率 (0.0 ～ 1.0) を計算
+					float progress = (m_isTimer - 6.0f) / totalDuration; // 最初のカメラ演出の秒数分をマイナスしておく
+					// 時計回りなのでマイナス方向
+					float rotationAngleZ_degrees = -360.0f * progress;
+					// ラジアンに変換
+					float rotationAngleZ_radians = XMConvertToRadians(rotationAngleZ_degrees);
+					// 秒針のTransformを取得して回転を設定
+					auto handTransform = clockHand->GetComponent<Transform>();
+					if (handTransform)
+					{
+						handTransform->SetRotation(Vec3(0.0f, 0.0f, rotationAngleZ_radians));
+					}
+				}
+			}
+			else
+			{
+				// 時間切れになったら時計を非表示にする
+				if (auto clockHand = m_timerSecHandUI.lock()) clockHand->SetDrawActive(false);
+				if (auto clockFace = m_timerClockFaceUI.lock()) clockFace->SetDrawActive(false);
+				if (auto clockFrame = m_timerClockFrameUI.lock()) clockFrame->SetDrawActive(false);
+			}
+
+			//NotUIDraw();
+			////コントローラチェックがfalesならキーボードUIを表示する
+			//if (!CntlCheck)
+			//{
+			//	//キーボードUI
+			//	auto KeyboardUI = m_gameStageUI_Key[3].lock();
+			//	KeyboardUI->SetDrawActive(true);
+			//}
+
+			//if (cntlVec[0].wPressedButtons)
+			//{
+			//コントローラUI
+			//auto UI = m_gameStageUI[3].lock();
+			//UI->SetDrawActive(true);
+
+			// Bボタン、もしくは制限時間オーバーでPhase2(GameStart)へ
+			if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B || m_isTimerflag == false)
+			{
+				ptrXA->Start(L"Bbutton", 0, volumeSE);
+
+				SetView(m_mainView);
+
+				currentPhase = GamePhase3::Phase2;
+
+				//UIの非表示
+				NotUIDraw();
+				//ジャンプのUIだけ表示する
+				auto UI = m_gameStageUI[3].lock();
+				UI->SetDrawActive(true);
+				UI->SetPosition(540.0f, -360.0f, 0);
+			}
+
+		}
+
+		if (currentPhase == GamePhase3::Phase2)
+		{
+			isTimerSoundFlag = false;
+			ptrXA->Stop(m_TimerSound);
+
+			// Phase2 になったら時計を非表示にする
+			if (auto clockHand = m_timerSecHandUI.lock()) clockHand->SetDrawActive(false);
+			if (auto clockFace = m_timerClockFaceUI.lock()) clockFace->SetDrawActive(false);
+			if (auto clockFrame = m_timerClockFrameUI.lock()) clockFrame->SetDrawActive(false);
 
 			if (pause->IsPlaying())
 			{
 				auto gameObjectVec = GetGameObjectVec();
 				for (auto obj : gameObjectVec)
 				{
-					if (m_isInitialUpdatePeriod)
-					{
-						if (dynamic_pointer_cast<Player>(obj) &&
-							dynamic_pointer_cast<Enemy>(obj))
-						{
-							obj->SetUpdateActive(true);
-						}
-					}
-					else if (dynamic_pointer_cast<Box>(obj))
-					{
-						obj->SetUpdateActive(true);
-					}
-					else if (dynamic_pointer_cast<PauseManager>(obj))
-					{
-						obj->SetUpdateActive(true);
-					}
-					else if (dynamic_pointer_cast<ShadowDrawer>(obj))
-					{
-						obj->SetUpdateActive(true);
-					}
-					else if (dynamic_pointer_cast<OpeningCamera>(obj))
-					{
-						obj->SetUpdateActive(true);
-					}
-					else if (dynamic_pointer_cast<OpeningCameraman>(obj))
-					{
-						obj->SetUpdateActive(true);
-					}
-					else
+					if (dynamic_pointer_cast<Box>(obj))
 					{
 						obj->SetUpdateActive(false);
 					}
-				}
-
-				auto pause = m_pauseManager.lock();
-				if (!pause)
-				{
-					return;
-				}
-
-				// BボタンでPhase2(GameStart)へ
-				if (cntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B)
-				{
-					ptrXA->Start(L"Bbutton", 0, volumeSE);
-
-					//ptrXA->Start(L"CatVoice", 0, volumeSE);
-
-					SetView(m_mainView);
-
-					currentPhase = GamePhase3::Phase2;
-
-					//auto UI = m_gameStageUI[0].lock();
-					auto UI_A = m_gameStageUI[0].lock();
-					auto UI_B = m_gameStageUI[1].lock();
-					auto phase2UI = m_gameStageUI[3].lock();
-					auto boxPointer = m_selectionPointerUI.lock();
-
-					//UI->SetDrawActive(false);
-					UI_A->SetDrawActive(false);
-					UI_B->SetDrawActive(false);
-					phase2UI->SetDrawActive(true);
-					boxPointer->SetDrawActive(false);
-
-					if (currentPhase == GamePhase3::Phase2)
+					else
 					{
-						auto gameObjectVec = GetGameObjectVec();
-						for (auto obj : gameObjectVec)
-						{
-							if (dynamic_pointer_cast<Box>(obj))
-							{
-								obj->SetUpdateActive(false);
-							}
-							else
-							{
-								obj->SetUpdateActive(true);
+						obj->SetUpdateActive(true);
 
-							}
-						}
 					}
 				}
 			}
 		}
+
 	}
+
+	void GameStage3::CntlUIDraw()
+	{
+		//コントローラスプライトの表示
+		for (int i = 0; i < m_gameStageUI.size(); i++)
+		{
+			auto stagesr = m_gameStageUI[i].lock();
+			stagesr->SetDrawActive(true);
+		}
+	}
+
+
+
+	void GameStage3::NotUIDraw()
+	{
+		//コントローラスプライトの表示
+		for (int i = 0; i < m_gameStageUI.size(); i++)
+		{
+			auto stagesr = m_gameStageUI[i].lock();
+			stagesr->SetDrawActive(false);
+		}
+	}
+
+
+	void GameStage3::Reset()
+	{
+		auto cntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+		auto scene = App::GetApp()->GetScene<Scene>();
+
+
+		if (cntlVec[0].wButtons & XINPUT_GAMEPAD_BACK)
+		{
+			PostEvent(0.0f, GetThis<GameStage>(), scene, L"ToTitleStage");
+		}
+	}
+
 }
 
 //end basecross
