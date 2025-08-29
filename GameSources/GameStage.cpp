@@ -762,7 +762,7 @@ namespace basecross
 			params.bottomColor = Col4(0.5f, 1.0f, 0.0f, 1.0f);	//下の方の色
 			params.uvOffsetSpeed = Vec2(0.1f, 0.0f);			//アニメーションの速さ(テクスチャをずらす)
 			params.textureLoops = 1.0f;							//テクスチャのループ
-			AddGameObject<SpotLightOfEffect>(params); // 1つ目のオーラ
+			//AddGameObject<SpotLightOfEffect>(params); // 1つ目のオーラ
 
 			// ライト的なエフェクト
 			auto light = AddGameObject<SpotLightOfEffect>(SpotLightOfEffect::InitParams(L"line", 30, 0.0f, 0.0f, 5.0f, Col4(1.0f, 1.0f, 1.0f, 1.0f), Col4(0.2f, 0.2f, 0.2f, 0.0f), Vec2(0.0f)));
