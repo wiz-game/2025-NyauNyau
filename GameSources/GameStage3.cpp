@@ -308,20 +308,20 @@ namespace basecross {
 	{
 		vector<vector<Vec3>> vec = {
 		{
-			Vec3(2.5f, 2.5f, 2.5f),
+			Vec3(1.5f, 1.5f, 1.5f),
 			Vec3(0.0f, 0.0f, 0.0f),
-			Vec3(7.0f ,11.5f, -20.0f)
+			Vec3(5.0f ,11.5f, -20.0f)
 		},
 		{
-			Vec3(5.0f, 2.5f, 2.5f),
+			Vec3(1.5f, 1.5f, 1.5f),
 			Vec3(0.0f, 0.0f, 0.0f),
-			Vec3(14.0f ,11.5f, -20.0f)
+			Vec3(10.0f ,11.5f, -20.0f)
 		},
-			//{
-			//	Vec3(2.5f, 2.5f, 2.5f),
-			//	Vec3(0.0f, 0.0f, 0.0f),
-			//	Vec3(15.0f ,11.5f, -20.0f)
-	  //      },
+		{
+			Vec3(1.5f, 1.5f, 1.5f),
+			Vec3(0.0f, 0.0f, 0.0f),
+			Vec3(15.0f ,11.5f, -20.0f)
+	     },
 
 
 		};
@@ -342,7 +342,6 @@ namespace basecross {
 			wstring uniqueName = L"MODEL_TSUMIKI" + to_wstring(index + 1);
 
 			box[index]->GetComponent<PNTBoneModelDraw>()->SetMeshResource(uniqueName);
-			index++; // 次のオブジェクトのためにインデックスを増加
 		}
 
 		// すべての `Box` を共有ゲームオブジェクトとして登録
@@ -427,9 +426,9 @@ namespace basecross {
 	void GameStage3::CreateMado()
 	{
 		vector<vector<Vec3>> vec = {
-			{  Vec3(22.0f, 26.4f, 1.0f),
+			{  Vec3(22.0f, 27.4f, 1.0f),
 				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(17.0f, 32.0f, 0.0f)
+				Vec3(17.0f, 40.0f, 0.0f)
 			},
 
 		};
@@ -739,7 +738,7 @@ namespace basecross {
 
 			// ライト的なエフェクト
 			auto light = AddGameObject<SpotLightOfEffect>(SpotLightOfEffect::InitParams(L"line", 30, 0.0f, 0.0f, 5.0f, Col4(1.0f, 1.0f, 1.0f, 1.0f), Col4(0.2f, 0.2f, 0.2f, 0.0f), Vec2(0.0f)));
-			light->GetComponent<Transform>()->SetPosition(Vec3(10.0f, 11.2f, -30.0f));
+			light->GetComponent<Transform>()->SetPosition(Vec3(18.0f, 11.2f, -30.0f));
 		}
 		catch (...) {
 			throw;
