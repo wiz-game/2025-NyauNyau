@@ -254,16 +254,23 @@ namespace basecross
 		//DrawStrings();
 
 
-		//プレイヤーが床から15.0fの場所まで来たら落ちている音を鳴らす
+		//プレイヤーが床から12.0fの場所まで来たら落ちている音を鳴らす
 		auto transform = GetComponent<Transform>()->GetPosition();
-		if (transform.y < 15.0f && !m_isFallSE)
+		auto scene = App::GetApp()->GetScene<Scene>();
+		auto volume = scene->m_volumeSE;
+		auto ptrXA = App::GetApp()->GetXAudio2Manager();
+
+		if (transform.y < 12.0f && !m_isFallSE)
 		{
-			
 			m_isFallSE = true;
-			auto scene = App::GetApp()->GetScene<Scene>();
-			auto volume = scene->m_volumeSE;
-			auto ptrXA = App::GetApp()->GetXAudio2Manager();
 			m_fallSound = ptrXA->Start(L"Fall2_SE", 0, volume);
+		}
+
+		//プレイヤーがステージ端を越えようとしたらゲームオーバーステージへ
+		if (transform.x > 80.0f)
+		{
+			PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"ToGameOverStage");
+
 		}
 	}
 
@@ -320,12 +327,6 @@ namespace basecross
 				ptrXA->Start(L"Fall", 0, volumeSE);
 				PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"ToGameOverStage");
 			}
-			// 自分が所属しているステージ（GameStage）のポインタを取得
-		//	auto stage = std::dynamic_pointer_cast<GameStage>(GetStage());
-		//	if (stage) {
-		//		// GameStageにゲームオーバー処理の開始を依頼する
-		//		stage->StartGameOver();
-		//	}
 			return;
 		}
 		else if (dynamic_pointer_cast<ShadowFloor>(Other) || dynamic_pointer_cast<BookShelf>(Other))
@@ -337,10 +338,6 @@ namespace basecross
 	}
 
 
-	//void Player::SetPlayerMove(bool Player1)
-	//{
-	//	m_Player1 = Player1;
-	//}
 
 	void Player::DrawStrings()
 	{

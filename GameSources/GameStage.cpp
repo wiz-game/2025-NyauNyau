@@ -354,52 +354,6 @@ namespace basecross
 
 	}
 
-	void GameStage::CreateShadowBall()
-	{
-		vector<vector<Vec3>> vec = {
-		{
-			Vec3(3.0f, 3.0f, 0.0f),
-			Vec3(0.0f, 0.0f, 0.0f),
-			Vec3(29.0f , 40.0f, -0.01f)
-		},
-		{
-			Vec3(3.0f, 3.0f, 0.0f),
-			Vec3(0.0f, 0.0f, 0.0f),
-			Vec3(-20.0f, 45.0f, -0.01f)
-		},
-		//{
-		//	Vec3(2.5f, 2.5f, 0.0f),
-		//	Vec3(0.0f, 0.0f, 0.0f),
-		//	Vec3(-4.0f, -4.75f, -4.0f)
-		//},
-
-
-		};
-
-		int index = 0; // ユニーク名用のインデックス
-		vector<shared_ptr<ShadowBall>> ball; // 生成した `Ball` を管理するリスト
-
-		for (auto& v : vec) 
-		{
-			auto ptrBall = AddGameObject<ShadowBall>(v[0], v[1], v[2]);
-
-			// ユニーク名を生成
-			wstring uniqueTag = L"Ball_" + to_wstring(index);
-
-			ptrBall->AddTag(uniqueTag);  // ユニークなタグを適用
-			ball.push_back(ptrBall);    // `Ball` をリストに保存
-
-			index++; // 次のオブジェクトのためにインデックスを増加
-
-		}
-
-		// すべての `Ball` を共有ゲームオブジェクトとして登録
-		for (size_t i = 0; i < ball.size(); ++i) {
-			wstring uniqueName = L"Ball_" + to_wstring(i);  // ユニーク名を生成
-			SetSharedGameObject(uniqueName, ball[i]);      // ユニーク名で共有登録
-		}
-
-	}
 
 	void GameStage::CreateTable()
 	{
@@ -448,7 +402,7 @@ namespace basecross
 			ptrWindow->AddTag(uniqueTag);  // ユニークなタグを適用
 			windows.push_back(ptrWindow);    // `Window` をリストに保存
 
-			index++; // 次のオブジェクトのためにインデックスを増加
+			//index++; // 次のオブジェクトのためにインデックスを増加
 		}
 
 		// すべての `Window` を共有ゲームオブジェクトとして登録

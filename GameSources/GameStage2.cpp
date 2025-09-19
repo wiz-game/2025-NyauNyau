@@ -92,17 +92,6 @@ namespace basecross {
 			Vec3(0.0f, 0.0f, 0.0f),
 			Vec3(0.0f, -10.0f, 0.0f)
 		},
-			//{
-			//	Vec3(20.0f, 1.0f, 8.0f),
-			//	Vec3(0.0f, 0.0f, 0.0f),
-			//	Vec3(-8.0f, -1.0f, 6.0f)
-			//},
-			//{
-			/*	Vec3(8.0f, 1.0f, 20.0f),
-				Vec3(0.0f,  0.0f, 0.0f),
-				Vec3(0.0f, -1.0f, 6.0f)*/
-
-				//}
 
 		};
 
@@ -310,18 +299,28 @@ namespace basecross {
 		{
 			Vec3(2.5f, 2.5f, 2.5f),
 			Vec3(0.0f, 0.0f, 0.0f),
-			Vec3(7.0f ,11.5f, -20.0f)
+			Vec3(2.0f ,11.5f, -20.0f)
 		},
 		{
-			Vec3(5.0f, 2.5f, 2.5f),
+			Vec3(2.0f, 5.0f, 2.5f),
 			Vec3(0.0f, 0.0f, 0.0f),
-			Vec3(14.0f ,11.5f, -20.0f)
+			Vec3(6.0f ,11.5f, -20.0f)
 		},
-			//{
-			//	Vec3(2.5f, 2.5f, 2.5f),
-			//	Vec3(0.0f, 0.0f, 0.0f),
-			//	Vec3(15.0f ,11.5f, -20.0f)
-	  //      },
+		{
+			Vec3(2.5f, 5.0f, 2.5f),
+			Vec3(0.0f, 0.0f, 0.0f),
+			Vec3(11.0f ,11.5f, -20.0f)
+		},
+		//{
+		//	Vec3(2.5f, 5.0f, 2.5f),
+		//	Vec3(0.0f, 0.0f, 0.0f),
+		//	Vec3(17.0f ,11.5f, -20.0f)
+		//},
+		{
+			Vec3(2.5f, 5.0f, 2.5f),
+			Vec3(0.0f, 0.0f, 0.0f),
+			Vec3(17.0f ,11.5f, -20.0f)
+		},
 
 
 		};
@@ -341,8 +340,15 @@ namespace basecross {
 			box.push_back(ptrBox);    // `Box` をリストに保存
 			wstring uniqueName = L"MODEL_TSUMIKI" + to_wstring(index + 1);
 
-			box[index]->GetComponent<PNTBoneModelDraw>()->SetMeshResource(uniqueName);
-			index++; // 次のオブジェクトのためにインデックスを増加
+			if (index <= 1)
+			{
+				box[index]->GetComponent<PNTBoneModelDraw>()->SetMeshResource(uniqueName);
+				index++; // 次のオブジェクトのためにインデックスを増加
+			}
+			else
+			{
+				index = 0;
+			}
 		}
 
 		// すべての `Box` を共有ゲームオブジェクトとして登録
@@ -353,52 +359,6 @@ namespace basecross {
 
 	}
 
-	void GameStage2::CreateShadowBall()
-	{
-		vector<vector<Vec3>> vec = {
-		{
-			Vec3(3.0f, 3.0f, 0.0f),
-			Vec3(0.0f, 0.0f, 0.0f),
-			Vec3(29.0f , 40.0f, -0.01f)
-		},
-		{
-			Vec3(3.0f, 3.0f, 0.0f),
-			Vec3(0.0f, 0.0f, 0.0f),
-			Vec3(-20.0f, 45.0f, -0.01f)
-		},
-			//{
-			//	Vec3(2.5f, 2.5f, 0.0f),
-			//	Vec3(0.0f, 0.0f, 0.0f),
-			//	Vec3(-4.0f, -4.75f, -4.0f)
-			//},
-
-
-		};
-
-		int index = 0; // ユニーク名用のインデックス
-		vector<shared_ptr<ShadowBall>> ball; // 生成した `Ball` を管理するリスト
-
-		for (auto& v : vec)
-		{
-			auto ptrBall = AddGameObject<ShadowBall>(v[0], v[1], v[2]);
-
-			// ユニーク名を生成
-			wstring uniqueTag = L"Ball_" + to_wstring(index);
-
-			ptrBall->AddTag(uniqueTag);  // ユニークなタグを適用
-			ball.push_back(ptrBall);    // `Ball` をリストに保存
-
-			index++; // 次のオブジェクトのためにインデックスを増加
-
-		}
-
-		// すべての `Ball` を共有ゲームオブジェクトとして登録
-		for (size_t i = 0; i < ball.size(); ++i) {
-			wstring uniqueName = L"Ball_" + to_wstring(i);  // ユニーク名を生成
-			SetSharedGameObject(uniqueName, ball[i]);      // ユニーク名で共有登録
-		}
-
-	}
 
 	void GameStage2::CreateTable()
 	{
@@ -427,9 +387,9 @@ namespace basecross {
 	void GameStage2::CreateMado()
 	{
 		vector<vector<Vec3>> vec = {
-			{  Vec3(22.0f, 26.4f, 1.0f),
+			{   Vec3(20.0f, 24.4f, 1.0f),
 				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(17.0f, 32.0f, 0.0f)
+				Vec3(60.0f, 37.0f, 0.0f)
 			},
 
 		};
@@ -461,15 +421,23 @@ namespace basecross {
 	void GameStage2::CreateBookShelf()
 	{
 		vector<vector<Vec3>> vec = {
-			{   Vec3(40.0f, 30.0f, 1.0f),
+			{   Vec3(40.0f, 25.0f, 1.0f),
 				Vec3(0.0f, XMConvertToRadians(180), 0.0f),
-				Vec3(60.0f, 5.0f, 0.0f)
+				Vec3(74.0f, 2.0f, 0.0f)
 			},
 			{
 				Vec3(40.0f, 30.0f, 1.0f),
 				Vec3(0.0f, XMConvertToRadians(180), 0.0f),
-				Vec3(-25.0f, 5.0f, 0.0f)
-
+				Vec3(-37.0f, 4.0f, 0.0f)
+			},
+			//{
+			//	Vec3(20.0f, 30.0f, 1.0f),
+			//	Vec3(0.0f, XMConvertToRadians(180), 0.0f),
+			//	Vec3(60.0f, 37.0f, 0.0f)
+			//},
+			{   Vec3(20.0f, 40.0f, 1.0f),
+				Vec3(0.0f, XMConvertToRadians(180), 0.0f),
+				Vec3(28.0f, 5.0f, 0.0f)
 			},
 
 		};
@@ -557,14 +525,14 @@ namespace basecross {
 			AddGameObject<goalGate>(
 				Vec3(2.5f, 3.5f, 0.0f),
 				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(45.0f, 20.75f, -0.1f)
+				Vec3(57.0f, 16.0f, -0.1f)
 			);
 
 			//ねこの助走用の足場
 			AddGameObject<ShadowFloor>(
 				Vec3(100.0f, 30.0f, 1.0f),
 				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(-75.0f, 5.0f, 0.0f)
+				Vec3(-75.0f, 4.0f, 0.0f)
 			);
 
 			//チーズの作成
