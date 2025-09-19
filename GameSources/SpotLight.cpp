@@ -6,33 +6,45 @@
 
 #include "stdafx.h"
 #include "Project.h"
+#include "SpotLight.h"
 
 namespace basecross {
+	SpotLight::SpotLight(const shared_ptr<Stage>& StagePtr,
+		const Vec3& Scale,
+		const Vec3& Rotation,
+		const Vec3& Position
+	) :
+		GameObject(StagePtr),
+		m_Scale(Scale),
+		m_Rotation(Rotation),
+		m_Position(Position)
+	{
+	}
+
+	SpotLight::~SpotLight() {}
 
 	void SpotLight::OnCreate()
 	{
-		SetAlphaActive(true);
-		//Col4 color(1.0f, 1.0f, 0.0f, 1.0f);
 
-
-		//3Dモデルの呼び出し
+		// ドローコンポーネントの追加と設定
+		//auto drawComp = AddComponent<PNTStaticDraw>();
+		//drawComp->SetMeshResource(L"DEFAULT_CUBE"); // キューブ型のメッシュを設定する
+		//drawComp->SetOwnShadowActive(true); // 影を受け入れる
 		InitDrawComp();
-	  
-		//トランスフォームコンポーネント取得と設定
-		auto transComp = GetComponent<Transform>();
-		transComp->SetScale(0.25f, 0.25f, 0.25f);
-		transComp->SetPosition(18.0f, 12.0f, -30.0f);
+
+		// トランスフォームコンポーネントの取得と設定
+		auto ptrTransform = GetComponent<Transform>();
+		ptrTransform->SetScale(m_Scale);
+		ptrTransform->SetRotation(m_Rotation);
+		ptrTransform->SetPosition(m_Position);
 
 		//コリジョンつける
-		//auto ptrColl = AddComponent<CollisionObb>();
-		//ptrColl->SetFixed(true);
-		//タグをつける
-		//AddTag(L"SpotLight");
+		auto ptrColl = AddComponent<CollisionObb>();
+		ptrColl->SetFixed(true);
 	}
 
 	void SpotLight::OnUpdate()
 	{
-
 	}
 
 	void SpotLight::InitDrawComp()

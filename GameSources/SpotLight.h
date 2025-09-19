@@ -8,21 +8,24 @@
 #include "stdafx.h"
 
 namespace basecross {
+
 	class SpotLight : public GameObject
 	{
+		Vec3 m_Scale;
+		Vec3 m_Rotation;
+		Vec3 m_Position;
 		shared_ptr<PNTStaticModelDraw> m_drawComp;
 
-
 	public:
-		//コンストラクタ
-		SpotLight(const shared_ptr<Stage>& stage) :
-			GameObject(stage)
+		SpotLight(const shared_ptr<Stage>& stage,
+			const Vec3& Scale,
+			const Vec3& Rotation,
+			const Vec3& Position
+		);
 
-		{
-		}
-
-		virtual void OnCreate() override;
-		virtual void OnUpdate() override;
+		virtual ~SpotLight();
+		void OnCreate() override;
+		void OnUpdate() override;
 
 		void InitDrawComp();
 

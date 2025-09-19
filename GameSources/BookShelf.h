@@ -27,7 +27,7 @@ namespace basecross {
 		virtual ~BookShelf();
 
 
-		void OnCreate() override; // 初期設定用のイベントハンドラ
+	    void OnCreate() override; // 初期設定用のイベントハンドラ
 		void OnUpdate() override;
 
 		void InitDrawComp();

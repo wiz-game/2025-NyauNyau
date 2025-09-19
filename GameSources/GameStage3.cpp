@@ -10,6 +10,7 @@
 #include "ShadowDrawer.h"
 #include "RaycastLine.h"
 #include "SpotLight Of Effect.h"
+#include "SpotLight.h"
 namespace basecross {
 
 	//--------------------------------------------------------------------------------------
@@ -515,7 +516,28 @@ namespace basecross {
 
 	}
 
+	void GameStage3::CreateSpotLight()
+	{
+		vector<vector<Vec3>> vec = {
+		{
+			Vec3(0.25f, 0.25f,0.25f),
+			Vec3(0.0f , 0.0f ,0.0f),
+			Vec3(18.0f,11.2f ,-30.0f)
 
+		},
+		};
+		int index = 0; // ユニーク名用のインデックス
+		vector<shared_ptr<SpotLight>> spotLight; // 生成した `Player` を管理するリスト
+
+		for (auto& v : vec)
+		{
+			auto ptrSpotLight = AddGameObject<SpotLight>(v[0], v[1], v[2]);
+			// ユニーク名を生成
+			SetSharedGameObject(L"SpotLight",  ptrSpotLight);
+
+		}
+
+	}
 
 	void GameStage3::OnCreate() {
 		try {
@@ -539,8 +561,7 @@ namespace basecross {
 			//ShadowBall(ギミック)の作成
 			//CreateShadowBall();
 			//SpotLightの作成
-			auto spotLight = AddGameObject<SpotLight>();
-			SetSharedGameObject(L"SpotLight", spotLight);
+			CreateSpotLight();
 			//影の作成
 			//AddGameObject<ShadowObject>();
 			auto shadowDrawer = AddGameObject<ShadowDrawer>();

@@ -13,7 +13,7 @@
 #include "SettingStage.h"
 #include "GameStageUI.h"
 #include "Table.h"
-
+#include "SpotLight.h"
 #include "GameStagePointerUI.h"
 #include "FadeScreen.h"
 
@@ -71,6 +71,8 @@ namespace basecross {
 		void LoadTextures();
 		//ƒ‚ƒfƒ‹‚Ì“Ç
 		void LoadModels();
+		//ŒõŒ¹‚Ìì¬
+		void CreateSpotLight();
 
 		void CreateBox();
 		//void CreateTestShadowBox();
