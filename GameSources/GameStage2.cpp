@@ -484,7 +484,28 @@ namespace basecross {
 
 	}
 
+	void GameStage2::CreateSpotLight()
+	{
+		vector< vector <Vec3> > vec = {
+		{
+			Vec3(0.25f,0.25f,0.25f),
+			Vec3(0.0f,0.0f,0.0f),
+			Vec3(10.0f,12.0f,-30.0f)
 
+		}
+		};
+		int index = 0; // ユニーク名用のインデックス
+		vector<shared_ptr<SpotLight>> spotLight; // 生成した `Player` を管理するリスト
+
+		for (auto& v : vec)
+		{
+			auto ptrSpotLight = AddGameObject<SpotLight>(v[0], v[1], v[2]);
+			// ユニーク名を生成
+			SetSharedGameObject(L"SpotLight", ptrSpotLight);
+
+		}
+
+	}
 
 	void GameStage2::OnCreate() {
 		try {
