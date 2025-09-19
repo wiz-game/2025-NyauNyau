@@ -9,7 +9,7 @@
 #include "SpotLight.h"
 
 namespace basecross {
-	SpotLight::SpotLight(shared_ptr<Stage>& stage,
+	SpotLight::SpotLight(const shared_ptr<Stage>& stage,
 		const Vec3& Scale,
 		const Vec3& Rotation,
 		const Vec3& Position
