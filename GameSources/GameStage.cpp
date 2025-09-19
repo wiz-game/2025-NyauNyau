@@ -318,12 +318,6 @@ namespace basecross
 			Vec3(0.0f, 0.0f, 0.0f),
 			Vec3(14.0f ,11.5f, -20.0f)
         },
-		//{
-		//	Vec3(2.5f, 2.5f, 2.5f),
-		//	Vec3(0.0f, 0.0f, 0.0f),
-		//	Vec3(15.0f ,11.5f, -20.0f)
-  //      },
-
 
 		};
 
@@ -477,7 +471,7 @@ namespace basecross
 		{
 			Vec3(0.25f,0.25f,0.25f),
 			Vec3(0.0f,0.0f,0.0f),
-			Vec3(18.0f,11.2f,-30.0f)
+			Vec3(10.0f,11.8f,-30.0f)
 		}
 		};
 
@@ -499,7 +493,7 @@ namespace basecross
 		// すべての Window を共有ゲームオブジェクトとして登録
 		for (size_t i = 0; i < spotLights.size(); ++i) {
 			wstring uniqueName = L"SpotLight" + to_wstring(i);  // ユニーク名を生成
-			SetSharedGameObject(uniqueName, spotLights[i]);      // ユニーク名で共有登録
+			SetSharedGameObject(L"SpotLight", spotLights[0]);      // ユニーク名で共有登録
 		}
 	}	
 
@@ -522,8 +516,6 @@ namespace basecross
 			CreateTable();
 			//Boxの作成
 			CreateBox();
-			//ShadowBall(ギミック)の作成
-			//CreateShadowBall();
 			//SpotLightの作成
 			CreateSpotLight();
 			//影の作成

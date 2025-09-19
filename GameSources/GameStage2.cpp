@@ -311,13 +311,8 @@ namespace basecross {
 			Vec3(0.0f, 0.0f, 0.0f),
 			Vec3(11.0f ,11.5f, -20.0f)
 		},
-		//{
-		//	Vec3(2.5f, 5.0f, 2.5f),
-		//	Vec3(0.0f, 0.0f, 0.0f),
-		//	Vec3(17.0f ,11.5f, -20.0f)
-		//},
 		{
-			Vec3(2.5f, 5.0f, 2.5f),
+			Vec3(2.5f, 2.5f, 2.5f),
 			Vec3(0.0f, 0.0f, 0.0f),
 			Vec3(17.0f ,11.5f, -20.0f)
 		},
@@ -340,6 +335,7 @@ namespace basecross {
 			box.push_back(ptrBox);    // `Box` をリストに保存
 			wstring uniqueName = L"MODEL_TSUMIKI" + to_wstring(index + 1);
 
+			//多角形の描画スクリプトが不完全なため四角形のみにする
 			if (index <= 1)
 			{
 				box[index]->GetComponent<PNTBoneModelDraw>()->SetMeshResource(uniqueName);
@@ -430,11 +426,6 @@ namespace basecross {
 				Vec3(0.0f, XMConvertToRadians(180), 0.0f),
 				Vec3(-37.0f, 4.0f, 0.0f)
 			},
-			//{
-			//	Vec3(20.0f, 30.0f, 1.0f),
-			//	Vec3(0.0f, XMConvertToRadians(180), 0.0f),
-			//	Vec3(60.0f, 37.0f, 0.0f)
-			//},
 			{   Vec3(20.0f, 40.0f, 1.0f),
 				Vec3(0.0f, XMConvertToRadians(180), 0.0f),
 				Vec3(28.0f, 5.0f, 0.0f)
@@ -490,7 +481,7 @@ namespace basecross {
 		{
 			Vec3(0.25f,0.25f,0.25f),
 			Vec3(0.0f,0.0f,0.0f),
-			Vec3(18.0f,11.2f,-30.0f)
+			Vec3(10.0f,11.8f,-30.0f)
 		}
 		};
 
@@ -512,7 +503,7 @@ namespace basecross {
 		// すべての Window を共有ゲームオブジェクトとして登録
 		for (size_t i = 0; i < spotLights.size(); ++i) {
 			wstring uniqueName = L"SpotLight" + to_wstring(i);  // ユニーク名を生成
-			SetSharedGameObject(uniqueName, spotLights[i]);      // ユニーク名で共有登録
+			SetSharedGameObject(L"SpotLight", spotLights[0]);      // ユニーク名で共有登録
 		}
 	}
 
@@ -535,11 +526,8 @@ namespace basecross {
 			CreateTable();
 			//Boxの作成
 			CreateBox();
-			//ShadowBall(ギミック)の作成
-			//CreateShadowBall();
 			//SpotLightの作成
-			auto spotLight = AddGameObject<SpotLight>();
-			SetSharedGameObject(L"SpotLight", spotLight);
+			CreateSpotLight();
 			//影の作成
 			//AddGameObject<ShadowObject>();
 			auto shadowDrawer = AddGameObject<ShadowDrawer>();
@@ -629,8 +617,7 @@ namespace basecross {
 			ase->SetScale(0.8f, 0.8f, 1.0f);
 			ase->SetTargetPlayer(playerObject);
 
-
-
+			//Box選択時の矢印
 			m_selectionPointerUI = AddGameObject<GameStagePointerUI>();
 			auto pointer = m_selectionPointerUI.lock();
 			pointer->SetTexture(L"TEX_BoxPointer");
