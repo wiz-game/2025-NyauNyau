@@ -9,34 +9,12 @@
 #include "SpotLight.h"
 
 namespace basecross {
-<<<<<<< HEAD
-	SpotLight::SpotLight(const shared_ptr<Stage>& StagePtr,
-=======
-	SpotLight::SpotLight(const shared_ptr<Stage>& stage,
->>>>>>> Stage3
-		const Vec3& Scale,
-		const Vec3& Rotation,
-		const Vec3& Position
-	) :
-<<<<<<< HEAD
-		GameObject(StagePtr),
-		m_Scale(Scale),
-		m_Rotation(Rotation),
-		m_Position(Position)
-	{
-	}
-
-	SpotLight::~SpotLight() {}
-
 	SpotLight::SpotLight(const shared_ptr<Stage>& StagePtr,
 		const Vec3& Scale,
 		const Vec3& Rotation,
 		const Vec3& Position
 	) :
 		GameObject(StagePtr),
-=======
-		GameObject(stage),
->>>>>>> Stage3
 		m_Scale(Scale),
 		m_Rotation(Rotation),
 		m_Position(Position)
@@ -63,13 +41,7 @@ namespace basecross {
 		//ƒRƒŠƒWƒ‡ƒ“‚Â‚¯‚é
 		auto ptrColl = AddComponent<CollisionObb>();
 		ptrColl->SetFixed(true);
-<<<<<<< HEAD
-<<<<<<< Updated upstream
 
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stage3
 	}
 
 	void SpotLight::OnUpdate()
