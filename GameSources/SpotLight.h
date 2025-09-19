@@ -14,10 +14,7 @@ namespace basecross {
 		Vec3 m_Scale;
 		Vec3 m_Rotation;
 		Vec3 m_Position;
-<<<<<<< Updated upstream
 
-=======
->>>>>>> Stashed changes
 		shared_ptr<PNTStaticModelDraw> m_drawComp;
 
 	public:
@@ -28,14 +25,9 @@ namespace basecross {
 		);
 
 		virtual ~SpotLight();
-<<<<<<< Updated upstream
 
-		virtual void OnCreate() override;
-		virtual void OnUpdate() override;
-=======
 		void OnCreate() override;
 		void OnUpdate() override;
->>>>>>> Stashed changes
 
 		void InitDrawComp();
 

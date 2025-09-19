@@ -490,6 +490,7 @@ namespace basecross {
 		{
 			Vec3(0.25f,0.25f,0.25f),
 			Vec3(0.0f,0.0f,0.0f),
+<<<<<<< HEAD
 			Vec3(10.0f,12.0f,-30.0f)
 
 		}
@@ -505,6 +506,31 @@ namespace basecross {
 
 		}
 
+=======
+			Vec3(10.0f,12.0f,-30.0f),
+		}
+		};
+		int index = 0; // ユニーク名用のインデックス
+		vector<shared_ptr<SpotLight>> spotLights; // 生成した `Window` を管理するリスト
+
+		for (auto& v : vec) {
+			auto ptrSpotLight = AddGameObject<SpotLight>(v[0], v[1], v[2]);
+
+			// ユニーク名を生成
+			wstring uniqueTag = L"SpotLight_" + to_wstring(index);
+
+			ptrSpotLight->AddTag(uniqueTag);  // ユニークなタグを適用
+			spotLights.push_back(ptrSpotLight);    // `Window` をリストに保存
+
+			index++; // 次のオブジェクトのためにインデックスを増加
+		}
+
+		// すべての `Window` を共有ゲームオブジェクトとして登録
+		for (size_t i = 0; i < spotLights.size(); ++i) {
+			wstring uniqueName = L"SpotLight_" + to_wstring(i);  // ユニーク名を生成
+			SetSharedGameObject(uniqueName, spotLights[i]);      // ユニーク名で共有登録
+		}
+>>>>>>> Stage3
 	}
 
 	void GameStage2::OnCreate() {

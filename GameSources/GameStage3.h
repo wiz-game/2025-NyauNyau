@@ -71,11 +71,15 @@ namespace basecross {
 		void LoadTextures();
 		//ƒ‚ƒfƒ‹‚Ì“Ç
 		void LoadModels();
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 		//ŒõŒ¹
 =======
 		//ŒõŒ¹‚Ìì¬
 >>>>>>> Stashed changes
+=======
+		//ŒõŒ¹‚Ìì¬
+>>>>>>> Stage3
 		void CreateSpotLight();
 
 		void CreateBox();
