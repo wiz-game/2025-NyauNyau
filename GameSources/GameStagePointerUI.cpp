@@ -121,23 +121,8 @@ namespace basecross {
 
 			m_isAnimating = isAnimate;
 
-			//GameStage2はBoxの高さが高いものがあり、ポインターが見えなくなるためポインターの位置を高くする
-			//Boxの数分まわす
-			for (int i = 0; i < 4; i++)
-			{
-				auto box = GetStage()->GetSharedGameObject<Box>(L"Box_" + to_wstring(i));
-				auto transform = box->GetComponent<Transform>()->GetScale();
-				if (transform.y == 5.0f)
-				{
 					m_ptrTrans->SetPosition(0.0f, m_baseOffsetY + 2.5f, 0.0f);
-				}
-				else
-				{
 					m_ptrTrans->SetPosition(0.0f, m_baseOffsetY, 0.0f);
-				}
-			}
-
-			m_moveDirection = -1.0f;
 		}
 		else
 		{
@@ -146,6 +131,8 @@ namespace basecross {
 			m_ptrTrans->SetParent(nullptr);
 			m_isAnimating = false;
 		}
+		m_moveDirection = -1.0f;
+
 	}
 
 
